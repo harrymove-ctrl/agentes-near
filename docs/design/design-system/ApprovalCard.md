@@ -1,0 +1,3 @@
+# ApprovalCard
+
+Pedido de aprovação humana para ação sensível (merge, deploy, rollback), dentro do chat. O card é neutro (`surface-raised`, borda `line`, canto vivo porque vem de um agente); a única cor é o chip de status, sempre com ícone (nunca bolinha): `ac-chip--waiting` em `attention` enquanto espera, `ac-chip--done` em `success` depois. Mostra quem pede (avatar e nome do agente), a ação em linguagem humana, o detalhe exato num bloco `surface-sunken`, em sans 13px (ferramenta, alvo, expiração) e as ações: "Aprovar …" (primary, nomeando a ação), "Recusar" (default) e "Ver diff" (ghost). Depois de decidido, o card encolhe para uma linha com quem decidiu e quando. Não pinte o card inteiro de âmbar nem use borda colorida.

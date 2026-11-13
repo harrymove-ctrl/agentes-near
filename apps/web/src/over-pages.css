@@ -1,0 +1,139 @@
+/*
+ * App rules that set a page's own parts on purpose, outranking the page's rule by specificity. Unlayered, as the pages'
+ * sheets are: in the app's layer (styles.css) any page rule would beat them. Keep a rule here only when it must win
+ * over a page sheet; everything else belongs in layout.css.
+ */
+
+/*
+ * A list or a nav beside what it opens (Aprovações, Propostas, Settings), or the task board: `.page-split` holds the
+ * columns, and ends its page. Where they sit side by side, the page fills the work area: the split takes the height
+ * under what sits above it and each of its columns scrolls on its own, so the header, a column's head and a footer
+ * floating at its bottom stay put. Every element between the work area and the split hands the height down. When what
+ * sits above leaves the split under half the work area (Tarefas' agents at work), its columns keep the work area's
+ * height, 8px short, and run past the split: the page scrolls down to them, and there they fill the window again, the
+ * board's scrollbar along its bottom and what sat above them, shadows included, out of sight. Narrower (these pages
+ * stack their columns at 940px), the page scrolls as any other. So it does in a window under 560px tall (a small or
+ * zoomed-in one). `.shell__main` in each selector: it outranks the pages' own rules for these boxes.
+ */
+@media (min-width: 941px) and (min-height: 560px) {
+  .shell__main:has(.page-split) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden auto;
+    /* The work area's height as `cqh`. An unnamed @container query in these pages with no container of its own now
+       measures the work area. */
+    container-type: size;
+  }
+  .shell__main > :is(:has(.page-split), .page-split) {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .shell__main :has(.page-split) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+  }
+  .shell__main :has(.page-split) > * {
+    flex-shrink: 0;
+  }
+  .shell__main :has(.page-split) > :is(:has(.page-split), .page-split) {
+    flex: 1 1 auto;
+  }
+  /* The columns reach the work area's foot; a list under the split (Aprovações' missions) keeps the page's room
+     there, or its edge is cut by the sheet's. */
+  .shell__main .page-split ~ :last-child:not(:empty) {
+    margin-bottom: var(--space-8);
+  }
+  .shell__main .page-split {
+    min-height: 0;
+    align-items: stretch;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  /* A step: 0 (the split's height) while the split keeps half the work area; under that, the area's height less 8px.
+     Up and down a column's scroll hands over to the page's, which scrolls only then. */
+  .shell__main .page-split > * {
+    min-height: min(100cqh - var(--space-2), (50cqh - 100%) * 10000);
+    overflow-y: auto;
+    overscroll-behavior-x: contain;
+  }
+  /* A column is as tall as the split, not as its content: what it holds scrolls in it instead of squeezing to fit. */
+  .shell__main .page-split > * > * {
+    flex-shrink: 0;
+  }
+}
+
+/* What hangs under a bubble, in one width. */
+.ac-msg[data-look="bubbles"] .ac-msg__body > :is(.ac-tools, .brw-ac, .rq-done, .rq-open) {
+  width: 100%;
+  max-width: 520px;
+}
+
+/*
+ * Turns are told apart by space. What stands in the list takes the turn gap above it; the next row of a turn, and a
+ * quiet line under another, the part gap. A row gives back the room of its plate, so it counts as what shows. Two
+ * classes' weight: a notice or a card keeps its margin for where it stands alone, and never here.
+ */
+.channel__messages > :not(.channel__empty) {
+  --row-gap: var(--msg-turn-gap);
+  margin-block: var(--row-gap) 0;
+}
+.channel__messages > :first-child,
+.channel__messages > .channel__spacer + * {
+  --row-gap: 0px;
+}
+.channel__messages > .ac-msg + .ac-msg--grouped,
+.channel__messages
+  > :not(.ac-msg, .ac-divider, .channel__unread, .channel__spacer)
+  + :not(.ac-msg, .ac-divider, .channel__unread) {
+  --row-gap: var(--msg-part-gap);
+}
+/* A card in a row of its own under the same author's words: as far off them as in the same row. */
+.channel__messages > .ac-msg + .ac-msg--grouped:not(:has(.ac-msg__text)):has(.rq, .mi-card, .iw-card, .brw-ac) {
+  --row-gap: var(--msg-card-gap);
+}
+/* A message that ends on the agents' line (`.ag-rc--talk`) already holds part of the turn's gap under it. */
+.channel__messages
+  > .ac-msg:has(
+    > .ac-msg__body
+      > .ag-rcs:nth-last-child(1 of :not(.ac-msg__actions, .ac-visually-hidden, .ac-msg__aside--floating))
+      > .ag-rc--talk:last-child
+  )
+  + * {
+  --row-gap: var(--msg-part-gap);
+}
+.channel__messages > .ac-msg {
+  margin-block: calc(var(--row-gap) - var(--msg-block)) calc(-1 * var(--msg-block));
+}
+.channel__messages > :is(.ac-divider, .channel__notice) {
+  padding-block: 0;
+}
+
+/* Compacta: a choice's reply on the name's line, as the words are (over blocks.css's `.choice-reply`). */
+.ac-msg[data-look="compact"] .choice-reply {
+  display: inline-flex;
+  vertical-align: top;
+}
+
+/* A thread's line under my own message (over threads.css's `.thread-line`): never capped by a short bubble's width (a
+   narrow panel), it grows to the left, into the row's room, instead of its words running out of its plate. */
+.ac-msg--own .thread-line {
+  align-self: flex-end;
+  max-width: none;
+  margin-right: -6px;
+  border-radius: 10px 10px 3px 10px;
+}
+
+/* A wiki link's focus ring, over its chip in the prose (wiki.css's `.wiki-prose .wiki-link`). */
+html:not([data-pointer]) .wiki-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* The first settings row under a card's head starts on a hairline, a DM side panel's too (its `.dm-side__sec
+   .settings-row` drops the rows' own). */
+.ac-card__head + .settings-rows > .settings-row:first-child {
+  border-top: 1px solid var(--line);
+}

@@ -1,0 +1,114 @@
+/* "Ask Ada to implement": the root card of the work thread (neutral card, chips with icons). */
+.iw-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: var(--msg-card-w);
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow: var(--e2), var(--top);
+}
+.iw-card__h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.iw-card__who {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.iw-card__ic {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--sunken);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink2);
+  flex: none;
+}
+.iw-card__t {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.iw-card__f {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.iw-card__agent {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.iw-card__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 600;
+}
+/* Where the issue came from: one event pill (`EventPill`), like the other automatic events of a conversation. */
+.iw-line {
+  margin-inline: var(--thread-indent, calc(16px + var(--name-face) + var(--space-3))) 12px;
+}
+.iw-line__link {
+  color: var(--ink2);
+  text-decoration: none;
+}
+.iw-line__link:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+/* The right hand's hand-offs: one chip per task under its reply, opening the task's conversation beside the chat. */
+.iw-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.iw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(100%, var(--msg-card-w));
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  color: var(--ink);
+  font-size: 13px;
+  text-decoration: none;
+}
+.iw-chip:hover {
+  background: var(--raised-2);
+}
+html:not([data-pointer]) .iw-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.iw-chip__t {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.iw-chip__agent {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  color: var(--muted);
+}

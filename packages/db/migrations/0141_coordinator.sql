@@ -1,0 +1,2 @@
+ALTER TABLE "agents" ADD COLUMN "coordinator" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "agents_one_coordinator" ON "agents" USING btree ("org_id") WHERE "agents"."coordinator" and "agents"."archived_at" is null;

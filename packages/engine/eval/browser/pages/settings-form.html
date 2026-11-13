@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Acme · Settings</title>
+<style>body{font-family:-apple-system,Helvetica,sans-serif;margin:0;color:#222} main{max-width:520px;margin:28px auto;padding:0 16px} label{display:block;margin-top:14px} select,input[type=text]{display:block;margin-top:4px;padding:6px;width:100%} button{margin-top:18px;padding:10px 18px}</style></head>
+<body>
+<header><a href="/dashboard-big.html">Acme</a></header>
+<main>
+  <h1>Settings</h1>
+  <form id="f">
+    <label>Display name <input type="text" id="name" value="Ana"></label>
+    <label>Language <select id="lang"><option>English</option><option>Português</option><option>Español</option></select></label>
+    <label>Time zone <select id="tz"><option>UTC</option><option>America/Sao_Paulo</option><option>Europe/Lisbon</option></select></label>
+    <label><input type="checkbox" id="mail" checked> Email notifications</label>
+    <label><input type="checkbox" id="digest"> Weekly digest</label>
+    <button type="submit">Save</button> <span id="saved" role="status"></span>
+  </form>
+</main>
+<script>
+document.getElementById("f").onsubmit = (e) => {
+  e.preventDefault();
+  const ok = document.getElementById("lang").value === "Português" && document.getElementById("tz").value === "America/Sao_Paulo" && !document.getElementById("mail").checked;
+  setTimeout(() => { document.getElementById("saved").textContent = ok ? "Settings saved" : "Saved, but nothing changed"; }, 400);
+};
+</script>
+</body></html>

@@ -1,0 +1,264 @@
+/* The member card, Discord's profile popover: a banner, the big face over its edge, the ⋯ on it, then the body.
+   Short of room, the banner gives way first (down to a band the face still overlaps), then the popover moves over its
+   trigger (`Popover`), and only then does the card scroll, its actions pinned to the foot. */
+.mcard.profile-card {
+  position: relative;
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  max-height: min(720px, var(--radix-popover-content-available-height, calc(100dvh - 16px)));
+  padding: 0;
+  gap: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+}
+/* Its banner, face and body are the card's own rows, so only the banner shrinks. */
+.mcard__frame {
+  display: contents;
+}
+.mcard__banner {
+  position: relative;
+  flex: 0 1 96px;
+  min-height: 56px;
+  overflow: hidden;
+  background: var(--sunken);
+}
+.mcard__banner > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mcard__acts {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: var(--space-2);
+}
+.mcard__act.ac-btn {
+  background: color-mix(in srgb, var(--sunken) 70%, transparent);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+}
+.mcard__act.ac-btn[data-state="open"] {
+  background: var(--raised);
+}
+/* 90px tall, 44 of it over the banner's foot and the rest in the body's top padding: it takes no room of its own. */
+.mcard__face {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  align-self: flex-start;
+  margin: -44px 0 -46px 16px;
+  padding: 5px;
+  border-radius: 30%;
+  background: var(--raised);
+}
+.mcard__face--agent {
+  border-radius: var(--radius-agent);
+}
+.mcard__face .ac-avatar {
+  width: 80px;
+  height: 80px;
+  font-size: 26px;
+}
+.mcard .profile-card__body {
+  flex: none;
+  padding: 50px 16px 16px;
+  gap: 12px;
+}
+.mcard__unknown {
+  margin: 0;
+  padding: 16px;
+}
+.mcard__names.list-col {
+  flex: none;
+  align-items: flex-start;
+}
+.mcard__names .profile-card__name {
+  font-size: 19px;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+}
+/* A chip under the names is a row of its own, the body's gap above it, never stretched to the card's width. */
+.mcard .profile-card__body > :is(.noai-chip, .ac-chip) {
+  align-self: flex-start;
+}
+.mcard .profile-card__status {
+  border-radius: var(--radius-md);
+  background: var(--sunken);
+  box-shadow: none;
+}
+.mcard .profile-card__status small {
+  color: var(--muted);
+}
+.mcard__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mcard__label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.mcard__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+}
+/* "Editar": a quiet word, no plate; hover only darkens it. */
+.mcard__edit {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.mcard__edit:hover,
+.mcard__edit[data-state="open"] {
+  color: var(--ink);
+}
+html:not([data-pointer]) .mcard__edit:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--focus-ring);
+}
+.mcard__roles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.mcard__roles .ac-token {
+  gap: 6px;
+  padding-left: 4px;
+}
+.mcard__add.ac-btn[data-state="open"] {
+  background: var(--plate);
+  color: var(--ink);
+}
+/* "Quem pode falar": plain lines, a role's circle or a person's face, then the name. */
+.mcard__who {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.mcard__who > li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+.mcard__who .ac-avatar {
+  width: 18px;
+  height: 18px;
+  font-size: 8px;
+}
+.mcard .profile-card__facts {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+/* A card taller than the room scrolls: its message field or buttons stay at its foot, 16px from the edge as at rest, on
+   the card's own face that fades in over the 12px above it, so what scrolls passes under them instead of the edge
+   cutting them. At rest they sit where they did (the fade takes the body's gap back). */
+.mcard__foot,
+.mcard .profile-card__body > .profile-card__actions:last-child {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  margin: -12px -16px -16px;
+  padding: 12px 16px 16px;
+  background: linear-gradient(to bottom, transparent, var(--glass-solid) 12px);
+}
+.mcard__dm.ac-input-affix {
+  gap: 2px;
+  padding-right: 4px;
+}
+.mcard__emoji {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: transparent;
+  color: var(--faint);
+  cursor: pointer;
+}
+.mcard__emoji:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .mcard__emoji:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* The audience editor, beside the card. */
+.mcard-audience.ac-popover {
+  --menu-pad: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 380px;
+  max-width: calc(100vw - 24px);
+  max-height: min(640px, var(--radix-popover-content-available-height, calc(100dvh - 16px)));
+  overflow-y: auto;
+  /* The foot's room is Cancelar and Salvar's own (below), so they pin to the edge with it. */
+  padding: var(--menu-pad) var(--menu-pad) 0;
+}
+/* Cancelar and Salvar on the room (`.ac-popover`), everything over them further in. */
+.mcard-audience.ac-popover > :not(.mcard-audience__acts),
+.mcard-audience.ac-popover > .ac-locked > * {
+  margin-inline: var(--popover-in);
+}
+.mcard-audience__title {
+  padding-top: var(--popover-in);
+  font-size: 15px;
+  font-weight: 650;
+}
+.mcard-audience__err {
+  color: var(--danger);
+}
+/* Taller than the room, the choice scrolls under Cancelar and Salvar, pinned to the foot on the popover's face that
+   fades in over the gap above them. At rest they sit where they did (the fade takes the gap back). */
+.mcard-audience__acts {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: -12px;
+  padding: 12px 0 var(--menu-pad);
+  background: linear-gradient(to bottom, transparent, var(--glass-solid) 12px);
+}
+
+/* The right hand's "Como funciona" (ADR 0137): a fact a line, its icon muted. */
+.mcard__facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink);
+}
+.mcard__facts .ac-icon {
+  color: var(--muted);
+}
+/* Two buttons sharing the card's width. */
+.profile-card__actions--split > .ac-btn {
+  flex: 1 1 0;
+}

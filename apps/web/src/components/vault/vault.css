@@ -1,0 +1,637 @@
+/*
+ * Settings › Vault (ADR 0144): the section, its rows, an item's dialog, the import and the connections, and the save
+ * block on a secret request's card. `vlt-` because `vault-*` belongs to the wiki's import.
+ */
+
+/* The section: its header, then the views, the bar and the list closer together (as Roles). */
+.vlt {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+.vlt-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+}
+.vlt-body > .ac-seg {
+  align-self: flex-start;
+}
+.vlt-tabnote {
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.vlt-tabnote .ac-icon {
+  color: var(--faint);
+}
+.vlt-kind {
+  min-width: 150px;
+}
+
+/* A kind's tile: the icon in a neutral square (never the agents' cut corner: an item is not an agent). */
+.vlt-tile {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink2);
+}
+.vlt-tile[data-size="lg"] {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+/* Leading a MediaRow: the face's size. */
+.ac-mediarow__face > .vlt-tile {
+  width: var(--mediarow-face);
+  height: var(--mediarow-face);
+}
+
+/* The list: one grid for every row (tile | name and line | who may use it | last used | chevron), so the columns line
+   up row after row; narrow, who and when go under the name. */
+.vlt-list {
+  container-type: inline-size;
+  overflow: hidden;
+}
+.vlt-list .vlt-row {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 11rem 7.5rem auto;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 4px;
+  width: 100%;
+  padding: var(--row-py) 16px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.vlt-list .vlt-row + .vlt-row {
+  border-top: 1px solid var(--line);
+}
+.vlt-list .vlt-row:hover {
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+html:not([data-pointer]) .vlt-list .vlt-row:focus-visible {
+  box-shadow: var(--focus-ring-inset);
+}
+.vlt-row__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vlt-row__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.vlt-row__title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14.5px;
+  font-weight: 650;
+}
+.vlt-row__sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+.vlt-row__who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.vlt-row__who > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vlt-row__none {
+  color: var(--faint);
+}
+.vlt-row__used {
+  font-size: 12.5px;
+  color: var(--faint);
+  text-align: right;
+  white-space: nowrap;
+}
+.vlt-row__chev {
+  color: var(--faint);
+}
+/* Narrow, who may use it and when it was last used go under the tile and the name, at the row's width: the tile never
+   owns a column beside four lines, and the chevron's column stays as narrow as the chevron. */
+@container (max-width: 640px) {
+  .vlt-list .vlt-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .vlt-row__who,
+  .vlt-row__used {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+  .vlt-row__chev {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+/* Code in a line of words: a key's variable name. */
+.vlt-code,
+.vlt-mono {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+.vlt-mono.ac-input {
+  font-size: 13px;
+}
+
+/* An item's dialog: the kind and scope under the title, the fields, the uses; the access in the aside. */
+.vlt-details__sub {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+/* The item's fields, and beside them who has access and its uses; under them when the dialog is narrow. */
+.vlt-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+.vlt-details__main {
+  flex: 999 1 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.vlt-details__main > .ac-setnote {
+  margin: 0;
+}
+.vlt-foot__start {
+  margin-right: auto;
+}
+/* Its icon in the access lines' column (`.vlt-access__lead`), so the scope's words start where theirs do. */
+/* The icon on the name's line, at the top, not halfway down the two lines. */
+.vlt-scope {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+}
+.vlt-scope > .vlt-access__lead {
+  height: 20px;
+}
+.vlt-scope__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 14px;
+}
+.vlt-scope__text b {
+  line-height: 20px;
+}
+.vlt-scope__text small {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* The fields of an item, one column; a contact's in two (the address lines across both). */
+.vlt-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.vlt-contact {
+  /* A fieldset without its browser frame. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+}
+.vlt-contact > .vlt-wide {
+  grid-column: 1 / -1;
+}
+@media (max-width: 560px) {
+  .vlt-contact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A saved value: its dots (or the value, for 30 seconds) in a field's well, Show / Copy / Change beside it. */
+.vlt-secret {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--control-h-md);
+  padding: 4px 6px 4px var(--control-px-md);
+  box-sizing: border-box;
+  border-radius: var(--control-r-md);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.vlt-secret__value {
+  flex: 1 1 160px;
+  min-width: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.vlt-secret__value--none {
+  color: var(--faint);
+  user-select: none;
+}
+.vlt-secret__dots {
+  letter-spacing: 0.12em;
+  color: var(--ink2);
+  user-select: none;
+}
+.vlt-secret__hint {
+  font-size: 12.5px;
+  color: var(--muted);
+  user-select: none;
+}
+.vlt-secret__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.vlt-secret__change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vlt-secret__change > .ac-input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Recent uses: a face, what happened, for whom and when. */
+.vlt-uses__none {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.vlt-uses {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vlt-use {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vlt-use__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 14px;
+}
+.vlt-use__text b {
+  font-weight: 600;
+}
+.vlt-use__text small {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* The aside: who has access, then the recent uses, each a section of the dialog (the first without its rule). It
+   scrolls with the dialog: the uses can make it taller than the window. */
+.vlt-aside {
+  flex: 1 1 260px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+}
+.vlt-aside > :where(p, ul, ol) {
+  margin-block: 0;
+}
+@media (max-width: 720px) {
+  .vlt-aside {
+    max-width: none;
+  }
+}
+.vlt-aside > .ac-details__section {
+  gap: 12px;
+}
+.vlt-aside > .ac-details__section:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Who has access: a line each for the people and the agents, then the sentence. */
+.vlt-access {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* The icon in a column of its own, on the top row with what it is (Edit at its end); then who, under it, so a
+   summary like "Everyone in the workspace" stays on one line in the narrow aside. */
+.vlt-access__line {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-areas: "lead label edit" ". value value";
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 4px;
+  font-size: 14px;
+}
+.vlt-access__lead {
+  grid-area: lead;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  color: var(--ink2);
+}
+.vlt-access__label {
+  grid-area: label;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+/* On the label's line without making it taller: the button's own height reaches into the gap below. */
+.vlt-access__edit {
+  grid-area: edit;
+  margin-block: -4px;
+}
+.vlt-access__value {
+  grid-area: value;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+/* One line: past the aside's width a summary ends in "…" (the whole of it on hover) instead of breaking. */
+.vlt-access__value > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* What the lines mean, as plain words under them (nothing inside the dialog's section gets a fill of its own). */
+.vlt-access__sentence {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink2);
+  text-wrap: pretty;
+}
+.vlt-access__follow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.vlt-faces__all {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-agent);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink2);
+}
+
+/* New item: an item's page, empty; Personal or Team first in its aside, at its own width. */
+.vlt-aside > .ac-details__section > .ac-seg {
+  align-self: flex-start;
+}
+.vlt-aside > .ac-details__section > .ac-setnote {
+  margin: 0;
+}
+
+/* Import: the drop area, then the counts. */
+.vlt-import {
+  gap: 16px;
+}
+.vlt-import > .ac-setnote {
+  margin: 0;
+}
+.vlt-drop__area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 32px 20px;
+  box-sizing: border-box;
+  border: 1.5px dashed var(--line2);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13.5px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.vlt-drop__area:hover,
+.vlt-drop[data-over] .vlt-drop__area {
+  background: var(--plate);
+  border-color: var(--ink);
+}
+html:not([data-pointer]) .vlt-drop__area:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.vlt-drop__area b {
+  color: var(--ink);
+  font-size: 15px;
+}
+.vlt-drop__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 4px;
+  border-radius: 14px;
+  background: var(--raised);
+  box-shadow: var(--e2), var(--top);
+  color: var(--ink2);
+}
+.vlt-import__file,
+.vlt-import__done {
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+}
+.vlt-import__file .ac-icon {
+  color: var(--faint);
+}
+.vlt-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.vlt-stats__item {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--sunken);
+}
+.vlt-stats__item b {
+  display: block;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink);
+}
+.vlt-stats__item span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.vlt-skipped {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--muted);
+}
+.vlt-skipped li {
+  gap: 6px;
+}
+.vlt-skipped .ac-icon {
+  color: var(--faint);
+}
+
+/* Connections: a card per password manager; its steps and fields open in the card. */
+.vlt-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vlt-sources__note {
+  margin: 0;
+}
+.vlt-connect__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 440px;
+}
+.vlt-connect__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.vlt-connect > .ac-setnote {
+  margin: 0;
+}
+.vlt-conn__fix {
+  color: var(--ink2);
+}
+/* The line and its action wrap on a narrow card instead of running past it. */
+.vlt-conn__none {
+  flex-wrap: wrap;
+  row-gap: 2px;
+  white-space: normal;
+}
+
+/* "Save to the Vault" on a secret request's card: the check, then what it saves as, under the field. */
+.vlt-save {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+/* The box on the first line of its label (the checkbox's own 2px top margin), why it helps under the label. */
+.vlt-save__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.vlt-save__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.vlt-save__text label {
+  font-size: 13.5px;
+  line-height: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vlt-save__text small {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--muted);
+}
+.vlt-save__more {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 26px;
+}
+.vlt-save__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.vlt-save__hint {
+  font-size: 12px;
+  color: var(--faint);
+}
+.vlt-save__label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+/* Under a closed request card: "Sent, but not saved to the Vault", with Retry while the value is kept (ADR 0144). */
+.vlt-save__failed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+.vlt-save__failed > .rq__note {
+  margin: 0;
+}

@@ -1,0 +1,295 @@
+[
+  {
+    "id": "same-01",
+    "label": "same",
+    "existing": { "kind": "fact", "content": "We host the app on Railway." },
+    "new": { "kind": "fact", "content": "Deploy is on Railway." }
+  },
+  {
+    "id": "same-02",
+    "label": "same",
+    "existing": { "kind": "fact", "content": "O deploy é no Railway." },
+    "new": { "kind": "fact", "content": "Hospedamos a aplicação no Railway." }
+  },
+  {
+    "id": "same-03",
+    "label": "same",
+    "existing": {
+      "kind": "preference",
+      "content": "Ana prefere revisão de PR em comentários curtos, um por problema."
+    },
+    "new": { "kind": "preference", "content": "Ana likes PR reviews as short comments, one per issue." }
+  },
+  {
+    "id": "same-04",
+    "label": "same",
+    "existing": { "kind": "decision", "content": "Decidimos usar Postgres como fila (outbox), sem Redis." },
+    "new": { "kind": "decision", "content": "A fila fica no Postgres; nada de Redis." }
+  },
+  {
+    "id": "same-05",
+    "label": "same",
+    "existing": { "kind": "fact", "content": "Standup is every day at 10am." },
+    "new": { "kind": "fact", "content": "Daily standup happens at 10:00." }
+  },
+  {
+    "id": "same-06",
+    "label": "same",
+    "existing": {
+      "kind": "lesson",
+      "content": "Run the migrations check before opening a PR that touches the schema."
+    },
+    "new": { "kind": "lesson", "content": "If the PR changes the database schema, check the migrations first." }
+  },
+  {
+    "id": "same-07",
+    "label": "same",
+    "existing": { "kind": "fact", "content": "O cliente Acme paga por boleto todo dia 5." },
+    "new": { "kind": "fact", "content": "A Acme paga via boleto, vencimento dia 5." }
+  },
+  {
+    "id": "same-08",
+    "label": "same",
+    "existing": { "kind": "preference", "content": "Walter wants answers in Portuguese." },
+    "new": { "kind": "preference", "content": "Responder o Walter sempre em português." }
+  },
+  {
+    "id": "same-09",
+    "label": "same",
+    "existing": { "kind": "fact", "content": "Staging lives at staging.example.com." },
+    "new": { "kind": "fact", "content": "The staging environment URL is staging.example.com." }
+  },
+  {
+    "id": "same-10",
+    "label": "same",
+    "existing": { "kind": "decision", "content": "Merges to main need one human approval." },
+    "new": { "kind": "decision", "content": "Every merge into main must be approved by a person." }
+  },
+
+  {
+    "id": "refines-01",
+    "label": "refines",
+    "existing": { "kind": "fact", "content": "We deploy on Railway." },
+    "new": { "kind": "fact", "content": "We deploy on Railway, region us-east, two replicas." }
+  },
+  {
+    "id": "refines-02",
+    "label": "refines",
+    "existing": { "kind": "preference", "content": "A Bia prefere reuniões curtas." },
+    "new": { "kind": "preference", "content": "A Bia prefere reuniões de no máximo 15 minutos, com pauta antes." }
+  },
+  {
+    "id": "refines-03",
+    "label": "refines",
+    "existing": { "kind": "decision", "content": "Usaremos Stripe para cobrança." },
+    "new": {
+      "kind": "decision",
+      "content": "Usaremos Stripe para cobrança, com Checkout Sessions e assinaturas mensais."
+    }
+  },
+  {
+    "id": "refines-04",
+    "label": "refines",
+    "existing": { "kind": "fact", "content": "The API has a rate limit." },
+    "new": { "kind": "fact", "content": "The public API is limited to 100 requests per minute per key." }
+  },
+  {
+    "id": "refines-05",
+    "label": "refines",
+    "existing": { "kind": "lesson", "content": "Check CI before merging." },
+    "new": { "kind": "lesson", "content": "Check that CI is green, including the boundaries check, before merging." }
+  },
+  {
+    "id": "refines-06",
+    "label": "refines",
+    "existing": { "kind": "fact", "content": "O suporte atende em horário comercial." },
+    "new": { "kind": "fact", "content": "O suporte atende de segunda a sexta, das 9h às 18h, horário de Brasília." }
+  },
+  {
+    "id": "refines-07",
+    "label": "refines",
+    "existing": { "kind": "decision", "content": "Release on Tuesdays." },
+    "new": { "kind": "decision", "content": "Release on Tuesdays after 2pm, never with open incidents." }
+  },
+
+  {
+    "id": "updates-01",
+    "label": "updates",
+    "existing": { "kind": "fact", "content": "We host the app on Vercel." },
+    "new": { "kind": "fact", "content": "Since October we host the app on Railway; Vercel was turned off." }
+  },
+  {
+    "id": "updates-02",
+    "label": "updates",
+    "existing": { "kind": "decision", "content": "Standup is at 10am." },
+    "new": { "kind": "decision", "content": "From next week standup moves to 9:30." }
+  },
+  {
+    "id": "updates-03",
+    "label": "updates",
+    "existing": { "kind": "fact", "content": "O responsável pelo financeiro é o Carlos." },
+    "new": { "kind": "fact", "content": "A Júlia assumiu o financeiro no lugar do Carlos." }
+  },
+  {
+    "id": "updates-04",
+    "label": "updates",
+    "existing": { "kind": "preference", "content": "Ana wants a daily summary at 6pm." },
+    "new": {
+      "kind": "preference",
+      "content": "Ana asked to stop the daily summary; a weekly one on Fridays is enough."
+    }
+  },
+  {
+    "id": "updates-05",
+    "label": "updates",
+    "existing": { "kind": "fact", "content": "O plano Pro custa R$ 99 por mês." },
+    "new": { "kind": "fact", "content": "O plano Pro passou a custar R$ 129 por mês a partir de novembro." }
+  },
+  {
+    "id": "updates-06",
+    "label": "updates",
+    "existing": { "kind": "decision", "content": "We use Sentry for errors." },
+    "new": { "kind": "decision", "content": "We moved error tracking from Sentry to Himetrica." }
+  },
+  {
+    "id": "updates-07",
+    "label": "updates",
+    "existing": { "kind": "fact", "content": "The main branch is master." },
+    "new": { "kind": "fact", "content": "The repo renamed master to main." }
+  },
+  {
+    "id": "updates-08",
+    "label": "updates",
+    "existing": { "kind": "open_question", "content": "Which provider will we use for email?" },
+    "new": { "kind": "decision", "content": "Transactional email goes through MillionSend." }
+  },
+
+  {
+    "id": "contradicts-01",
+    "label": "contradicts",
+    "existing": { "kind": "fact", "content": "Deploys happen on Fridays." },
+    "new": { "kind": "fact", "content": "We never deploy on Fridays." }
+  },
+  {
+    "id": "contradicts-02",
+    "label": "contradicts",
+    "existing": { "kind": "preference", "content": "O Pedro quer PRs pequenos." },
+    "new": { "kind": "preference", "content": "O Pedro prefere um PR grande por feature em vez de vários pequenos." }
+  },
+  {
+    "id": "contradicts-03",
+    "label": "contradicts",
+    "existing": { "kind": "fact", "content": "The trial lasts 14 days." },
+    "new": { "kind": "fact", "content": "The trial lasts 30 days." }
+  },
+  {
+    "id": "contradicts-04",
+    "label": "contradicts",
+    "existing": { "kind": "decision", "content": "Agents can merge docs-only PRs without approval." },
+    "new": { "kind": "decision", "content": "Every merge needs a human approval, docs included." }
+  },
+  {
+    "id": "contradicts-05",
+    "label": "contradicts",
+    "existing": { "kind": "fact", "content": "O banco de produção fica em São Paulo." },
+    "new": { "kind": "fact", "content": "O banco de produção fica na Virgínia (us-east-1)." }
+  },
+  {
+    "id": "contradicts-06",
+    "label": "contradicts",
+    "existing": { "kind": "fact", "content": "Bia owns the onboarding flow." },
+    "new": { "kind": "fact", "content": "Theo owns the onboarding flow." }
+  },
+  {
+    "id": "contradicts-07",
+    "label": "contradicts",
+    "existing": { "kind": "preference", "content": "Customers get answers by email only." },
+    "new": { "kind": "preference", "content": "Customers prefer WhatsApp; don't answer them by email." }
+  },
+
+  {
+    "id": "related-01",
+    "label": "related",
+    "existing": { "kind": "fact", "content": "We host the app on Railway." },
+    "new": { "kind": "fact", "content": "Railway deploys start after CI is green." }
+  },
+  {
+    "id": "related-02",
+    "label": "related",
+    "existing": { "kind": "decision", "content": "Usaremos Stripe para cobrança." },
+    "new": { "kind": "fact", "content": "A Stripe cobra 3,99% por transação com cartão no Brasil." }
+  },
+  {
+    "id": "related-03",
+    "label": "related",
+    "existing": { "kind": "preference", "content": "Ana prefere revisão em comentários curtos." },
+    "new": { "kind": "preference", "content": "Ana revisa PRs de manhã, antes das 11h." }
+  },
+  {
+    "id": "related-04",
+    "label": "related",
+    "existing": { "kind": "fact", "content": "Standup is at 10am." },
+    "new": { "kind": "fact", "content": "The retro is every other Friday at 4pm." }
+  },
+  {
+    "id": "related-05",
+    "label": "related",
+    "existing": { "kind": "fact", "content": "O plano Pro custa R$ 129 por mês." },
+    "new": { "kind": "fact", "content": "O plano Business custa R$ 399 por mês." }
+  },
+  {
+    "id": "related-06",
+    "label": "related",
+    "existing": { "kind": "lesson", "content": "Check the migrations before a schema PR." },
+    "new": { "kind": "lesson", "content": "Migrations already committed are never edited; write a new one." }
+  },
+  {
+    "id": "related-07",
+    "label": "related",
+    "existing": { "kind": "fact", "content": "Bia owns onboarding." },
+    "new": { "kind": "fact", "content": "Bia is on vacation until the 20th." }
+  },
+  {
+    "id": "related-08",
+    "label": "related",
+    "existing": { "kind": "decision", "content": "Release on Tuesdays." },
+    "new": { "kind": "decision", "content": "Hotfixes can go out any day." }
+  },
+
+  {
+    "id": "unrelated-01",
+    "label": "unrelated",
+    "existing": { "kind": "fact", "content": "We host the app on Railway." },
+    "new": { "kind": "fact", "content": "The Acme contract renews in March." }
+  },
+  {
+    "id": "unrelated-02",
+    "label": "unrelated",
+    "existing": { "kind": "preference", "content": "Ana prefere revisão em comentários curtos." },
+    "new": { "kind": "fact", "content": "O escritório fecha no feriado de 15 de novembro." }
+  },
+  {
+    "id": "unrelated-03",
+    "label": "unrelated",
+    "existing": { "kind": "decision", "content": "A fila fica no Postgres." },
+    "new": { "kind": "decision", "content": "O logo novo usa o céu em dither." }
+  },
+  {
+    "id": "unrelated-04",
+    "label": "unrelated",
+    "existing": { "kind": "fact", "content": "Railway bills monthly." },
+    "new": { "kind": "fact", "content": "Railroad stocks fell this week." }
+  },
+  {
+    "id": "unrelated-05",
+    "label": "unrelated",
+    "existing": { "kind": "fact", "content": "The deploy key rotates every 90 days." },
+    "new": { "kind": "fact", "content": "The office key is with the front desk." }
+  },
+  {
+    "id": "unrelated-06",
+    "label": "unrelated",
+    "existing": { "kind": "lesson", "content": "Run the boundaries check before pushing." },
+    "new": { "kind": "lesson", "content": "Ask the customer for the invoice number before refunding." }
+  }
+]

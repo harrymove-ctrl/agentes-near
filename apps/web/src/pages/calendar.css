@@ -1,0 +1,1068 @@
+/* ── Calendário (v2): header, views, side panel ── */
+.cal-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--bg);
+}
+/* The page's header (PageHeader) where every page's starts: the page's top and side room (`.page`). */
+.cal-page__header {
+  padding: var(--page-top) var(--page-x) 16px;
+}
+/* The bar under it: the way through the weeks, the view, working days. */
+.cal-page__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-width: 0;
+}
+.cal-page__new .ac-kbd {
+  margin-left: 6px;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+  color: inherit;
+  box-shadow: none;
+}
+/* Compact buttons on a track: corners stay concentric (button radius + the 2px inset). */
+.cal-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: calc(var(--control-r-sm) + 2px);
+  background: var(--sunken);
+}
+.cal-page__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 0 var(--page-x) 16px;
+}
+.cal-page[data-panel] .cal-page__body {
+  grid-template-columns: minmax(0, 1fr) 272px;
+}
+.cal-page__main {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Week / day grid */
+.cal-week {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+}
+.cal-week__head,
+.cal-week__bars,
+.cal-week__body {
+  display: grid;
+  grid-template-columns: var(--gutter, 48px) repeat(var(--cols), minmax(0, 1fr));
+}
+.cal-week__head {
+  border-bottom: 1px solid var(--line);
+}
+.cal-week__gutter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 11px;
+}
+.cal-week__day {
+  display: flex;
+  justify-content: center;
+  padding: 8px 4px;
+}
+.cal-week__daybtn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 0;
+  padding: 2px 6px;
+  border-radius: var(--radius-item);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+html:not([data-pointer]) .cal-week__daybtn:focus-visible {
+  outline: none;
+  box-shadow: var(--field-ring);
+}
+.cal-week__dow {
+  font-size: 11.5px;
+  text-transform: capitalize;
+}
+.cal-week__num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.cal-week__daybtn[aria-pressed="true"] .cal-week__num {
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.cal-week__day[data-today] .cal-week__num {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: none;
+}
+.cal-week__bars {
+  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
+}
+/* A lane as tall as its bars: a name wraps on as many lines as it needs. */
+.cal-week__barlane {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: 2px 0;
+}
+.cal-week__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.cal-week__body {
+  position: relative;
+}
+.cal-week__hours {
+  display: flex;
+  flex-direction: column;
+}
+.cal-week__hour {
+  position: relative;
+  height: var(--hour-px);
+}
+/* Centered on its hour line, never wrapping. */
+.cal-week__hour-label {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--muted);
+}
+.cal-week__col {
+  position: relative;
+  height: calc(var(--hour-px) * 24);
+  border-left: 1px solid var(--line);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--hour-px) - 1px),
+    var(--line) calc(var(--hour-px) - 1px),
+    var(--line) var(--hour-px)
+  );
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+.cal-week__col[data-today] {
+  background-color: var(--plate-soft);
+}
+.cal-week__ghost {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border-radius: var(--radius-item);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  box-shadow: inset 0 0 0 1.5px var(--ink2);
+  pointer-events: none;
+}
+.cal-week__now {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--danger);
+  pointer-events: none;
+  z-index: 2;
+}
+.cal-week__now::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--danger);
+}
+.cal-week__empty {
+  position: absolute;
+  left: var(--gutter, 48px);
+  right: 0;
+  top: calc(var(--hour-px) * 10);
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/*
+ * Items the way Google Calendar draws them: one block tinted in its owner's colour, small corners, no edge stripe and
+ * no shadow, the words in a shade of the same colour (deep on light, light on dark). An agent's items take its own
+ * colour (`useAccent`, from its look), a person's are neutral, a task's due date amber. What's over is lighter, as
+ * Google dims past events. Names are never cut: they wrap, and the item grows for them. Every mix keeps its words
+ * 4.5:1 on its fill in both themes, for every agent colour (calendar-css.test.ts).
+ */
+.cal-chip {
+  --cal-accent: var(--ink2);
+  --cal-light: var(--cal-accent);
+  --cal-fill: color-mix(in srgb, var(--cal-accent) 14%, var(--raised));
+  --cal-fill-on: color-mix(in srgb, var(--cal-accent) 22%, var(--raised));
+  --cal-ink: color-mix(in srgb, var(--cal-accent) 58%, var(--ink));
+  display: block;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--cal-fill);
+  color: var(--cal-ink);
+  font: inherit;
+  font-size: 12.5px;
+  line-height: 16px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.cal-chip[data-source="deadline"] {
+  --cal-accent: var(--warn);
+}
+.cal-chip[data-past] {
+  --cal-fill: color-mix(in srgb, var(--cal-accent) 7%, var(--raised));
+  --cal-fill-on: color-mix(in srgb, var(--cal-accent) 12%, var(--raised));
+  --cal-ink: color-mix(in srgb, var(--cal-accent) 35%, var(--muted));
+}
+[data-theme="dark"] .cal-chip {
+  --cal-ink: color-mix(in srgb, var(--cal-light) 45%, var(--ink));
+}
+[data-theme="dark"] .cal-chip[data-past] {
+  --cal-ink: color-mix(in srgb, var(--cal-light) 20%, var(--muted));
+}
+.cal-chip:hover,
+.cal-chip[aria-pressed="true"] {
+  background: var(--cal-fill-on);
+}
+/* Its details are open: a ring in its words' colour (seen on either theme) inside its corners, nothing lifted. */
+.cal-chip[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1.5px var(--cal-ink);
+}
+html:not([data-pointer]) .cal-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--field-ring);
+}
+.cal-chip__title {
+  font-weight: 600;
+}
+/* In the words' own colour, lighter in weight: Google's time line. */
+.cal-chip__time {
+  font-size: 11.5px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+/* The owner's name after the time, where the column has room for it ("10:00–11:00 · Walter"): a day, a phone. */
+.cal-chip__who {
+  display: none;
+  white-space: normal;
+}
+@container (min-width: 220px) {
+  .cal-chip__who {
+    display: inline;
+  }
+}
+.cal-chip__glyph,
+.cal-more-count {
+  display: none;
+}
+/*
+ * A column narrower than a long word (a week beside the side panel, meetings side by side): the word breaks at a
+ * syllable with its hyphen, in the app's language, never between two letters ("agendament" over "o").
+ */
+@container (max-width: 110px) {
+  .cal-chip__title {
+    hyphens: auto;
+  }
+}
+/*
+ * A column too narrow for a word beside the face (a week or a month on a phone): an item is its owner's face on its
+ * tint, as Google draws a short event as its colour alone. Its name and time are in its label, its hover and its
+ * details. A task nobody has shows its kind's glyph there.
+ */
+@container (max-width: 63.5px) {
+  .cal-chip:not(.cal-chip--block) :is(.cal-chip__name, .cal-chip__time, .cal-chip__repeat),
+  .cal-chip--line > .cal-chip__title,
+  .cal-more-words {
+    display: none;
+  }
+  .cal-chip__glyph {
+    display: inline-block;
+  }
+  .cal-more-count {
+    display: inline;
+  }
+}
+/*
+ * A meeting keeps its name in half a week's day at 1280 (two at once) and beside a run at 1440 with the side panel
+ * open: it wraps there, a long word at its syllables. Narrower (a phone's week, three at once, two beside the panel at
+ * 1280) a word a line would be all it says: it is its face, its name in its label, hover and details.
+ */
+@container (max-width: 45.5px) {
+  .cal-chip--block :is(.cal-chip__name, .cal-chip__time, .cal-chip__repeat) {
+    display: none;
+  }
+}
+/*
+ * A week whose days are that narrow (a phone's): a bar is its face on its tint too, whatever days it spans, never a
+ * name a word a line. A query can't divide by the days, so each week length has its own: 7 or 5 days under 67.5px,
+ * where a day's own items (2px in from its edges) are under 63.5px.
+ */
+.cal-week__barlane {
+  container: lane / inline-size;
+}
+@container lane (max-width: 472px) {
+  .cal-week[data-days="7"] .cal-chip--bar :is(.cal-chip__name, .cal-chip__repeat) {
+    display: none;
+  }
+  .cal-week[data-days="7"] .cal-chip--bar .cal-chip__glyph {
+    display: inline-block;
+  }
+}
+@container lane (max-width: 337px) {
+  .cal-week[data-days="5"] .cal-chip--bar :is(.cal-chip__name, .cal-chip__repeat) {
+    display: none;
+  }
+  .cal-week[data-days="5"] .cal-chip--bar .cal-chip__glyph {
+    display: inline-block;
+  }
+}
+/* A person's face on a tinted item: the surface's own white tile, so it stands out of the tint. */
+.cal-chip:is(.cal-chip--block, .cal-chip--run, .cal-chip--bar, [data-allday]) .ac-who > .ac-avatar[data-kind="person"] {
+  background: var(--raised);
+}
+/*
+ * Side by side, 2px apart and from the column's edges (`layoutDay`): each of `--cols` columns as wide, but a column of
+ * routine runs alone beside a meeting (`data-thin`) gives 60px of its share to the meeting, never narrower than a face,
+ * so the meeting keeps room for its name. A day narrower than that (a phone's week) shares evenly.
+ */
+.cal-week__col > :is(.cal-chip--block, .cal-week__runs) {
+  --gaps: calc(2px * (var(--cols) + 1));
+  --even: calc((100% - var(--gaps)) / var(--cols));
+  --thin: min(var(--even), max(32px, var(--even) - 60px));
+  --wide: calc((100% - var(--gaps) - var(--thins) * var(--thin)) / (var(--cols) - var(--thins)));
+  --before: calc(var(--thin-before) * var(--thin) + (var(--col) - var(--thin-before)) * var(--wide));
+  left: calc(2px * (var(--col) + 1) + var(--before));
+  width: var(--wide);
+}
+.cal-week__col > .cal-week__runs[data-thin] {
+  width: var(--thin);
+}
+/*
+ * A meeting: from its start to its end, its title first and whole, its time under it only where the slot has room
+ * for it. The time's box takes no room of its own (`size` containment), so the block grows for its title alone.
+ */
+.cal-chip--block {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 4px 6px;
+  touch-action: none;
+  container-type: inline-size;
+}
+/*
+ * Many meetings at once (`--cols`): their side room gives way first, from 6 down to 2, so six side by side in a week's
+ * day still show their owners' faces. Narrower than a face, a block is its owner's tint alone, its name and whose it
+ * is in its label, its hover and its details.
+ */
+.cal-week__col > .cal-chip--block {
+  padding-inline: clamp(2px, calc(17px - var(--cols) * 2.5px), 6px);
+}
+@container (max-width: 14.5px) {
+  .cal-chip--block > .cal-chip__title {
+    display: none;
+  }
+}
+.cal-chip__when {
+  container-type: size;
+  overflow: hidden;
+}
+@container (max-height: 15.5px) {
+  .cal-chip__when > .cal-chip__time {
+    visibility: hidden;
+  }
+}
+/* A narrow column says when it starts: a range cut at the edge reads as another time. */
+@container (max-width: 76px) {
+  .cal-chip__end {
+    display: none;
+  }
+}
+/*
+ * A routine's run or a reminder: a moment, one line at its time across the column. Runs whose lines would meet stack
+ * 2 apart, two at most, then "+N rotinas" (`runStacks`). A narrow column keeps the face and the whole name, the time
+ * gives way (the run's place on the grid says it).
+ */
+.cal-week__runs {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  container-type: inline-size;
+}
+.cal-chip--run {
+  min-height: 20px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+@container (max-width: 119.5px) {
+  .cal-chip--run .cal-chip__time {
+    display: none;
+  }
+}
+.cal-week__more {
+  align-self: flex-start;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 18px;
+  cursor: pointer;
+}
+.cal-week__more:hover,
+.cal-week__more[aria-pressed="true"] {
+  background: var(--plate-soft);
+}
+html:not([data-pointer]) .cal-week__more:focus-visible {
+  outline: none;
+  box-shadow: var(--field-ring);
+}
+/*
+ * All day, or across days: the same tint as a bar over its days, the name on as many lines as it needs. Its lane's bars
+ * share the tallest one's height, their names from the top (a button's own box would centre them).
+ */
+.cal-chip--bar {
+  display: flex;
+  flex-direction: column;
+  min-height: 22px;
+  margin: 0 2px;
+  padding: 3px 6px;
+  font-size: 12px;
+  container-type: inline-size;
+}
+/*
+ * A row of the month and the agenda: the owner's face (Google's dot), the time, the name, a long name wrapping under
+ * the face. No fill: only an all-day row keeps its tint.
+ */
+.cal-chip--line {
+  width: 100%;
+  min-height: 20px;
+  padding: 2px 4px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+}
+.cal-chip--line .cal-chip__title {
+  font-weight: 500;
+}
+.cal-chip--line .cal-chip__time {
+  color: var(--muted);
+}
+.cal-chip--line:hover,
+.cal-chip--line[aria-pressed="true"] {
+  background: var(--plate-soft);
+}
+.cal-chip--line[data-past] {
+  color: var(--muted);
+}
+.cal-chip--line[data-allday] {
+  padding-inline: 6px;
+  background: var(--cal-fill);
+  color: var(--cal-ink);
+}
+.cal-chip--line[data-allday] .cal-chip__title {
+  font-weight: 600;
+}
+.cal-chip--line[data-allday]:hover {
+  background: var(--cal-fill-on);
+}
+.cal-chip--skeleton {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  pointer-events: none;
+}
+.cal-chip__resize {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+.cal-runs {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* With the agent's face, an `.ac-iconline`. */
+.cal-runs__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.cal-runs__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.cal-runs__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.cal-runs__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 2px;
+}
+
+/* Routines that run often: one lane each, as on the Rotinas horizon */
+.cal-week__bars--routines {
+  padding: 0;
+}
+/* The day columns run through the routines too, so each line sits under its days. */
+.cal-week__bars--routines .cal-week__barlane {
+  grid-auto-rows: auto;
+  row-gap: 0;
+  padding: 6px 0;
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+  background-size: calc(100% / var(--cols)) 100%;
+}
+.cal-week__gutter--top {
+  align-items: flex-start;
+  padding-top: 12px;
+}
+/* On the first lane of bars, however many there are: the 14px mark in the middle of a 22px bar, on the gutter's end as
+   the hours are. */
+.cal-week__gutter--lane {
+  align-items: flex-start;
+  padding-top: 4px;
+  padding-right: 6px;
+}
+.cal-band {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  padding: 3px 0 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cal-band:hover,
+.cal-band[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--sunken) 50%, transparent);
+}
+html:not([data-pointer]) .cal-band:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* A long name wraps under itself, its cadence on its first line: never a "…" that hides which routine it is. */
+.cal-band__label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  min-height: 20px;
+  padding: 2px 10px 0;
+  line-height: 16px;
+}
+.cal-band__label b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.cal-band:hover .cal-band__label b {
+  color: var(--ink);
+}
+.cal-band__cadence {
+  flex: none;
+  font-size: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.cal-band__track {
+  position: relative;
+  display: block;
+  height: 30px;
+}
+
+/* Details popover: the menu's room and corner (`.ac-popover`), its words further in, its buttons back on the room. */
+.cal-pop.ac-popover {
+  --menu-pad: var(--space-2);
+  width: min(320px, 90vw);
+  padding: var(--menu-pad);
+}
+.cal-pop .cal-details {
+  padding: var(--popover-in);
+}
+.cal-pop .cal-details__actions:has(> .ac-btn) {
+  margin-inline: calc(-1 * var(--popover-in));
+  margin-bottom: calc(-1 * var(--popover-in));
+}
+.cal-pop .cal-details__actions:has(> .ac-btn) > .ac-link {
+  margin-left: var(--popover-in);
+}
+.cal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cal-details .ac-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+/* Whose it is, first: the face, the name, the role ("Atlas · Ops"), as the item opens with the face. */
+.cal-details__owner {
+  --who-face: 24px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 24px;
+  color: var(--ink2);
+}
+.cal-details__owner > .ac-who > b {
+  font-weight: 600;
+}
+.cal-details__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+/* An icon and a value that may wrap (a long link): the icon stays on the first line (`.ac-iconline`). */
+.cal-details__row {
+  gap: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.cal-details__row > :last-child {
+  min-width: 0;
+}
+.cal-details__result {
+  display: flex;
+}
+.cal-details__people {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.cal-details__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: 6px;
+}
+.cal-details__actions .ac-link {
+  margin-right: auto;
+}
+
+/* Month */
+.cal-month {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+}
+.cal-month__head,
+.cal-month__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.cal-month__head span {
+  padding: 8px;
+  text-transform: capitalize;
+}
+/*
+ * A week is as tall as the names it holds (`max-content`: never squeezed to the window), the weeks share what height is
+ * left, and they scroll once they no longer fit.
+ */
+.cal-month__grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-auto-rows: minmax(max-content, 1fr);
+  border-top: 1px solid var(--line);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.cal-month__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  min-height: 96px;
+  padding: 4px;
+  container-type: inline-size;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.cal-month__cell:nth-child(7n) {
+  border-right: 0;
+}
+/* Each row as tall as its words: a full day never squeezes one row over the next. */
+.cal-month__cell > * {
+  flex: none;
+}
+.cal-month__cell[data-other] {
+  background: color-mix(in srgb, var(--sunken) 50%, transparent);
+}
+.cal-month__cell[data-other] .cal-month__num {
+  color: var(--faint);
+}
+.cal-month__num {
+  align-self: flex-start;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--ink2);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cal-month__num[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.cal-month__cell[data-today] .cal-month__num {
+  background: var(--ink);
+  color: var(--bg);
+}
+.cal-month__more {
+  align-self: flex-start;
+  border: 0;
+  padding: 2px 6px;
+  border-radius: var(--radius-item);
+  background: transparent;
+  color: var(--ink2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cal-month__more:hover {
+  background: var(--plate-soft);
+}
+/*
+ * Its chips on the menu's concentric rule: the box is their corner plus its room (`.ac-menu`). A day's whole list, up
+ * to the room under its trigger: the menu's 280 cut a dozen rows by a sliver they scrolled for.
+ */
+.cal-more.ac-popover {
+  --menu-pad: var(--space-2);
+  width: 260px;
+  max-height: min(480px, var(--radix-popover-content-available-height, 480px));
+  padding: var(--menu-pad);
+}
+.cal-more__title {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+/* Only the first letter: `capitalize` raised every word ("Novembro De 2026"). */
+.cal-more__title::first-letter {
+  text-transform: uppercase;
+}
+.cal-more__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Agenda. Its scroll keeps the room a day card's edge and focus ring reach into (as a board column's cards do). */
+.cal-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  margin: -4px;
+  padding: 4px;
+}
+.cal-agenda__day {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+  box-shadow: var(--e1);
+}
+.cal-agenda__date {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+.cal-agenda__num {
+  font-size: 18px;
+  font-weight: 600;
+}
+.cal-agenda__date[data-today] .cal-agenda__num {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  background: var(--ink);
+  color: var(--bg);
+}
+.cal-agenda__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Side panel */
+.cal-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2px 2px 12px;
+}
+.cal-side__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cal-side__title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cal-mini__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.cal-mini__title {
+  flex: 1;
+  font-weight: 600;
+}
+/* Only the first letter: `capitalize` raised every word ("Novembro De 2026"). */
+.cal-mini__title::first-letter {
+  text-transform: uppercase;
+}
+.cal-mini__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-top: 4px;
+}
+.cal-mini__dow {
+  text-align: center;
+  font-size: 11px;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+.cal-mini__day {
+  height: 30px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--ink2);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.cal-mini__day:hover {
+  background: var(--plate-soft);
+}
+.cal-mini__day[data-other] {
+  color: var(--faint);
+}
+.cal-mini__day[data-busy] {
+  font-weight: 700;
+  color: var(--ink);
+}
+.cal-mini__day[aria-pressed="true"] {
+  background: var(--chosen-bg);
+  box-shadow: var(--chosen-shadow);
+}
+.cal-mini__day[data-today] {
+  background: var(--ink);
+  color: var(--bg);
+}
+html:not([data-pointer]) .cal-mini__day:focus-visible {
+  outline: none;
+  box-shadow: var(--field-ring);
+}
+.cal-upcoming {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+/* Agentes e pessoas: a box that shows or hides someone's items, their face and name (a long name wraps under the
+   face), how many items they have in view. The box sits on the name's first line. */
+.cal-owners {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cal-owner {
+  --who-face: 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--control-r-sm);
+  font-size: 13px;
+  line-height: 18px;
+}
+/* As tall as the line: on the name's first line, whatever the lines under it. */
+.cal-owner > .ac-check {
+  margin-top: 0;
+}
+.cal-owner:hover {
+  background: var(--plate-soft);
+}
+.cal-owner__label {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  cursor: pointer;
+}
+.cal-owner__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.cal-owner__count {
+  flex: none;
+  color: var(--muted);
+  font-size: 12px;
+}
+.cal-owner[data-off] .cal-owner__name {
+  opacity: 0.5;
+}
+/* Filtros, with the panel closed: the sources, then Agentes e pessoas. */
+.cal-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(320px, 80vw);
+}
+/* Series prompt and the event form */
+.ac-dialog__body.cal-series {
+  gap: 8px;
+}
+.cal-form__switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.cal-form__when {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+.cal-form__repeat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+@media (max-width: 640px) {
+  .cal-page__header {
+    padding-bottom: 12px;
+  }
+  .cal-agenda__day {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cal-form__when {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Calendar: the side panel goes under the grid when there's no room beside it. */
+@media (max-width: 900px) {
+  /* Scrolling, it keeps the room the calendar card's edge and a focus ring reach into above it. */
+  .cal-page[data-panel] .cal-page__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(360px, 1fr) auto;
+    overflow-y: auto;
+    margin-top: -4px;
+    padding-top: 4px;
+  }
+  /* Not a scroller here, so no room of its own for rings at its sides: it starts on the page's line, as the grid does,
+     and the filters' strip runs out over the page's room to the screen's edges. */
+  .cal-page[data-panel] .cal-side {
+    overflow: visible;
+    padding-inline: 0;
+  }
+}

@@ -1,0 +1,78 @@
+/*
+ * Choosing an agent in a dialog: a row per agent (its face, name and role, the connectors it reads with), the chosen
+ * one checked. Choosing closes the dialog.
+ */
+.apk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 8px;
+}
+.apk-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--row-py) 12px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.apk-row:hover {
+  background: var(--plate);
+}
+.apk-row[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--sunken) 80%, transparent);
+}
+html:not([data-pointer]) .apk-row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.apk-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.apk-row__name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.apk-row__name b {
+  flex: none;
+  font-size: 14.5px;
+  font-weight: 650;
+}
+.apk-row__name small {
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.apk-row__conns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+}
+.apk-row__none,
+.apk-row__more {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.apk-row__check {
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+}

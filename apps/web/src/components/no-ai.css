@@ -1,0 +1,48 @@
+/* Above the composer: no AI to think with (the organization's, or this DM's agent). The words and their icon
+   (an `.ac-iconline`) sit in the middle of the button, the icon on the first line when they wrap. An `.ac-actline`:
+   a button that doesn't fit beside the words goes under them, from their edge (past the icon). */
+.noai-banner {
+  align-items: center;
+  margin: 0 4px 6px;
+  padding: 8px 8px 8px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.noai-banner__text {
+  gap: 10px;
+}
+.noai-banner__text > .ac-icon {
+  color: var(--attention);
+}
+.noai-banner__text b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.noai-banner > .ac-btn {
+  margin-inline-start: calc(16px + 10px);
+}
+/* Its words can wrap in a narrow column: the button stays on their first line, not the middle of the lines. The words
+   start as far down as the small button (32) centres a line, so a one-line banner is as tall as before. */
+.noai-banner:has(> .ac-btn) {
+  align-items: flex-start;
+}
+.noai-banner:has(> .ac-btn) > .noai-banner__text {
+  margin-top: calc((var(--control-h-sm) - 22px) / 2);
+}
+@supports (top: 1lh) {
+  .noai-banner:has(> .ac-btn) > .noai-banner__text {
+    margin-top: calc((var(--control-h-sm) - 1lh) / 2);
+  }
+}
+
+/* "Sem IA" by an agent's name: the chip opens Connect. */
+.noai-chip {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}

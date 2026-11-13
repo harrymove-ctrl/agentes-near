@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+  The phone app's bot check (ADR 0075): its WebView opens this page on the server's own address, so Cloudflare
+  sees this server's host, and reads the widget's events. Query: k (site key), a (action), t (theme: light or
+  dark), l (language). Each event goes to the app as JSON through window.ReactNativeWebView.postMessage:
+  {type: "token", token}, {type: "expired"}, {type: "error", code}, {type: "interactive"} when Cloudflare asks for a
+  click, and {type: "done"} after it. The app calls window.resetCheck() after each guarded call.
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Check</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: transparent;
+      }
+    </style>
+    <script>
+      const query = new URLSearchParams(location.search);
+      function post(message) {
+        window.ReactNativeWebView?.postMessage(JSON.stringify(message));
+      }
+      let widget;
+      function onTurnstileLoad() {
+        widget = window.turnstile.render("#check", {
+          sitekey: query.get("k") ?? "",
+          action: query.get("a") ?? undefined,
+          appearance: "interaction-only",
+          size: "flexible",
+          theme: query.get("t") === "dark" ? "dark" : "light",
+          language: (query.get("l") ?? "auto").toLowerCase(),
+          "refresh-expired": "auto",
+          "response-field": false,
+          callback: (token) => post({ type: "token", token }),
+          "expired-callback": () => post({ type: "expired" }),
+          "error-callback": (code) => {
+            post({ type: "error", code: String(code) });
+            return true;
+          },
+          "before-interactive-callback": () => post({ type: "interactive" }),
+          "after-interactive-callback": () => post({ type: "done" }),
+        });
+      }
+      window.resetCheck = () => {
+        if (widget !== undefined) window.turnstile.reset(widget);
+      };
+    </script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad"
+      defer
+      onerror="post({ type: 'error' })"
+    ></script>
+  </head>
+  <body>
+    <div id="check"></div>
+  </body>
+</html>

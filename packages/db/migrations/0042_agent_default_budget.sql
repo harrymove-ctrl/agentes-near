@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ADD COLUMN "default_agent_budget_nano_usd" bigint DEFAULT 50000000000 NOT NULL;

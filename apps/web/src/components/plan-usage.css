@@ -1,0 +1,425 @@
+/* The usage views (PlanUsage.tsx, pages/agent/UsageTab.tsx). Flat: hairlines, no wells. */
+
+/* A face line (`.ac-faceline`): the tile beside the name and the line under it, the name's capitals at its top. */
+/* A MediaRow: the maker's logo, the account and its plan on one line, whose it is under them, whole. */
+.plan-acct {
+  min-width: 0;
+}
+/* The plan's chip follows the name's last word, in the middle of its 22px line, so a name that wraps keeps no word
+   alone on its last line. */
+.plan-acct__name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22px;
+  text-wrap: balance;
+}
+.plan-acct__chip {
+  display: inline-flex;
+  align-items: center;
+  height: 19px;
+  margin: 1.5px 0 0 7px;
+  vertical-align: top;
+  padding: 0 6px;
+  border-radius: 6px 6px 6px 2px;
+  background: var(--plate);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--muted);
+}
+.plan-acct__chip--out {
+  color: var(--warn);
+}
+/* Its maker and whose it is (an address) wrap, never cut. */
+.plan-acct__sub {
+  font-size: 13.5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.plan-empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/*
+ * Configurações › IA e uso: an account is a row that opens. One step (--space-3) between everything in it: the head's
+ * parts, the head and what it folds, and each block inside. The head is a grid of the mark, the name, the meter and
+ * the chevron, with the line of a plan near its limit under all four, starting on the mark's edge. The mark is a list
+ * row's face (24px, as MediaRow's): no taller than a line and a quarter, so the name's first line, the meter and the
+ * chevron sit on its middle (`--line`) however many lines the name wraps to.
+ */
+.plan-row + .plan-row {
+  border-top: 1px solid var(--line);
+}
+.plan-row__head {
+  display: grid;
+  --line: 24px;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 180px) auto;
+  align-items: start;
+  gap: var(--space-1) var(--space-3);
+  width: 100%;
+  min-height: var(--control-h-lg);
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.plan-row__head:hover {
+  background: var(--plate-soft);
+}
+/* The list clips at its rounded edge: the ring goes inside, as its link rows' does. */
+html:not([data-pointer]) .plan-row__head:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-inset);
+}
+.plan-row__head > .ac-brand {
+  width: var(--line);
+  height: var(--line);
+}
+/* The name's 22px line on the mark's middle. Room above it only: under its last line the row's padding is whole. */
+.plan-row__head > .plan-acct__name {
+  grid-column: 2;
+  margin-top: calc((var(--line) - 22px) / 2);
+  overflow-wrap: anywhere;
+  text-wrap: wrap;
+}
+/* The plan and whose it is follow the name as words, a wide space apart in the markup: a margin would indent the one
+   that starts a line. */
+.plan-row__head .plan-acct__chip {
+  margin-left: 0;
+}
+/* One line on the mark's middle: the tightest window in words, then its bar, each half of the column so every row's
+   bar starts on one edge. Words longer than their half take the room from the bar. */
+.plan-row__head > .plan-row__meter {
+  grid-column: 3;
+  grid-template-columns: minmax(max-content, 1fr) 1fr;
+  align-items: center;
+  align-content: center;
+  gap: var(--space-2);
+  min-height: var(--line);
+}
+/* "de Ana" moves to the next line whole. */
+.plan-row__owner {
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--muted);
+}
+/* Its own column, also on a row with no meter, on the middle of the first line: `--glyph` is the size the icon is
+   drawn at, which its own style sets and a height here could not change. */
+.plan-row__chevron {
+  --glyph: 16px;
+  grid-column: 4;
+  grid-row: 1;
+  margin-block: calc((var(--line) - var(--glyph)) / 2);
+  color: var(--faint);
+  transition: rotate var(--dur-base) ease;
+}
+.plan-row[data-open] .plan-row__chevron {
+  rotate: 90deg;
+}
+.plan-row__alert {
+  grid-column: 1 / -1;
+}
+.plan-row__alert[data-level="almost"] {
+  --meter-fill: var(--warn);
+}
+.plan-row__alert[data-level="critical"],
+.plan-row__alert[data-level="limited"] {
+  --meter-fill: var(--danger);
+}
+/* Closed, the fold is a grid row of no height, so opening and closing grow and shrink to what it holds. */
+.plan-row__fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-panel) ease;
+}
+.plan-row[data-open] > .plan-row__fold {
+  grid-template-rows: 1fr;
+}
+.plan-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 var(--space-4);
+}
+.plan-row__body > :last-child {
+  margin-bottom: var(--space-3);
+}
+/* The head already says where the plan stands. */
+.plan-row__body .ac-planmeter > .ac-planmeter__state {
+  display: none;
+}
+.plan-row__body .ac-planmeter,
+.plan-row__body .ac-planmeter__windows {
+  gap: var(--space-3);
+}
+/* What its owner does with it: what its sign-in needs, then one line of actions starting on the words' edge. */
+.ai-accounts__own {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.ai-accounts__acts {
+  flex-wrap: wrap;
+  row-gap: var(--space-1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan-row__fold,
+  .plan-row__chevron {
+    transition: none;
+  }
+}
+/* A phone: the mark, the name and the chevron on one line, then the plan and whose it is, the meter and the limit's
+   line, each at the row's width from the mark's edge. The mark never keeps a column beside them. */
+@media (max-width: 560px) {
+  .plan-row__head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    row-gap: var(--space-2);
+  }
+  .plan-row__head > .plan-acct__name {
+    display: contents;
+  }
+  .plan-row__title {
+    grid-area: 1 / 2;
+    margin-top: calc((var(--line) - 22px) / 2);
+    overflow-wrap: anywhere;
+  }
+  .plan-row__chevron {
+    grid-column: 3;
+  }
+  .plan-row__facts,
+  .plan-row__head > .plan-row__meter {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+}
+.plan-block__month {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.plan-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.plan-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+.plan-legend__item b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* An account's agents under its bars: a face, then one line of words (name, share of the window, tokens this month). */
+.plan-shares {
+  display: flex;
+  flex-direction: column;
+  font-size: 13.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* A one-line row is a small control tall. Its face sits on the first line's capitals, as an `.ac-iconline` lead does,
+   so it stays there when the words wrap. */
+.plan-shares__row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-2);
+  /* Browsers without the lh unit: the page's 22px line. */
+  padding: calc((var(--control-h-sm) - 22px) / 2) 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.plan-shares__row > :first-child {
+  line-height: inherit;
+  translate: 0 calc(11px - var(--cap-mid) - 50%);
+}
+@supports (top: 1lh) {
+  .plan-shares__row {
+    padding-block: calc((var(--control-h-sm) - 1lh) / 2);
+  }
+  .plan-shares__row > :first-child {
+    translate: 0 calc(0.5lh - var(--cap-mid) - 50%);
+  }
+}
+.plan-shares__row + .plan-shares__row {
+  border-top: 1px solid var(--line);
+}
+.plan-shares__row b {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+  color: var(--ink);
+}
+.plan-shares__row:hover b {
+  text-decoration: underline;
+}
+
+/* The API per agent. */
+.plan-api {
+  display: flex;
+  flex-direction: column;
+}
+.plan-api__row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 150px) minmax(0, 1fr) 170px;
+  align-items: center;
+  gap: 12px;
+  /* The accounts' rows' depth (`.plan-row__head`), so the page's two lists keep one rhythm. */
+  padding: var(--row-py) 0;
+  color: inherit;
+  text-decoration: none;
+}
+.plan-api__row + .plan-api__row {
+  border-top: 1px solid var(--line);
+}
+.plan-api__name {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.plan-api__name b {
+  font-weight: 600;
+}
+.plan-api__name small,
+.plan-api__value small {
+  font-size: 13px;
+  color: var(--muted);
+}
+/* text-align too: a line that wraps fills the column, and flex-end alone would leave its text on the left. */
+.plan-api__value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  font-size: 14px;
+  color: var(--ink2);
+  font-variant-numeric: tabular-nums;
+}
+/* "(padrão do workspace)" moves to the next line whole; only wider than the column does it wrap inside. */
+.plan-api__note {
+  display: inline-block;
+}
+
+/* The agent's "Uso" tab. */
+.plan-sentence {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.plan-axis {
+  display: grid;
+  grid-template-columns: repeat(var(--days, 31), minmax(0, 1fr));
+  gap: 3px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--faint);
+}
+.plan-axis span {
+  text-align: center;
+}
+.plan-sources {
+  display: flex;
+  flex-direction: column;
+}
+.plan-source {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 120px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+}
+.plan-source + .plan-source {
+  border-top: 1px solid var(--line);
+}
+.plan-source__key {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--mediarow-face, 30px);
+  height: var(--mediarow-face, 30px);
+  border-radius: 10px 10px 10px 4px;
+  color: var(--agent);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+/* Right-aligned like `.plan-api__value`, wrapped lines included. */
+.plan-source__n {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.plan-source__n b {
+  font-size: 15px;
+}
+.plan-source__n small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* A phone: the face and the name on one line, the figures under them as wide as the row, left-aligned (a column of
+   their own squeezed "US$ 0,32 de US$ 50,00 (padrão do workspace)" into five lines). */
+@media (max-width: 720px) {
+  .plan-api__row {
+    grid-template-columns: 28px minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+  .plan-api__meter {
+    display: none;
+  }
+  .plan-api__value {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .plan-source {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+  .plan-source > .ac-meter {
+    display: none;
+  }
+  .plan-source__n {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+/* The agent's Usage tab also opens in the panel beside its DM (`agp-side`, 420–760px): the same there, or the meter
+   and the figures leave the name a sliver. */
+@container agp-side (max-width: 720px) {
+  .plan-source {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-1);
+  }
+  .plan-source > .ac-meter {
+    display: none;
+  }
+  .plan-source__n {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

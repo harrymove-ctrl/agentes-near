@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "sidebar_items" jsonb DEFAULT '{}'::jsonb NOT NULL;

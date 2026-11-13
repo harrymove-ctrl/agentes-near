@@ -1,0 +1,412 @@
+/*
+ * A live block and a vote in the conversation (ADR 0113): the request card's shape (a hairline, the cut corner, the
+ * agent's sky a thin band on top), with its title, the frame, and the app's own strip under a hairline.
+ */
+.live-block {
+  position: relative;
+  /* The one width every card in a message shares (the request card, the tools, a chart). */
+  max-width: var(--msg-card-w);
+  margin: 4px 0 8px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--line2);
+  border-radius: 16px 16px 16px 4px;
+  overflow: hidden;
+}
+.live-block > :not(.ac-approval__sky) {
+  position: relative;
+}
+.live-block > .ac-approval__sky {
+  height: 10px;
+  opacity: 0.7;
+}
+.live-block--loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  color: var(--faint);
+  font-size: 13.5px;
+}
+/* The title and its buttons (an `.ac-acts`, the last icon on the card's 16px side): in an `.ac-actline`, buttons that
+   don't fit beside the title go under it, from its edge. A close × stays beside it. */
+.live-block__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2) var(--space-4);
+  padding: 12px 16px 6px;
+}
+.live-block__titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.live-block__titles b {
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 650;
+}
+.live-block__titles small {
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--faint);
+}
+.live-block__frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  transition: height 0.18s var(--ease-out, ease-out);
+}
+.live-block__room {
+  width: 100%;
+}
+/* The block's one height in the conversation (`INLINE_HEIGHT`): the frame inside is as tall as its page, the rest is
+   cut with a fade at the foot until "Show all" opens it in place. */
+.live-block__view {
+  overflow: hidden;
+  transition: height 0.22s var(--ease-out, ease-out);
+}
+.live-block__view[data-cut] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+}
+.live-block__more {
+  display: flex;
+  justify-content: center;
+  padding: 0 8px 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-block__frame,
+  .live-block__view {
+    transition: none;
+  }
+}
+.live-block__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 8px 8px 16px;
+  border-top: 1px solid var(--line);
+}
+.live-block__draft {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.live-block__draft b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.live-block__sent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.live-block__mark {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin: 0 4px;
+  background: var(--ok);
+}
+.live-block__mark[data-open] {
+  background: var(--faint);
+}
+.live-block__broken {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.live-block__broken span {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.live-block__broken b {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.live-block__broken small {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* One column of faces for every option, as wide as the widest: the bars share one scale, each its share of one track. */
+.poll__options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  padding: 6px 16px 16px;
+}
+.poll__option {
+  position: relative;
+  display: grid;
+  grid-column: 1 / -1;
+  /* Without subgrid, each option keeps its own two columns. */
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 10px 6px 12px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+@supports (grid-template-columns: subgrid) {
+  .poll__option {
+    grid-template-columns: subgrid;
+  }
+}
+.poll__option:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--faint);
+}
+.poll__option:disabled {
+  cursor: default;
+}
+/* The box and the label on the share's fill, which spans the option up to its faces: out to its left edge, top to
+   bottom. */
+.poll__track {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: -6px 0 -6px -12px;
+  padding: 6px 0 6px 12px;
+}
+.poll__track > :not(.poll__fill) {
+  position: relative;
+}
+.poll__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--plate);
+  transition: width 0.3s var(--ease-out, ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .poll__fill {
+    transition: none;
+  }
+}
+.poll__box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px 6px 6px 2px;
+  box-shadow: inset 0 0 0 1.6px var(--faint);
+  color: var(--raised);
+}
+.poll__option[aria-pressed="true"] .poll__box {
+  background: var(--ink);
+  box-shadow: none;
+}
+.poll__label {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.poll__option[data-won] .poll__label::after {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 8px;
+  vertical-align: 2px;
+  background: var(--ok);
+}
+/* Who voted: the kit's stack of faces, cut out of the option's face, then how many more. */
+.poll__faces {
+  --stack-ring: var(--raised);
+  display: inline-flex;
+  flex: none;
+  justify-self: end;
+  align-items: center;
+  gap: var(--space-1);
+}
+.poll__more {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+}
+.poll__note {
+  margin: -8px 16px 12px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+/* A choice card (ADR 0124): the vote's rows, bigger, each with its letter; one question at a time. */
+.choices__question {
+  margin: 0;
+  padding: 0 16px 8px;
+  font-size: 14px;
+  line-height: 20px;
+  text-wrap: pretty;
+}
+.choices__options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0 16px 16px;
+  border: 0;
+}
+/* A MediaRow (the kit's `.ac-mediarow`): its letter in the face's place, the option on its line, what it adds (or what
+   was written for Outra resposta) under them at the row's width. */
+.choices__option {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 12px 12px 10px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.choices__option:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--faint);
+  background: var(--plate);
+}
+.choices__option:disabled {
+  cursor: default;
+}
+.choices__letter {
+  display: grid;
+  place-items: center;
+  border-radius: 8px 8px 8px 3px;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+}
+.choices__option[aria-pressed="true"] .choices__letter,
+.choices__picked .choices__letter {
+  background: var(--ink);
+  box-shadow: none;
+  color: var(--raised);
+}
+.choices__label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.choices__description {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.choices__foot {
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 6px 8px;
+}
+.choices__dots {
+  display: flex;
+  gap: 6px;
+}
+.choices__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--line2);
+}
+.choices__dot[data-done] {
+  background: var(--faint);
+}
+.choices__dot[data-on] {
+  background: var(--ink);
+}
+.choices__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 2px 16px 14px;
+  list-style: none;
+}
+.choices__summary li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.choices__asked {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.choices__picked {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.choices__picked > .choices__letter {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+/* Beside its 24 px letter: one line sits on the letter's middle, a long written answer wraps under it. */
+.choices__said {
+  min-width: 0;
+  padding-top: 2px;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+/* "Outra resposta" open: the field under the rows, then Enviar and Cancelar. */
+.choices__write {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+.choices__write-acts {
+  display: flex;
+  gap: var(--space-2);
+}
+.choices__closed {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 8px;
+  font-size: 13px;
+  color: var(--faint);
+}
+/* The person's pick, sent from a choice card: one compact line, not a bubble of its own words. */
+.choice-reply {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  white-space: pre-line;
+}
+.choice-reply b {
+  font-weight: 600;
+  color: var(--ink2);
+}

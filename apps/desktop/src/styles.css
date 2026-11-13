@@ -1,0 +1,2130 @@
+/* The desktop app's styles: fonts, the design system, and the app's own layout. Component visuals
+   come from @agenteschat/ui. */
+@import "@fontsource-variable/onest/index.css";
+@import "@fontsource-variable/martian-mono/index.css";
+@import "./fonts.css";
+@import "@agenteschat/ui/styles.css";
+
+:root {
+  --font-sans: "Onest Variable", Onest, system-ui, sans-serif;
+  --font-mono: "Martian Mono Variable", "Martian Mono", ui-monospace, Menlo, monospace;
+  --font-display: "Funnel Display", var(--font-sans);
+  --font-dot: "Doto", var(--font-mono);
+}
+
+/* Japanese, Korean and Chinese read in each system's own face after Onest (no web font to download). Russian titles:
+   Funnel Display has no Cyrillic, Onest does. */
+:lang(ja) {
+  --font-sans:
+    "Onest Variable", Onest, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, "Noto Sans JP",
+    system-ui, sans-serif;
+}
+:lang(ko) {
+  --font-sans: "Onest Variable", Onest, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+}
+:lang(zh-Hans) {
+  --font-sans: "Onest Variable", Onest, "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", system-ui, sans-serif;
+}
+:lang(ru) {
+  --font-display: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum";
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+input,
+textarea,
+.dk-path,
+.dk-code-inline,
+.dk-req__quote {
+  -webkit-user-select: text;
+  user-select: text;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--agent2);
+  outline-offset: 2px;
+}
+@keyframes dk-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dk-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dk-shim {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Shared pieces ---------- */
+.dk-help {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.dk-faint {
+  color: var(--faint);
+}
+.dk-danger-text {
+  color: var(--danger);
+}
+.dk-lead {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 54ch;
+  text-wrap: pretty;
+}
+.dk-path,
+.dk-code-inline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.dk-code-inline {
+  padding: 0 5px;
+  border-radius: 6px;
+  background: var(--plate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+/* An `.ac-link` that may carry an icon beside its words. */
+.dk-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dk-link:focus-visible {
+  outline: 2px solid var(--agent2);
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+.dk-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px 10px 10px 3px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: var(--ink2);
+}
+.dk-logo--soft {
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.dk-logo--lg {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px 14px 14px 4px;
+}
+/*
+ * Tailscale's icon in its own colors: its black file on light, its white file on dark (`ServerTile`). In its 48 px
+ * tile it has the proportions of Tailscale's own tile, the squircle of its press kit: the dots 4/7 of the tile, a dot
+ * and a half from each edge (their grid is 20.45 of this 24-unit drawing).
+ */
+.dk-tailscale {
+  width: 32px;
+  height: 32px;
+  fill: #1e1e1f;
+}
+[data-theme="dark"] .dk-tailscale {
+  fill: #fff;
+}
+.dk-org {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px 6px 6px 2px;
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: -0.02em;
+  background: var(--ink);
+  color: var(--bg);
+}
+.dk-org[data-size="sm"] {
+  width: 16px;
+  height: 16px;
+  font-size: 9px;
+  border-radius: 5px 5px 5px 2px;
+}
+.dk-org[data-size="lg"] {
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  border-radius: 9px 9px 9px 3px;
+}
+.dk-org--logo {
+  display: inline-block;
+  object-fit: cover;
+  background: transparent;
+}
+.dk-orgmark {
+  flex: none;
+}
+.dk-avs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dk-honest {
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+.dk-honest .ac-icon {
+  color: var(--warn);
+}
+/* What turning reach on or off is doing while it takes (`ReachProgress`). */
+.dk-reach-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+.dk-reach-stage__line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dk-reach-stage__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.dk-reach-stage .dk-reach-stage__acts {
+  margin-top: 0;
+}
+.dk-shimmer {
+  background: linear-gradient(90deg, var(--faint) 0%, var(--ink2) 50%, var(--faint) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: dk-shim 1.6s linear infinite;
+}
+.dk-btn-lg {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 14.5px;
+  border-radius: 14px;
+}
+.dk-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 16px);
+  opacity: 0;
+  z-index: 80;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 13px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: var(--e3);
+  transition:
+    transform 0.35s var(--spring),
+    opacity 0.2s;
+  pointer-events: none;
+  max-width: calc(100vw - 24px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-toast[data-on] {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+/* ---------- Popover ---------- */
+body[data-window="popover"] {
+  background: transparent;
+}
+.dk-pop-shell {
+  width: 100%;
+}
+/* The window follows the card's height (Popover.tsx), so this caps both, lower on a short screen
+   (--pop-room). Past it, the middle scrolls and the actions below it (the way to the app, Preferences,
+   Quit) stay in view. */
+.dk-pop {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: min(660px, var(--pop-room, 660px));
+  border-radius: 18px;
+  padding: 6px;
+  background: var(--glass-solid);
+  /* Shorter than --e3: it has to fit the window's transparent margin (POP_PAD in Popover.tsx). */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 12px 30px -12px rgba(0, 0, 0, 0.32),
+    0 0 0 1px var(--line2),
+    var(--top);
+  animation: dk-pop-in 0.25s var(--spring) both;
+}
+.dk-pop__body {
+  min-height: 0;
+  overflow-y: auto;
+}
+.dk-pop__body[data-more] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent), var(--scroll-strip);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent), var(--scroll-strip);
+}
+/* What Popover.tsx watches to know whether the middle's end is in sight; it takes no room. */
+.dk-pop__end {
+  display: block;
+  height: 1px;
+  margin-top: -1px;
+}
+.dk-pop__foot {
+  flex: none;
+}
+.dk-ph {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 6px 4px;
+}
+.dk-ph__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-ph__text b {
+  font-weight: 650;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-ph__text small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.dk-psec {
+  padding: 4px 2px;
+}
+.dk-psec + .dk-psec,
+.dk-pop__foot--ruled > .dk-psec:first-child {
+  border-top: 1px solid var(--line);
+  margin-top: 2px;
+  padding-top: 6px;
+}
+.dk-pcap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+}
+.dk-pcap__end {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+.dk-pcap__end .dk-link {
+  color: var(--muted);
+  text-decoration: none;
+}
+.dk-ohead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 2px;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.dk-ohead__end {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.dk-job {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 12px;
+  min-width: 0;
+}
+.dk-job:hover {
+  background: var(--plate);
+}
+.dk-job__av {
+  width: 28px;
+  display: flex;
+  justify-content: center;
+  flex: none;
+}
+.dk-job__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.dk-job__text b {
+  font-weight: 600;
+  font-size: 13.5px;
+  display: flex;
+  min-width: 0;
+}
+.dk-job__text b span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dk-job__text small {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.dk-job__end {
+  flex: none;
+  color: var(--faint);
+  font-size: 12px;
+}
+/* An agent in its browser: Ver and Parar always in view. */
+.dk-job__detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-job__acts {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.dk-job--needs {
+  background: var(--plate);
+}
+.dk-job--confirm .dk-job__acts {
+  gap: 6px;
+}
+.dk-iconbtn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--muted);
+}
+.dk-iconbtn:hover,
+.dk-iconbtn:focus-visible {
+  background: var(--plate);
+  color: var(--ink);
+}
+.dk-job--needs .dk-iconbtn:hover,
+.dk-job--needs .dk-iconbtn:focus-visible {
+  background: var(--plate-soft);
+}
+.dk-mi {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 34px;
+  padding: 5px 8px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.dk-mi:not(:disabled):hover,
+.dk-mi:focus-visible {
+  background: var(--plate);
+}
+/* While what it does is running: not pressable, and it looks it. */
+.dk-mi:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.dk-mi > .ac-icon {
+  color: var(--muted);
+}
+.dk-mi__label {
+  flex: 1;
+  min-width: 0;
+}
+.dk-mi__end {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--faint);
+  font-size: 12px;
+}
+.dk-mi[data-danger],
+.dk-mi[data-danger] > .ac-icon {
+  color: var(--danger);
+}
+.dk-sub {
+  margin: 2px 0 4px 26px;
+  display: flex;
+  flex-direction: column;
+  animation: dk-fade-up 0.2s var(--out) both;
+}
+.dk-sub .dk-mi {
+  font-size: 13px;
+  min-height: 30px;
+}
+.dk-sub__hint {
+  padding: 4px 8px 2px;
+}
+.dk-empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 12px;
+}
+.dk-empty__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.dk-empty__text b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dk-banner {
+  margin: 2px 2px 6px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: dk-fade-up 0.25s var(--out) both;
+}
+.dk-banner__head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.dk-banner__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dk-banner__text b {
+  font-weight: 650;
+  font-size: 13.5px;
+}
+.dk-banner__text small {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.dk-banner__acts {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.dk-req__who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dk-req__whotext {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-req__whotext b {
+  font-size: 13.5px;
+  font-weight: 650;
+}
+.dk-req__whotext small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.dk-req__quote {
+  font-size: 13px;
+  color: var(--ink2);
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--plate);
+}
+.dk-req__fold {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.dk-req__foldtext {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-req__foldtext b {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.dk-req__for {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.dk-confirm {
+  padding: 14px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dk-confirm h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.dk-confirm p {
+  color: var(--muted);
+  font-size: 13px;
+}
+.dk-confirm__foot {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- First run (FirstRun.tsx): agentes.chat big, your own server small ---------- */
+.dk-fr {
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+.dk-fr__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 26px 48px 28px;
+  display: flex;
+  flex-direction: column;
+  animation: dk-fade-up 0.3s var(--out) both;
+}
+.dk-fr__body h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 34px;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  max-width: 28ch;
+  text-wrap: balance;
+}
+.dk-fr__hello {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 92px;
+}
+.dk-fr__hello .dk-lead {
+  max-width: 44ch;
+}
+.dk-fr__mark {
+  margin-bottom: 18px;
+}
+.dk-fr__cloud {
+  margin: 28px 0 12px;
+  min-width: 320px;
+  justify-content: center;
+}
+.dk-fr__own {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  left: 24px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink2);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+}
+.dk-fr__own:hover {
+  color: var(--ink);
+}
+.dk-fr__own:focus-visible,
+.dk-fr__back:focus-visible,
+.dk-fr__card:focus-visible {
+  outline: 2px solid var(--agent2);
+  outline-offset: 2px;
+}
+.dk-fr__back {
+  all: unset;
+  cursor: pointer;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 0 18px -6px;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.dk-fr__back:hover {
+  color: var(--ink);
+}
+.dk-fr__cards {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.dk-fr__card {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 40px 18px 18px;
+  min-height: 150px;
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  transition: box-shadow 0.15s;
+}
+.dk-fr__card:hover {
+  box-shadow: var(--e2), var(--top);
+}
+.dk-fr__card b {
+  font-weight: 650;
+  font-size: 15px;
+}
+.dk-fr__card small {
+  color: var(--muted);
+  font-size: 12.5px;
+  /* No word alone on the last line ("…while it's / on."). */
+  text-wrap: pretty;
+}
+.dk-fr__card-art {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+  color: var(--ink2);
+}
+.dk-fr__card-go {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  color: var(--faint);
+}
+.dk-fr__which {
+  margin-top: 16px;
+}
+.dk-fr__form {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+}
+.dk-fr__form .ac-input {
+  flex: 1;
+}
+.dk-fr__problem {
+  margin-top: 12px;
+}
+.dk-fr__looking {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+/* Its heading, tiles and buttons in the column's own edges, where the field and Connect above sit. */
+.dk-fr__found {
+  margin-top: 20px;
+}
+.dk-fr__found .dk-ctitle {
+  margin-inline: 0;
+}
+.dk-fr__foundrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+}
+.dk-fr__foundrow + .dk-fr__foundrow {
+  border-top: 1px solid var(--line);
+}
+.dk-fr__foundtext {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-fr__foundtext b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dk-fr__foundtext small {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.dk-fr__none {
+  margin-top: auto;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dk-fr__none h2 {
+  font-size: 13.5px;
+  font-weight: 650;
+}
+.dk-fr__cmd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+.dk-fr__cmd code {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  -webkit-user-select: text;
+  user-select: text;
+}
+.dk-fr__word {
+  white-space: nowrap;
+}
+/* A command under a line of text (Tailscale's, on Linux). */
+.dk-honest .dk-fr__cmd {
+  margin-top: 6px;
+}
+/* Where to try again, on a line of its own under the fix (its words, its link or its command), as far under it as a
+   command is under its words. */
+.dk-fr__problem .dk-fr__retry {
+  display: block;
+  margin-top: 6px;
+}
+/* A short command inside a line of text, with its copy button. */
+.dk-fr__cmd--inline {
+  display: inline-flex;
+  vertical-align: middle;
+  gap: 2px;
+  padding: 0 0 0 8px;
+  border-radius: 8px;
+}
+.dk-fr__cmd--inline code {
+  flex: none;
+}
+.dk-fr__cmd--inline .dk-iconbtn {
+  width: 24px;
+  height: 22px;
+}
+.dk-fr__ways {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.dk-fr__ways li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.dk-fr__ways li > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dk-fr__num {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px 8px 8px 3px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-dot);
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--plate);
+}
+.dk-fr__end {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+.dk-fr__sheet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  padding-bottom: 24px;
+}
+.dk-fr__server {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.dk-fr__host {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  -webkit-user-select: text;
+  user-select: text;
+}
+.dk-fr__question {
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 44ch;
+}
+.dk-fr__checking {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dk-fr__sheet .dk-fr__problem {
+  margin: 0;
+  max-width: 48ch;
+  text-align: left;
+}
+.dk-fr__acts {
+  margin-top: 18px;
+  display: flex;
+  gap: 8px;
+}
+/* Pairing this computer (Pair.tsx): its facts and choices in a card as wide as the words around it. */
+.dk-pair .dk-card,
+.dk-pair__group {
+  width: 100%;
+  max-width: 60ch;
+  text-align: start;
+}
+/* A card with its title and the line under it: the sheet's gap above, the title on the card's edge, 8 over it. */
+.dk-pair__group > .dk-ctitle {
+  margin: 0 0 8px;
+}
+/* Run agentes.chat here. The window is 600 px tall: a smaller title on one line (the Portuguese one is
+   longer), and two fields side by side. */
+.dk-fr__body h1.dk-fr__h1sm {
+  font-size: 28px;
+  max-width: none;
+}
+.dk-fr__here {
+  flex: 1 0 auto;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dk-fr__who {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.dk-fr__body .dk-fr__wide {
+  max-width: 66ch;
+}
+/* Start sits at the window's bottom (the form grows to fill it), and stays in view when the form is taller than
+   the window: it sticks to the bottom edge. */
+.dk-fr__here .dk-fr__end {
+  position: sticky;
+  /* The scroller's own bottom padding (28px) counts: the bar meets the window's edge. */
+  bottom: -28px;
+  /* Top `auto`, as on `.dk-fr__end`: a 0 here would leave Start right under the card. */
+  margin: auto -48px -28px;
+  padding: 10px 48px 28px;
+  background: linear-gradient(to bottom, transparent, var(--bg) 10px);
+}
+/* After a short screen's text, not at the window's bottom. */
+.dk-fr__end[data-near] {
+  margin-top: 24px;
+}
+/* Setting it up, in the window's middle: this computer's portrait, the title, then one 440 px column whose steps,
+   bar and buttons share its two edges. The middle sits a hair above the window's (the eye reads it there). */
+.dk-fr__setup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 16px;
+}
+/* Centered by auto margins, not justify-content: a block taller than the window scrolls from its top. The room above
+   is pinned as the setup opens (`--dk-setup-lead`, FirstRun.tsx), so what a step adds grows the block downward, and
+   shrinks only by what would run past the window. */
+.dk-fr__setup > :first-child {
+  margin-top: var(--dk-setup-lead, auto);
+}
+.dk-fr__setup > :last-child {
+  margin-bottom: auto;
+}
+.dk-fr__setup > .ac-computer {
+  margin-bottom: 20px;
+}
+.dk-fr__setup > h1 {
+  text-align: center;
+}
+/* Focused for screen readers when the setup starts, never by the keyboard (tabIndex -1). */
+.dk-fr__setup > h1:focus {
+  outline: none;
+}
+.dk-fr__run {
+  width: min(100%, 440px);
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+}
+.dk-fr__run .dk-bar {
+  margin-top: 24px;
+}
+.dk-fr__runacts {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+/* The steps as they run, each mark an `.ac-iconline` lead on its name's line. */
+.dk-fr__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dk-fr__steps li {
+  gap: 12px;
+}
+.dk-fr__steps li[data-state="todo"] {
+  color: var(--faint);
+}
+.dk-fr__stepmark {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+}
+.dk-fr__steps li[data-state="done"] .dk-fr__stepmark {
+  color: var(--ok);
+}
+.dk-fr__steps li[data-state="failed"] .dk-fr__stepmark {
+  color: var(--danger);
+}
+.dk-fr__steps li[data-state="warn"] .dk-fr__stepmark {
+  color: var(--warn);
+}
+.dk-fr__stepdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.dk-fr__steptext {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dk-fr__stepname {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.dk-fr__stepname b {
+  font-weight: 600;
+  font-size: 14px;
+}
+.dk-fr__stepname small {
+  color: var(--faint);
+  font-size: 12px;
+}
+/* The step under way's time, on its name's line at the column's right edge. */
+.dk-fr__steptime {
+  margin-left: auto;
+  padding-left: 12px;
+  font-size: 12.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.dk-fr__stepline {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.dk-fr__steps .dk-fr__problem {
+  margin: 0;
+}
+/* The iPhone setup (IphoneSetup.tsx): the steps, and beside them the QR, the tip and the way out. */
+.dk-ip {
+  flex: 1;
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: var(--space-8);
+}
+.dk-ip__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-ip__main > .dk-bar {
+  margin-top: var(--space-6);
+}
+.dk-ip__ready {
+  margin-top: var(--space-4);
+  gap: var(--space-2);
+  color: var(--ink2);
+}
+.dk-ip__ready .ac-icon {
+  color: var(--ok);
+}
+.dk-ip .dk-fr__stepline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.dk-ip__download {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-variant-numeric: tabular-nums;
+}
+.dk-ip__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.dk-ip__qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+.dk-ip__qr p {
+  margin-top: var(--space-3);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--ink2);
+  text-wrap: balance;
+}
+.dk-ip__tip {
+  padding-inline: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--ink2);
+}
+.dk-ip__tip b {
+  font-weight: 600;
+}
+/* An iPhone on this Mac's Wi-Fi: its line, then Use over Wi-Fi, side by side while they fit. */
+.dk-ip__wifi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dk-ip__acts {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+/* Preferences' "Specific people or roles": the search, then people and roles to tick. */
+.dk-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.dk-pick .dk-ctitle {
+  margin-top: var(--space-2);
+}
+.dk-pick__list {
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.dk-pick__row {
+  gap: var(--space-2);
+  min-height: var(--control-h-sm);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+.dk-pick__row > label {
+  flex: 1;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+.dk-pick__row:hover {
+  background: var(--plate);
+}
+
+/* A progress bar (setting it up, an update's download), placed by its context. */
+.dk-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.dk-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--agent2);
+  transition: width 0.4s var(--out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dk-bar span {
+    transition: none;
+  }
+}
+.dk-wel__horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.dk-wel__horizon .ac-sky {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* A sign-in code (Preferences > Tools, "Add account"): big, in Doto. */
+.dk-code {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-dot);
+  font-variation-settings: "ROND" 100;
+  font-weight: 600;
+  font-size: 46px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow: var(--e2), var(--top);
+  -webkit-user-select: text;
+  user-select: text;
+}
+.dk-code__dot {
+  color: var(--faint);
+}
+.dk-waitline {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.dk-acct-wait {
+  margin-top: 4px;
+}
+.dk-acct-code {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.dk-acct-code .dk-code {
+  font-size: 38px;
+}
+.dk-acct-who {
+  margin: 0;
+  color: var(--muted);
+}
+.dk-acct-who b {
+  color: var(--ink);
+}
+
+/* ---------- Preferences ---------- */
+/* "This Mac" over its tabs in the sidebar. */
+.dk-pnav__group {
+  margin: 14px 10px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+/* The action under a card ("Add a server…"). */
+.dk-under-card {
+  margin-top: 12px;
+}
+/* A server's workspaces under its row in Preferences › Servers (ADR 0154), when it has several: a line each, logo,
+   name and unread count. One workspace is named in the subtitle instead. */
+.dk-ws-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dk-ws-rows li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.dk-ws-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* A server that doesn't answer: its last workspaces dimmed, its state in the waiting color (ADR 0158). */
+.dk-ws-rows[data-dim] {
+  opacity: 0.5;
+}
+.dk-state-waiting {
+  color: var(--warn);
+}
+.dk-ws-count {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* Preferences › Servers › Keep it running: a green check when it's set, an amber dot when it's not, in a tile's place. */
+.dk-keep {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  color: var(--ok);
+}
+.dk-keep__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+/* The server here: Restart and Stop under its card, "Stop running it here…" at the far end. */
+.dk-here__acts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.dk-here__end {
+  margin-left: auto;
+}
+/* Its card on top of the popover. */
+.dk-here__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+.dk-here__more {
+  margin-top: 0;
+}
+/* "Also works for …" under it: on the same left edge as the rows below (.dk-psec plus .dk-ohead). */
+.dk-here__also {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 2px 10px 4px;
+}
+
+.dk-prefs {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+}
+.dk-pnav {
+  padding: 10px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-right: 1px solid var(--line);
+  background: var(--sunken);
+  overflow-y: auto;
+}
+.dk-pnav__who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 10px 2px;
+}
+.dk-pnav__whotext {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+}
+/* A computer's name as its system gives it ("Ana’s MacBook Pro") in full: two lines at most. */
+.dk-pnav__whotext b {
+  font-size: 13px;
+  font-weight: 650;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.dk-pnav__whotext small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.dk-pnav button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 32px;
+  padding: 0 9px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 13.5px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.dk-pnav button:hover,
+.dk-pnav button:focus-visible {
+  background: var(--plate);
+  color: var(--ink);
+}
+.dk-pnav button[aria-current="page"] {
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--e1), var(--top);
+  font-weight: 600;
+}
+.dk-pnav button .ac-countchip {
+  margin-left: auto;
+}
+.dk-pnav__badge {
+  margin-left: auto;
+  display: inline-flex;
+  color: var(--ink2);
+}
+.dk-pbody {
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px 26px 28px;
+  animation: dk-fade-up 0.25s var(--out) both;
+}
+.dk-phead {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.dk-phead > div {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.dk-phead h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.dk-phead .dk-lead {
+  font-size: 13.5px;
+  margin-top: 6px;
+}
+.dk-ctitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+  margin: 18px 4px 8px;
+}
+/* A card title with its ⓘ after the heading: the heading keeps the title's type, the ⓘ follows its last word. */
+.dk-ctitle.ac-hintline {
+  display: block;
+}
+.dk-ctitle > h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+}
+.dk-card {
+  background: var(--raised);
+  border-radius: 18px;
+  box-shadow: var(--e1), var(--top);
+  padding: 4px 16px;
+  min-width: 0;
+}
+.dk-card[data-padded] {
+  padding: 14px 16px;
+}
+/* Two cards in a row (no title between them) keep a gap. */
+.dk-card + .dk-card {
+  margin-top: 12px;
+}
+.dk-crow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.dk-crow:first-child {
+  border-top: 0;
+}
+.dk-crow[data-top] {
+  align-items: flex-start;
+}
+.dk-crow__text {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dk-crow__title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+/* A switch's label at regular weight, lighter than a field's; a line under it stays small and muted. */
+.dk-crow:has(> .dk-crow__end > .ac-switch) .dk-crow__title {
+  font-weight: 400;
+}
+/* A chip on a title's line: 8px after the title, or 4px after its ⓘ's glyph (the ⓘ takes no room of its own). The
+   chip, not the ⓘ, ends the line. */
+.dk-crow .ac-hintline > .ac-chip {
+  margin-left: 8px;
+  vertical-align: top;
+}
+.dk-crow .ac-hintline > .ac-hint ~ .ac-chip {
+  margin-left: 26px;
+}
+.dk-crow .ac-hintline:has(> .ac-chip) {
+  padding-inline-end: 0;
+}
+.dk-crow__text small {
+  color: var(--muted);
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.dk-crow__line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-basis: 100%;
+  margin-top: 2px;
+}
+.dk-crow__end {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+}
+.dk-crow__under {
+  flex-basis: 100%;
+  padding-left: 44px;
+}
+/* A row without a picture: the line under it starts with its words. */
+.dk-crow > .dk-crow__text:first-child ~ .dk-crow__under {
+  padding-left: 0;
+}
+.dk-inline-form {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.dk-inline-form .ac-input {
+  width: min(240px, 40vw);
+}
+.dk-orgpick {
+  margin-bottom: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dk-orgpick::-webkit-scrollbar {
+  display: none;
+}
+.dk-drop {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+}
+.dk-drop__cap {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+  padding: 6px 10px 4px;
+}
+.dk-drop__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.dk-drop__row:hover {
+  background: var(--plate);
+}
+.dk-drop__row b {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.dk-drop__empty {
+  padding: 4px 10px 8px;
+}
+.dk-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--sunken);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.dk-stepper button {
+  all: unset;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.dk-stepper button:hover:not(:disabled),
+.dk-stepper button:focus-visible {
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--e1);
+}
+.dk-stepper button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.dk-stepper output {
+  min-width: 28px;
+  text-align: center;
+  font-size: 15px;
+}
+.dk-ver {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+}
+.dk-ver__big {
+  font-size: 34px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.dk-ver__text {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dk-ver__acts {
+  display: flex;
+  gap: 8px 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+/* Alone in its card: no space above the button. */
+.dk-ver__acts:first-child {
+  margin-top: 0;
+}
+/* An update downloading: what it does and Cancel on a line as tall as the button, so Installing… keeps the card's
+   height, then the bar. */
+.dk-upd {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dk-upd__line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+}
+.dk-upd__label {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.dk-upd__cancel {
+  margin-left: auto;
+}
+.dk-steps-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--ink2);
+  font-size: 13.5px;
+}
+.dk-changes {
+  margin: 0;
+  padding: 0 0 4px 18px;
+  color: var(--ink2);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dk-act__day {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+  margin: 14px 4px 6px;
+}
+.dk-act > div:first-child .dk-act__day {
+  margin-top: 0;
+}
+.dk-ev {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 8px 4px;
+  border-radius: 12px;
+}
+.dk-ev__tm {
+  width: 40px;
+  flex: none;
+  font-size: 12px;
+  color: var(--faint);
+  padding-top: 2px;
+}
+.dk-ev__av {
+  width: 22px;
+  flex: none;
+  display: flex;
+  justify-content: center;
+  padding-top: 1px;
+}
+.dk-ev__tx {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.dk-ev__tx b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.dk-ev__tx small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.dk-ev__st {
+  flex: none;
+  padding-top: 2px;
+  color: var(--ok);
+}
+.dk-act__more {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 2px;
+}
+
+/* ---------- Development frame (browser only) ---------- */
+.dk-dev {
+  min-height: 100%;
+  overflow: auto;
+  padding: 56px 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--sunken);
+}
+.dk-dev__bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 12px;
+  background: var(--raised);
+  box-shadow: 0 1px 0 var(--line);
+}
+.dk-dev__bar button {
+  all: unset;
+  cursor: pointer;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.dk-dev__bar button[aria-pressed="true"],
+.dk-dev__bar button:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+.dk-dev__sep {
+  width: 1px;
+  height: 16px;
+  background: var(--line2);
+}
+.dk-dev__tray {
+  margin-left: auto;
+  color: var(--faint);
+}
+.dk-dev__window {
+  position: relative;
+  max-width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: var(--e3);
+}
+.dk-dev__window[data-window="popover"] {
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+body[data-window="popover"] .dk-dev {
+  background: var(--sunken);
+}
+
+/* ---------- Notch ---------- */
+/* Black like the hardware in both themes; the island is `data-theme="dark"` for the components. */
+body[data-window="notch"] {
+  background: transparent;
+}
+.dk-notch {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.dk-notch__island {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--dk-notch-w);
+  height: var(--dk-notch-h);
+  border-radius: 0 0 var(--dk-notch-r) var(--dk-notch-r);
+  overflow: hidden;
+  background: #000;
+  color: #f2f2ef;
+  transition:
+    width 0.42s cubic-bezier(0.34, 1.3, 0.5, 1),
+    height 0.42s cubic-bezier(0.34, 1.3, 0.5, 1),
+    border-radius 0.42s cubic-bezier(0.34, 1.3, 0.5, 1),
+    box-shadow 0.3s;
+}
+.dk-notch__island[data-big] {
+  box-shadow: 0 18px 34px -14px rgba(0, 0, 0, 0.55);
+}
+.dk-notch__wing {
+  position: absolute;
+  top: 0;
+  height: var(--dk-notch-top);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1;
+}
+.dk-notch__hit {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+.dk-notch__wing,
+.dk-notch__peek {
+  pointer-events: none;
+}
+.dk-notch__peek button {
+  pointer-events: auto;
+}
+.dk-notch__wing > * {
+  flex: none;
+}
+.dk-notch__wing--l {
+  left: 12px;
+}
+.dk-notch__wing--l > * + * {
+  margin-left: -6px;
+}
+.dk-notch__wing--r {
+  right: 12px;
+}
+.dk-notch__clock {
+  font-size: 12.5px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: #f2f2ef;
+}
+.dk-notch__row .dk-notch__clock {
+  font-size: 12px;
+  font-weight: 500;
+  color: #7c7c77;
+}
+.dk-notch__ok {
+  color: #5fc48a;
+}
+.dk-notch__warn {
+  color: #e9b04f;
+}
+.dk-notch__muted {
+  color: #a3a39e;
+}
+.dk-notch__peek {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--dk-notch-top);
+  padding: 6px 16px 14px;
+}
+.dk-notch__top {
+  all: unset;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--dk-notch-top);
+  cursor: default;
+}
+.dk-notch__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--dk-notch-top);
+  padding: 8px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dk-notch__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #7c7c77;
+}
+.dk-notch__line,
+.dk-notch__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.dk-notch__row {
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 14px;
+}
+.dk-notch__row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.dk-notch__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.dk-notch__text b {
+  font-size: 13.5px;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-notch__text small {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #a3a39e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dk-notch__foot {
+  display: flex;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dk-notch__link {
+  all: unset;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #a3a39e;
+}
+.dk-notch__link:hover {
+  color: #f2f2ef;
+}
+.dk-dev__window[data-window="notch"] {
+  background: #7fb0f0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must beat every component's own animation */
+    animation: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must beat every component's own transition */
+    transition: none !important;
+  }
+}
+/* What most likely holds a step that sat unchanged, and the one way out. */
+.dk-ip__stall {
+  gap: var(--space-2);
+  color: var(--ink2);
+}

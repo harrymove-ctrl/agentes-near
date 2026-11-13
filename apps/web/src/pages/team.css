@@ -1,0 +1,924 @@
+/* Equipe (ADR 0148): one header, five views of the same team. */
+.page.team {
+  max-width: none;
+}
+.team-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Bits every view shares: a face with a name, a setor's mark with its name, chips, the agent's status. */
+.team-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+.team-who__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.team-who--chip {
+  padding: 3px 8px 3px 4px;
+  border-radius: var(--control-r-sm);
+  background: var(--sunken);
+}
+.team-who--chip[draggable="true"] {
+  cursor: grab;
+}
+.team-sector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.team-chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.team-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--control-r-sm);
+  background: var(--sunken);
+  color: inherit;
+  text-decoration: none;
+  font-size: 13.5px;
+}
+.team-chip--more {
+  color: var(--muted);
+}
+.team-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.team-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.team-now[data-busy] {
+  color: var(--ink);
+}
+.team-now[data-waiting] {
+  color: var(--agent);
+}
+.team-now__dot,
+.team-node__dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ok);
+}
+
+/* Lista: the shared table, with a section row per setor or owner. Above the shared table's own `.pu-table th`, which
+   sits in another chunk: a tie would go to whichever sheet the build links last. */
+.team-table .team-table__section th {
+  padding-top: 16px;
+  font-size: 13px;
+  color: var(--ink);
+}
+.team-table__role {
+  max-width: 220px;
+}
+.team-table__menu {
+  width: 1%;
+}
+/* Its rows are MediaRows (the kit's `.ac-mediarow`): Restaurar and Apagar go under the name by the card's width. */
+.team-archived {
+  gap: 0;
+  padding: 8px;
+  container-type: inline-size;
+}
+.team-archived__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 10px;
+}
+.team-archived__head h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+}
+.team-archived__row {
+  padding: var(--row-py) 8px;
+  border-radius: var(--radius-sm);
+}
+.team-archived__row:hover {
+  background: var(--plate-soft);
+}
+
+/* A card in the org chart and on the map: a face, a name, a muted line. */
+.team-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--e1);
+}
+.team-node__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+/* With a line under the name (a role that wraps in a narrow column): the face at the top, the name's capitals on its
+   top edge (`ac-captop` on the name), the status dot on the name's line, its middle --cap-top under the row's top
+   where the rise puts that line's. One line stays centred on the face. */
+.team-node:has(> .team-node__text > .ac-captop),
+.team-map__who:has(> .team-node__text > .ac-captop) {
+  align-items: flex-start;
+}
+.team-node:has(> .team-node__text > .ac-captop) > .team-node__dot {
+  margin-top: calc(var(--cap-top) - 3.5px);
+}
+.team-node--agent[draggable="true"] {
+  cursor: grab;
+}
+.team-node--person[data-none] {
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* Organograma › Por pessoa: the workspace and its right hand on top, a column per person under one line. */
+.team-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.team-chart__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+/* A scroller out over the page's side room: a chart wider than the page slides under the page's edges as it scrolls,
+   and the room above it keeps the top node's ring and shadow inside it, where they'd be cut at its edge. */
+.team-tree {
+  overflow-x: auto;
+  margin: -4px calc(-1 * var(--page-x)) 0;
+  padding: 4px var(--page-x) 8px;
+}
+.team-tree__top {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+}
+.team-tree__top::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 20px;
+  border-left: 1px solid var(--line);
+}
+.team-tree__top > .team-node {
+  position: relative;
+  min-width: 220px;
+}
+/* The workspace, with Lodi as a slim chip at its right: out of the reporting line. */
+.team-tree__org {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.team-tree__org > .team-node {
+  min-width: 220px;
+}
+.team-lodi-chip {
+  position: absolute;
+  left: calc(100% + 12px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px 4px 6px;
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow: var(--e1);
+  color: var(--ink);
+  font-size: 13px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.team-lodi-chip:hover {
+  background: var(--raised-2);
+}
+/* A supervisor's reports, indented under it and joined by a line. */
+.team-line {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.team-line__reports {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 14px;
+  padding-left: 12px;
+  border-left: 1.5px solid var(--line-strong);
+}
+.team-line__count {
+  align-self: flex-start;
+}
+.team-node[data-line-drop] {
+  border-color: var(--agent);
+  box-shadow: 0 0 0 2px var(--agent-soft);
+}
+.team-frame__head[draggable="true"] {
+  cursor: grab;
+}
+.team-frame__sup {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+/* A supervisor's page: who reports to it. */
+.team-reports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.team-reports__one {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  text-decoration: none;
+}
+@media (max-width: 720px) {
+  .team-lodi-chip {
+    position: static;
+  }
+  .team-tree__org {
+    flex-direction: column;
+  }
+}
+.team-tree__top > .team-node + .team-node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -17px;
+  height: 16px;
+  border-left: 1px solid var(--line);
+}
+.team-tree__row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  min-width: min-content;
+}
+.team-tree__col {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 8px;
+  width: 180px;
+  padding-top: 20px;
+}
+/* The bar across the columns, and each column's drop to its person. */
+.team-tree__col::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -6px;
+  right: -6px;
+  border-top: 1px solid var(--line);
+}
+.team-tree__col:first-child::before {
+  left: 50%;
+}
+.team-tree__col:last-child::before {
+  right: 50%;
+}
+.team-tree__col:only-child::before {
+  display: none;
+}
+.team-tree__col::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 20px;
+  border-left: 1px solid var(--line);
+}
+.team-tree__agents {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+}
+
+/* Organograma › Por setor: one frame per setor in its color. */
+.team-frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.team-frame {
+  --sector: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1.5px solid color-mix(in srgb, var(--sector) 45%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--sector) 7%, var(--surface));
+}
+.team-frame[data-none] {
+  border-style: dashed;
+  border-color: var(--line);
+  background: none;
+}
+.team-frame[data-drop="true"] {
+  border-color: var(--agent);
+}
+.team-frame__head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 4px;
+}
+.team-frame__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+.team-frame__title b {
+  color: color-mix(in srgb, var(--sector) 70%, var(--ink));
+}
+
+/* Mapa: people on top, a column per channel, the lines drawn under the cards. */
+.team-map {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.team-map__lead,
+.team-map__hint {
+  margin: 0;
+}
+.team-map__hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.team-map__canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding: 24px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 10%, transparent) 1px, transparent 1.5px) 0 0 / 20px 20px,
+    var(--sunken);
+}
+.team-map__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.team-map__lines path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--ink) 35%, transparent);
+  stroke-width: 1.25;
+}
+.team-map__lines path[data-kind="ask"] {
+  stroke: var(--agent);
+  stroke-dasharray: 4 4;
+}
+.team-map__lines path[data-kind="line"] {
+  stroke: color-mix(in srgb, var(--ink) 55%, transparent);
+  stroke-width: 1.75;
+}
+/* The supervisors' band, between the people and the channels (ADR 0148 addendum). */
+.team-map__band {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.team-map__sup {
+  min-width: 180px;
+}
+.team-map__sup[data-drop="true"] {
+  border-color: var(--agent);
+  box-shadow: 0 0 0 2px var(--agent-soft);
+}
+.team-map__face {
+  display: inline-flex;
+  margin-left: auto;
+}
+.team-map__reports-to {
+  display: none;
+}
+@media (max-width: 720px) {
+  .team-map__lines path[data-kind="line"] {
+    display: none;
+  }
+  .team-map__reports-to {
+    display: block;
+  }
+}
+.team-map__people {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.team-map__people .team-node {
+  min-width: 180px;
+}
+.team-map__cols {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.team-map__col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--e1);
+}
+.team-map__col[data-none] {
+  border-style: dashed;
+  background: none;
+  box-shadow: none;
+}
+.team-map__col[data-drop="true"] {
+  outline: 2px solid var(--agent);
+  outline-offset: 2px;
+}
+.team-map__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 650;
+}
+.team-map__head a {
+  color: inherit;
+  text-decoration: none;
+}
+.team-map__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sunken);
+  cursor: grab;
+}
+.team-map__who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+.team-map__does {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.team-map__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.team-map__facts li {
+  gap: 6px;
+}
+.team-map__facts li[data-tone="waiting"] {
+  color: var(--agent);
+}
+.team-map__others {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.team-map__drop[data-drop="true"] {
+  outline: 2px solid var(--agent);
+}
+.team-map__lodi {
+  position: relative;
+  align-self: center;
+  min-width: 260px;
+  border-style: dashed;
+}
+
+/* Setores: one card per setor in two columns, a row per thing it has. */
+.team-sectors {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.team-sectors__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.team-sectors__acts {
+  gap: 8px;
+}
+.team-sectors__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.team-sector-card {
+  --sector: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+.team-sector-card[data-none] {
+  border: 1px dashed var(--line);
+  background: none;
+  box-shadow: none;
+}
+.team-sector-card[data-drop="true"] {
+  outline: 2px solid var(--agent);
+  outline-offset: 2px;
+}
+/* A MediaRow: the sector's mark, its name and its menu on one line, who is in it under them. */
+.team-sector-card__title h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+}
+.team-sector-card__rows {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 16px;
+  margin: 0;
+  align-items: start;
+}
+.team-sector-card__rows dt {
+  padding-top: 3px;
+  color: var(--muted);
+}
+.team-sector-card__rows dd {
+  min-width: 0;
+  margin: 0;
+}
+.team-sector-card__people {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.team-sector-card__gap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 -16px -16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 14px 14px;
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.team-sector-card__gap-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+.team-gap {
+  font-weight: 600;
+  color: var(--warn);
+}
+.agent-group-look {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Governança e uso: Settings' Uso › Pessoas, with a line to where it also lives. */
+.team-usage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.team-usage__lead {
+  margin: 0;
+}
+.team-usage__lead .ac-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 720px) {
+  .team-sectors__grid {
+    grid-template-columns: 1fr;
+  }
+  .team-map__canvas {
+    gap: 16px;
+    padding: 12px;
+  }
+  /* Too narrow for the lines to say anything: the columns stack. */
+  .team-map__lines {
+    display: none;
+  }
+}
+
+/* Setores: the Supervisor row, and the agents that don't report to it yet. */
+.team-sector-card__sup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.team-sector-card__off {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* CommandOSS ./team pixel portrait showcase matching https://commandoss.com/ */
+.team-people-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.team-cmdoss-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 18px;
+  background: #0b0d14;
+  border: 1px solid rgba(132, 148, 224, 0.24);
+  box-shadow: 0 14px 36px rgba(9, 11, 20, 0.22);
+  color: #f3f5ff;
+}
+
+.team-cmdoss-showcase__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(132, 148, 224, 0.16);
+}
+
+.team-cmdoss-showcase__prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.team-cmdoss-showcase__ps1 {
+  color: #8f9cc9;
+}
+
+.team-cmdoss-showcase__cmd {
+  color: #ffffff;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.team-cmdoss-showcase__cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: #7c9aff;
+  opacity: 0.9;
+}
+
+.team-cmdoss-showcase__sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #93a0ca;
+}
+
+.team-cmdoss-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+
+@media (max-width: 1120px) {
+  .team-cmdoss-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .team-cmdoss-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 14px;
+  }
+  .team-cmdoss-showcase {
+    padding: 16px;
+  }
+}
+
+.team-cmdoss-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.team-cmdoss-card__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #6c7bc0;
+  border: 1px solid rgba(154, 171, 245, 0.28);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.team-cmdoss-card:hover .team-cmdoss-card__frame {
+  transform: translateY(-3px);
+  border-color: rgba(141, 180, 255, 0.78);
+  box-shadow: 0 12px 28px rgba(74, 114, 245, 0.28);
+}
+
+.team-cmdoss-card__frame canvas.ac-portrait,
+.team-cmdoss-card__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.team-cmdoss-card__owner {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(11, 13, 20, 0.78);
+  border: 1px solid rgba(164, 182, 255, 0.42);
+  color: #dfe6ff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.team-cmdoss-card__caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 2px;
+}
+
+.team-cmdoss-card__name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f7f8ff;
+  line-height: 1.3;
+}
+
+.team-cmdoss-card__title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #93a0ca;
+  line-height: 1.35;
+}
+
+.team-cmdoss-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.team-cmdoss-card__handle {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  color: #6e7ca8;
+}
+
+.team-cmdoss-card__agent {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px 2px 4px;
+  border-radius: 999px;
+  background: rgba(124, 145, 235, 0.16);
+  border: 1px solid rgba(140, 160, 245, 0.26);
+  color: #e2e8ff;
+  text-decoration: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+}
+
+.team-cmdoss-card__agent:hover {
+  background: rgba(124, 145, 235, 0.28);
+}
+
+.team-cmdoss-guests {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(132, 148, 224, 0.16);
+}
+
+.team-cmdoss-guests__label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: #f2c068;
+}
+
+.team-cmdoss-guests__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.team-cmdoss-guests__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 999px;
+  background: rgba(242, 192, 104, 0.12);
+  border: 1px solid rgba(242, 192, 104, 0.3);
+  color: #f7e6c4;
+  font-size: 12px;
+}

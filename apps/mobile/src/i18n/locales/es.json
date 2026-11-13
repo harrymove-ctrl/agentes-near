@@ -1,0 +1,160 @@
+{
+  "common": {
+    "back": "Atrás",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "continue": "Continuar",
+    "done": "Listo",
+    "retry": "Reintentar",
+    "loading": "Cargando",
+    "or": "o"
+  },
+  "auth": {
+    "skyLabel": "Cielo con agentes",
+    "social": {
+      "failed": "No pudimos iniciar tu sesión ahora. Inténtalo de nuevo.",
+      "unfinished": "El inicio de sesión no terminó. Inténtalo de nuevo o usa tu correo."
+    },
+    "errors": {
+      "network": "Sin conexión. Revisa internet e inténtalo de nuevo.",
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "offlineRetry": "Sin internet por ahora. Sigo en cuanto vuelva."
+    },
+    "flow": {
+      "email": "¿Cuál es tu correo?",
+      "emailLead": "Para iniciar sesión o crear tu cuenta.",
+      "signUp": "Mucho gusto. ¿Cómo te llama el equipo?"
+    },
+    "server": {
+      "line": "Servidor: {{host}} ·",
+      "change": "Cambiar",
+      "title": "¿Dónde está tu agentes.chat?",
+      "subtitle": "La dirección que tu equipo abre en el navegador.",
+      "label": "Dirección del servidor",
+      "placeholder": "agentes.tuequipo.ts.net",
+      "use": "Usar este servidor",
+      "checking": "Verificando…",
+      "scan": "Escanear código QR",
+      "backTo": "Volver a {{host}}",
+      "footChange": "Cambiar",
+      "footChoose": "Servidor e idioma",
+      "footServer": "Otro servidor",
+      "footLanguage": "Idioma",
+      "footTeam": "¿Usas el servidor de tu equipo?",
+      "footTeamAction": "Iniciar sesión ahí",
+      "footOn": "Iniciando sesión en {{host}}",
+      "footSwitch": "Cambiar",
+      "now": "Ahora en {{host}}",
+      "invalid": "Revisa la dirección, algo como agentes.tuequipo.ts.net.",
+      "unreachable": "No logramos conectar con {{host}}. Revisa la dirección y tu conexión, e inténtalo de nuevo.",
+      "unreachableTailscale": "No podemos llegar a {{host}}. Está en Tailscale: abre la app de Tailscale, conéctate e inténtalo de nuevo. ¿Ya estás conectado? La computadora del servidor puede estar dormida o con la app cerrada.",
+      "certificate": "El certificado de {{host}} no es válido. Habla con quien administra el servidor.",
+      "notAgentes": "{{host}} no es un servidor de agentes.chat. Revisa la dirección.",
+      "serverTooOld": "{{host}} necesita una actualización para funcionar con esta app.",
+      "appTooOld": "Actualiza la app de agentes para usar {{host}}.",
+      "down": {
+        "line": "{{host}} no respondió.",
+        "text": "Puede estar caído o fuera de tu red. La app se abre sola cuando vuelva.",
+        "tryNow": "Intentar ahora",
+        "switchServer": "Cambiar de servidor",
+        "retryIn_one": "reintenta en {{count}} s",
+        "retryIn_other": "reintenta en {{count}} s"
+      }
+    },
+    "connect": {
+      "title": "¿Conectarte a este servidor?",
+      "titleSignIn": "¿Iniciar sesión con la cuenta de la computadora?",
+      "on": "Servidor: {{host}}",
+      "leave": "Se cerrará la sesión de la cuenta actual en este teléfono.",
+      "confirm": "Conectar",
+      "notNow": "Ahora no",
+      "checking": "Verificando el servidor…",
+      "notALink": "Este enlace no es de un servidor de agentes.chat.",
+      "tokenFailed": "El código venció o ya se usó. Inicia sesión con tu correo o muestra un código nuevo en la computadora.",
+      "signInSlow": "Iniciar sesión está tardando más de lo normal. Inicia sesión con tu correo o muestra un código nuevo en la computadora."
+    },
+    "scan": {
+      "hint": "Apunta al código QR de la computadora",
+      "typeAddress": "Escribir la dirección",
+      "notOurs": "Este código QR no es de un servidor de agentes.chat.",
+      "cameraTitle": "Usar la cámara",
+      "cameraText": "Solo se usa para leer el código QR.",
+      "allow": "Permitir la cámara",
+      "settings": "Abrir Configuración"
+    }
+  },
+  "org": {
+    "noneTitle": "Todavía no estás en un espacio de trabajo",
+    "noneSubtitle": "Pide una invitación a alguien de tu equipo o crea el espacio de trabajo en el sitio web.",
+    "openSite": "Abrir el sitio web",
+    "signOut": "Cerrar sesión"
+  },
+  "account": {
+    "deleteFailed": "No pudimos eliminar tu cuenta ahora. Inténtalo de nuevo.",
+    "deleted": "Tu cuenta desaparece para siempre el {{date}}. Inicia sesión antes para restaurarla.",
+    "signedOut": "Cerraste sesión."
+  },
+  "theme": {
+    "system": "Igual que el teléfono",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "push": {
+    "channel": "Alertas",
+    "channelDescription": "Lo que te espera, menciones y conversaciones.",
+    "offer": {
+      "line": "¿Quieres saber cuándo termina {{name}}?",
+      "action": "Avísame"
+    },
+    "ask": {
+      "title": "Entérate cuando un agente te necesite",
+      "text": "Trabajan mientras haces otra cosa. Te avisamos cuando necesiten tu aprobación, terminen lo que pediste o te llamen.",
+      "on": "Activar notificaciones",
+      "later": "Ahora no",
+      "done": "Notificaciones activadas",
+      "failed": "No pudimos activar las notificaciones. Inténtalo de nuevo en Tú › Notificaciones.",
+      "someone": "Un agente",
+      "examples": "Ejemplos de notificaciones",
+      "now": "ahora",
+      "minutes": "{{n}} min",
+      "approval": {
+        "title": "{{name}} necesita tu aprobación",
+        "body": "¿Puedo seguir con lo que pediste?"
+      },
+      "finished": {
+        "title": "{{name}} terminó",
+        "body": "Lo que pediste está listo."
+      },
+      "mention": {
+        "title": "{{name}} te llamó",
+        "body": "¿Puedes echarle un vistazo cuando tengas un minuto?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, agente",
+    "agentWorking": "{{name}}, agente, trabajando",
+    "agentPlain": "Agente",
+    "person": "{{name}}",
+    "loading": "Cargando",
+    "grabber": "Desliza hacia abajo para cerrar",
+    "closeSheet": "Cerrar",
+    "send": "Enviar",
+    "attach": "Adjuntar y más",
+    "hold": "Mantén presionado para confirmar",
+    "clearSearch": "Borrar búsqueda"
+  },
+  "composer": {
+    "placeholder": "Escribe un mensaje",
+    "join": "Sumar a la tarea en curso",
+    "now": "Detener y enviar",
+    "choice": "Cómo enviar mientras el agente trabaja",
+    "holdToStop": "Mantén presionado para detener y enviar"
+  },
+  "search": {
+    "placeholder": "Buscar"
+  },
+  "picker": {
+    "none": "Nada coincide con “{{text}}”."
+  }
+}

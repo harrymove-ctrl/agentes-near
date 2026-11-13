@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "用于在对话中发送图片。",
+    "NSCameraUsageDescription": "用于为对话拍照和扫描二维码。",
+    "NSPhotoLibraryAddUsageDescription": "用于将对话中的图片保存到“照片”。"
+  }
+}

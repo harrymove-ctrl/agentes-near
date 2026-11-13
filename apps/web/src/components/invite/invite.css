@@ -1,0 +1,549 @@
+/*
+ * Bringing a teammate in (ADR 0090): the addresses as chips (the onboarding's Team step and the invite dialog), the
+ * invite dialog's steps, and the workspace's link. Tokens only, so light and dark follow the theme.
+ */
+
+/* The addresses: chips in a sunken box, typed or pasted, the field after the last one. */
+.email-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: text;
+}
+.email-chips:focus-within {
+  box-shadow:
+    inset 0 0 0 1px var(--line2),
+    var(--field-ring);
+}
+/* 16px: a phone doesn't zoom the page when the field takes the focus. */
+.email-chips__input {
+  flex: 1;
+  min-width: min(100%, 220px);
+  height: 34px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+}
+.email-chips__input::placeholder {
+  color: var(--faint);
+}
+.email-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  min-height: 34px;
+  padding: 0 3px 0 4px;
+  border-radius: 999px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  font-size: 14px;
+}
+.email-chip[data-invalid] {
+  box-shadow: 0 0 0 1px var(--danger);
+}
+/* A good address that won't be sent (in already, invited already): quiet, its outline only. */
+.email-chip[data-soft] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: var(--muted);
+}
+.email-chip__email {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* On a narrow screen the address gives way (its ellipsis), never the role's word. */
+.email-chip > .ac-select {
+  flex: none;
+}
+/* Why an address isn't sent: "confira" in danger, "já está na Acme" quiet. */
+.email-chip__bad,
+.email-chip__soft {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.email-chip__bad {
+  color: var(--danger);
+}
+.email-chip__soft {
+  color: var(--muted);
+}
+/* "(opcional)" after a field's label (a suggestion's "Quem é"). */
+.invite-optional {
+  font-weight: 500;
+  color: var(--faint);
+}
+
+/*
+ * The invite dialog (ADR 0090 §5): a step at a time under its bars, the workspace's first agent asking each one. The
+ * body keeps one height across the steps, so the dialog doesn't jump under the pointer between them.
+ */
+.invite-steps {
+  margin: 2px var(--dialog-pad) 10px;
+}
+.ac-dialog__body.invite-dialog {
+  min-height: min(340px, 52dvh);
+}
+.invite-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 2px;
+}
+/* The host and its bubble, as on the invitation page (components/auth.css), at the dialog's size. */
+.invite-host__face {
+  display: flex;
+  flex: none;
+}
+.invite-host .auth__bubble {
+  padding: 14px 18px;
+}
+.invite-host .auth__title {
+  font-size: 19px;
+  line-height: 26px;
+}
+.invite-host .auth__lead {
+  line-height: 20px;
+}
+/* Back (or Cancelar) on the left, what goes on on the right. */
+.invite-foot__gap {
+  flex: 1;
+}
+
+/* The line under the addresses: how to paste, who stays out, or the ones to check in danger. */
+.invite-help {
+  margin: -6px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.invite-help[data-bad] {
+  color: var(--danger);
+}
+.invite-help--note {
+  margin: 0;
+}
+/* "Prefere mandar um link?": a well pressed into the dialog, its icon on a key-like tile. */
+/* A MediaRow on a well: the tile, the question and its button on one line, what it means under them; the button under
+   that too where the well is under 480px. */
+.invite-orlink {
+  container-type: inline-size;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-cut);
+  background: var(--card-well, var(--sunken));
+  box-shadow: var(--card-well-shadow, none);
+}
+.invite-orlink__text {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+.invite-tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px 11px 11px 4px;
+  background: var(--raised);
+  box-shadow: var(--card-key, var(--e1));
+  color: var(--ink2);
+}
+
+/* The role: a card per role with its mark, the check in the corner; or a role per person. */
+.invite-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.invite-roles > .ac-option {
+  align-items: center;
+  padding: 12px 40px 12px 12px;
+}
+.invite-roles .ac-option__text {
+  gap: 1px;
+}
+.invite-roles .ac-option__title {
+  font-size: 15px;
+  line-height: 20px;
+}
+.invite-roles .ac-option__desc {
+  font-size: 13.5px;
+  line-height: 18px;
+}
+.invite-each {
+  all: unset;
+  box-sizing: border-box;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.invite-each:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .invite-each:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.invite-each > .ac-icon {
+  color: var(--muted);
+  transition: transform 0.18s var(--out);
+}
+.invite-each[aria-expanded="true"] > .ac-icon {
+  transform: rotate(90deg);
+}
+/* A row per person (their role, or what became of their address): the same room on both sides. */
+.invite-people {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.invite-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+}
+.invite-person + .invite-person {
+  border-top: 1px solid var(--line);
+}
+.invite-person__email {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.invite-person__role {
+  font-size: 13px;
+  color: var(--muted);
+}
+.invite-state {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ok);
+}
+.invite-state[data-skip] {
+  color: var(--muted);
+}
+.invite-state .ac-icon path {
+  stroke-dasharray: 16;
+}
+
+/* Where they start: a channel per row, its box, its name and line, the agents there at its end. */
+.invite-chan {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.invite-chan + .invite-chan {
+  border-top: 1px solid var(--line);
+}
+.invite-chan:hover:not([data-fixed]) {
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+.invite-chan[data-fixed] {
+  cursor: default;
+}
+.invite-chan > .ac-check {
+  margin: 0;
+}
+.invite-chan__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 19px;
+}
+.invite-chan__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.invite-chan__name > .ac-icon {
+  color: var(--muted);
+}
+.invite-chan__sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+/* The agents' faces keep room above for what they wear: an accessory reaches 9/16 of an 18px face over it
+   (ACCESSORY_REACH in the agent engine). */
+.invite-chan__faces {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 10px;
+}
+
+/* The note, and the email as it arrives under "Assim chega para…". */
+.ac-input.invite-note {
+  min-height: 92px;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 22px;
+}
+.invite-mail-fig {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+}
+.invite-mail-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.invite-mail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 14px;
+  line-height: 20px;
+}
+.invite-mail p {
+  margin: 0;
+}
+.invite-mail__from {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.invite-mail__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.invite-mail__who b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.invite-mail__title {
+  margin: 0;
+  font-size: 17px;
+  line-height: 23px;
+  font-weight: 650;
+}
+.invite-mail__note {
+  padding: 10px 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.invite-mail__what {
+  color: var(--muted);
+}
+.invite-mail__btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: var(--action);
+  color: var(--on-action);
+  font-size: 14px;
+  font-weight: 600;
+}
+.invite-mail__foot {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+/*
+ * What became of each address, once per send (the screen mounts with each one): the rows come in one after another,
+ * the ones sent first, 70ms apart (`--i`); the host's bubble with them, its face jumping when someone was sent (its
+ * confetti is `pixelConfetti`); each "Enviado" check draws itself. With reduced motion all of it is there at once.
+ */
+.invite-screen[data-sent] .invite-answer {
+  transition: none;
+}
+.invite-screen[data-sent] .auth__bubble {
+  transition-delay: 120ms;
+}
+.invite-screen[data-sent] .invite-person {
+  animation: invite-row-in 0.32s var(--out) both;
+  animation-delay: calc(60ms + var(--i, 0) * 70ms);
+}
+.invite-screen[data-party] .invite-host__face {
+  animation: invite-hop 0.64s cubic-bezier(0.3, 0.7, 0.3, 1) 120ms;
+}
+.invite-screen[data-sent] .invite-person[data-ok] .invite-state .ac-icon path {
+  animation: invite-check 0.38s var(--out) both;
+  animation-delay: calc(140ms + var(--i, 0) * 70ms);
+}
+@keyframes invite-row-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes invite-hop {
+  25% {
+    transform: translateY(-9px);
+  }
+  50% {
+    transform: none;
+  }
+  75% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes invite-check {
+  from {
+    stroke-dashoffset: 16;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invite-screen[data-sent] .auth__bubble {
+    transition: none;
+  }
+  .invite-screen[data-sent] .invite-person,
+  .invite-screen[data-sent] .invite-host__face,
+  .invite-screen[data-party] .invite-host__face,
+  .invite-screen[data-sent] .invite-person[data-ok] .invite-state .ac-icon path {
+    animation: none;
+  }
+}
+
+/* The link's screen: how it works, a step a line, and the requests waiting. */
+.invite-how {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.invite-how > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.invite-how__n {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px 7px 7px 3px;
+  background: var(--plate);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink2);
+}
+/* The faces, then the words and Ver pedidos in an `.ac-actline`: under the words when it doesn't fit beside them, from
+   their edge. The faces stay on the words' middle. */
+.invite-waiting {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.invite-waiting > .ac-avatar-stack {
+  flex: none;
+  margin-block: calc((2 * 19px - 24px) / 2);
+}
+.invite-waiting > .ac-actline {
+  flex: 1 1 0%;
+  align-items: center;
+}
+.invite-waiting__text {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 19px;
+}
+.invite-waiting__text b {
+  font-weight: 600;
+}
+.invite-waiting__text span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* The workspace's link (ADR 0068): the address to copy, until when it works, renew and turn off; earlier links. */
+.invite-link {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.invite-link__row {
+  display: flex;
+  gap: var(--space-2);
+}
+.invite-link__row > .ac-input {
+  flex: 1;
+  min-width: 0;
+}
+.invite-link__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.invite-link__foot > .ac-icon {
+  color: var(--faint);
+}
+/* Renew and Turn off are text buttons at the line's end: the last word ends where Copy ends above it. */
+.invite-link__foot > .ac-btn--ghost:first-of-type {
+  margin-left: auto;
+}
+.invite-link__foot > .ac-btn--ghost:last-child {
+  margin-right: calc(-1 * var(--control-px-sm));
+}
+.invite-link__none {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}

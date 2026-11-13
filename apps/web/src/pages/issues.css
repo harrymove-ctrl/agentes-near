@@ -1,0 +1,1898 @@
+/*
+ * Tarefas (issues in the code): agents working now, the tasks as a board or a
+ * list (grouped by stage, with the org's custom columns inside fixed stages, by
+ * assignee or by priority; cards drag between and inside groups, issue-drag.ts),
+ * and the details (the shared details dialog, or the task's own page). Pixel
+ * pieces: CriteriaPixels and WorkSweep from @agenteschat/ui (their holders are
+ * `position: relative`).
+ */
+.issues {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 0 20px;
+  padding-bottom: 96px;
+}
+.issues__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Agents working now ─────────────────────────────────────────────────── */
+.issues-now {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.issues-now__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 4px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.issues-now__title span {
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.issues-now__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+/* A MediaRow: the agent and the task's number and time on the face's line, the task and its step under them. */
+.issues-now__card {
+  position: relative;
+  padding: 12px 14px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.22s var(--spring),
+    box-shadow 0.2s var(--out);
+}
+.issues-now__card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--e2), var(--top);
+}
+html:not([data-pointer]) .issues-now__card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.issues-now__card.is-stalled {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+/* The task and its step read as one: closer than the row's 8. */
+.issues-now__card > .ac-mediarow__body {
+  gap: 4px;
+}
+.issues-now__task {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+.issues-now__step {
+  font-size: 12.5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.issues-now__step.is-live {
+  color: var(--ink2);
+}
+.issues-now__step.is-live::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 12px;
+  margin-left: 3px;
+  vertical-align: -2px;
+  border-radius: 2px;
+  background: var(--agent);
+  animation: issues-caret 1s steps(2) infinite;
+}
+@keyframes issues-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .issues-now__step.is-live::after {
+    animation: none;
+  }
+}
+.issues-now__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+/* ── Toolbar end: "Exibição" and "Mais opções" ──────────────────────────── */
+/* The toolbar's own gap between its buttons. */
+.issues-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.issues-display__trigger.ac-btn {
+  gap: 6px;
+}
+.issues-display__sub {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+.issues-display__trigger .issues-display__chev {
+  width: 14px;
+  height: 14px;
+  color: var(--ink-muted);
+}
+
+/* "Exibição": layout cards with their pictures, the grouping, the order, what the cards show, canceled ones. */
+.issues-display.ac-popover {
+  --menu-pad: var(--space-2);
+  width: 344px;
+  max-width: calc(100vw - 24px);
+  /* All of it where it fits; on a short screen (a phone) it scrolls inside the room the trigger leaves, not off it. */
+  max-height: var(--radix-popover-content-available-height, none);
+  padding: var(--menu-pad);
+  gap: 14px;
+}
+.issues-layouts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.issues-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px 8px;
+  border: 0;
+  /* On the popover's room, in its top corners: its corner less that room. */
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: var(--raised);
+  box-shadow:
+    0 0 0 1px var(--line2),
+    var(--e1);
+  color: var(--ink2);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    background-color 0.15s;
+}
+.issues-layout[aria-pressed="true"] {
+  background: var(--chosen-bg);
+  box-shadow: var(--chosen-shadow);
+  color: var(--ink);
+}
+html:not([data-pointer]) .issues-layout:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.issues-mini {
+  image-rendering: pixelated;
+}
+.issues-mini__well {
+  fill: var(--sunken);
+}
+.issues-mini__card {
+  fill: var(--raised);
+  stroke: var(--line2);
+  stroke-width: 0.5;
+}
+.issues-mini__ink {
+  fill: var(--ink);
+}
+.issues-display__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-inline: var(--popover-in);
+}
+.issues-display__row--col {
+  flex-direction: column;
+  align-items: stretch;
+}
+.issues-display__label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.issues-display__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.issues-display__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  /* Its words as far under the hairline as over the popover's edge. */
+  padding: 14px var(--popover-in) var(--popover-in);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.issues-display__foot > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.issues-display__foot .ac-icon {
+  color: var(--ok);
+}
+.issues-display__reset {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+}
+
+/* ── Board ──────────────────────────────────────────────────────────────── */
+/*
+ * The board scrolls sideways in its own box, with the kit's scrollbar always drawn along its bottom (no fade, no
+ * arrows: the bar, a drag on its empty space, shift and the wheel, a trackpad, a finger). The card drag scrolls it near
+ * its edges too. Where the page fills the window (`.page-split`, over-pages.css) that bottom is the window's and each
+ * column scrolls on its own, as Trello's lists do. The box runs out over the page's side room to the work area's
+ * edges, its first column on the page's line: the columns slide under those edges.
+ */
+.issues-boardframe {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.issues-boardwrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  margin: 0 calc(-1 * var(--page-x));
+  padding: 2px var(--page-x) 10px;
+  scroll-padding-inline: var(--page-x);
+}
+.issues-board {
+  --cw: 248px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-width: min-content;
+}
+.issues-board.is-grouped {
+  gap: 20px;
+}
+/* A stage holds its columns side by side; it grows with how many it has. */
+.issues-stage {
+  --n: 1;
+  flex: var(--n) 1 0;
+  min-width: calc(var(--n) * var(--cw) + (var(--n) - 1) * 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Stage header: neutral and quiet, only on a customized board. */
+.issues-stage__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--line2);
+  color: var(--muted);
+}
+.issues-stage__head h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.issues-stage__head span {
+  font-size: 12px;
+  color: var(--faint);
+}
+.issues-stage__cols {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.issues-col {
+  flex: 1 1 0;
+  min-width: var(--cw);
+  min-height: 180px;
+  padding: 8px;
+  border-radius: var(--radius-section);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+/* Where the moving card would land lights up. */
+.issues-col.is-over {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.issues-col.is-canceled {
+  opacity: 0.8;
+}
+/* Its icon, name and count on the middle of its 32 buttons ("+", "…"); a long name wraps, its first line there too. */
+.issues-col__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 40px;
+  padding: 2px 2px 8px 6px;
+  color: var(--muted);
+}
+.issues-col__head > .ac-icon {
+  margin-block: calc((var(--control-h-sm) - 16px) / 2);
+}
+.issues-col__head > .ac-avatar {
+  margin-block: calc((var(--control-h-sm) - 18px) / 2);
+}
+.issues-col__head h2 {
+  margin: 0;
+  min-width: 0;
+  padding-block: calc((var(--control-h-sm) - 20px) / 2);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 650;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.issues-col__head > .tabular {
+  font-size: 12.5px;
+  line-height: var(--control-h-sm);
+  color: var(--faint);
+}
+.issues-col__head .issues-col__grow {
+  flex: 1;
+}
+.issues-col__rename.ac-input {
+  flex: 1;
+  min-width: 0;
+  height: var(--control-h-sm);
+  border-radius: var(--control-r-sm);
+  font-size: 13px;
+  font-weight: 650;
+}
+.issues-col__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 24px;
+}
+.issues-col__slot {
+  display: flex;
+  flex-direction: column;
+}
+/* Empty: compact and calm; it says where a card would land only while one moves. */
+.issues-col__empty,
+.issues-col__drop {
+  margin: 0;
+  padding: 14px 8px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--faint);
+}
+.issues-col__drop {
+  color: var(--ink2);
+  font-weight: 600;
+}
+@media (min-width: 941px) and (min-height: 560px) {
+  .issues-board {
+    height: 100%;
+    align-items: stretch;
+  }
+  .issues-stage {
+    min-height: 0;
+  }
+  .issues-stage__cols {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+  /* As tall as its cards, up to the board's height: then its cards scroll under its head, "Nova tarefa" under them. */
+  .issues-col {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+  }
+  .issues-col > * {
+    flex-shrink: 0;
+  }
+  /* Out to the column's sides and bottom, so the scroll cuts no card's shadow, lift or focus ring. Contained neither
+     way: a sideways trackpad swipe over a column still slides the board, and a column scrolled to its end hands the
+     wheel to the page, which scrolls when what sits above squeezes the board. */
+  .issues-col > .issues-col__cards {
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: -4px -8px -8px;
+    padding: 4px 8px 8px;
+  }
+}
+.issue-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+  cursor: grab;
+  transition:
+    transform 0.22s var(--spring),
+    box-shadow 0.2s var(--out);
+}
+.issue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--e2), var(--top);
+}
+html:not([data-pointer]) .issue-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.issue-card.is-on {
+  background: var(--chosen-bg);
+  box-shadow: var(--chosen-shadow);
+  transform: var(--chosen-lift);
+}
+/* Over the sky an agent waiting on a person paints at the top: every part sits above it, the sweep along the bottom. */
+.issue-card > :not(.ac-approval__sky, .ac-work-sweep) {
+  position: relative;
+}
+.issue-card > .ac-approval__sky {
+  height: 64px;
+  transition: opacity 0.2s var(--out);
+}
+@starting-style {
+  .issue-card > .ac-approval__sky {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .issue-card > .ac-approval__sky {
+    transition: none;
+  }
+}
+/* The title is the card: whole, never cut, a word longer than the card (a link) broken where it must. */
+.issue-card__title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.issue-card[data-status="done"] .issue-card__title,
+.issue-card[data-status="canceled"] .issue-card__title {
+  color: var(--muted);
+}
+/* The red count of mentions of me sits with the conversation's count, a step past the fact's own gap. */
+.issue-card__facts .task-talk__mentions {
+  margin-inline-start: 2px;
+}
+/*
+ * Who has it and the one state, as one block of words: the face 24 on the name's capitals, the name, then the state
+ * 8 after it. A long name wraps under the face at the full width; the state moves whole to the next line.
+ */
+.issue-card__who {
+  --who-face: 24px;
+  display: block;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.issue-card__who > .ac-who > .ac-avatar {
+  margin-inline-end: var(--space-2);
+}
+.issue-card__who > .ac-who > b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+/* In the name's line of words, so they share one baseline; the space before it lets it move whole to the next line.
+   That space is 0.2em in the app's font: with it, 8 after the name. A state longer than the card (a stopped run's
+   reason) wraps inside itself on the line it then has to itself. */
+.issue-card__state {
+  display: inline-block;
+  max-width: 100%;
+  font-weight: 600;
+}
+.ac-who + .issue-card__state {
+  margin-inline-start: calc(var(--space-2) - 0.2em);
+}
+.issue-card__state > .ac-icon {
+  margin-inline-end: var(--space-1);
+}
+.issue-card__state[data-tone="warn"] {
+  color: var(--ink);
+}
+.issue-card__state[data-tone="warn"] > .ac-icon {
+  color: var(--warn);
+}
+.issue-card__state[data-tone="agent"] {
+  color: var(--agent);
+}
+
+/* ── List ───────────────────────────────────────────────────────────────── */
+.issues-group {
+  display: flex;
+  flex-direction: column;
+}
+.issues-group__col {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-section);
+  transition: background-color 0.18s;
+}
+.issues-group__col.is-over {
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+.issues-group__col + .issues-group__col {
+  margin-top: 6px;
+}
+/* A column's name inside its stage (customized board only): its group stands apart from the one above. */
+.issues-group__col + .issues-group__col:has(> .ac-grouphead) {
+  margin-top: var(--space-4);
+}
+.issue-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+}
+.issue-list li + li {
+  border-top: 1px solid var(--line);
+}
+/* The list clips its rows at its rounded corners: the first and last rows take them, so a picked or focused row's
+   ring is drawn whole there, not cut square. */
+.issue-list > li:first-child,
+.issue-list > li:first-child > .issue-list__row {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.issue-list > li:last-child,
+.issue-list > li:last-child > .issue-list__row {
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.issue-list__row {
+  position: relative;
+  display: grid;
+  /* The facts take what they need up to 40% of the row and wrap inside it: the title keeps the rest. */
+  grid-template-columns: 52px minmax(0, 1fr) fit-content(40%) minmax(0, 200px);
+  grid-template-areas: "num title facts who";
+  /* On one line of words: a part that wraps (a long title, a stopped run's reason) grows down from it. */
+  align-items: baseline;
+  gap: 4px 16px;
+  padding: 12px 14px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.issue-list__row:hover {
+  background: color-mix(in srgb, var(--sunken) 45%, transparent);
+}
+.issue-list__row.is-on {
+  background: color-mix(in srgb, var(--sunken) 80%, transparent);
+}
+html:not([data-pointer]) .issue-list__row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-inset);
+}
+.issue-list__num {
+  grid-area: num;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.issue-list__title {
+  grid-area: title;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.issue-list__row > .issue-card__facts {
+  grid-area: facts;
+  justify-content: flex-end;
+}
+/* Wide, the number has its own column. */
+.issue-list__row > .issue-card__facts > :first-child {
+  display: none;
+}
+.issue-list__row > .issue-card__who {
+  grid-area: who;
+}
+.issue-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* An empty group while a card moves: what a drop there does. */
+.issue-list__drop {
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+/* ── Moving cards (issue-drag.ts) ───────────────────────────────────────── */
+.issue-card,
+.issue-list__row {
+  cursor: grab;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+body.issues-dragging,
+body.issues-dragging * {
+  cursor: grabbing;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.issues [data-slot][hidden] {
+  display: none;
+}
+/* Sent back: hidden in its place until its copy lands there. */
+.issues [data-landing] {
+  visibility: hidden;
+}
+/* The copy under the pointer, above the page. */
+.issue-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--z-floating);
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: 30% 20%;
+}
+.issue-ghost > .issue-card,
+.issue-ghost .issue-list__row {
+  background: var(--raised);
+  box-shadow: var(--e3);
+}
+.issue-ghost > .issue-list {
+  box-shadow: var(--e3);
+}
+/* Where it would land: a well in fine pixels, the card's size and corners. */
+.issue-spot {
+  box-sizing: border-box;
+  flex: none;
+  border-radius: 16px;
+  background:
+    repeating-conic-gradient(color-mix(in srgb, var(--ink) 12%, transparent) 0 25%, transparent 0 50%) 0 0 / 4px 4px,
+    var(--sunken);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 18%, transparent);
+  transform-origin: top;
+}
+.issue-spot--row {
+  margin: 2px 0;
+  border-radius: 12px;
+  list-style: none;
+}
+/* Picked with Space: lifted and ringed while the arrows move it. */
+.issue-card.is-picked {
+  outline: none;
+  box-shadow:
+    var(--e3),
+    0 0 0 2px var(--ink);
+  transform: translateY(-3px) rotate(-1deg);
+  transition: transform 0.18s var(--spring);
+}
+/* A row sits in its list's clipped box: the ring goes inside. */
+.issue-list__row.is-picked {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.issues [data-count] {
+  display: inline-block;
+}
+.issue-burst {
+  position: fixed;
+  z-index: var(--z-floating);
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+@media (prefers-reduced-motion: reduce) {
+  .issue-card.is-picked {
+    transform: none;
+  }
+}
+
+/* ── New issue ──────────────────────────────────────────────────────────── */
+.issue-critprev {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sunken);
+}
+.issue-critprev ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--ink2);
+}
+.issue-critprev li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.issue-critprev li::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.issue-agent-note {
+  gap: 6px;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ── Columns: "Nova coluna" and "Excluir a coluna" ─────────────────────── */
+.issues-stagepick {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.issues-explain {
+  gap: 9px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--control-r-md);
+  background: var(--sunken);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink2);
+}
+.issues-explain .ac-icon {
+  color: var(--muted);
+}
+.issues-dests {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.issues-dests__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.issues-dests__stage > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+}
+.issues-dests__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.issues-dest {
+  height: var(--control-h-sm);
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: var(--field-bg);
+  box-shadow: inset 0 0 0 1px var(--field-line);
+  color: var(--ink2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+}
+.issues-dest[aria-checked="true"] {
+  box-shadow: inset 0 0 0 2px var(--ink);
+  color: var(--ink);
+}
+html:not([data-pointer]) .issues-dest:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Details: the details dialog, or the task's page ───────────────────── */
+.issue-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.issue-details__head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.issue-details__title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.issue-details__count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+.issue-description {
+  margin: 0;
+}
+.issue-criterion {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 2px;
+  font-size: 14px;
+}
+.issue-criterion label {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.issue-criterion[data-done] label {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line2);
+}
+/* On the criterion's first line (the row's 22px line), however many lines the criterion takes. */
+.issue-criterion__by {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  height: 22px;
+  font-size: 11.5px;
+  color: var(--faint);
+}
+/*
+ * The dialog's bar: "#131" inline before the title, a word's gap from it, so a long title wraps under the number
+ * instead of in a column beside it, and the pencil after its last word. Its field, while edited, sits beside the
+ * number. The bar's ⋯ and × follow on the title's first line, 16 after it.
+ */
+.ac-details__eyebrow:has(> .issue-bartitle) {
+  font-size: 20px;
+}
+.issue-bartitle {
+  flex: 1;
+  min-width: 0;
+  padding-right: 36px;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--ink);
+}
+.issue-bartitle:has(> .issue-inplace__title) {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-right: 0;
+}
+.issue-bartitle__number {
+  margin-right: 6px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.issue-bartitle__number:has(+ .issue-inplace__title) {
+  flex: none;
+  margin-right: 0;
+}
+/* The title's plate (on hover) on its words' lines, never on "#131" or on "Salvo". */
+.issue-bartitle > .issue-inplace {
+  display: inline;
+  position: static;
+  margin: 0;
+  padding: 2px 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.issue-bartitle .issue-details__title {
+  display: inline;
+}
+/* The pencil takes no room in the line (its room is the title's end padding), so it never wraps to a line alone. */
+.issue-bartitle .issue-inplace__pen {
+  position: relative;
+  inset: auto;
+  margin: -2px -36px -2px 4px;
+  vertical-align: top;
+}
+.issue-bartitle > .issue-inplace__title {
+  flex: 1;
+  min-width: 0;
+  margin-inline: 0;
+}
+.issue-bartitle .issue-details__title,
+.issue-bartitle .issue-inplace__title {
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+}
+/* "Saved" on the title's last line, hung from its top, so the empty slot never moves the line. */
+.issue-bartitle__saved {
+  height: 28px;
+  vertical-align: top;
+}
+/* "✓ Salvo" (SavedNote) at the end of the source line. */
+.issue-details__saved {
+  margin-left: 8px;
+  vertical-align: -1px;
+}
+/* Text edited where it is (title, description): on hover a soft plate and the pencil; a press opens the field. */
+.issue-inplace {
+  position: relative;
+  margin: -6px -10px;
+  padding: 6px 44px 6px 10px;
+  border-radius: var(--radius-md);
+  cursor: text;
+  transition: background 0.15s;
+}
+.issue-inplace:hover {
+  background: var(--plate-soft);
+}
+.issue-inplace__pen {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.issue-inplace:hover .issue-inplace__pen,
+.issue-inplace:focus-within .issue-inplace__pen {
+  opacity: 1;
+}
+/* The title's field: the same size and place as the title it replaces (a channel's name field, larger). */
+.issue-inplace__title {
+  box-sizing: border-box;
+  width: calc(100% + 20px);
+  margin: -6px -10px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--field-bg);
+  box-shadow:
+    inset 0 0 0 1px var(--field-line),
+    var(--field-ring);
+  color: var(--ink);
+  font: inherit;
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  outline: none;
+}
+/* A criterion: its pencil shows on hover (or when the keyboard reaches it). */
+.issue-criterion__pen {
+  flex: none;
+  margin: -5px 0 -5px auto;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.issue-criterion:hover .issue-criterion__pen,
+.issue-criterion:focus-within .issue-criterion__pen {
+  opacity: 1;
+}
+/* No hover on touch: the pencil a tap reaches is always there. */
+@media (hover: none) {
+  .issue-criterion__pen {
+    opacity: 1;
+  }
+}
+.issue-criterion--edit {
+  background: var(--sunken);
+}
+/*
+ * The task's fields as one strip at its top (`.ac-props`): Coluna, Responsável, Prioridade, Prazo and Quem vê, each its
+ * icon or face and its value, the name on hover; then its pull requests, labels and GitHub link.
+ */
+.issue-props {
+  margin: 0;
+}
+.issue-prop {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+}
+.issue-props .issue-github__chip,
+.issue-props .issue-link {
+  font-size: 13.5px;
+}
+/* A label's or the link's name wraps inside its chip rather than ending in "…": it says which one it is. Lines of 18
+   with 2 above and below keep one line at the chip's 22. */
+.issue-props :is(.issue-github__chip, .issue-label) {
+  height: auto;
+  min-height: 22px;
+  padding-block: 2px;
+  line-height: 18px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* Wrapped, the mark stays on the first line's capitals. */
+.issue-props .issue-github__chip {
+  align-items: flex-start;
+}
+.issue-props .issue-github__chip > svg {
+  flex: none;
+  translate: 0 calc(9px - var(--cap-mid) - 50%);
+}
+.issue-props .issue-github__chip > .ac-chip__text {
+  text-overflow: clip;
+}
+.issue-props .issue-link {
+  color: var(--ink2);
+}
+.issue-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.issue-link:hover {
+  text-decoration: underline;
+}
+.issue-github {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.issue-github__chip {
+  max-width: 100%;
+  color: var(--ink);
+  text-decoration: none;
+}
+.issue-github__chip:hover {
+  background: var(--sunken);
+}
+/* "GitHub": pasting the link, a field and its button in the popover. The menu's room, the field further in, Salvar on
+   the room in its corner: the room also holds Salvar's grown touch target, so nothing scrolls by a sliver. */
+.issue-github__pop.ac-popover {
+  --menu-pad: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: min(360px, calc(100vw - 32px));
+  padding: var(--menu-pad);
+}
+.issue-github__field {
+  margin: var(--popover-in) var(--popover-in) 0;
+}
+.issue-github__acts {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* The agent's work: live steps, or stalled. */
+.issue-work {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 12px 16px;
+  border-radius: 16px;
+  background: var(--sunken);
+  overflow: hidden;
+}
+.issue-work.is-stalled {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+  padding-bottom: 12px;
+}
+/* The face and Stop on the title's first line (`.ac-iconline`), when the title wraps too. */
+.issue-work__head {
+  gap: 10px;
+}
+.issue-work__tail {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+.issue-work__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.issue-work__text b {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.issue-work__text small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.issue-work__last {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.issue-work__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.issue-work__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.issue-work__steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.issue-work__steps li span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-work__steps li.is-current {
+  color: var(--ink);
+  font-weight: 600;
+}
+.issue-work__steps time {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.issue-work__dot {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--raised);
+  color: var(--ink2);
+}
+.is-current .issue-work__dot {
+  background: var(--agent);
+  /* Dark's agent blue is light: its own ink, not white. */
+  color: var(--on-agent);
+}
+
+/* Background work in a task's details (IssueWorkBlock): its line starts on the panel's own gap and spans the
+   column as the sections do (in a conversation it keeps the message card's width and its air above). */
+.issue-work-block > .ac-workline {
+  margin-top: 0;
+  max-width: none;
+}
+
+/* "Pedir a um agente". */
+.issue-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+/* A MediaRow: the face and the ask on one line, what it does under them; the two read as one. */
+.issue-ask__row {
+  row-gap: 4px;
+}
+.issue-ask__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+/* A compact control of the ruler (32px, its radius), beside the small button it follows. */
+.issue-ask__other {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--control-h-sm);
+  padding: 0 10px 0 6px;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  color: var(--ink2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+}
+.issue-ask__other:hover {
+  box-shadow: var(--e2), var(--top);
+}
+html:not([data-pointer]) .issue-ask__other:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Activity events. */
+/* Events sit on the comments' avatar column: the icon centered under a 36px avatar, the words beside it; the icon
+   stays on the first line when the words wrap (`.ac-iconline`). */
+.issue-event {
+  gap: 18px;
+  padding: 4px 4px 4px 10px;
+}
+.issue-event__who {
+  color: var(--ink);
+}
+.issue-event__auto {
+  margin-left: 6px;
+  height: 18px;
+  font-size: 10.5px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .issues-board {
+    --cw: 78vw;
+  }
+  .issues-boardwrap {
+    scroll-snap-type: x mandatory;
+  }
+  .issues-col {
+    scroll-snap-align: start;
+  }
+  /* A strip that scrolls clips what it holds at its padding edge: out to the work area's edges as the board is, the
+     room up and down keeping the cards' rings and focus whole, the negative margin keeping the cards where they were. */
+  .issues-now__list {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: minmax(78vw, 1fr);
+    margin: -4px calc(-1 * var(--page-x)) -8px;
+    padding: 4px var(--page-x) 8px;
+    scroll-padding-inline: var(--page-x);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .issues-now__list::-webkit-scrollbar {
+    display: none;
+  }
+  /* Stacked as a card: the title, its facts with the number among them, who has it. */
+  .issue-list__row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .issue-list__num {
+    display: none;
+  }
+  .issue-list__row > .issue-card__facts {
+    justify-content: flex-start;
+  }
+  .issue-list__row > .issue-card__facts > :first-child {
+    display: inline-flex;
+  }
+}
+
+/* ── Nova tarefa: rápida (uma caixa) e completa (o formulário da tarefa) ─── */
+.issue-new__quick {
+  gap: 8px;
+}
+.issue-new__title {
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  padding: 4px 0;
+  outline: none;
+}
+.issue-new__title--lg {
+  font-size: 24px;
+  line-height: 1.25;
+}
+.issue-new__title::placeholder,
+.issue-new__text::placeholder,
+.issue-new__criterion input::placeholder {
+  color: var(--faint);
+}
+.issue-new__text {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 96px;
+  max-height: 40vh;
+  field-sizing: content;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  line-height: 23px;
+  resize: none;
+  padding: 0;
+  outline: none;
+}
+.issue-new__files.ac-composer__attachments {
+  padding: 4px 0;
+}
+.issue-new__hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+/* Nova tarefa's strip (`.ac-props`): in the quick form, under the text and its files, after a hairline. Its date reads
+   as the buttons beside it do, their ink and weight. */
+.issue-new__quick > .issue-new__props {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.issue-new__props .ac-date__trigger {
+  font-weight: 600;
+  color: var(--ink);
+}
+.issue-new__props .ac-date__placeholder {
+  color: inherit;
+}
+.issue-new__grow {
+  flex: 1;
+}
+.issue-new__again {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+/* Files dragged over the dialog: the whole card takes them. */
+.issue-new__drop {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--surface-raised) 90%, transparent);
+  box-shadow: inset 0 0 0 2px var(--line-strong);
+  pointer-events: none;
+}
+.issue-new__drop-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.issue-new__drop-in b {
+  font-size: 15px;
+  color: var(--ink);
+}
+/* The full form: one column, its fields as the strip under the title. */
+.issue-new__wide {
+  padding: 0;
+}
+.issue-new__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 0 var(--dialog-pad) var(--dialog-pad);
+}
+.issue-new__editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--field-bg, var(--surface-raised));
+  box-shadow: 0 0 0 1px var(--field-line, var(--line));
+}
+.issue-new__editor:focus-within {
+  box-shadow: var(--focus-ring);
+}
+.issue-new__images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.issue-new__image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--sunken);
+  box-shadow: var(--e1), var(--top);
+}
+.issue-new__image img {
+  display: block;
+  max-width: 100%;
+  max-height: 240px;
+}
+.issue-new__image[data-status="uploading"] img {
+  opacity: 0.5;
+}
+.issue-new__image-state {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.issue-new__image-name {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  max-width: calc(100% - 16px);
+  padding: 2px 8px;
+  border-radius: var(--radius-item);
+  background: var(--glass-solid);
+  box-shadow: var(--e1);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-new__criteria {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.issue-new__criterion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 4px 0 6px;
+  border-radius: var(--radius-md);
+}
+.issue-new__criterion:hover,
+.issue-new__criterion:focus-within {
+  background: var(--sunken);
+}
+.issue-new__criterion input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  padding: 4px 0;
+  outline: none;
+}
+.issue-new__criterion--add {
+  color: var(--ink-muted);
+}
+.issue-new__box {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+/* The face on the sentence's first line (`.ac-iconline`). */
+
+/* ── A tarefa: abas, arquivos sob a descrição, Anexos, Histórico ───────── */
+.issue-details .ac-tabpanel {
+  gap: 16px;
+}
+/* The labels 16 under the header's last line, as the spec's header, toolbar and content are: the strip's own 8 of top
+   room makes the rest. */
+.issue-details .ac-tabs {
+  margin-top: -8px;
+}
+.issue-description__files {
+  margin-top: 4px;
+}
+.issue-history {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.issue-files {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: var(--radius-lg);
+}
+.issue-files[data-over] {
+  box-shadow: 0 0 0 2px var(--line-strong);
+}
+.issue-files__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.issue-files__grow {
+  flex: 1;
+}
+.issue-files__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.issue-file {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--e1), var(--top);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+button.issue-file {
+  cursor: pointer;
+  transition: box-shadow 0.2s var(--out);
+}
+button.issue-file:hover {
+  box-shadow: var(--e2), var(--top);
+}
+html:not([data-pointer]) button.issue-file:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+.issue-file[data-status="failed"] {
+  box-shadow: 0 0 0 2px var(--danger);
+}
+.issue-file__thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--sunken);
+  color: var(--ink-muted);
+}
+.issue-file__thumb > .drive-pv {
+  width: 100%;
+  border-radius: 0;
+}
+.issue-file__thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.issue-file[data-status="uploading"] .issue-file__thumb > img {
+  opacity: 0.5;
+}
+.issue-file__state {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.issue-file__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding: 8px 10px 9px;
+}
+.issue-file__name {
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-file__meta {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-file__remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--glass-solid);
+  box-shadow: var(--e1);
+  color: var(--ink);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.issue-file:hover .issue-file__remove,
+.issue-file__remove:focus-visible {
+  opacity: 1;
+}
+@media (hover: none) {
+  .issue-file__remove {
+    opacity: 1;
+  }
+}
+.issue-files__add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 150px;
+  padding: 12px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--sunken);
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+}
+.issue-files__add:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .issue-files__add:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+.issue-files__add b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.issue-files__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.issue-files__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.issue-files__row:last-child {
+  border-bottom: 0;
+}
+/* Download reaches out by its plate: its icon ends on the hairline's edge, as the name starts on it. */
+.issue-files__row > .ac-btn--ghost:last-child {
+  margin-inline-end: calc(-1 * var(--ghost-plate));
+}
+.issue-files__open {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+html:not([data-pointer]) .issue-files__open:focus-visible {
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+.issue-files__name,
+.issue-files__from {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-files__name {
+  font-weight: 600;
+}
+.issue-files__noprev {
+  flex: none;
+  width: 54px;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background: var(--sunken);
+}
+@media (max-width: 640px) {
+  .issue-files__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .issue-files__from,
+  .issue-files__size {
+    display: none;
+  }
+}
+
+/* A task's conversation (ADR 0145): its count on the card and the row, its line and its panel in the details. */
+/* Where "Discussão" was: one line that opens the conversation. */
+.task-talk__summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--plate-soft);
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.task-talk__summary:hover {
+  background: var(--plate);
+}
+html:not([data-pointer]) .task-talk__summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.task-talk__summary b {
+  color: var(--ink);
+  font-weight: 650;
+}
+.task-talk__open {
+  margin-left: auto;
+  color: var(--ink);
+  font-weight: 600;
+}
+.task-talk__chev {
+  flex: none;
+}
+.task-talk__summary > span:only-of-type {
+  flex: 1;
+}
+.task-talk__toggle .ac-countchip {
+  margin-left: 2px;
+}
+/* A reply I haven't read in it: the label in ink and heavier, as an unread channel's name. A ghost button is already
+   600 in the muted color, so weight alone would change nothing. */
+.task-talk__toggle[data-unread] {
+  color: var(--ink);
+  font-weight: 700;
+}
+/* Mentions of me not read there: the sidebar's red count (`.sidebar__unread`), on the button, a card and a row. */
+.task-talk__mentions {
+  flex: none;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--danger);
+  color: var(--raised);
+  font-size: 11.5px;
+  font-weight: 700;
+  font-variant-numeric: normal;
+}
+/* The task's own page with its conversation: the details and the thread panel side by side. */
+.issue-page__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.issue-page__tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* "Tasks" and "Conversation" sit a step above the details, never on the fields card. */
+.issue-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.ac-details__side > .thread-panel__chat {
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+}
+.issue-subl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.issue-subl li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 6px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: inherit;
+  text-decoration: none;
+}
+.issue-subl li a:hover {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.issue-subl__num {
+  width: 38px;
+  font-size: 12.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.issue-subl__tx {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issue-subl__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--muted);
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "routines" ADD COLUMN "own_actions" jsonb DEFAULT '[]'::jsonb NOT NULL;

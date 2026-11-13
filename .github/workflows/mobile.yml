@@ -1,0 +1,54 @@
+name: Mobile build (EAS)
+
+# Builds the phone app on EAS. Runs only by hand (Actions → Run workflow),
+# so builds spend the EAS quota on purpose; skips quietly without the EXPO_TOKEN secret.
+# Verification of the app's code (lint, typecheck, unit tests) runs in ci.yml like everything else.
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "EAS build profile"
+        type: choice
+        options: [preview, development, production]
+        default: preview
+      platform:
+        description: "Platform"
+        type: choice
+        options: [all, ios, android]
+        default: all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mobile-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Skip without EXPO_TOKEN
+        if: env.EXPO_TOKEN == ''
+        run: echo "EXPO_TOKEN is not set; skipping the EAS build."
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: env.EXPO_TOKEN != ''
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        if: env.EXPO_TOKEN != ''
+        with:
+          bun-version-file: package.json
+      - run: bun install --frozen-lockfile
+        if: env.EXPO_TOKEN != ''
+      - uses: expo/expo-github-action@c7b66a9c327a43a8fa7c0158e7f30d6040d2481e # 8.2.1
+        if: env.EXPO_TOKEN != ''
+        with:
+          eas-version: 25.3.0
+          token: ${{ secrets.EXPO_TOKEN }}
+          packager: bun
+      - name: EAS build
+        if: env.EXPO_TOKEN != ''
+        working-directory: apps/mobile
+        run: eas build --profile "${{ inputs.profile || 'preview' }}" --platform "${{ inputs.platform || 'all' }}" --non-interactive --no-wait

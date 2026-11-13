@@ -1,0 +1,362 @@
+/* Sign in / sign up: one calm question at a time, the sky's horizon below */
+.auth {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  /* biome-ignore lint/suspicious/noDuplicateProperties: dvh with a vh fallback for older browsers */
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 96px 16px 30vh;
+  background: var(--bg);
+}
+.auth__horizon {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 34vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.auth__logo {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+}
+.auth__lang {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+}
+.auth__col {
+  width: 100%;
+  max-width: 460px;
+  margin: auto 0;
+}
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+/* The host's face on a line of its own, the bubble under it at the column's width, its small corner under the face:
+   a face never owns a column beside the bubble's lines. */
+.auth__ask {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.auth__ask .ac-avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+}
+.auth__bubble {
+  position: relative;
+  align-self: stretch;
+  min-width: 0;
+  padding: 16px 20px;
+  border-radius: 6px var(--radius-section) var(--radius-section) var(--radius-section);
+  background: linear-gradient(180deg, var(--card-face-top), var(--surface-raised) 64px);
+  box-shadow: var(--card-shadow);
+  transition:
+    opacity 0.3s var(--out),
+    transform 0.3s var(--out);
+}
+.auth__title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  /* Two short lines of a length: "pretty" still ended a line on "e-" and began the next with "mail". */
+  text-wrap: balance;
+}
+.auth__lead {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.auth__step {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition:
+    opacity 0.36s var(--out) 0.06s,
+    transform 0.36s var(--out) 0.06s;
+}
+/* The entrance is a transition from the starting style, not a keyframe animation: it plays once, when the element is
+   inserted (a new step by its key). A keyframe animation replays whenever its `animation` is reset, and password
+   managers do that to an input's container while they place their icon in the field (Proton Pass sets
+   `animation: none !important` inline, then removes it), so the step faded in again on every empty <-> typed edge. */
+@starting-style {
+  .auth__bubble,
+  .auth__step,
+  .auth__fix {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+/* Reduced motion: they fade in where they stand. */
+@media (prefers-reduced-motion: reduce) {
+  @starting-style {
+    .auth__bubble,
+    .auth__step,
+    .auth__fix {
+      transform: none;
+    }
+  }
+}
+.auth__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* The screen's one field is its main control: the ruler's 48 (as onboarding's), above the 48 button that sends it. */
+.auth__big.ac-input {
+  height: var(--control-h-lg);
+  padding: 0 18px;
+  border-radius: var(--control-r-lg);
+  font-size: 17px;
+}
+.auth__pass {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.auth__pass .auth__big.ac-input {
+  padding-right: calc(var(--control-h-lg) - (var(--control-h-lg) - var(--control-h-sm)) / 2);
+}
+/* As far from the field's end as from its top and bottom (48 less the button's 32, halved), its corner the field's 14
+   less that room. */
+.auth__eye.ac-btn {
+  position: absolute;
+  right: calc((var(--control-h-lg) - var(--control-h-sm)) / 2);
+  border-radius: calc(var(--control-r-lg) - (var(--control-h-lg) - var(--control-h-sm)) / 2);
+}
+.auth__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  max-width: 100%;
+  height: 32px;
+  padding: 0 6px 0 12px;
+  border-radius: 10px;
+  background: var(--surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13.5px;
+  color: var(--ink);
+}
+.auth__who-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The desktop app's line over the sign-in: which server it signs in to (ADR 0158), the server's name in the ink. */
+.auth__server {
+  color: var(--muted);
+}
+.auth__server b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.auth__who-change,
+.auth__fix,
+.auth__quiet {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.auth__who-change {
+  flex: none;
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.auth__who-change:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+.auth__fix {
+  align-self: flex-start;
+  height: var(--control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--control-r-sm);
+  background: var(--surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  transition:
+    opacity 0.25s var(--out),
+    transform 0.25s var(--out);
+}
+.auth__fix:hover {
+  background: var(--plate);
+}
+.auth__quiet {
+  align-self: center;
+  height: var(--control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--control-r-sm);
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.auth__quiet:hover {
+  color: var(--ink);
+  background: var(--plate);
+}
+html:not([data-pointer]) .auth__who-change:focus-visible,
+html:not([data-pointer]) .auth__fix:focus-visible,
+html:not([data-pointer]) .auth__quiet:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.auth__help {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.auth__help--ok {
+  color: var(--ok);
+}
+.auth__help--bad {
+  color: var(--danger);
+}
+/* A new password's length in pixels: one cell per character up to the 8 needed */
+.auth__meter {
+  display: inline-flex;
+  gap: 3px;
+}
+.auth__meter i {
+  width: 10px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--line2);
+  transition: background 0.2s;
+}
+.auth__meter i[data-on] {
+  background: var(--ink);
+}
+.auth__meter[data-done] i {
+  background: var(--ok);
+}
+.auth__caps {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.auth__error {
+  gap: 6px;
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--danger);
+}
+.auth-social {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth-social__mark {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+/* "Último usado" belongs to the button above it: tight under it, the next button at the list's own gap. */
+.auth-social__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.auth-social__last {
+  justify-content: center;
+  gap: 4px;
+  font-size: 12.5px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.auth__fine {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--faint);
+  text-align: center;
+  text-wrap: balance;
+}
+/* The sign-in code the person matches between the app window and the browser. */
+.auth__code {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 2px;
+}
+.auth__codeValue {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+}
+.auth__fine a {
+  color: var(--muted);
+}
+/* A screen in place of the app (a suspended workspace, an account waiting for its deletion): the other workspaces
+   stacked under their heading, and deleting the account apart at the foot (ADR 0088 §10). */
+.auth__ways,
+.auth__apart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.auth__ways > h2,
+.auth__apart > h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+  color: var(--muted);
+}
+.auth__apart {
+  align-items: flex-start;
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+.auth__apart > p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+/* "Já tem conta? Entrar" under a form (the invitation page) */
+.auth__foot {
+  margin: 8px 0 0;
+  text-align: center;
+  color: var(--ink-muted);
+}
+@media (max-width: 560px) {
+  .auth {
+    padding-top: 80px;
+  }
+  .auth__logo {
+    left: 16px;
+  }
+  .auth__title {
+    font-size: 19px;
+  }
+}

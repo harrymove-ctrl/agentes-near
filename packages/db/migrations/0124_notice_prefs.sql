@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "notice_prefs" jsonb DEFAULT '{}'::jsonb NOT NULL;

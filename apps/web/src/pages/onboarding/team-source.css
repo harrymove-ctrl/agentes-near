@@ -1,0 +1,34 @@
+/*
+ * The onboarding's team step bringing agents from another app (ADR 0162, ADR 0055): the import page's source cards
+ * as the step's answers, each with its radio where a pressed card shows its check, then "No agents yet" on a row of
+ * its own under them, so the cards' grid never ends on a lone card.
+ */
+.onb-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* The step's column takes three cards a row at any width: the nine apps fill three rows. */
+.onb__body .imp-sources {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.onb__body .imp-sources > .imp-source.onb-source {
+  grid-column: auto;
+}
+.onb-source > .ac-radio {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.onb-source .ac-option__title {
+  overflow-wrap: anywhere;
+}
+/* "I don't use any yet" names the workspace: a name with one long word breaks inside the card, never past the screen. */
+.onb-sources .ac-option__desc {
+  overflow-wrap: anywhere;
+}
+/* The request and the pasted answer: a few lines tall from the start, the step scrolling instead of the field. */
+.onb__body .imp-other__prompt.ac-input {
+  min-height: 132px;
+  resize: none;
+}

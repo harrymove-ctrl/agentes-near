@@ -1,0 +1,1012 @@
+/*
+ * Dashboards (ADR 0135 §14): the list of boards, a board's page, and the dialogs that make and share them (New
+ * widget, New dashboard, Share). Widgets themselves are drawn by `packages/ui` (`widgets.css`); the tones here come
+ * from `widgetTileVars`: `--wg-s` the agent's stroke, `--wg-tile` its 2px dither tile.
+ */
+
+/* ── The list ───────────────────────────────────────────────────────────── */
+.db-group {
+  display: flex;
+  flex-direction: column;
+}
+/* With only "My Home": the first-dashboard empty state right under it, not centred in the rest of the window. */
+.db-empty {
+  flex: none;
+  min-height: 0;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+}
+.db-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 980px) {
+  .db-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .db-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.db-card {
+  --card-pad: 0;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+.db-card:hover {
+  transform: translateY(-1px);
+}
+html:not([data-pointer]) .db-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* Its rows share the picture's height inside its padding (a third one is shorter, never cut at the card's edge), and
+   an empty board's dashed tile fills the picture. */
+.db-thumb {
+  display: grid;
+  grid-auto-rows: minmax(0, 26px);
+  gap: 4px;
+  height: 96px;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--sunken);
+}
+.db-thumb__tile {
+  border: 1.5px solid var(--wg-s);
+  border-radius: 5px;
+  background: var(--wg-tile) 0 0 / 8px 8px;
+  image-rendering: pixelated;
+  opacity: 0.85;
+}
+.db-thumb:has(> .db-thumb__tile--empty) {
+  grid-auto-rows: 1fr;
+}
+.db-thumb__tile--empty {
+  border-style: dashed;
+  border-color: var(--line-strong);
+  background: none;
+}
+.db-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px 14px;
+  min-width: 0;
+}
+.db-card__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--ink);
+  min-width: 0;
+}
+.db-card__title .ac-icon {
+  flex: none;
+  color: var(--muted);
+}
+/* The board on Início: a chip under its title. */
+.db-card__home {
+  align-self: flex-start;
+}
+.db-card__name {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.db-card__meta > span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── A board's page ─────────────────────────────────────────────────────── */
+.db-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.db-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  align-self: flex-start;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+}
+.db-crumb:hover {
+  color: var(--ink);
+}
+.db-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.db-dot {
+  color: var(--faint);
+}
+.db-vis {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  background: var(--plate);
+  font-weight: 600;
+  color: var(--ink2);
+}
+.db-vis__role {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.db-vis__role + .db-vis__role {
+  margin-left: 4px;
+}
+.db-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* An agent's request to publish the board (ADR 0135 §11): a line in its tone above the grid. */
+/* A MediaRow: the agent's face and what it asks on one line, its two buttons at that line's end (under the words in a
+   banner under 480px), for whom and why under them. */
+.db-proposal {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--surface-raised);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wg-s) 30%, transparent);
+  container-type: inline-size;
+}
+.db-proposal__text {
+  gap: 0;
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.db-proposal__why {
+  color: var(--muted);
+}
+
+/* ── Dialogs: shared fields ─────────────────────────────────────────────── */
+.db-form {
+  display: contents;
+}
+.db-dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap);
+  overflow: auto;
+}
+.db-f {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.db-lbl {
+  display: block;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.db-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.db-grow {
+  flex: 1;
+}
+.db-opts {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.db-opts > * + * {
+  border-top: 1px solid var(--line);
+}
+/* Each a MediaRow: the audience's tile, its name and its radio on one line, who it covers under them. */
+.db-opt {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.db-opt:hover {
+  background: color-mix(in srgb, var(--sunken) 45%, transparent);
+}
+.db-opt[data-state="checked"] {
+  background: color-mix(in srgb, var(--sunken) 70%, transparent);
+}
+.db-opt[data-disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+.db-opt__icon {
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--plate);
+  color: var(--ink2);
+}
+.db-opt .db-opt__title {
+  font-weight: 650;
+}
+.db-opt__hint {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.db-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 14px 14px;
+  background: color-mix(in srgb, var(--sunken) 70%, transparent);
+}
+.db-opts > .db-roles {
+  border-top: 0;
+}
+.db-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 6px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+.db-role .ac-rolemark {
+  opacity: 0.4;
+}
+.db-role small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.db-role[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.db-role[aria-pressed="true"] .ac-rolemark {
+  opacity: 1;
+}
+html:not([data-pointer]) :is(.db-role, .db-sug, .db-pick):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* An `.ac-iconline`: its icon sits on the first line's capitals' middle. */
+.db-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--muted);
+}
+.db-people {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  max-height: 280px;
+  overflow: auto;
+}
+/* Each a MediaRow: the face, the name and its roles on one line, what they may do at its end. */
+.db-people li {
+  padding: 9px 14px;
+}
+.db-people li + li {
+  border-top: 1px solid var(--line);
+}
+.db-people li[data-on="false"] {
+  opacity: 0.5;
+}
+.db-people__can {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+
+/*
+ * ── New widget ─────────────────────────────────────────────────────────
+ * The card is the form (ADR 0135 §3): one large widget on a dotted stage. The ask is written in its body; its parts
+ * that open something (the agent, the schedule, the format, the bell) read as quiet text until the pointer or the
+ * keys reach them. Under the stage, the dialog's footer: where it goes, Cancel and the one next step.
+ */
+.nw.ac-dialog {
+  max-height: calc(100dvh - 32px);
+}
+.nw .nw-body {
+  flex: 1 1 auto;
+  padding: 4px var(--dialog-pad) 18px;
+}
+.nw-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--ink) 12%, transparent) 1px, transparent 1.2px) 0 0 / 16px 16px,
+    var(--sunken);
+}
+.nw-stage > * {
+  flex: none;
+}
+.nw-foot {
+  border-top: 1px solid var(--line);
+}
+.nw-dest {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.nw-hint {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+/* An `.ac-iconline`: its icon sits on the first line's capitals' middle. */
+.nw-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  max-width: 100%;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+  text-align: center;
+}
+.nw-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.nw-quiet:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .nw-quiet:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* The card itself: the board's widget, raised on the stage; S keeps a column's width, M and L the stage's. */
+.nwc.wg {
+  width: 100%;
+  min-height: 0;
+  background: var(--raised);
+  box-shadow: var(--e2);
+  transition: width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.nwc.wg:hover {
+  box-shadow: var(--e2);
+}
+.nwc[data-size="s"] {
+  width: min(300px, 100%);
+}
+.nwc .wg__head {
+  padding-top: 12px;
+  padding-right: 12px;
+}
+.nwc[data-size="l"] .wg__body {
+  min-height: 220px;
+}
+.nwc[data-size="l"] :is(.wk-bars, .wk-build__dither) {
+  height: 200px;
+}
+.nwc .wg__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nwc[data-stale] .nwc-content,
+.nwc-was[data-stale] {
+  opacity: 0.38;
+  filter: grayscale(0.7);
+}
+.nwc[data-stale] .wg__bleed {
+  opacity: 0.38;
+  filter: grayscale(0.7);
+}
+.nwc .nw-build .wk-build__dither {
+  height: 96px;
+}
+/* What its agent is at, under the dither; past a while, one quiet line more opens under it. */
+.nw-build__words {
+  align-self: stretch;
+  min-width: 0;
+}
+.nw-build__step {
+  overflow-wrap: anywhere;
+}
+.nw-build__step > span {
+  animation: ac-fade-in 200ms ease-out both;
+}
+.nw-build__still {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.25s ease,
+    margin-top 0.25s ease,
+    opacity 0.25s ease;
+}
+.nw-build__still[data-on] {
+  grid-template-rows: 1fr;
+  margin-top: var(--space-1);
+  opacity: 1;
+}
+.nw-build__still > p {
+  min-height: 0;
+  overflow: hidden;
+  color: var(--muted);
+}
+/* The build's footer: who is at it, for how long, and the way out at its end. */
+.nwc-clock {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+.nwc-stop {
+  flex: none;
+  margin-left: auto;
+}
+.nwc[data-size="s"] .nwc-building {
+  display: none;
+}
+/* The title, written on the card: quiet text until the pointer or the keys reach it. */
+.nwc__title {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: -3px -6px;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink2);
+  outline: none;
+  text-overflow: ellipsis;
+}
+.nwc__title:hover {
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+.nwc__title:focus {
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--focus-ring);
+}
+.nwc__title::placeholder {
+  font-weight: 500;
+  color: var(--faint);
+}
+.nwc__badge {
+  display: inline-flex;
+  flex: none;
+  color: var(--ok);
+}
+.nwc[data-size="s"] .nwc-bell > span {
+  display: none;
+}
+.nwc .wg__head .ac-seg {
+  flex: none;
+}
+/* The ask changed since the test: what Create would make isn't what shows. */
+.nwc__stale {
+  align-items: center;
+  margin: 8px 12px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--warn-soft);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink);
+}
+/* Its icon on the first line of the words (`.ac-iconline`), an `.ac-actline`: Testar de novo goes under them when they
+   don't fit beside it, from the words' edge (past the icon). */
+.nwc__stale .ac-iconline > .ac-icon {
+  color: var(--warn);
+}
+.nwc__stale > .ac-btn {
+  margin-inline-start: calc(16px + var(--icon-gap));
+}
+/* The ask, written in the card's body. */
+.nwc-ask {
+  width: 100%;
+  min-height: 56px;
+  box-sizing: border-box;
+  padding: 6px 0 4px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 550;
+  line-height: 24px;
+  color: var(--ink);
+  resize: none;
+  outline: none;
+}
+.nwc-ask::placeholder {
+  font-weight: 500;
+  color: var(--faint);
+}
+html:not([data-pointer]) .nwc-ask:focus-visible {
+  border-radius: 6px;
+  box-shadow: var(--focus-ring);
+}
+.nwc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+.nwc-row--format {
+  margin-top: auto;
+}
+/* After the test: the ask as one line that opens it again. */
+.nwc-asked {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  margin: -3px -6px;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.nwc-asked > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+/* The ask is shown whole: when it and the row's choices don't fit side by side, the choices go under it. */
+.nwc-row:has(> .nwc-asked) {
+  flex-wrap: wrap;
+}
+.nwc-row > .nwc-asked {
+  flex: 1 1 200px;
+}
+/* An icon is a box one line tall, so it stays on the ask's first line when the ask wraps. */
+.nwc-asked .ac-icon {
+  flex: none;
+  box-sizing: content-box;
+  padding-block: 4px;
+}
+.nwc-asked:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .nwc-asked:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* A part of the card that opens something (the format, the schedule): quiet text with a small chevron. */
+.nwc-pk.ac-select {
+  flex: none;
+  min-width: 0;
+  max-width: 100%;
+}
+.nwc-pk .ac-select__trigger {
+  gap: 4px;
+  width: auto;
+  height: 26px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-size: 12.5px;
+  color: var(--ink2);
+}
+.nwc-pk .ac-select__trigger:hover,
+.nwc-pk .ac-select__trigger[aria-expanded="true"] {
+  background: var(--plate);
+  color: var(--ink);
+  box-shadow: none;
+}
+html:not([data-pointer]) .nwc-pk .ac-select__trigger:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.nwc-pk .ac-select__chev {
+  width: 12px;
+  height: 12px;
+}
+/* Format and size side by side. */
+.nwc-pks {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.nwc-pk--box .ac-select__trigger {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.nwc-pk__v {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.nwc-pk__v > :is(.ac-icon, .ac-wglyph) {
+  flex: none;
+  color: var(--ink2);
+}
+.wg__foot .nwc-pk .ac-select__trigger {
+  margin: -3px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+/* Who looks after it, in the footer: opens the list of agents. */
+.nwc-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  margin: -3px -2px;
+  padding: 3px 6px 3px 4px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.nwc-who b {
+  font-weight: 600;
+  color: var(--ink2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nwc-who > .ac-icon {
+  flex: none;
+}
+button.nwc-who:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) button.nwc-who:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nwc-who--still {
+  cursor: default;
+}
+.nwc-when {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.nwc[data-size="s"] .nwc-when {
+  display: none;
+}
+/* The bell: the alert, on or off; its popover says when. */
+.nwc-bell {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.nwc-bell[data-on] {
+  color: var(--ink);
+}
+.nwc-bell:hover,
+.nwc-bell[data-state="open"] {
+  background: var(--plate);
+  color: var(--ink);
+}
+/* Off, the bell alone: an icon button, square. */
+.nwc-bell:not(:has(> span)) {
+  justify-content: center;
+  width: 26px;
+  padding: 0;
+}
+html:not([data-pointer]) .nwc-bell:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nw-alert.ac-popover {
+  --menu-pad: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(320px, calc(100vw - 24px));
+  max-width: none;
+  padding: var(--menu-pad);
+}
+/* Pronto on the room (`.ac-popover`), in its corner; the switch, the words, the field and the suggestions further in. */
+.nw-alert__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: var(--popover-in) var(--popover-in) 0;
+  font-size: 14px;
+}
+.nw-alert__cond,
+.nw-alert__sugs {
+  padding-inline: var(--popover-in);
+}
+.nw-alert > .ac-input {
+  width: auto;
+  margin-inline: var(--popover-in);
+}
+.nw-alert__row .ac-switch {
+  flex: none;
+  margin-top: 2px;
+}
+.nw-alert__row b {
+  display: block;
+  font-weight: 600;
+}
+.nw-alert__row small {
+  display: block;
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--muted);
+}
+.nw-alert__cond {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.nw-alert__sugs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nw-alert__sugs button {
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.nw-alert__sugs button:hover,
+.nw-alert__sugs button[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--ink);
+}
+.nw-alert__foot {
+  display: flex;
+  justify-content: flex-end;
+}
+/* The agent's suggestions, under the ask: its format's glyph in its tone. */
+.nw-sugs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nw-sug {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 4px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.nw-sug:hover {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.nw-sug[aria-pressed="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--wg-s);
+}
+html:not([data-pointer]) :is(.nw-sug, .nw-pick, .nw-alert__sugs button):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nw-sug__glyph,
+.nw-pick__glyph {
+  display: grid;
+  place-items: center;
+  color: var(--wg-s);
+  background: color-mix(in srgb, var(--wg-s) 12%, transparent);
+}
+.nw-sug__glyph {
+  width: 24px;
+  height: 22px;
+  border-radius: 999px;
+}
+/* Why the test didn't work, in the card, with Try again and Change the ask: an `.ac-iconline`, its icon on the
+   title's line. */
+.nw-fail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 0 8px;
+}
+.nw-fail > .ac-icon {
+  color: var(--warn);
+}
+.nw-fail b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 650;
+}
+.nw-fail p {
+  margin: 2px 0 10px;
+  font-size: 13.5px;
+  line-height: 19px;
+  color: var(--ink2);
+}
+.nw-fail__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* Pin from the chat: the blocks agents sent, one to choose. */
+.nw-picks {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.nw-pick {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+}
+.nw-pick + .nw-pick {
+  border-top: 1px solid var(--line);
+}
+.nw-pick:hover {
+  background: color-mix(in srgb, var(--sunken) 45%, transparent);
+}
+.nw-pick[aria-checked="true"] {
+  background: color-mix(in srgb, var(--sunken) 80%, transparent);
+}
+.nw-pick__glyph {
+  width: 44px;
+  height: 36px;
+  border-radius: 9px;
+}
+.nw-pick__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.nw-pick__text b {
+  font-size: 14px;
+}
+.nw-pick__text small {
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nw-radio {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.6px var(--line-strong);
+}
+[aria-checked="true"] > .nw-radio {
+  box-shadow: inset 0 0 0 5px var(--ink);
+}
+@media (max-width: 640px) {
+  .nw-stage {
+    padding: 14px 10px;
+  }
+  .nw-dest > label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nwc.wg {
+    transition: none;
+  }
+  .nw-build__step > span {
+    animation: none;
+  }
+  .nw-build__still {
+    transition: none;
+  }
+  .db-card,
+  .db-card:hover {
+    transition: none;
+    transform: none;
+  }
+}

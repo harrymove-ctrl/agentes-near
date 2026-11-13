@@ -1,0 +1,30 @@
+schema: paperclip/v1
+agents:
+  ceo:
+    adapter:
+      type: claude_local
+      config:
+        model: claude-sonnet-5-5
+    runtime:
+      heartbeat:
+        intervalSec: 3600
+    inputs:
+      env:
+        GH_TOKEN:
+          kind: secret
+          requirement: optional
+        CLAUDE_BIN:
+          kind: plain
+          requirement: optional
+          default: claude
+  cto:
+    adapter:
+      type: codex_local
+      config:
+        model: gpt-imaginary-2
+routines:
+  monday-review:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 9 * * 1"
+        timezone: America/Chicago

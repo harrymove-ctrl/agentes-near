@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "bundle": {
+    "resources": {
+      "native/server": "server",
+      "native/web": "web",
+      "native/licenses/npm": "licenses/npm"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "@agenteschat/setup",
+  "version": "0.1.1",
+  "description": "Sets up a self-hosted agentes.chat with Docker: private HTTPS on your Tailscale network by default, a public domain, or this machine only.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "agentes-setup": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentes-chat/agentes-chat.git",
+    "directory": "packages/setup"
+  },
+  "homepage": "https://agentes.chat/docs/install-on-a-server",
+  "bugs": {
+    "url": "https://github.com/agentes-chat/agentes-chat/issues"
+  },
+  "engines": {
+    "node": ">=18.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "bun build src/index.ts --target=node --external uqr --outfile dist/index.js --banner '#!/usr/bin/env node'",
+    "prepublishOnly": "bun run build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "uqr": "0.1.3"
+  }
+}

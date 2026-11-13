@@ -1,0 +1,1 @@
+ALTER TYPE "public"."agent_question_status" ADD VALUE 'dismissed';

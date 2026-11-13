@@ -1,0 +1,142 @@
+/*
+ * The invitation page (ADR 0090): the sign-in's look (components/auth.css) with the workspace above the host, a link's
+ * steps as bars, the wait for an admin, and the answers. Tokens only, so light and dark follow the theme; the column is
+ * the sign-in's, with its 16px gutter at phone width.
+ */
+.invite {
+  display: flex;
+  flex-direction: column;
+}
+.invite--loading {
+  align-items: center;
+  padding-top: 48px;
+}
+
+/* The workspace: its logo (else its initial), its name, then who invited and who works there. */
+.invite__org {
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+/* The name alone (nobody named as inviting, no crew) is one line: it centres on the logo. */
+.invite__org:not(:has(.invite__org-text > :nth-child(2))) {
+  align-items: center;
+}
+.invite__org-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.invite__org-name {
+  display: block;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 650;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+/*
+ * Who invited, then the faces and names of who works there on a line of their own: on a shared line the faces
+ * wrapped and left a dot hanging. The faces' line keeps room above for what they wear: an accessory reaches 9/16 of
+ * an 18px face over it (ACCESSORY_REACH in the agent engine), so a hat never touches the words above.
+ */
+.invite__crew {
+  display: flex;
+  /* The names can wrap: the 18px faces stay on their first 18px line. */
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 10px;
+}
+.invite__faces {
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* A link's steps: the bars start where the bubble does (the host's 56px and the 14px beside it). */
+.invite__steps {
+  margin: 0 0 18px 70px;
+}
+
+/* The address a step is about: its mark muted, green once its code proved it; without Trocar, even padding. */
+.invite .auth__who > .ac-icon {
+  color: var(--muted);
+}
+.invite .auth__who--ok > .ac-icon {
+  color: var(--ok);
+}
+.invite .auth__who:not(:has(.auth__who-change)) {
+  padding-right: 12px;
+}
+
+/* The code's six digits in the big field: the spacing that trails the last digit, matched on the left. */
+.invite .auth__big.ac-input--code {
+  padding-left: calc(18px + 0.4em);
+  letter-spacing: 0.4em;
+}
+/* A note in the big field's look, a few lines tall. */
+.invite textarea.auth__big.ac-input {
+  height: auto;
+  min-height: 104px;
+  padding: 14px 18px;
+  line-height: 24px;
+}
+.invite .auth__quiet:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+/* As tall as "Resend code" while the countdown stands in its place, so nothing under it moves when it comes. */
+.invite__resend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control-h-sm);
+}
+
+/* Waiting on someone: the pixel orbit beside what for and whose, in a well pressed into the page. */
+.invite__wait {
+  padding: 14px 16px;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-cut);
+  background: var(--card-well, var(--sunken));
+  box-shadow: var(--card-well-shadow, none);
+  line-height: 20px;
+}
+.invite__wait-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.invite__wait-text b {
+  font-size: 14px;
+  font-weight: 600;
+}
+.invite__wait-text span {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+/* A help line long enough to wrap, on `.ac-iconline` (its icon stays on the first line): the help lines' type. */
+.invite__lock {
+  font-size: 13px;
+  color: var(--muted);
+}
+/* The admin's note to someone turned down, in their words. */
+.invite__reason {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-cut);
+  background: var(--card-well, var(--sunken));
+  box-shadow: var(--card-well-shadow, none);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  /* The column is narrow: the bars take its whole width. */
+  .invite__steps {
+    margin-left: 0;
+  }
+}

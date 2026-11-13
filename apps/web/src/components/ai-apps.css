@@ -1,0 +1,248 @@
+/* Configurações → Apps de IA and the consent page (ADR 0119). */
+
+/* A card's head: the title and its line on the left, its action on the right; the action wraps under on a phone. */
+.apps-server__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.apps-server__head > .list-col {
+  flex: 1 1 240px;
+  gap: 2px;
+}
+
+/*
+ * The server's card: its title and line with "Conectar um app" on the right, the address under both. On a phone the
+ * button goes under the address, so "Cole no app…" sits right above what it names.
+ */
+.ac-card.apps-server {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3) 12px;
+}
+.apps-server__text {
+  grid-area: 1 / 1;
+  gap: 2px;
+}
+.apps-server__connect {
+  grid-area: 1 / 2;
+}
+.apps-server__address {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+@media (max-width: 560px) {
+  .ac-card.apps-server {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Its lone main button takes the card's width (rule 23). */
+  .apps-server__connect {
+    grid-area: 3 / 1;
+    justify-self: stretch;
+  }
+}
+
+/* A label and what it names, stacked (a list-col grows in a column, this one doesn't). */
+.apps-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* A MediaRow: the mark, the name and its access on one line with the menu at its end, the facts under them. */
+.app-row {
+  padding-block: var(--row-py);
+}
+.app-row__name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* "Conectar um app": the apps two by two (one column on a phone), each a button with its mark, name and where it runs. */
+.apps-clients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.apps-client {
+  min-width: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--top);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.apps-client:hover {
+  /* A plate over its own face: the page's color was no change on the white page in light. */
+  background: linear-gradient(var(--plate-soft), var(--plate-soft)), var(--raised);
+}
+html:not([data-pointer]) .apps-client:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.apps-client__go {
+  color: var(--faint);
+}
+@media (max-width: 520px) {
+  .apps-clients {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.apps-connect__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap);
+}
+.apps-lead {
+  margin: 0;
+}
+.apps-steps {
+  gap: 10px;
+}
+/* A step's words, then what it needs (a link, the address) under them, on the same left edge. */
+.apps-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.apps-step > .machine-command {
+  align-self: stretch;
+}
+.apps-step code,
+.ac-setnote code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+.apps-watch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.apps-watch--late {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.apps-connected {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.apps-connected__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.apps-connected__title > .ac-icon {
+  color: var(--ok);
+}
+
+.apps-token {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap);
+}
+
+/* The consent page. */
+.consent-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.consent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+/* The app's mark on a line of its own, what it asks under it at the column's width: a mark never owns a column beside
+   a title that wraps. */
+.consent__app {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.consent__app > .list-col {
+  align-self: stretch;
+  min-width: 0;
+  gap: 4px;
+}
+.consent__title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+/* The name or address moves to the next line whole (never split at its hyphen), and breaks only when it can't fit. */
+.consent__title b {
+  display: inline-block;
+  max-width: 100%;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.consent__account {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 0;
+}
+.consent__lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 520px) {
+  .consent__lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.consent__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.consent__list--can > li > .ac-icon {
+  color: var(--ok);
+}
+.consent__list--never > li > .ac-icon {
+  color: var(--faint);
+}
+.consent__returns {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.consent__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+/* An end state is the card's content: no dashed box inside the card. */
+.consent__state {
+  border: 0;
+  padding: 16px 8px;
+}
+.consent__state--ok .ac-empty__icon {
+  color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 14%, transparent);
+}
+.consent__lang {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}

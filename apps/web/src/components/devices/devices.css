@@ -1,0 +1,1257 @@
+/* Devices: the new pieces only, on top of the real kit (app.css). Prefix dv-.
+   Every colour is a kit token, so data-theme="dark" on <html> swaps them all.
+   Unlayered on purpose: app.css sits partly in @layer base, so these never fight a kit rule.
+   Docs and states: ref/devices-components.md. */
+
+/* ---------- Status pill (on .ac-chip) ---------------------------------------------
+   One look per state, everywhere: rows, the device page, menus, notifications.
+   ready = check · inuse = the agent's face · busy and preparing = the pixel orbit ·
+   needs = .ac-chip--waiting with the alert icon · paused = pause · offline = dash. */
+.dv-status > .ac-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  border-bottom-left-radius: var(--radius-cut);
+}
+.dv-status > .ac-avatar img {
+  border-radius: inherit;
+}
+.dv-status .ac-chip__text {
+  font-variant-numeric: tabular-nums;
+}
+.dv-status[data-status="offline"],
+.dv-status[data-status="paused"] {
+  color: var(--ink-muted);
+}
+
+/* ---------- Portrait (img.ac-computer) ---------------------------------------------
+   The engine draws on a 48-cell grid, so only 48 (rows) and 96 (the page header) stay crisp.
+   Widths at 48: mac 42, windows 40, linux 25, phones 23. Double them at 96. */
+.dv-pic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+}
+.dv-pic--page {
+  width: 96px;
+  height: 96px;
+}
+
+/* ---------- Device row (on .ac-list__row) -------------------------------------------
+   portrait · name over kind · status pill over its detail · owner over who can use it · ⋯
+   Every column's first line is one 22 box, so the second lines share a baseline. The columns start where two lines
+   centre on the portrait, and a column that wraps grows down: its pill never rises above the portrait's top. */
+.ac-list__row.dv-row {
+  --dv-col-status: 148px;
+  --dv-col-people: 172px;
+  --dv-lines: calc(22px + 2px + 18px);
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) var(--dv-col-status) var(--dv-col-people) var(--control-h-sm);
+  align-items: start;
+  column-gap: var(--space-3);
+  position: relative;
+}
+.dv-row__main,
+.dv-row__status,
+.dv-row__people {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  min-height: var(--dv-lines);
+  margin-block-start: calc((48px - var(--dv-lines)) / 2);
+}
+.dv-row__name {
+  display: flex;
+  align-items: center;
+  min-height: 22px;
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+.dv-row__kind,
+.dv-row__detail,
+.dv-row__who {
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+.dv-row__detail {
+  font-variant-numeric: tabular-nums;
+}
+a.dv-row__detail {
+  font-size: var(--text-sm);
+  line-height: 18px;
+}
+.dv-row__owner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 22px;
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink2);
+}
+.dv-row__owner > :first-child {
+  flex: none;
+}
+.dv-row__who {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* The access icon sits in an 18 box, so its words start where the owner's name does. */
+.dv-row__who > .ac-icon {
+  width: 14px;
+  height: 14px;
+  margin-inline: 2px;
+  flex: none;
+  color: var(--faint);
+}
+/* A row's name rises to the portrait's top (`.ac-captop`) only where it leads lines under it (a phone's width, a
+   computer asking to join): on a wide row it centres on its status pill's line. */
+@media (width > 640px) {
+  .dv-row:not(.dv-row--ask) .dv-row__name.ac-captop {
+    margin-block-start: 0;
+  }
+}
+.dv-row__end {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: calc((48px - var(--control-h-sm)) / 2);
+}
+
+/* A phone under its host: indented to the host's text column, with an elbow from the host's portrait,
+   and the divider starts at the indent so host and phones read as one group. */
+.ac-list__row.dv-row--child {
+  padding-left: calc(var(--space-4) + 48px + var(--space-3));
+  border-top-color: transparent;
+  background-image: linear-gradient(var(--line), var(--line));
+  background-repeat: no-repeat;
+  background-size: calc(100% - var(--space-4) - 48px - var(--space-3)) 1px;
+  background-position: right top;
+}
+.dv-row--child::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--space-4) + 24px);
+  top: calc(-1 * var(--row-py));
+  height: calc(2 * var(--row-py) + 24px);
+  width: calc(24px + var(--space-3) + var(--space-2));
+  border-left: 1.5px solid var(--line2);
+  border-bottom: 1.5px solid var(--line2);
+  border-bottom-left-radius: var(--radius-md);
+  pointer-events: none;
+}
+/* A phone with another phone under it carries the line on down to the next one. */
+.dv-row--child:has(+ .dv-row--child)::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--space-4) + 24px);
+  /* From where the elbow's curve starts to where the next elbow begins: no gap, no double-drawn overlap. */
+  top: calc(var(--row-py) + 24px - var(--radius-md));
+  bottom: var(--row-py);
+  border-left: 1.5px solid var(--line2);
+  pointer-events: none;
+}
+
+/* Phone width: the name beside the 48 portrait, its capitals at the portrait's top, and the status pill with its detail
+   under both at the row's full width (a portrait never owns a column of three lines). Kind and people live on the
+   device's page. Phones indent less, the elbow keeps its 4.5 gap to the phone. */
+@media (width <= 640px) {
+  .ac-list__row.dv-row {
+    grid-template-columns: 48px minmax(0, 1fr) var(--control-h-sm);
+    row-gap: var(--space-2);
+  }
+  .dv-row__kind,
+  .dv-row__people {
+    display: none;
+  }
+  .dv-row__main,
+  .dv-row__status {
+    min-height: 0;
+    margin-block-start: 0;
+  }
+  .dv-row__name {
+    min-height: 0;
+  }
+  .dv-row__status {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--space-2);
+  }
+  .dv-row__end {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .ac-list__row.dv-row--child {
+    padding-left: calc(var(--space-4) + 36px);
+    background-size: calc(100% - var(--space-4) - 36px) 1px;
+  }
+  .dv-row--child::before {
+    width: 20px;
+  }
+}
+
+/* ---------- Status line (the device page, under its header) ---------------------------
+   The state, its reason as words, and its one action. Needs-you tints it. */
+.dv-statusline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: calc(var(--control-h-sm) + 2 * var(--action-clear));
+  box-sizing: border-box;
+  padding: var(--action-clear) var(--action-clear) var(--action-clear) var(--space-3);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+.dv-statusline__text {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.dv-statusline__text > small {
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+.dv-statusline > .ac-btn {
+  flex: none;
+}
+.dv-statusline[data-status="needs"] {
+  background: var(--attention-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--attention) 22%, transparent);
+}
+.dv-statusline[data-status="needs"] > .dv-status {
+  background: var(--raised);
+}
+
+/* ---------- Live checklist ----------------------------------------------------------
+   ol.dv-steps > li.dv-step[data-state=done|current|waiting|needs]: a 24 mark, the title over one line,
+   then optional extras (actions, a setting drawing, a path, a command, a QR). The mark centres on the
+   title and its line. No plates: every mark lines up with the controls above the list, and the current step reads as
+   current by its live mark and ink title. */
+.dv-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: dv-step;
+}
+.dv-step {
+  counter-increment: dv-step;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-areas: "mark title" "text text" "more more";
+  column-gap: var(--space-3);
+  row-gap: 0;
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+.dv-step__mark {
+  grid-area: mark;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  box-sizing: border-box;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.dv-step__mark:empty::before {
+  content: counter(dv-step);
+}
+/* The mark centres on the title alone: the line under it takes the step's full width (a mark never owns a column of
+   three lines). */
+.dv-step__head {
+  display: contents;
+}
+.dv-step__title {
+  grid-area: title;
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.dv-step__text {
+  grid-area: text;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+.dv-step__title + .dv-step__text {
+  margin-top: var(--space-1);
+}
+.dv-step__text code,
+.dv-step__title code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+.dv-step__more {
+  grid-area: more;
+  margin-top: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.dv-step__more > .machine-command {
+  align-self: stretch;
+}
+.dv-step__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* This computer from a browser: Open the app with its words, then getting the app, under a line. */
+.dv-app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+.dv-app > p,
+.dv-app > .ac-grouphead {
+  margin: 0;
+}
+.dv-app--get {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+/* The six-digit way: the address over the code, both the step's full width, Pair under them (full width on a phone). */
+.dv-pair-code {
+  align-self: stretch;
+}
+.dv-pair-code > .ac-btn {
+  align-self: flex-start;
+}
+@media (width <= 640px) {
+  .dv-pair-code > .ac-btn {
+    align-self: stretch;
+  }
+}
+/* What only a phone-sized screen says (the Wi-Fi QR is shown on computers alone). */
+@media (width > 640px) {
+  .dv-narrow {
+    display: none;
+  }
+}
+
+.dv-step[data-state="done"] .dv-step__mark {
+  color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+  box-shadow: none;
+}
+.dv-step[data-state="done"] .dv-step__title {
+  color: var(--ink2);
+  font-weight: 500;
+}
+.dv-step[data-state="current"] .dv-step__mark {
+  color: var(--ink);
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1px var(--line2),
+    var(--top);
+}
+.dv-step[data-state="current"] .dv-step__text {
+  color: var(--ink2);
+}
+.dv-step[data-state="waiting"] .dv-step__title {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+.dv-step[data-state="needs"] .dv-step__mark {
+  color: var(--attention);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--attention) 30%, transparent);
+}
+.dv-step[data-state="needs"] .dv-step__text {
+  color: var(--ink2);
+}
+.dv-step__mark > .ac-icon {
+  width: 14px;
+  height: 14px;
+}
+/* A folded step: its title alone, a button that opens it (a done step to look again, a later one to read ahead). It
+   takes the row's height, the step's own padding, so a finger finds it. */
+.dv-step__open {
+  justify-self: stretch;
+  margin-block: calc(-1 * var(--space-2));
+  padding: var(--space-2) 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.dv-step__open:hover {
+  color: var(--ink);
+}
+/* Why a plugged phone may not show up: a title over a short list, under the cable step it waits on. */
+.dv-slow {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.dv-slow__title {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dv-slow__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+/* The bullets sit on the heading's edge and the words hang after them, so the list starts where its heading does. */
+.dv-slow__list > li {
+  position: relative;
+  padding-inline-start: var(--space-4);
+}
+.dv-slow__list > li::before {
+  content: "•";
+  position: absolute;
+  inset-inline-start: 0;
+  color: var(--faint);
+}
+.dv-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 18px;
+}
+.dv-slow__list .dv-links {
+  margin-top: var(--space-1);
+}
+
+/* A tiny drawing of the phone's own setting row, in the app's look: the row to find is ringed, with a
+   tap count or the switch's state. Decorative: the step's words say the same thing. */
+.dv-setting {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 280px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--agent) 45%, transparent),
+    var(--e1);
+}
+.dv-setting__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.dv-setting__text > b {
+  font-size: var(--text-sm);
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dv-setting__text > small {
+  font-size: var(--text-xs);
+  line-height: 16px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+.dv-setting__tap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: none;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  color: var(--agent);
+  font-variant-numeric: tabular-nums;
+}
+.dv-setting__tap > .ac-icon {
+  width: 14px;
+  height: 14px;
+}
+.dv-setting__switch {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--line2);
+}
+.dv-setting__switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--raised);
+  box-shadow: var(--e1);
+}
+.dv-setting__switch[data-on] {
+  background: var(--agent);
+}
+.dv-setting__switch[data-on]::after {
+  left: 14px;
+}
+
+/* Android's own prompt (dv-setting--dialog): title, the ticked row, then its text buttons on the right. */
+.dv-setting--dialog {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  width: 300px;
+  padding: var(--space-3);
+}
+.dv-setting__title {
+  font-size: var(--text-sm);
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dv-setting__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: 16px;
+  color: var(--ink2);
+}
+.dv-setting__row > .ac-check {
+  margin: 0;
+  flex: none;
+}
+.dv-setting__btns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--text-xs);
+  line-height: 16px;
+  font-weight: 650;
+  color: var(--ink-muted);
+}
+/* A drawing on a step that hasn't come yet stays quiet: the ring and the tap mark only on the step at hand. */
+.dv-step[data-state="waiting"] .dv-setting {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.dv-step[data-state="waiting"] .dv-setting__tap {
+  color: var(--ink-muted);
+}
+
+/* A path through the phone's own Settings, when no button can open it (iPhone, a web page). */
+/* ---------- Steps with a QR beside them (connect dialogs) ------------------------------------ */
+.dv-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  align-items: start;
+  gap: var(--space-6);
+}
+.dv-split:not(:has(> .dv-qr)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.dv-split > .dv-qr {
+  position: sticky;
+  top: 0;
+}
+/* Both Android dialogs (cable, Wi-Fi) keep one body height, so switching ways never moves the tabs under the pointer. */
+@media (width > 640px) {
+  .ac-dialog__body.dv-android {
+    min-height: 490px;
+  }
+}
+/* Narrow: one column. A code the phone scans can't be scanned from the phone showing it, so it goes. */
+@media (width <= 640px) {
+  .dv-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dv-split > .dv-qr {
+    display: none;
+  }
+}
+/* What only a computer-sized screen offers (This Mac): a phone has no "this computer". */
+@media (width <= 640px) {
+  .dv-options > .dv-wide {
+    display: none;
+  }
+  .dv-options > .dv-wide + .dv-option {
+    border-top: 0;
+  }
+  /* "Recommended" goes under its label, so a half-width segment never breaks "With a cable". */
+  .ac-seg__item:has(> .dv-seg__note) {
+    flex-direction: column;
+    gap: 0;
+  }
+  /* A dialog's lone main button fills a phone's width (rule 23). */
+  .ac-dialog__foot > .ac-btn--primary:only-child {
+    flex: 1;
+  }
+}
+
+/* ---------- QR card --------------------------------------------------------------------
+   The real code (uqr, black on white in both themes), one line, a small caption, centred.
+   One rule for every QR: the code fills its card's width. Cards sit in a 200 column with 16 padding,
+   so every code is 168 (the desktop assistant, desktop.css world, uses the same 200 and 16). */
+.dv-qr {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--line);
+  box-sizing: border-box;
+  min-width: 0;
+  text-align: center;
+}
+.dv-qr__code {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--line);
+  flex: none;
+  overflow: hidden;
+}
+.dv-qr__code > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.dv-qr__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.dv-qr__line {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink);
+  font-weight: 600;
+  text-wrap: pretty;
+}
+.dv-qr__caption {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+/* Already scanned: the code fades and the words say where the steps are now. */
+.dv-qr--used .dv-qr__code {
+  opacity: 0.35;
+}
+/* The code still on its way from the computer. */
+.dv-qr__wait {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--raised);
+}
+
+/* ---------- Connect options (the chooser) ---------------------------------------------
+   Grouped under .ac-grouphead. A whole row is the link (a.dv-option). A row with its own buttons is a
+   div.dv-option with .dv-option__acts, which drop under the words (no buttons inside a link). */
+.dv-options {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--e1), var(--top);
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+.dv-option {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--space-3);
+  min-height: 64px;
+  box-sizing: border-box;
+  padding: var(--space-3) var(--space-4);
+  color: var(--ink);
+  text-decoration: none;
+}
+.dv-option + .dv-option {
+  border-top: 1px solid var(--line);
+}
+/* A row that opens a flow in place is a button: the whole row, no button look of its own. */
+button.dv-option {
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+:is(a, button).dv-option:hover {
+  background: var(--plate-soft);
+}
+html:not([data-pointer]) :is(a, button).dv-option:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-inset);
+}
+/* A row with a link in its line: the title's button covers the row, the link stays above it. */
+.dv-option--stretch {
+  position: relative;
+}
+.dv-option__hit {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.dv-option__hit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.dv-option--stretch .ac-link {
+  position: relative;
+  z-index: 1;
+}
+.dv-option--stretch:has(.dv-option__hit:hover) {
+  background: var(--plate-soft);
+}
+.dv-option--stretch:has(.dv-option__hit:hover) .dv-option__arrow {
+  color: var(--ink);
+}
+html:not([data-pointer]) .dv-option__hit:focus-visible {
+  outline: none;
+}
+html:not([data-pointer]) .dv-option--stretch:has(.dv-option__hit:focus-visible) {
+  box-shadow: var(--focus-ring-inset);
+}
+.dv-option__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dv-option__title {
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 600;
+}
+.dv-option__line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+.dv-option__arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--faint);
+}
+:is(a, button).dv-option:hover .dv-option__arrow {
+  color: var(--ink);
+}
+.dv-option__acts {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.dv-option > .ac-computer {
+  justify-self: center;
+}
+/* A one-action row (a found phone) keeps its button where the chevron sits. */
+.dv-option > .ac-btn {
+  grid-column: 3;
+}
+.dv-option__acts > .ac-link {
+  font-size: var(--text-sm);
+  margin-inline-start: var(--space-2);
+}
+.dv-option__logos {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.dv-option__logos > .dv-logo {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- Official logos (img, from ./assets/os-*.svg and the toolchain marks) ---------------
+   Inside the kit's brand tile: .ac-brand.ac-brand--sm.ac-brand--mono (30) or --tile (48), --chip (20).
+   Black marks (Apple, OpenJDK) get .dv-logo--ink and turn white in dark. */
+.dv-logo {
+  display: block;
+  flex: none;
+}
+.ac-brand > .dv-logo {
+  width: 16px;
+  height: 16px;
+}
+.ac-brand--tile > .dv-logo {
+  width: 26px;
+  height: 26px;
+}
+.ac-brand--chip > .dv-logo {
+  width: 12px;
+  height: 12px;
+}
+.ac-chip > .dv-logo {
+  width: 14px;
+  height: 14px;
+}
+.ac-brand--xs > .dv-logo {
+  width: 14px;
+  height: 14px;
+}
+.rq__tile > .dv-logo {
+  width: 16px;
+  height: 16px;
+}
+[data-theme="dark"] .dv-logo--ink {
+  filter: invert(1);
+}
+/* Our own line icon in the same tile (Another computer): the tile fills svgs, our icons are strokes. */
+.ac-brand > svg.ac-icon {
+  fill: none;
+  width: 16px;
+  height: 16px;
+}
+/* A system's or tool's mark on a plain tile, in its own colour (the kit tints a coloured mark's tile). */
+.ac-brand.dv-tile {
+  background: var(--raised);
+}
+
+/* The device a dialog just connected (on .ac-faceline): portrait, name with its pill, facts. */
+.dv-connected__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dv-connected__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dv-connected__facts {
+  font-size: var(--text-sm);
+  line-height: 18px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+/* A computer asking to join (ConnectServerAsk): the same faceline in a quiet card, the answer in the dialog's foot. */
+.dv-join {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* A quiet word after a segment's label ("With a cable  Recommended"). */
+.dv-seg__note {
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+/* The kit's step list holds controls (a segmented control, a command field): they take the step's width. */
+.apps-step > :is(.ac-seg, .ac-field) {
+  align-self: stretch;
+}
+
+/* ---------- Copyable command (on .machine-command) ---------------------------------------
+   The real block (one line that scrolls), with a labelled Copy that turns into Copied for a moment. */
+/* The screen's main thing: a size up from the kit's block, and it wraps so a narrow dialog never hides its end. The
+   labelled Copy stands its gap from the code. */
+.dv-cmd {
+  column-gap: var(--space-2);
+}
+.dv-cmd > .machine-command__code {
+  padding-inline-end: 0;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.dv-cmd__copy[data-copied] {
+  color: var(--ok);
+}
+.dv-cmd__copy[data-copied]:hover {
+  color: var(--ok);
+}
+
+/* ---------- Facts and toolchains -------------------------------------------------------- */
+.dv-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: var(--space-4) var(--space-6);
+  margin: 0;
+}
+.dv-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dv-fact > dt {
+  font-size: 12.5px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.dv-fact > dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.dv-fact--wide {
+  grid-column: 1 / -1;
+}
+.dv-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- Notifications ----------------------------------------------------------------
+   A device that isn't a face yet shows its OS logo in a 24 tile, the size of the faces beside it. */
+.ac-mediarow__face > .ac-brand {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px 7px 7px 3px;
+  margin-left: 0;
+}
+.ac-mediarow__face > .ac-brand > .dv-logo {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------- The device page --------------------------------------------------------------- */
+/* The 96 portrait leads the name and the chips under it: the name's capitals start at its top (`.ac-captop` on the
+   name's row, in the title's type, so it rises by the title's air). The pencil centres on the title's line without
+   making it taller. */
+.machine-page__head.dv-head {
+  align-items: flex-start;
+}
+.dv-title {
+  gap: var(--space-1);
+  align-items: center;
+  flex-wrap: nowrap;
+  font-size: 18px;
+  line-height: 24px;
+}
+.dv-title > h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.dv-title > .ac-btn {
+  margin-block: calc((24px - var(--control-h-sm)) / 2);
+}
+.dv-headchips {
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* A face chip keeps a 16 face inside its 22 pill. */
+.dv-headchips > .ac-chip:has(> .ac-avatar:first-child) {
+  padding-left: 3px;
+}
+.dv-headchips > .ac-chip > .ac-avatar {
+  width: 16px;
+  height: 16px;
+}
+a.dv-chiplink {
+  color: inherit;
+  text-decoration: none;
+}
+a.dv-chiplink:hover {
+  background: var(--plate);
+}
+/* The people picker under "Who can use it", inside the settings card, on the rows' own edges. */
+.dv-picker {
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* A computer asking to join, on top of the list: its portrait and title (capitals at the portrait's top), Deny and Let
+   it join centred on the portrait, and what it says about itself under them at the row's full width. */
+.ac-list__row.dv-row--ask {
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  row-gap: var(--space-2);
+}
+.dv-row--ask > .dv-row__main {
+  display: contents;
+}
+.dv-row--ask .dv-row__name {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: 0;
+}
+.dv-row--ask .dv-row__kind {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.dv-row--ask > .dv-row__acts {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+}
+@media (width <= 640px) {
+  .dv-row--ask .dv-row__name {
+    grid-column: 2 / -1;
+  }
+  /* What a computer asking to join says about itself stays: it's what Let it join is decided on. */
+  .dv-row--ask .dv-row__kind {
+    display: block;
+  }
+  .dv-row--ask > .dv-row__acts {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  /* The page portrait drops to the 48 grid with the menu on its line, and the name and the chips go under it at the full
+     width (a phone has no room for a name beside both). The status line wraps only its action. */
+  .dv-pic--page {
+    zoom: 0.5;
+  }
+  .machine-page__head.dv-head {
+    flex-wrap: wrap;
+    row-gap: var(--space-3);
+  }
+  .dv-head > .machine-page__title {
+    display: contents;
+  }
+  .dv-head .dv-title {
+    order: 1;
+    flex-basis: 100%;
+    margin-block-start: 0;
+  }
+  .dv-head .dv-headchips {
+    order: 2;
+    flex-basis: 100%;
+  }
+  .dv-head > :last-child:not(.machine-page__title) {
+    margin-inline-start: auto;
+  }
+  .dv-statusline {
+    flex-wrap: wrap;
+    row-gap: var(--space-2);
+  }
+  .dv-statusline__text {
+    flex: 1 1 auto;
+  }
+  .dv-statusline > .ac-btn {
+    margin-left: auto;
+  }
+}
+
+/* ---------- Narrow screens: no picture owns a column of three lines -------------------------
+   The chooser's line, a connected device's facts and the page header's chips drop under the picture at the full
+   width; what stays beside it (a title, a name) centres on it. */
+/* A chooser row's title rises to its tile's top (`.ac-captop`) only where its line drops under it. */
+@media (width > 480px) {
+  .dv-option__title.ac-captop {
+    margin-block-start: 0;
+  }
+}
+@media (width <= 480px) {
+  .dv-option {
+    row-gap: var(--space-1);
+  }
+  .dv-option > .dv-option__text {
+    display: contents;
+  }
+  .dv-option__title {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+  .dv-option__line {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .dv-option > .dv-option__arrow {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .ac-faceline:has(> .dv-connected__text) {
+    flex-wrap: wrap;
+  }
+  .ac-faceline > .dv-connected__text {
+    display: contents;
+  }
+  .dv-connected__text > .dv-connected__name {
+    flex: 1 1 0;
+    min-width: 0;
+    align-self: center;
+    margin-block-start: 0;
+  }
+  .dv-connected__text > .dv-connected__facts {
+    flex-basis: 100%;
+  }
+}
+
+/* ---------- A phone's screen, live (PhoneLive) --------------------------------------
+   The phone's own shape (its pictures' size), centred, never taller than the window leaves for it. A cover says why
+   it can't show; the last picture stays dimmed under it. In control the screen takes the pointer and the keys. */
+/* A status line with no action of its own: the same room on both sides. */
+.dv-screen__banner {
+  padding-inline: var(--space-3);
+}
+.dv-screen__acts {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dv-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--screen-bg);
+  padding: var(--space-4);
+  outline: none;
+}
+html:not([data-pointer]) .dv-screen:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+.dv-screen__frame {
+  --dv-screen-h: min(70vh, 40rem);
+  position: relative;
+  width: min(100%, calc(var(--dv-screen-h) * var(--dv-ratio)));
+  aspect-ratio: var(--dv-ratio);
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface-sunken);
+}
+.dv-screen[data-full] {
+  justify-content: center;
+}
+.dv-screen[data-full] > .dv-screen__frame {
+  --dv-screen-h: calc(100vh - 2 * var(--space-4));
+}
+.dv-screen[data-full]:has(> .dv-screen__keys) > .dv-screen__frame {
+  --dv-screen-h: calc(100vh - 2 * var(--space-4) - var(--control-h-sm) - var(--space-3));
+}
+.dv-screen__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity var(--dur-base) ease;
+  touch-action: none;
+  user-select: none;
+}
+.dv-screen__canvas[data-shown] {
+  opacity: 1;
+}
+.dv-screen[data-control] .dv-screen__canvas {
+  cursor: pointer;
+}
+.dv-screen__cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--on-dark);
+  background: color-mix(in srgb, var(--screen-bg) 78%, transparent);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+.dv-screen__cover > strong {
+  font-size: var(--text-md);
+}
+.dv-screen__cover > span {
+  color: var(--on-dark-soft);
+}
+.dv-screen__keys {
+  justify-content: center;
+}
+@media (width <= 480px) {
+  .dv-screen {
+    padding: var(--space-3);
+  }
+  .dv-screen__frame {
+    --dv-screen-h: min(60vh, 35rem);
+  }
+}
+/* What most likely holds a step that sat unchanged, and the one way out. */
+.dv-step__stall {
+  margin: 0;
+  color: var(--ink2);
+}
+
+/* iPhones on a Mac's Wi-Fi it could use: one line each, the phone's name and its button, wrapping under on a phone. */
+.dv-wifi {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dv-wifi__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+.dv-wifi__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

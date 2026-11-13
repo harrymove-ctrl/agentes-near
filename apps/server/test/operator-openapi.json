@@ -1,0 +1,5362 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "agentes.chat operator API",
+    "version": "test",
+    "description": "Workspace and account lookups, workspace standing, billing holds and limits (ADR 0079), the events feed and review blocks, the workspaces' computers from an external provisioner, who may sign up (the waiting list and early-access invitations, ADR 0078), how new Claude sign-ins for all agents are made (ADR 0150), and how connectors are used (ADR 0103), for the people who run this instance (ADR 0056)."
+  },
+  "servers": [
+    {
+      "url": "/api/operator/v1"
+    }
+  ],
+  "security": [
+    {
+      "operator": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "operator": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "This server's `OPERATOR_API_TOKEN`."
+      }
+    },
+    "schemas": {
+      "OperatorHealth": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "version": {
+            "type": "string"
+          },
+          "botCheck": {
+            "$ref": "#/components/schemas/OperatorBotCheck"
+          }
+        },
+        "required": ["ok", "version", "botCheck"]
+      },
+      "OperatorBotCheck": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": ["off", "ok", "unreachable", "secret_refused"],
+            "description": "`off` without both Turnstile keys. While `unreachable` (this server can't reach Cloudflare) or `secret_refused` (Cloudflare refuses `TURNSTILE_SECRET_KEY`), every request goes through unchecked."
+          },
+          "since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When it took this state."
+          },
+          "blocked": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Networks refused in the last 10 minutes because their page couldn't load the check (`human_check_blocked`), each counted once: an IPv4 address, or an IPv6 /64. Any client can claim its page couldn't load it, so read it beside `passed`."
+          },
+          "passed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Tokens Cloudflare passed in the last 10 minutes. When the widget is down for everyone, `blocked` rises while this falls. Clients claiming it is down don't move it."
+          },
+          "testing": {
+            "type": "boolean",
+            "description": "`TURNSTILE_SECRET_KEY` is one of Cloudflare's test secrets. They refuse real tokens, and the one that passes takes a public dummy token from anyone. Right only on a test server."
+          }
+        },
+        "required": ["state", "since", "blocked", "passed", "testing"],
+        "description": "The bot check before public forms (ADR 0075)."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "invalid_request",
+                "description": "Stable: the app translates it."
+              },
+              "message": {
+                "type": "string",
+                "example": "name: Required",
+                "description": "English fallback."
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Values for the translated message (names, limits…)."
+              }
+            },
+            "required": ["code", "message"]
+          }
+        },
+        "required": ["error"]
+      },
+      "OperatorOrgPage": {
+        "type": "object",
+        "properties": {
+          "orgs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatorOrgSummary"
+            }
+          },
+          "next": {
+            "type": ["string", "null"],
+            "description": "`cursor` for the next page; null on the last one."
+          }
+        },
+        "required": ["orgs", "next"]
+      },
+      "OperatorOrgSummary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "standing": {
+            "$ref": "#/components/schemas/OperatorStandingState"
+          },
+          "members": {
+            "type": "integer"
+          },
+          "agents": {
+            "type": "integer",
+            "description": "Not archived."
+          }
+        },
+        "required": ["id", "name", "createdAt", "standing", "members", "agents"]
+      },
+      "OperatorStandingState": {
+        "type": "string",
+        "enum": ["active", "hold", "suspended"],
+        "description": "`active`; `hold`: its agents stop (no model, computer, routine or invitation), people still read and write; `suspended`: the workspace refuses everything to everyone, and its runs and tasks stop at once."
+      },
+      "OperatorOrg": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "standing": {
+            "$ref": "#/components/schemas/OperatorStanding"
+          },
+          "admins": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "role": {
+                  "$ref": "#/components/schemas/Role"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "When the account was created."
+                },
+                "lastSeenAt": {
+                  "type": ["string", "null"],
+                  "description": "Last time they had this workspace open."
+                }
+              },
+              "required": ["userId", "email", "name", "role", "createdAt", "lastSeenAt"]
+            },
+            "description": "Owners and admins, owners first."
+          },
+          "counts": {
+            "type": "object",
+            "properties": {
+              "members": {
+                "type": "integer"
+              },
+              "agents": {
+                "type": "integer",
+                "description": "Not archived."
+              },
+              "channels": {
+                "type": "integer",
+                "description": "Channels, not archived; no direct messages."
+              },
+              "machines": {
+                "type": "integer",
+                "description": "Connected computers."
+              },
+              "invitations": {
+                "type": "integer",
+                "description": "Pending: neither accepted nor expired."
+              }
+            },
+            "required": ["members", "agents", "channels", "machines", "invitations"]
+          },
+          "limits": {
+            "$ref": "#/components/schemas/OperatorLimitsState"
+          },
+          "meters": {
+            "$ref": "#/components/schemas/OperatorMeters"
+          },
+          "deletion": {
+            "type": ["object", "null"],
+            "properties": {
+              "dueAt": {
+                "type": "string",
+                "description": "When it is deleted for good, unless a hold keeps it longer."
+              },
+              "requestedAt": {
+                "type": ["string", "null"]
+              },
+              "requestedBy": {
+                "type": ["string", "null"],
+                "description": "Who asked; null once their account is gone."
+              }
+            },
+            "required": ["dueAt", "requestedAt", "requestedBy"],
+            "description": "Its deletion, asked by an owner or with its only member's account: closed until `dueAt`. Null when it isn't being deleted."
+          },
+          "deletionHold": {
+            "type": ["object", "null"],
+            "properties": {
+              "heldAt": {
+                "type": "string"
+              },
+              "reason": {
+                "type": ["string", "null"]
+              }
+            },
+            "required": ["heldAt", "reason"],
+            "description": "The operator's deletion hold (`PUT /orgs/{orgId}/deletion-hold`); null when none."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "createdAt",
+          "standing",
+          "admins",
+          "counts",
+          "limits",
+          "meters",
+          "deletion",
+          "deletionHold"
+        ]
+      },
+      "OperatorStanding": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/OperatorStandingState"
+          },
+          "reason": {
+            "type": ["string", "null"]
+          },
+          "note": {
+            "type": ["string", "null"],
+            "description": "The operator's own note: never shown to the workspace."
+          },
+          "notice": {
+            "$ref": "#/components/schemas/OperatorStandingNotice"
+          },
+          "changedAt": {
+            "type": ["string", "null"],
+            "description": "When `state` last changed; null: never."
+          }
+        },
+        "required": ["state", "reason", "note", "notice", "changedAt"]
+      },
+      "OperatorStandingNotice": {
+        "type": "string",
+        "enum": ["shown", "silent"],
+        "description": "`shown`: the workspace is told the reason, the change goes into its audit log and a new state notifies its owners and admins. `silent`: it is told only that it is paused, and nothing is written where it can read it. Use `silent` only when an authority's order forbids telling them."
+      },
+      "Role": {
+        "type": "string",
+        "enum": ["owner", "admin", "member"]
+      },
+      "OperatorLimitsState": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatorLimits"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "updatedAt": {
+                "type": ["string", "null"],
+                "description": "When a value last changed; null: never set."
+              }
+            },
+            "required": ["updatedAt"]
+          }
+        ],
+        "description": "Null: no limit. A self-hosted server never sets any."
+      },
+      "OperatorLimits": {
+        "type": "object",
+        "properties": {
+          "members": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "maximum": 100000,
+            "description": "People in it, blocked accounts included; agents, invitations and requests to join never count."
+          },
+          "membersMax": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "maximum": 100000,
+            "default": null,
+            "description": "The most people its plan takes with seats added. Below it, the apps tell whoever manages billing that a full workspace can add a seat; at it, that the plan can change. Null (or left out): not said, and the apps say neither."
+          },
+          "payerUserId": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 200,
+            "default": null,
+            "description": "The user id of whoever pays for its plan, the only one who can add seats or change plans. In a full workspace they read that they can add a seat, and anyone else who manages billing reads to ask them, by name while they are in the workspace. Null (or left out): not said, and whoever manages billing reads that they can add a seat."
+          },
+          "storageBytes": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Bytes of files kept on this server's storage; files in the trash and its own bucket don't count."
+          },
+          "uploadBytesPerDay": {
+            "type": ["integer", "null"],
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Bytes written to this server's storage in any 24 hours."
+          },
+          "platformUsdPerMonth": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "maximum": 100000,
+            "description": "What the platform's own AI (Jev) may cost for it in a UTC calendar month, in US$. Past it, Jev's judgments go to the workspace's own model and only @mentions start agents."
+          }
+        },
+        "required": ["members", "storageBytes", "uploadBytesPerDay", "platformUsdPerMonth"],
+        "description": "Null: no limit. A self-hosted server never sets any."
+      },
+      "OperatorMeters": {
+        "type": "object",
+        "properties": {
+          "storageBytes": {
+            "type": "integer",
+            "description": "Bytes of files kept on this server's storage, files in the trash and the workspace's own bucket left out."
+          },
+          "uploadBytes24h": {
+            "type": "integer",
+            "description": "Bytes written to this server's storage in the last 24 hours."
+          },
+          "ownStorage": {
+            "type": "boolean",
+            "description": "New files go to the workspace's own bucket: no storage limit applies."
+          },
+          "platformUsdThisMonth": {
+            "type": "number",
+            "description": "Usage billed to the platform (Jev) this UTC calendar month, in US$."
+          }
+        },
+        "required": ["storageBytes", "uploadBytes24h", "ownStorage", "platformUsdThisMonth"]
+      },
+      "OperatorUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "blockedAt": {
+            "type": ["string", "null"],
+            "description": "Since when it is blocked (`PUT /users/{userId}/block`)."
+          },
+          "blockedReason": {
+            "type": ["string", "null"]
+          },
+          "workArea": {
+            "type": ["string", "null"],
+            "enum": ["dev", "marketing", "sales", "finance", "ops", "support", "other", "skipped", null],
+            "description": "The person's own area, asked once during the onboarding: `dev`, `marketing`, `sales`, `finance`, `ops`, `support`, `other`, or `skipped`; null until asked (or for an account from before the question)."
+          },
+          "orgs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "orgId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "role": {
+                  "$ref": "#/components/schemas/Role"
+                },
+                "joinedAt": {
+                  "type": "string"
+                },
+                "lastSeenAt": {
+                  "type": ["string", "null"]
+                }
+              },
+              "required": ["orgId", "name", "role", "joinedAt", "lastSeenAt"]
+            }
+          },
+          "sessions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ip": {
+                  "type": ["string", "null"]
+                },
+                "userAgent": {
+                  "type": ["string", "null"]
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              },
+              "required": ["ip", "userAgent", "createdAt"]
+            },
+            "description": "Its 10 newest sessions on record, newest first. Signing out deletes a session."
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "emailVerified",
+          "createdAt",
+          "blockedAt",
+          "blockedReason",
+          "workArea",
+          "orgs",
+          "sessions"
+        ]
+      },
+      "OperatorAgentHold": {
+        "type": "object",
+        "properties": {
+          "held": {
+            "type": "boolean"
+          },
+          "heldAt": {
+            "type": ["string", "null"]
+          },
+          "reason": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["held", "heldAt", "reason"]
+      },
+      "OperatorDeletionHold": {
+        "type": "object",
+        "properties": {
+          "held": {
+            "type": "boolean"
+          },
+          "heldAt": {
+            "type": ["string", "null"]
+          },
+          "reason": {
+            "type": ["string", "null"],
+            "description": "The operator's own reason: never shown to the workspace."
+          }
+        },
+        "required": ["held", "heldAt", "reason"]
+      },
+      "OperatorUserBlock": {
+        "type": "object",
+        "properties": {
+          "blocked": {
+            "type": "boolean"
+          },
+          "blockedAt": {
+            "type": ["string", "null"]
+          },
+          "reason": {
+            "type": ["string", "null"]
+          },
+          "sessionsRevoked": {
+            "type": "integer",
+            "description": "Sessions deleted by this call (0 when unblocking)."
+          }
+        },
+        "required": ["blocked", "blockedAt", "reason", "sessionsRevoked"]
+      },
+      "OperatorBillingHoldResult": {
+        "type": "object",
+        "properties": {
+          "applied": {
+            "type": "boolean",
+            "description": "False when nothing changed: already so, or a hold set through PUT /standing or a suspension is in place, which a billing hold never replaces."
+          },
+          "standing": {
+            "$ref": "#/components/schemas/OperatorStanding"
+          }
+        },
+        "required": ["applied", "standing"]
+      },
+      "OperatorBillingHold": {
+        "type": ["string", "null"],
+        "enum": ["payment", "unpaid", "ended", null],
+        "description": "`payment`: no plan yet. `unpaid`: its payment failed. `ended`: its plan ended. Agents stop as with any hold; people still read and write."
+      },
+      "OperatorEventPage": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatorEvent"
+            }
+          },
+          "next": {
+            "type": ["string", "null"],
+            "description": "`after` for the next call; the same value when there was nothing new, null only before any event."
+          }
+        },
+        "required": ["events", "next"]
+      },
+      "OperatorEvent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "at": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "`user.signed_up`, `session.created`, `user.deletion_requested`, `user.deletion_canceled`, `user.deleted`, `organization.created`, `organization.deletion_requested`, `organization.deletion_canceled`, `organization.deleted`, `invitation.created`, `agent.created`, `agent.deleted`, `mail.sent`, `run.finished`, `run.hop_limit`, `task.finished`, `desktop_control.ended`, `content.viewed`, `platform_ai.threshold` or `account.failure` (ADR 0056 §5 lists each one's `data`). Ignore types you don't know: new ones keep v1."
+          },
+          "orgId": {
+            "type": ["string", "null"],
+            "format": "uuid"
+          },
+          "userId": {
+            "type": ["string", "null"],
+            "description": "The person the event is about or who acted."
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        },
+        "required": ["id", "at", "type", "orgId", "userId", "data"]
+      },
+      "OperatorReview": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["run", "task", "session"]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "text": {
+            "type": "string",
+            "description": "At most 12000 bytes of UTF-8."
+          }
+        },
+        "required": ["kind", "id", "orgId", "agentId", "text"]
+      },
+      "OperatorMachineRequestPage": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatorMachineRequest"
+            }
+          },
+          "next": {
+            "type": ["string", "null"],
+            "description": "`cursor` for the next page; null on the last one."
+          }
+        },
+        "required": ["requests", "next"]
+      },
+      "OperatorMachineRequest": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orgName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "owner": {
+            "type": ["object", "null"],
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": ["userId", "email"],
+            "description": "Its first owner."
+          },
+          "provisioning": {
+            "$ref": "#/components/schemas/OperatorProvisioning"
+          }
+        },
+        "required": ["orgId", "orgName", "createdAt", "owner", "provisioning"]
+      },
+      "OperatorProvisioning": {
+        "type": ["object", "null"],
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": ["preparing", "waiting", "problem", "ready"]
+          },
+          "step": {
+            "type": ["string", "null"],
+            "enum": ["reserving", "starting", "installing", "connecting", null]
+          },
+          "stage": {
+            "type": ["string", "null"],
+            "description": "With `preparing`: the stage you gave."
+          },
+          "reason": {
+            "type": ["string", "null"],
+            "enum": ["capacity", null]
+          },
+          "since": {
+            "type": ["string", "null"],
+            "description": "When this state (and step or reason) began."
+          },
+          "requestedAt": {
+            "type": "string",
+            "description": "When its people started waiting: the computer's last removal, else the workspace's creation."
+          },
+          "expectedReadyAt": {
+            "type": ["string", "null"],
+            "description": "With `preparing`: the earliest ready time you gave in this wait."
+          },
+          "specs": {
+            "$ref": "#/components/schemas/OperatorMachineSpecs"
+          }
+        },
+        "required": ["state", "step", "stage", "reason", "since", "requestedAt", "expectedReadyAt", "specs"],
+        "description": "What you last said about it; null: nothing yet."
+      },
+      "OperatorMachineSpecs": {
+        "type": ["object", "null"],
+        "properties": {
+          "cpus": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1024
+          },
+          "memoryGb": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 65536
+          },
+          "diskGb": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000
+          }
+        },
+        "required": ["cpus", "memoryGb", "diskGb"],
+        "description": "What the workspace is told it gets."
+      },
+      "OperatorIssuedMachine": {
+        "type": "object",
+        "properties": {
+          "machineId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enrollCode": {
+            "type": "string",
+            "description": "Single use. The computer redeems it at `POST /api/machines/device/token` (`{ deviceCode }`) on the public address, like a confirmed connection code. Never log it."
+          },
+          "expiresAt": {
+            "type": "string"
+          }
+        },
+        "required": ["machineId", "enrollCode", "expiresAt"]
+      },
+      "OperatorMachine": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["connected", "host", "managed"]
+          },
+          "managed": {
+            "type": "boolean",
+            "description": "The workspace's own computer, the one you issue."
+          },
+          "name": {
+            "type": "string"
+          },
+          "online": {
+            "type": "boolean"
+          },
+          "lastSeenAt": {
+            "type": ["string", "null"]
+          },
+          "runnerVersion": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "integer"
+          },
+          "standby": {
+            "type": "boolean",
+            "description": "You put the workspace's computer in standby (`PUT …/standby`) and it hasn't connected since. False for every other computer."
+          },
+          "busy": {
+            "type": "boolean",
+            "description": "The workspace's computer is in use now: a run of the workspace queued or running, a run waiting for this computer, a task running on it, someone in control of one of its agents' screens, or someone wanting it in the last 2 minutes (an open view of it asks every few seconds). Busy in standby: something waits for it. False for every other computer."
+          },
+          "lastUsedAt": {
+            "type": ["string", "null"],
+            "description": "When the workspace's computer was last used: the latest of the workspace's runs and this computer's tasks of the last 7 days, the last time something wanted it, and its people's last visit. Null for every other computer, or when nothing says."
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "managed",
+          "name",
+          "online",
+          "lastSeenAt",
+          "runnerVersion",
+          "protocol",
+          "standby",
+          "busy",
+          "lastUsedAt"
+        ]
+      },
+      "OperatorStandby": {
+        "type": "object",
+        "properties": {
+          "standby": {
+            "type": "boolean"
+          }
+        },
+        "required": ["standby"]
+      },
+      "OperatorEgressWaiting": {
+        "type": "object",
+        "properties": {
+          "waiting": {
+            "type": "boolean"
+          }
+        },
+        "required": ["waiting"]
+      },
+      "OperatorSignup": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["invite", "open"],
+            "description": "`invite`: only people with an invitation sign up (a workspace's, or early access). `open`: anyone. Always `invite` while this server is its agents' computer (`HOST_COMPUTER_TOKEN`)."
+          },
+          "forcedOpen": {
+            "type": "boolean",
+            "description": "`ALLOW_SIGNUP=true` on this server: sign-up is open whatever `mode` says."
+          },
+          "changedAt": {
+            "type": ["string", "null"],
+            "description": "When `mode` last changed; null: never."
+          },
+          "emails": {
+            "type": "boolean",
+            "description": "This server sends email, so invitations can go out."
+          }
+        },
+        "required": ["mode", "forcedOpen", "changedAt", "emails"]
+      },
+      "OperatorWaitlist": {
+        "type": "object",
+        "properties": {
+          "unconfirmed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Entries that never confirmed their address."
+          },
+          "confirmed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "waiting": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Confirmed, with no invitation (in any state). Some may have an account: inviting one allows it."
+          },
+          "invited": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Confirmed, with an invitation."
+          },
+          "signedUp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Confirmed, whose invitation made an account or allowed the one it had."
+          },
+          "workspaceCreated": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Confirmed, whose account made a workspace."
+          }
+        },
+        "required": ["unconfirmed", "confirmed", "waiting", "invited", "signedUp", "workspaceCreated"]
+      },
+      "OperatorWaitlistNext": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "locale": {
+                  "$ref": "#/components/schemas/OperatorLocale"
+                },
+                "joinedAt": {
+                  "type": "string",
+                  "description": "When it joined the list (or the imported time)."
+                }
+              },
+              "required": ["email", "locale", "joinedAt"]
+            }
+          }
+        },
+        "required": ["entries"]
+      },
+      "OperatorLocale": {
+        "type": "string",
+        "enum": ["en", "pt-BR", "es", "fr", "de", "it", "nl", "ja", "ko", "zh-Hans", "id", "tr", "pl", "ru"],
+        "description": "The language of the email."
+      },
+      "OperatorWaitlistImport": {
+        "type": "object",
+        "properties": {
+          "added": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "confirmed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Entries already there, unconfirmed until now."
+          },
+          "unchanged": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Already confirmed, or repeated in this call."
+          },
+          "invalid": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "required": ["added", "confirmed", "unchanged", "invalid"]
+      },
+      "OperatorInvitationResults": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": ["invited", "resent", "recent", "already_invited", "signed_up", "allowed", "invalid_email"]
+                },
+                "invitationId": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": ["email", "outcome"]
+            }
+          }
+        },
+        "required": ["results"]
+      },
+      "OperatorInvitationPage": {
+        "type": "object",
+        "properties": {
+          "invitations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatorInvitation"
+            }
+          },
+          "counts": {
+            "type": "object",
+            "properties": {
+              "sent": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "expired": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "signedUp": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "workspaceCreated": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "revoked": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": ["sent", "expired", "signedUp", "workspaceCreated", "revoked"]
+          },
+          "next": {
+            "type": ["string", "null"],
+            "description": "`cursor` for the next page; null on the last one."
+          }
+        },
+        "required": ["invitations", "counts", "next"]
+      },
+      "OperatorInvitation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string"
+          },
+          "locale": {
+            "$ref": "#/components/schemas/OperatorLocale"
+          },
+          "state": {
+            "$ref": "#/components/schemas/OperatorInvitationState"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "sentAt": {
+            "type": "string",
+            "description": "The latest send."
+          },
+          "sends": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "expiresAt": {
+            "type": "string",
+            "description": "14 days after the latest send."
+          },
+          "revokedAt": {
+            "type": ["string", "null"]
+          },
+          "usedAt": {
+            "type": ["string", "null"],
+            "description": "When an account was made with it, or the address's account was allowed."
+          },
+          "userId": {
+            "type": ["string", "null"],
+            "description": "That account; null once it is deleted."
+          },
+          "workspaceCreatedAt": {
+            "type": ["string", "null"],
+            "description": "When its account made its first workspace."
+          },
+          "workspaceId": {
+            "type": ["string", "null"],
+            "format": "uuid",
+            "description": "That workspace; null once it is deleted."
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "locale",
+          "state",
+          "createdAt",
+          "sentAt",
+          "sends",
+          "expiresAt",
+          "revokedAt",
+          "usedAt",
+          "userId",
+          "workspaceCreatedAt",
+          "workspaceId"
+        ]
+      },
+      "OperatorInvitationState": {
+        "type": "string",
+        "enum": ["sent", "expired", "signed_up", "workspace_created", "revoked"],
+        "description": "The first that holds: `revoked`, `workspace_created` (its account made a workspace), `signed_up` (its account exists: made with the link, or allowed), `expired` (the link no longer signs anyone up), else `sent`."
+      },
+      "OperatorInvitationResend": {
+        "type": "object",
+        "properties": {
+          "invitation": {
+            "$ref": "#/components/schemas/OperatorInvitation"
+          },
+          "sent": {
+            "type": "boolean"
+          }
+        },
+        "required": ["invitation", "sent"]
+      },
+      "OperatorInvitationRevoke": {
+        "type": "object",
+        "properties": {
+          "invitation": {
+            "$ref": "#/components/schemas/OperatorInvitation"
+          }
+        },
+        "required": ["invitation"]
+      },
+      "OperatorAnalytics": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "to": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "since": {
+            "type": ["string", "null"],
+            "description": "The first day anything was counted here, null before any.",
+            "example": "2026-10-31"
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "calls": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Tool calls that ran, approved ones included."
+              },
+              "errors": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Calls whose result was an error, or whose tool threw."
+              },
+              "approvalsAsked": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Approval requests its calls created."
+              },
+              "approvalsGiven": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Approved actions that ran."
+              },
+              "workspaces": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Workspaces with at least one call of any connector."
+              },
+              "agents": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": ["calls", "errors", "approvalsAsked", "approvalsGiven", "workspaces", "agents"]
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day": {
+                  "type": "string",
+                  "description": "A UTC day, YYYY-MM-DD.",
+                  "example": "2026-10-31"
+                },
+                "via": {
+                  "$ref": "#/components/schemas/OperatorConnectorVia"
+                },
+                "calls": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Tool calls that ran, approved ones included."
+                },
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Calls whose result was an error, or whose tool threw."
+                },
+                "approvalsAsked": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Approval requests its calls created."
+                },
+                "approvalsGiven": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Approved actions that ran."
+                },
+                "workspaces": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["day", "via", "calls", "errors", "approvalsAsked", "approvalsGiven", "workspaces"]
+            },
+            "description": "Per UTC day and way, oldest first. A day without calls is left out."
+          },
+          "connectors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OperatorConnectorUse"
+            },
+            "description": "Per connector and way, most calls first (then executions, events and accounts), at most 500. One connected but unused in the dates has zero calls."
+          },
+          "connectorsMore": {
+            "type": "boolean",
+            "description": "More connectors than were listed."
+          },
+          "composio": {
+            "type": "object",
+            "properties": {
+              "days": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "day": {
+                      "type": "string",
+                      "description": "A UTC day, YYYY-MM-DD.",
+                      "example": "2026-10-31"
+                    },
+                    "executions": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "failures": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "events": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": ["day", "executions", "failures", "events"]
+                },
+                "description": "What this server asked of its Composio project, per UTC day, oldest first."
+              },
+              "month": {
+                "type": "object",
+                "properties": {
+                  "month": {
+                    "type": "string",
+                    "description": "The UTC calendar month so far, YYYY-MM.",
+                    "example": "2026-10"
+                  },
+                  "executions": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "failures": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "events": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "connections": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Composio connected accounts made this month (mailboxes), reconnects included: Composio bills each once past the free ones."
+                  }
+                },
+                "required": ["month", "executions", "failures", "events", "connections"],
+                "description": "This month whatever the dates: Composio's free allowances are monthly."
+              }
+            },
+            "required": ["days", "month"]
+          },
+          "product": {
+            "type": "object",
+            "properties": {
+              "days": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "day": {
+                      "type": "string",
+                      "description": "A UTC day, YYYY-MM-DD.",
+                      "example": "2026-10-31"
+                    },
+                    "runs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Agent runs that ended."
+                    },
+                    "tasks": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Tasks on computers that ended."
+                    },
+                    "activeWorkspaces": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Workspaces where a run or a task ended."
+                    },
+                    "newWorkspaces": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "signUps": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": ["day", "runs", "tasks", "activeWorkspaces", "newWorkspaces", "signUps"]
+                },
+                "description": "From the events feed, oldest first. A day without any is left out."
+              },
+              "activeWorkspaces": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Workspaces where a run or a task ended in the dates."
+              },
+              "keptDays": {
+                "type": "integer",
+                "description": "Days the events feed keeps: older days read as zero."
+              }
+            },
+            "required": ["days", "activeWorkspaces", "keptDays"]
+          }
+        },
+        "required": ["from", "to", "since", "totals", "days", "connectors", "connectorsMore", "composio", "product"]
+      },
+      "OperatorConnectorVia": {
+        "type": "string",
+        "enum": ["native", "mcp", "composio"],
+        "description": "How the connector's tools reach it: `native` our own code (GitHub's git tools, Postgres, IMAP mailboxes), `mcp` an MCP server (the catalog's, one-click presets, custom servers), `composio` this server's own Composio project (Gmail and Outlook mailboxes), which Composio bills."
+      },
+      "OperatorConnectorUse": {
+        "type": "object",
+        "properties": {
+          "connector": {
+            "type": "string",
+            "description": "The connector's stable key: a catalog connector's or a one-click preset's id (a custom server on a preset's host takes it too), a custom server's hostname (never its path), `gmail`, `outlook`, an IMAP preset's id or `imap`, `postgres`, or a Composio toolkit's slug."
+          },
+          "label": {
+            "type": "string",
+            "description": "Its name in the catalog or the presets, else the key."
+          },
+          "via": {
+            "$ref": "#/components/schemas/OperatorConnectorVia"
+          },
+          "calls": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Tool calls that ran, approved ones included."
+          },
+          "errors": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Calls whose result was an error, or whose tool threw."
+          },
+          "approvalsAsked": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Approval requests its calls created."
+          },
+          "approvalsGiven": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Approved actions that ran."
+          },
+          "workspaces": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Workspaces with at least one call. For `composio`, also those Composio billed without one (an execution or a trigger event)."
+          },
+          "agents": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Agents with at least one call."
+          },
+          "accounts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Accounts connected now (servers, installations, mailboxes, databases)."
+          },
+          "accountsAdded": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Of those, the ones connected in the dates."
+          },
+          "executions": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "`composio` only: executions Composio answered, each one billed."
+          },
+          "executionFailures": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Of those, the ones Composio answered as failed."
+          },
+          "events": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "`composio` only: trigger events delivered (new mail), each one billed."
+          }
+        },
+        "required": [
+          "connector",
+          "label",
+          "via",
+          "calls",
+          "errors",
+          "approvalsAsked",
+          "approvalsGiven",
+          "workspaces",
+          "agents",
+          "accounts",
+          "accountsAdded",
+          "executions",
+          "executionFailures",
+          "events"
+        ]
+      },
+      "OperatorConnectorAnalytics": {
+        "type": "object",
+        "properties": {
+          "connector": {
+            "type": "string",
+            "description": "The connector's stable key: a catalog connector's or a one-click preset's id (a custom server on a preset's host takes it too), a custom server's hostname (never its path), `gmail`, `outlook`, an IMAP preset's id or `imap`, `postgres`, or a Composio toolkit's slug."
+          },
+          "label": {
+            "type": "string",
+            "description": "Its name in the catalog or the presets, else the key."
+          },
+          "from": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "to": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day": {
+                  "type": "string",
+                  "description": "A UTC day, YYYY-MM-DD.",
+                  "example": "2026-10-31"
+                },
+                "via": {
+                  "$ref": "#/components/schemas/OperatorConnectorVia"
+                },
+                "calls": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "approvals": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Approval requests its calls created."
+                },
+                "executions": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "events": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["day", "via", "calls", "errors", "approvals", "executions", "events"]
+            },
+            "description": "Per UTC day and way, oldest first. Executions and events are `composio`'s."
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "via": {
+                  "$ref": "#/components/schemas/OperatorConnectorVia"
+                },
+                "tool": {
+                  "type": "string",
+                  "description": "The server's own tool name (a catalog connector's or a preset's) or our verb. `other` for a custom server's tools, whose owner names them, and for an unusual name."
+                },
+                "calls": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "approvals": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "workspaces": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["via", "tool", "calls", "errors", "approvals", "workspaces"]
+            },
+            "description": "Most calls first, at most 200."
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "action": {
+                  "type": "string",
+                  "description": "Composio's action or trigger slug.",
+                  "example": "GMAIL_FETCH_EMAILS"
+                },
+                "executions": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "failures": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "events": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "workspaces": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["action", "executions", "failures", "events", "workspaces"]
+            },
+            "description": "Most executions first, at most 200."
+          },
+          "orgs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "orgId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "via": {
+                  "$ref": "#/components/schemas/OperatorConnectorVia"
+                },
+                "calls": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "approvals": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "executions": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "events": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "agents": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "accounts": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Its accounts of this connector connected now."
+                },
+                "lastDay": {
+                  "type": ["string", "null"],
+                  "description": "Its last day with a count in the dates.",
+                  "example": "2026-10-31"
+                }
+              },
+              "required": [
+                "orgId",
+                "via",
+                "calls",
+                "errors",
+                "approvals",
+                "executions",
+                "events",
+                "agents",
+                "accounts",
+                "lastDay"
+              ]
+            },
+            "description": "Per workspace and way, most calls first, at most 500. One connected but idle in the dates has zero calls."
+          },
+          "orgsMore": {
+            "type": "boolean"
+          }
+        },
+        "required": ["connector", "label", "from", "to", "days", "tools", "actions", "orgs", "orgsMore"]
+      },
+      "OperatorWorkAnalytics": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "to": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "bucket": {
+            "type": "string",
+            "enum": ["hour", "day"],
+            "description": "By hour for 2 days or fewer, else by day."
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "turns": {
+                "$ref": "#/components/schemas/OperatorWorkTurns"
+              },
+              "waits": {
+                "$ref": "#/components/schemas/OperatorWorkWaits"
+              },
+              "tokens": {
+                "$ref": "#/components/schemas/OperatorWorkTokens"
+              },
+              "agentShare": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Agent-to-agent turns over all turns."
+              },
+              "byPayer": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "payer": {
+                      "type": "string",
+                      "description": "Who pays: `plan` (a computer brain's plan), `workspace_key` (the workspace's API key), `platform_key` (this server's model key, or a key since removed), `platform` (this server's own services)."
+                    },
+                    "input": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Uncached input tokens."
+                    },
+                    "output": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "cacheRead": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "cacheWrite": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "costUsd": {
+                      "type": "number",
+                      "description": "What was billed through an API (a plan's tokens are 0)."
+                    },
+                    "apiEquivalentUsd": {
+                      "type": "number",
+                      "description": "Everything at API prices: a plan's tokens priced like the app's plan card (≈ … pela API)."
+                    }
+                  },
+                  "required": ["payer", "input", "output", "cacheRead", "cacheWrite", "costUsd", "apiEquivalentUsd"]
+                },
+                "description": "Most tokens first."
+              },
+              "turnsWithUsage": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Distinct turns that spent tokens in the dates."
+              },
+              "perTurn": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "output": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cacheRead": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cacheWrite": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": ["input", "output", "cacheRead", "cacheWrite"],
+                "description": "Tokens over `turnsWithUsage`."
+              }
+            },
+            "required": ["turns", "waits", "tokens", "agentShare", "byPayer", "turnsWithUsage", "perTurn"]
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "turns": {
+                  "$ref": "#/components/schemas/OperatorWorkTurns"
+                },
+                "waits": {
+                  "$ref": "#/components/schemas/OperatorWorkWaits"
+                },
+                "tokens": {
+                  "$ref": "#/components/schemas/OperatorWorkTokens"
+                },
+                "agentShare": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Agent-to-agent turns over all turns."
+                },
+                "byPayer": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "payer": {
+                        "type": "string",
+                        "description": "Who pays: `plan` (a computer brain's plan), `workspace_key` (the workspace's API key), `platform_key` (this server's model key, or a key since removed), `platform` (this server's own services)."
+                      },
+                      "input": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Uncached input tokens."
+                      },
+                      "output": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "cacheRead": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "cacheWrite": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "costUsd": {
+                        "type": "number",
+                        "description": "What was billed through an API (a plan's tokens are 0)."
+                      },
+                      "apiEquivalentUsd": {
+                        "type": "number",
+                        "description": "Everything at API prices: a plan's tokens priced like the app's plan card (≈ … pela API)."
+                      }
+                    },
+                    "required": ["payer", "input", "output", "cacheRead", "cacheWrite", "costUsd", "apiEquivalentUsd"]
+                  }
+                }
+              },
+              "required": ["at", "turns", "waits", "tokens", "agentShare", "byPayer"]
+            },
+            "description": "Oldest first, by `bucket`: `at` is YYYY-MM-DD, or YYYY-MM-DDTHH (UTC) by hour. A bucket with nothing is left out."
+          },
+          "more": {
+            "type": "boolean",
+            "description": "More rows than the 500 listed."
+          },
+          "workspaces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "orgId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "turns": {
+                  "$ref": "#/components/schemas/OperatorWorkTurns"
+                },
+                "waits": {
+                  "$ref": "#/components/schemas/OperatorWorkWaits"
+                },
+                "tokens": {
+                  "$ref": "#/components/schemas/OperatorWorkTokens"
+                },
+                "agentShare": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Agent-to-agent turns over all turns."
+                }
+              },
+              "required": ["orgId", "turns", "waits", "tokens", "agentShare"]
+            },
+            "description": "Most tokens first (then turns), at most 500."
+          }
+        },
+        "required": ["from", "to", "bucket", "totals", "series", "more", "workspaces"]
+      },
+      "OperatorWorkTurns": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Agent turns (runs) created in the bucket."
+          },
+          "person": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Started by a person's message."
+          },
+          "agent": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Agent to agent: started by another agent's message or answer, or 2+ agent replies deep."
+          },
+          "routine": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Started by a routine (its run, its reminder, its report)."
+          },
+          "longWork": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Long work and other background runs."
+          },
+          "followUp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The agent coming back to its own work: a follow-up due, a wait or proposal ended, a check-in."
+          },
+          "other": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Its trigger message is gone."
+          },
+          "done": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "canceled": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "active": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Not ended yet (queued, running, waiting)."
+          },
+          "failed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "computerBusy": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Failed: no room on its computer for the whole wait."
+          },
+          "noAi": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Failed: no AI to think with (no sign-in, no key, a revoked or wrong key)."
+          },
+          "paused": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Failed: the workspace or agent on hold or paused, or its budget spent."
+          },
+          "failedOther": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "total",
+          "person",
+          "agent",
+          "routine",
+          "longWork",
+          "followUp",
+          "other",
+          "done",
+          "canceled",
+          "active",
+          "failed",
+          "computerBusy",
+          "noAi",
+          "paused",
+          "failedOther"
+        ]
+      },
+      "OperatorWorkWaits": {
+        "type": "object",
+        "properties": {
+          "waited": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Turns that waited for room on a computer."
+          },
+          "peakWaiting": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Most turns waiting for room at once (for a row, its own)."
+          },
+          "personReplies": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Person-started turns that replied."
+          },
+          "personFailed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Person-started turns that failed: they have no reply, so the reply times leave them out."
+          },
+          "replyMedianSec": {
+            "type": ["integer", "null"],
+            "description": "Median seconds from a person-started turn's creation to its reply; null without one. Work it handed to another agent is not waited for."
+          },
+          "replyP90Sec": {
+            "type": ["integer", "null"]
+          }
+        },
+        "required": ["waited", "peakWaiting", "personReplies", "personFailed", "replyMedianSec", "replyP90Sec"]
+      },
+      "OperatorWorkTokens": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Uncached input tokens."
+          },
+          "output": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cacheRead": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cacheWrite": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "costUsd": {
+            "type": "number",
+            "description": "What was billed through an API (a plan's tokens are 0)."
+          },
+          "apiEquivalentUsd": {
+            "type": "number",
+            "description": "Everything at API prices: a plan's tokens priced like the app's plan card (≈ … pela API)."
+          }
+        },
+        "required": ["input", "output", "cacheRead", "cacheWrite", "costUsd", "apiEquivalentUsd"]
+      },
+      "OperatorOrgWorkAnalytics": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "to": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "bucket": {
+            "type": "string",
+            "enum": ["hour", "day"],
+            "description": "By hour for 2 days or fewer, else by day."
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "turns": {
+                "$ref": "#/components/schemas/OperatorWorkTurns"
+              },
+              "waits": {
+                "$ref": "#/components/schemas/OperatorWorkWaits"
+              },
+              "tokens": {
+                "$ref": "#/components/schemas/OperatorWorkTokens"
+              },
+              "agentShare": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Agent-to-agent turns over all turns."
+              },
+              "byPayer": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "payer": {
+                      "type": "string",
+                      "description": "Who pays: `plan` (a computer brain's plan), `workspace_key` (the workspace's API key), `platform_key` (this server's model key, or a key since removed), `platform` (this server's own services)."
+                    },
+                    "input": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Uncached input tokens."
+                    },
+                    "output": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "cacheRead": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "cacheWrite": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "costUsd": {
+                      "type": "number",
+                      "description": "What was billed through an API (a plan's tokens are 0)."
+                    },
+                    "apiEquivalentUsd": {
+                      "type": "number",
+                      "description": "Everything at API prices: a plan's tokens priced like the app's plan card (≈ … pela API)."
+                    }
+                  },
+                  "required": ["payer", "input", "output", "cacheRead", "cacheWrite", "costUsd", "apiEquivalentUsd"]
+                },
+                "description": "Most tokens first."
+              },
+              "turnsWithUsage": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Distinct turns that spent tokens in the dates."
+              },
+              "perTurn": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "output": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cacheRead": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cacheWrite": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": ["input", "output", "cacheRead", "cacheWrite"],
+                "description": "Tokens over `turnsWithUsage`."
+              }
+            },
+            "required": ["turns", "waits", "tokens", "agentShare", "byPayer", "turnsWithUsage", "perTurn"]
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "type": "string"
+                },
+                "turns": {
+                  "$ref": "#/components/schemas/OperatorWorkTurns"
+                },
+                "waits": {
+                  "$ref": "#/components/schemas/OperatorWorkWaits"
+                },
+                "tokens": {
+                  "$ref": "#/components/schemas/OperatorWorkTokens"
+                },
+                "agentShare": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Agent-to-agent turns over all turns."
+                },
+                "byPayer": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "payer": {
+                        "type": "string",
+                        "description": "Who pays: `plan` (a computer brain's plan), `workspace_key` (the workspace's API key), `platform_key` (this server's model key, or a key since removed), `platform` (this server's own services)."
+                      },
+                      "input": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Uncached input tokens."
+                      },
+                      "output": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "cacheRead": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "cacheWrite": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "costUsd": {
+                        "type": "number",
+                        "description": "What was billed through an API (a plan's tokens are 0)."
+                      },
+                      "apiEquivalentUsd": {
+                        "type": "number",
+                        "description": "Everything at API prices: a plan's tokens priced like the app's plan card (≈ … pela API)."
+                      }
+                    },
+                    "required": ["payer", "input", "output", "cacheRead", "cacheWrite", "costUsd", "apiEquivalentUsd"]
+                  }
+                }
+              },
+              "required": ["at", "turns", "waits", "tokens", "agentShare", "byPayer"]
+            },
+            "description": "Oldest first, by `bucket`: `at` is YYYY-MM-DD, or YYYY-MM-DDTHH (UTC) by hour. A bucket with nothing is left out."
+          },
+          "more": {
+            "type": "boolean",
+            "description": "More rows than the 500 listed."
+          },
+          "orgId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agentId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "turns": {
+                  "$ref": "#/components/schemas/OperatorWorkTurns"
+                },
+                "waits": {
+                  "$ref": "#/components/schemas/OperatorWorkWaits"
+                },
+                "tokens": {
+                  "$ref": "#/components/schemas/OperatorWorkTokens"
+                },
+                "agentShare": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1,
+                  "description": "Agent-to-agent turns over all turns."
+                }
+              },
+              "required": ["agentId", "turns", "waits", "tokens", "agentShare"]
+            },
+            "description": "Most tokens first (then turns), at most 500. The workspace's own usage (the router, embeddings) is only in the totals."
+          }
+        },
+        "required": ["from", "to", "bucket", "totals", "series", "more", "orgId", "agents"]
+      },
+      "OperatorAiAccounts": {
+        "type": "object",
+        "properties": {
+          "generatedAt": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "to": {
+            "type": "string",
+            "description": "A UTC day, YYYY-MM-DD.",
+            "example": "2026-10-31"
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "connections": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Signed in or signed out (sign-ins in progress and removals left out)."
+              },
+              "usable": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Signed in, and its runner's last look was conclusive."
+              },
+              "signedOut": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unknown": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Its runner's last look at its status was inconclusive."
+              },
+              "inProgress": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Sign-ins started and not finished."
+              },
+              "removing": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Removed, waiting for their computer to confirm."
+              },
+              "workspaces": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Workspaces with at least one of `connections`."
+              },
+              "usedLast24h": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Of `connections`, used by a turn in the last 24 hours."
+              },
+              "usedLast7d": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "apiCredentials": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Workspaces' model API keys not revoked."
+              },
+              "apiCredentialWorkspaces": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "inheritedMachineLogins": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Computers whose own Claude sign-in (no connection of its own) reports signed in. Counted apart: never in `connections`."
+              }
+            },
+            "required": [
+              "connections",
+              "usable",
+              "signedOut",
+              "unknown",
+              "inProgress",
+              "removing",
+              "workspaces",
+              "usedLast24h",
+              "usedLast7d",
+              "apiCredentials",
+              "apiCredentialWorkspaces",
+              "inheritedMachineLogins"
+            ]
+          },
+          "byDimension": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "description": "`anthropic`, `openai`, `xai`, `google`, `cursor`, `opencode`, a coding plan's id, or an API key's provider."
+                },
+                "runtime": {
+                  "type": "string",
+                  "description": "`claude_code`, `codex`, `grok`, `antigravity`, `cursor`, `opencode`, or `api` (an API key)."
+                },
+                "authMethod": {
+                  "$ref": "#/components/schemas/OperatorAiAuthMethod"
+                },
+                "billing": {
+                  "type": "string",
+                  "enum": ["subscription", "coding_plan", "metered_api", "unknown"],
+                  "description": "`subscription`: a CLI's sign-in to a plan. `coding_plan`: a coding plan's key. `metered_api`: an API key, billed per token."
+                },
+                "connections": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Signed in or signed out (sign-ins in progress and removals left out)."
+                },
+                "usable": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Signed in, and its runner's last look was conclusive."
+                },
+                "signedOut": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "unknown": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Its runner's last look at its status was inconclusive."
+                },
+                "usedLast7d": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "provider",
+                "runtime",
+                "authMethod",
+                "billing",
+                "connections",
+                "usable",
+                "signedOut",
+                "unknown",
+                "usedLast7d"
+              ]
+            },
+            "description": "Most connections first. An API key is usable while it isn't revoked; its use isn't counted here."
+          },
+          "identity": {
+            "type": "object",
+            "properties": {
+              "withProviderIdentity": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Connections whose email and provider organization are known."
+              },
+              "withoutIdentity": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "distinctProviderAccounts": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Distinct (kind, email, provider organization) among those: one account signed in on several computers counts once."
+              }
+            },
+            "required": ["withProviderIdentity", "withoutIdentity", "distinctProviderAccounts"],
+            "description": "Never by a key, a token or a label."
+          },
+          "failures": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "description": "A UTC day, YYYY-MM-DD.",
+                "example": "2026-10-31"
+              },
+              "to": {
+                "type": "string",
+                "description": "A UTC day, YYYY-MM-DD.",
+                "example": "2026-10-31"
+              },
+              "byCause": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cause": {
+                      "type": "string",
+                      "description": "What the provider or the runner reported: `auth_rejected`, `account_disabled`, `quota`, `billing`, `provider_transient`, `network`, `unknown`. Ignore values you don't know."
+                    },
+                    "authMethod": {
+                      "type": "string",
+                      "description": "As the failure's event said, `unknown` if it didn't."
+                    },
+                    "attempts": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "`account.failure` events: at most one per account and cause every 10 minutes."
+                    },
+                    "accounts": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "workspaces": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": ["cause", "authMethod", "attempts", "accounts", "workspaces"]
+                },
+                "description": "Most attempts first, at most 500."
+              },
+              "recent": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "at": {
+                      "type": "string"
+                    },
+                    "orgId": {
+                      "type": ["string", "null"],
+                      "format": "uuid"
+                    },
+                    "machineId": {
+                      "type": ["string", "null"]
+                    },
+                    "accountId": {
+                      "type": ["string", "null"]
+                    },
+                    "kind": {
+                      "type": ["string", "null"]
+                    },
+                    "authMethod": {
+                      "type": ["string", "null"]
+                    },
+                    "cause": {
+                      "type": ["string", "null"],
+                      "description": "What the provider or the runner reported: `auth_rejected`, `account_disabled`, `quota`, `billing`, `provider_transient`, `network`, `unknown`. Ignore values you don't know."
+                    },
+                    "code": {
+                      "type": ["string", "null"],
+                      "description": "The runner's stable code, e.g. `not_logged_in`."
+                    },
+                    "runnerVersion": {
+                      "type": ["string", "null"]
+                    }
+                  },
+                  "required": [
+                    "at",
+                    "orgId",
+                    "machineId",
+                    "accountId",
+                    "kind",
+                    "authMethod",
+                    "cause",
+                    "code",
+                    "runnerVersion"
+                  ]
+                },
+                "description": "Newest first, at most 50."
+              }
+            },
+            "required": ["from", "to", "byCause", "recent"]
+          },
+          "added": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day": {
+                  "type": "string",
+                  "description": "A UTC day, YYYY-MM-DD.",
+                  "example": "2026-10-31"
+                },
+                "authMethod": {
+                  "$ref": "#/components/schemas/OperatorAiAuthMethod"
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": ["day", "authMethod", "count"]
+            },
+            "description": "Oldest first. A day without any is left out."
+          },
+          "addedSource": {
+            "type": "string",
+            "enum": ["events", "retained_rows"],
+            "description": "`retained_rows`: from the connections still kept, by the day each was made (removed ones are gone)."
+          },
+          "coverage": {
+            "type": "object",
+            "properties": {
+              "eventsSince": {
+                "type": ["string", "null"],
+                "description": "The oldest event the feed keeps; failures before it are gone."
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Fixed codes on what these numbers can't see: `inherited_logins_by_machine`, `api_credentials_no_usage_identity`, `added_from_retained_rows`."
+              }
+            },
+            "required": ["eventsSince", "notes"]
+          }
+        },
+        "required": [
+          "generatedAt",
+          "from",
+          "to",
+          "totals",
+          "byDimension",
+          "identity",
+          "failures",
+          "added",
+          "addedSource",
+          "coverage"
+        ]
+      },
+      "OperatorAiAuthMethod": {
+        "type": "string",
+        "enum": ["cli_login", "setup_token", "api_key", "unknown"],
+        "description": "`cli_login`: the CLI's own sign-in, kept by the CLI. `setup_token`: `claude setup-token`'s token, kept by the runner. `api_key`: a pasted key. `unknown`: its computer never said."
+      },
+      "OperatorAiAccountPage": {
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "orgId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "orgName": {
+                  "type": "string",
+                  "description": "The workspace's name."
+                },
+                "machineId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "machineName": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "provider": {
+                  "type": ["string", "null"],
+                  "description": "A coding plan's id, `cursor` or `zen` (keys), `enterprise`; null: the CLI's own sign-in."
+                },
+                "authMethod": {
+                  "type": ["string", "null"]
+                },
+                "label": {
+                  "type": "string"
+                },
+                "plan": {
+                  "type": ["string", "null"]
+                },
+                "status": {
+                  "type": "string",
+                  "description": "`active`, `signed_out`, `signing_in`, `removing`"
+                },
+                "statusUnknown": {
+                  "type": "boolean"
+                },
+                "shared": {
+                  "type": "boolean",
+                  "description": "One sign-in thinks for every agent its owner gives it."
+                },
+                "ownerId": {
+                  "type": ["string", "null"]
+                },
+                "agents": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Agents set to think with it."
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "lastUsedAt": {
+                  "type": ["string", "null"]
+                },
+                "lastSuccessAt": {
+                  "type": ["string", "null"]
+                },
+                "lastFailureCause": {
+                  "type": ["string", "null"],
+                  "description": "What the provider or the runner reported: `auth_rejected`, `account_disabled`, `quota`, `billing`, `provider_transient`, `network`, `unknown`. Ignore values you don't know."
+                },
+                "lastFailureAt": {
+                  "type": ["string", "null"]
+                },
+                "usageAt": {
+                  "type": ["string", "null"],
+                  "description": "When its plan's usage was last read."
+                },
+                "usageSource": {
+                  "type": ["string", "null"],
+                  "description": "`turn` or `probe`."
+                },
+                "runnerVersion": {
+                  "type": ["string", "null"]
+                },
+                "protocol": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "id",
+                "orgId",
+                "orgName",
+                "machineId",
+                "machineName",
+                "kind",
+                "provider",
+                "authMethod",
+                "label",
+                "plan",
+                "status",
+                "statusUnknown",
+                "shared",
+                "ownerId",
+                "agents",
+                "createdAt",
+                "lastUsedAt",
+                "lastSuccessAt",
+                "lastFailureCause",
+                "lastFailureAt",
+                "usageAt",
+                "usageSource",
+                "runnerVersion",
+                "protocol"
+              ]
+            }
+          },
+          "next": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["accounts", "next"]
+      },
+      "OperatorClaudeAuth": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatorClaudeAuthPolicy"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "connections": {
+                "type": "object",
+                "properties": {
+                  "cli_login": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "setup_token": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "api_key": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "unknown": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": ["cli_login", "setup_token", "api_key", "unknown"],
+                "description": "Claude subscription connections people have now (signed in or signed out), by how they sign in; `unknown`: their computer never said."
+              }
+            },
+            "required": ["connections"]
+          }
+        ]
+      },
+      "OperatorClaudeLoginMethod": {
+        "type": "string",
+        "enum": ["cli_login", "setup_token"],
+        "description": "What NEW Claude sign-ins for all agents use on computers where each agent is its own OS user, in the workspaces `rollout` covers (`setup_token` in the others). Elsewhere they always use Claude's own login."
+      },
+      "OperatorClaudeAuthPolicy": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OperatorClaudeAuthInput"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "changedAt": {
+                "type": ["string", "null"],
+                "description": "When it last changed; null: never."
+              }
+            },
+            "required": ["changedAt"]
+          }
+        ]
+      },
+      "OperatorClaudeAuthInput": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "$ref": "#/components/schemas/OperatorClaudeLoginMethod"
+          },
+          "rollout": {
+            "type": "string",
+            "enum": ["selected", "all"],
+            "description": "`selected`: only the workspaces in `orgIds`. `all`: every workspace."
+          },
+          "orgIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 500,
+            "description": "Deduplicated; each must exist."
+          }
+        },
+        "required": ["method", "rollout", "orgIds"]
+      },
+      "OperatorOrgClaudeAuth": {
+        "type": "object",
+        "properties": {
+          "effective": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OperatorClaudeLoginMethod"
+                  },
+                  {
+                    "description": "`setup_token`: `claude setup-token`'s long-lived token, kept by the computer's runner. `cli_login`: Claude's own login, kept and refreshed by Claude Code in the connection's folder."
+                  }
+                ]
+              }
+            },
+            "required": ["method"],
+            "description": "What a new Claude sign-in for all agents uses on the workspace's computers where each agent is its own OS user."
+          },
+          "policy": {
+            "$ref": "#/components/schemas/OperatorClaudeAuthPolicy"
+          },
+          "machines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "system": {
+                  "type": "boolean",
+                  "description": "Each agent is its own OS user there."
+                },
+                "protocol": {
+                  "type": "integer"
+                },
+                "claudeLoginMethods": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OperatorAuthMethod"
+                  },
+                  "description": "What a new Claude sign-in for all agents can use there: what its runner said (protocol 50), else what older runners do."
+                },
+                "supportsSelected": {
+                  "type": "boolean",
+                  "description": "It can use the method the policy gives it now; else such a sign-in there is refused."
+                },
+                "claudeLoginBlocked": {
+                  "type": ["string", "null"],
+                  "description": "Why its runner's last self-check keeps Claude's own login for all agents off there, as the runner said when it last connected. Null when it can use the policy's method, or the runner didn't say: its check is still running, the switch hasn't reached it, it's offline or older."
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "system",
+                "protocol",
+                "claudeLoginMethods",
+                "supportsSelected",
+                "claudeLoginBlocked"
+              ]
+            }
+          }
+        },
+        "required": ["effective", "policy", "machines"]
+      },
+      "OperatorAuthMethod": {
+        "type": "string",
+        "enum": ["cli_login", "setup_token", "api_key"]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The token works and this server answers, with its bot check's state",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorHealth"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "Find workspaces, newest first",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 320,
+              "description": "An org id, part of its name, or part of a member's email; any case."
+            },
+            "required": false,
+            "description": "An org id, part of its name, or part of a member's email; any case.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "name": "createdAfter",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/OperatorStandingState"
+                },
+                {
+                  "description": "Only the workspaces in this standing."
+                }
+              ]
+            },
+            "required": false,
+            "description": "Only the workspaces in this standing.",
+            "name": "standing",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorOrgPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "One workspace: its owners and admins, how much is in it, and its limits with what it uses",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorOrg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "One account: its workspaces and newest sessions",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "required": true,
+            "name": "userId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/standing": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Hold, suspend or restore a workspace",
+        "description": "Enforced by this server where work starts: model calls, computer calls, routines, invitations and, when suspended, every permission check. Suspending also stops its runs and its tasks on computers now; cutting a computer's network is up to the operator's own controls on it. Held or suspended, it waits for no computer: what its provisioner last said goes (a ready computer stays), and it is a request again once active. It takes effect at once in this process and within 5 seconds in the server's others. Setting what is already set tells nobody again.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "$ref": "#/components/schemas/OperatorStandingState"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Shown to the workspace with the notice `shown`, its owners' notice included. On agentes.chat Cloud, `review` reads as the automatic review hold's line, `review.<category>` as that line naming what was flagged (`phishing_impersonation`, `account_takeover`, `fraud` or `illegal_content`, any other category reading as plain `review`), `ended` (a plan that ended) as it is, and any other reason is followed by how to contest it, so name the Terms section it rests on."
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "notice": {
+                    "$ref": "#/components/schemas/OperatorStandingNotice"
+                  }
+                },
+                "required": ["state", "reason", "notice"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorStanding"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/agents/{agentId}/hold": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Hold one agent, or let it go",
+        "description": "Held, the agent starts nothing (no run, model call, computer work, routine or bridge call) and is never picked to answer; the rest of the workspace works. What it is doing stops at its next model, computer or bridge call. The workspace reads only that the agent is paused, never the reason. On agentes.chat Cloud it reads the hold's kind with how to contest it (`network` for a reason starting with `network.`, else `operator`), and the agent's responsible person and the workspace's owners and admins get a notice, replaced when it is held again for another kind and closed when the agent is let go. At once in this process, within 5 seconds in the others.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "agentId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "held": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "required": ["held"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorAgentHold"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/deletion-hold": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Hold a workspace's deletion (a legal hold), or let it go",
+        "description": "While held, a workspace whose deletion was asked for (by an owner, or with its only member's account) waits past its date instead of being deleted: it stays closed, with everything in it. Nothing is refused and the workspace is told nothing: no audit row, no notice. Restoring the workspace never lifts it. Let go, a deletion past its date goes ahead within an hour.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "held": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "required": ["held"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorDeletionHold"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/block": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Block an account, or let it back",
+        "description": "Blocked: its sessions and phones are signed out now, it can't sign in again, every workspace refuses it on its next request (no waiting for a session cookie to expire) and its open connections close. Unblocking lets it sign in again; it keeps its workspaces. On agentes.chat Cloud the refused sign-in reads the block's kind, never its reason: `abuse` for `abuse.resignup`, `legal` for `legal_hold`, else `other`.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "required": true,
+            "name": "userId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "blocked": {
+                    "type": "boolean"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "required": ["blocked"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorUserBlock"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/billing-hold": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Put a billing hold on a workspace, change its code, or lift it",
+        "description": "A billing hold is a hold with one of these codes as its reason and the notice `shown`: the workspace reads it in its own words, and owners and admins get the way to fix it. It never replaces nor lifts a hold set through PUT /standing or a suspension (`applied: false`); one of those replaces it, so set it again once that is lifted. Its owners and admins are notified when the state changes.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hold": {
+                    "$ref": "#/components/schemas/OperatorBillingHold"
+                  }
+                },
+                "required": ["hold"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorBillingHoldResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/limits": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Set a workspace's limits",
+        "description": "All at once. Enforced where each is used: joining and inviting (`org.members_full`), every file written to this server's storage (`storage.full`, `storage.daily_full`), the platform's AI (within a minute). Lowering one takes nothing away: people stay, files stay, only what is new is refused. Allowed whatever the workspace's standing. Setting what is already set changes nothing, `updatedAt` included.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatorLimits"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorLimitsState"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "What happened on this instance, oldest first, as metadata",
+        "description": "Recorded only while the operator API is on, and kept 90 days. Paging never skips an event: one is served only once its transaction, and every transaction that began before it, has ended.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "`next` of the previous page; absent: from the oldest event kept (90 days). One from before the database was restored from a dump is refused (400 `stale_cursor`): start again without it and skip the event ids you already have."
+            },
+            "required": false,
+            "description": "`next` of the previous page; absent: from the oldest event kept (90 days). One from before the database was restored from a dump is refused (400 `stale_cursor`): start again without it and skip the event ids you already have.",
+            "name": "after",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorEventPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/review/{kind}/{id}": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "What one run, task or screened session did, as one redacted text block",
+        "description": "The only content this API gives: the request, the tool calls with their results, the reply (a run), the prompt, command and output (a task), or the text a person in control of an agent's screen had on it (a session of `desktop_control.ended`, on a server with `SESSION_SCREENING`: from memory only, until 10 minutes after the segment ended, then 404). Credentials are masked and workspace text is inside `<external_data>` blocks. Every read is recorded as a `content.viewed` event first.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["run", "task", "session"]
+            },
+            "required": true,
+            "name": "kind",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500,
+              "description": "Why it is read (a sample, a report, a case): kept in the `content.viewed` event."
+            },
+            "required": true,
+            "description": "Why it is read (a sample, a report, a case): kept in the `content.viewed` event.",
+            "name": "reason",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Who reads it: an operator, or the service that samples."
+            },
+            "required": true,
+            "description": "Who reads it: an operator, or the service that samples.",
+            "name": "operator",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorReview"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/machine-requests": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "Workspaces waiting for their computer, oldest first",
+        "description": "Active workspaces whose computer isn't ready (one on hold, suspended or being deleted is never listed). Empty unless `MACHINE_PROVISIONING=external`.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 100
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorMachineRequestPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/provisioning": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Say how far the workspace's computer is",
+        "description": "Its people see it live, with the time left and the stage. The time `since` restarts only when the state, step or reason change. One wait counts down to the earliest ready time you gave it: a later one changes nothing they see, so a part running long reads as running over, until another state, a removal or a hold starts a new wait. A ready time over a minute ahead (the wait's earliest), `waiting` or `problem` tells the owners they'll get an email when it's ready (when this server sends email). Refused (409 `provisioning.ready`) once the computer is ready, until it is removed, and (403 `org.paused`, `org.suspended`, `org.deleting`) unless the workspace is active and not being deleted: one held, suspended or being deleted waits for no computer, and what you last said of it is gone.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "enum": ["preparing", "waiting", "problem"],
+                    "description": "`ready` is not yours to set: it comes with the computer's first hello."
+                  },
+                  "step": {
+                    "type": "string",
+                    "enum": ["reserving", "starting", "installing", "connecting"],
+                    "description": "With `preparing`: reserving, starting, installing or connecting; ignored otherwise."
+                  },
+                  "stage": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "With `preparing`: what the computer is doing within `step` (ordering, wiping, starting, booting, updating, restarting, network, firewall, apps, connecting); ignored otherwise. Any word is kept: the apps say one they have no words for as its step."
+                  },
+                  "reason": {
+                    "type": "string",
+                    "enum": ["capacity", "approval"],
+                    "description": "With `waiting`: capacity; ignored otherwise. `approval`, from an older client, reads as capacity."
+                  },
+                  "expectedReadyAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "With `preparing`: when the computer should be ready, at most 7 days ahead; ignored otherwise. A wait counts down to the earliest time it was told: a later one, or a report without one, leaves it as it is, so people see the wait run over."
+                  },
+                  "etaSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 604800,
+                    "description": "From an older client, in place of `expectedReadyAt`: read as that many seconds from now."
+                  },
+                  "specs": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/OperatorMachineSpecs"
+                      },
+                      {
+                        "description": "Kept from before when absent."
+                      }
+                    ]
+                  }
+                },
+                "required": ["state"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Done"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The workspace isn't active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The computer is ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/machines": {
+      "post": {
+        "tags": ["Operator"],
+        "summary": "The workspace's computer, and a code for it to connect with",
+        "description": "One per workspace: the first call makes it, every later one issues a new code for the same computer (an earlier unused code stops working), and one removed comes back. The code lives 10 minutes; once redeemed, the computer's first hello makes it ready and gives it the workspace's agents that have no computer. Refused (403 `org.paused`, `org.suspended`, `org.deleting`) unless the workspace is active and not being deleted.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 80
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorIssuedMachine"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The workspace isn't active",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The workspace's computers, its own and the ones its people connected",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "machines": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/OperatorMachine"
+                      }
+                    }
+                  },
+                  "required": ["machines"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/machines/{machineId}/standby": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Say the workspace's computer is in standby, or no longer",
+        "description": "Say it when you put the computer to sleep (`true`), or that it no longer is (`false`; its first hello clears it too). In standby nothing is wrong to its people: it opens as it wakes, and it is never listed as disconnected. Whatever wants it meanwhile (a run, a person opening it, a request to it) records `machine.wake_wanted` in the events feed, at most every 10 seconds per computer: wake it then. A run waits up to a minute for it before it tells its people the computer isn't answering. `true` again keeps the first time it was said. 404 when the workspace has no such managed computer.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "machineId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "standby": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["standby"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorStandby"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/machines/{machineId}/egress-waiting": {
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Say the workspace's computer's agents wait for their way out, or no longer",
+        "description": "Say it (`true`) when the computer's network sends its agents out only through a proxy and none works now, so their connections are refused for a while; `false` once one works. Its people see a line saying so on the computer, never an error, while it is online. `true` again keeps the first time it was said; removing the computer ends it. A change comes as `machine.updated`. 404 when the workspace has no such managed computer.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "machineId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "waiting": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["waiting"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorEgressWaiting"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/machines/{machineId}": {
+      "delete": {
+        "tags": ["Operator"],
+        "summary": "Take the workspace's computer away",
+        "description": "Before wiping or retiring it: its token and unused codes stop working, its connection closes, its agents are left with no computer, and an active workspace is a request again, waiting from now (one held or suspended waits for none). 404 when the workspace has no such managed computer (also when it was already removed).",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "machineId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Done"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "Who may sign up",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorSignup"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Open sign-up to everyone, or back to invitation only",
+        "description": "Takes effect at once, with no restart. Setting the current mode changes nothing. On agentes.chat Cloud, while it is `invite`, only the accounts early access allowed make workspaces, as many as they like; `open` lets every account make workspaces, each with its own computer. Refused (409 `signup.host_computer`) to open while this server is its agents' computer (`HOST_COMPUTER_TOKEN`).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": ["invite", "open"]
+                  }
+                },
+                "required": ["mode"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorSignup"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "This server is its agents' computer (`signup.host_computer`)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/waitlist": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The waiting list against the invitations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorWaitlist"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/waitlist/next": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The next confirmed entries still waiting, oldest first",
+        "description": "A read: invite exactly these (`POST /early-access/invitations`), so a retry never invites more than you saw. An address with an account is among them: inviting it allows the account. Skips addresses sign-up wouldn't take and those of blocked accounts; they still count as waiting.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorWaitlistNext"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/waitlist/import": {
+      "post": {
+        "tags": ["Operator"],
+        "summary": "Add confirmed addresses to the waiting list",
+        "description": "In one transaction, up to 5000 entries, deduplicated on the address in lower case. New ones join confirmed, at `joinedAt` (a future one reads as now) or else in the list's order; an unconfirmed entry is confirmed; anything else is `unchanged`, so a repeat changes nothing. `invalid` holds the indexes of the entries that aren't addresses (sign-up's own rule), never the addresses. Imported entries are never sent to the email provider's contacts.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string",
+                          "maxLength": 320
+                        },
+                        "locale": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/OperatorLocale"
+                            },
+                            {
+                              "description": "English when absent."
+                            }
+                          ]
+                        },
+                        "joinedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": ["email"]
+                    },
+                    "minItems": 1,
+                    "maxItems": 5000
+                  }
+                },
+                "required": ["entries"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorWaitlistImport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/early-access/invitations": {
+      "post": {
+        "tags": ["Operator"],
+        "summary": "Invite addresses to create an account and make workspaces",
+        "description": "Each address, up to 200, gets an email with a link to sign up with that address only, valid 14 days, in the language of its invitation, else of its waiting-list entry, else `locale`, else English. An address that has an account gets no link: the account is allowed at once, and an email in its language says so (none to a blocked account). An allowed account makes workspaces once its address is confirmed. One invitation per address: inviting it again sends the same invitation a new link (the old one stops working), unless `resend` is false. Answers come in the request's order, once per address. Outcomes: `invalid_email`, `signed_up` (its invitation made an account or allowed one already, so nothing went out), `allowed`, `already_invited` (with `resend: false`), `recent` (sent in the last 2 minutes, so nothing went out), `resent`, `invited`. Refused (409 `early_access.no_email`) on a server that sends no email.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "maxLength": 320
+                    },
+                    "minItems": 1,
+                    "maxItems": 200
+                  },
+                  "locale": {
+                    "$ref": "#/components/schemas/OperatorLocale"
+                  },
+                  "resend": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                },
+                "required": ["emails"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorInvitationResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "This server sends no email (`early_access.no_email`)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The invitations, newest first",
+        "description": "`counts` count every invitation by state, whatever `state` and `q` say.",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/components/schemas/OperatorInvitationState"
+            },
+            "required": false,
+            "description": "The first that holds: `revoked`, `workspace_created` (its account made a workspace), `signed_up` (its account exists: made with the link, or allowed), `expired` (the link no longer signs anyone up), else `sent`.",
+            "name": "state",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 320,
+              "description": "Any part of the address, in any case."
+            },
+            "required": false,
+            "description": "Any part of the address, in any case.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorInvitationPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/early-access/invitations/{invitationId}/resend": {
+      "post": {
+        "tags": ["Operator"],
+        "summary": "Send an invitation again, with a new link",
+        "description": "The old link stops working, the invitation is no longer revoked and runs 14 days from now. Within 2 minutes of the previous send nothing goes out (`sent: false`). When the address has an account by now, no link goes: the account is allowed at once and an email says so (none to a blocked account), and the answer is the invitation, now `signed_up`, with `sent: false`. Refused (409) once it was used (`early_access.used`), and on a server that sends no email (`early_access.no_email`).",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "invitationId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorInvitationResend"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No invitation with this id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Used, or no email (`early_access.*`)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/early-access/invitations/{invitationId}/revoke": {
+      "post": {
+        "tags": ["Operator"],
+        "summary": "Revoke an invitation",
+        "description": "Its link stops working, and its account can make no more workspaces while sign-up is by invitation. The workspaces it made stay. Revoking again answers the same.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "invitationId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorInvitationRevoke"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No invitation with this id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "How connectors and the product are used, in counts",
+        "description": "Counted on every server, by UTC day (ADR 0103). Only counts, keys and ids: no connection label, URL path, tool input, address or anyone's name.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The first UTC day, YYYY-MM-DD.",
+              "example": "2026-10-01"
+            },
+            "required": true,
+            "description": "The first UTC day, YYYY-MM-DD.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+              "example": "2026-10-31"
+            },
+            "required": true,
+            "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (`analytics.range`: the dates)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/connectors/{connector}": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "One connector's use: per day, tool, Composio action and workspace",
+        "description": "An unknown connector answers with empty lists.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9._-]{0,99}$",
+              "example": "github"
+            },
+            "required": true,
+            "name": "connector",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The first UTC day, YYYY-MM-DD.",
+              "example": "2026-10-01"
+            },
+            "required": true,
+            "description": "The first UTC day, YYYY-MM-DD.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+              "example": "2026-10-31"
+            },
+            "required": true,
+            "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorConnectorAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (`analytics.range`: the dates)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/work": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "Agent work and tokens across workspaces: per day (or hour) and per workspace",
+        "description": "Turns and waits count runs created in the dates, tokens the usage recorded in them. Counts and ids only: no message, no name.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The first UTC day, YYYY-MM-DD.",
+              "example": "2026-10-01"
+            },
+            "required": true,
+            "description": "The first UTC day, YYYY-MM-DD.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The last UTC day, YYYY-MM-DD: at most 90 days, both counted. Else 400 `analytics.range`.",
+              "example": "2026-10-31"
+            },
+            "required": true,
+            "description": "The last UTC day, YYYY-MM-DD: at most 90 days, both counted. Else 400 `analytics.range`.",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorWorkAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (`analytics.range`: the dates)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/work/orgs/{orgId}": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "One workspace's agent work and tokens: per day (or hour) and per agent",
+        "description": "Turns and waits count runs created in the dates, tokens the usage recorded in them. Counts and ids only: no message, no name. An unknown workspace answers with zeros.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The first UTC day, YYYY-MM-DD.",
+              "example": "2026-10-01"
+            },
+            "required": true,
+            "description": "The first UTC day, YYYY-MM-DD.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The last UTC day, YYYY-MM-DD: at most 90 days, both counted. Else 400 `analytics.range`.",
+              "example": "2026-10-31"
+            },
+            "required": true,
+            "description": "The last UTC day, YYYY-MM-DD: at most 90 days, both counted. Else 400 `analytics.range`.",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorOrgWorkAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (`analytics.range`: the dates)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/ai-accounts": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "The AI accounts people connected: how they sign in, who bills them, how they fail",
+        "description": "Connections now, whatever the dates; failures from the events feed in the dates. Counts, ids and codes only: no email, key hint, token or provider organization id.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The first UTC day, YYYY-MM-DD.",
+              "example": "2026-10-01"
+            },
+            "required": true,
+            "description": "The first UTC day, YYYY-MM-DD.",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+              "example": "2026-10-31"
+            },
+            "required": true,
+            "description": "The last UTC day, YYYY-MM-DD: at most 400 days, both counted. Else 400 `analytics.range`.",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorAiAccounts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (`analytics.range`: the dates)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-accounts": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "AI accounts on the workspaces' computers, newest first",
+        "description": "Keyset pages: an account added while paging never shifts a page. No email, key hint or token.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": false,
+            "name": "orgId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["claude_code", "codex", "cursor", "opencode", "grok", "antigravity"]
+            },
+            "required": false,
+            "name": "kind",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "$ref": "#/components/schemas/OperatorAiAuthMethod"
+            },
+            "required": false,
+            "description": "`cli_login`: the CLI's own sign-in, kept by the CLI. `setup_token`: `claude setup-token`'s token, kept by the runner. `api_key`: a pasted key. `unknown`: its computer never said.",
+            "name": "authMethod",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["active", "signed_out", "signing_in", "removing"]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorAiAccountPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/claude-auth": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "How new Claude sign-ins for all agents are made",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorClaudeAuth"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Operator"],
+        "summary": "Choose how new Claude sign-ins for all agents are made",
+        "description": "Takes effect for sign-ins started after it, with no restart; every connection keeps the method it was made with. Setting the current policy changes nothing. A workspace that doesn't exist is refused (400 `claude_auth.unknown_org`).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OperatorClaudeAuthInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorClaudeAuth"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/claude-auth": {
+      "get": {
+        "tags": ["Operator"],
+        "summary": "How new Claude sign-ins for all agents are made in the workspace, and on each of its computers",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatorOrgClaudeAuth"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No workspace with this id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

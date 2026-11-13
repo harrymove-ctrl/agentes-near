@@ -1,0 +1,30 @@
+const el = (id) => document.getElementById(id);
+let data = {};
+try { data = JSON.parse(el("data").textContent) || {}; } catch {}
+function draw() {
+  const pt = data.locale === "pt-BR";
+  const locale = pt ? "pt-BR" : "en";
+  document.documentElement.lang = locale;
+  document.title = pt ? "Nova guia" : "New Tab";
+  el("eyebrow").textContent = pt ? "COMPUTADOR DO AGENTE" : "AGENT'S COMPUTER";
+  el("name").textContent = typeof data.name === "string" ? data.name : "";
+  const now = new Date();
+  el("clock").textContent = new Intl.DateTimeFormat(locale, {hour:"2-digit",minute:"2-digit"}).format(now);
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  const city = zone === "UTC" ? "UTC" : zone.split("/").pop().replaceAll("_", " ");
+  const offset = new Intl.DateTimeFormat(locale, {timeZoneName:"shortOffset"}).formatToParts(now).find(p => p.type === "timeZoneName")?.value || "UTC";
+  el("date").textContent = new Intl.DateTimeFormat(locale,{weekday:"long",month:"long",day:"numeric"}).format(now) + " · " + city + (zone === "UTC" ? "" : ` (${offset})`);
+  const ip = typeof data.egress?.ip === "string" ? data.egress.ip : null;
+  el("egress").hidden = !ip;
+  el("address").textContent = (pt ? "IP de saída " : "Exit IP ") + (ip || "");
+  el("hint").textContent = pt ? "É o endereço que os sites veem" : "The address sites see";
+  const flag = typeof data.flag === "string" && data.flag.startsWith("data:image/svg+xml,") ? data.flag : null;
+  el("flag").hidden = !flag;
+  el("globe").hidden = Boolean(flag);
+  if (flag) el("flag").src = flag;
+  el("tip").textContent = pt ? "Digite um endereço na barra acima" : "Type an address in the bar above";
+}
+function tick() { draw(); setTimeout(tick, 30000 - Date.now() % 30000); }
+// The runner rewrites this file when the agent's details change (its exit IP): a tab coming back shows them.
+document.addEventListener("visibilitychange", () => { if (!document.hidden) location.reload(); });
+tick();

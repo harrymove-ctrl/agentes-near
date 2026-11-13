@@ -1,0 +1,1 @@
+ALTER TABLE "routines" DROP COLUMN "monthly_budget_nano_usd";

@@ -1,0 +1,1 @@
+ALTER TABLE "routine_hooks" ADD COLUMN "methods" text[] DEFAULT '{POST}'::text[] NOT NULL;

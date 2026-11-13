@@ -1,0 +1,6581 @@
+{
+  "app.failed": {
+    "value": "That didn't work. Try again."
+  },
+  "app.send": {
+    "value": "Send"
+  },
+  "categories.title": {
+    "value": "Categories"
+  },
+  "categories.where": {
+    "value": "Where #{{channel}} shows"
+  },
+  "categories.whereHelp": {
+    "value": "Changes for everyone. Who takes part in the channel stays the same."
+  },
+  "categories.create": {
+    "value": "Create"
+  },
+  "categories.endOfList": {
+    "value": "Goes to the end of the list for everyone."
+  },
+  "categories.channelCount": {
+    "value": {
+      "one": "{{count}} channel",
+      "other": "{{count}} channels"
+    }
+  },
+  "categories.none": {
+    "value": "No categories yet."
+  },
+  "categories.manageHelp": {
+    "value": "Tap a category to rename it, move it or delete it."
+  },
+  "categories.manageHint": {
+    "value": "Order, names and delete"
+  },
+  "categories.deleteTitle": {
+    "value": "Delete {{name}}?"
+  },
+  "categories.order": {
+    "value": "Place in the list"
+  },
+  "categories.up": {
+    "value": "Move up"
+  },
+  "categories.down": {
+    "value": "Move down"
+  },
+  "categories.position": {
+    "value": "{{at}} of {{count}}."
+  },
+  "categories.channelPosition": {
+    "value": "{{at}} of {{count}}."
+  },
+  "categories.itsChannels": {
+    "value": "Channels"
+  },
+  "categories.seeAll": {
+    "value": "See all"
+  },
+  "blocks.send": {
+    "value": "Send"
+  },
+  "blocks.more": {
+    "value": "More"
+  },
+  "blocks.thousand": {
+    "value": "k"
+  },
+  "blocks.building": {
+    "value": "Putting it together…"
+  },
+  "blocks.openBig": {
+    "value": "Open full screen"
+  },
+  "blocks.keep": {
+    "value": "Keep in Drive"
+  },
+  "blocks.kept": {
+    "value": "Kept in Drive"
+  },
+  "blocks.wake": {
+    "value": "Tap to open"
+  },
+  "blocks.pageTitle": {
+    "value": "A block with its own code"
+  },
+  "blocks.pageBody": {
+    "value": "It runs apart from the app, with no access to your account or the internet."
+  },
+  "blocks.runPage": {
+    "value": "Open block"
+  },
+  "blocks.goesTo": {
+    "value": "Goes to {{name}}:"
+  },
+  "blocks.sentAt": {
+    "value": "You sent this at {{time}}"
+  },
+  "blocks.sendFailed": {
+    "value": "That didn't work. Try again."
+  },
+  "blocks.someone": {
+    "value": "Someone"
+  },
+  "blocks.pollCloses": {
+    "value": "Closes {{time}}"
+  },
+  "blocks.pollClosed": {
+    "value": "Voting closed"
+  },
+  "blocks.pollMultiple": {
+    "value": "You can pick more than one."
+  },
+  "blocks.pollAnswered": {
+    "value": {
+      "one": "{{count}} of {{total}} answered",
+      "other": "{{count}} of {{total}} answered"
+    }
+  },
+  "blocks.voteFailed": {
+    "value": "Your vote didn't go through."
+  },
+  "choices.step": {
+    "value": "{{step}} of {{total}}"
+  },
+  "choices.back": {
+    "value": "Back"
+  },
+  "choices.next": {
+    "value": "Next"
+  },
+  "choices.close": {
+    "value": "Close"
+  },
+  "choices.closed": {
+    "value": "{{title}} · closed"
+  },
+  "choices.reopen": {
+    "value": "Show again"
+  },
+  "choices.answeredBy": {
+    "value": "{{name}} picked"
+  },
+  "choices.failed": {
+    "value": "Your pick didn't go through. Try again."
+  },
+  "chart.table": {
+    "value": "Table"
+  },
+  "chart.item": {
+    "value": "Item"
+  },
+  "chart.share": {
+    "value": "Share"
+  },
+  "chart.gone": {
+    "value": "This chart is no longer open."
+  },
+  "code.label": {
+    "value": "Code"
+  },
+  "code.copy": {
+    "value": "Copy the code"
+  },
+  "code.copied": {
+    "value": "Copied"
+  },
+  "code.fullScreen": {
+    "value": "Full screen"
+  },
+  "code.wrap": {
+    "value": "Wrap lines"
+  },
+  "code.raw": {
+    "value": "Raw"
+  },
+  "code.more": {
+    "value": "See all {{count}} lines"
+  },
+  "code.gone": {
+    "value": "This code is no longer open."
+  },
+  "time.today": {
+    "value": "Today"
+  },
+  "time.yesterday": {
+    "value": "Yesterday"
+  },
+  "time.justNow": {
+    "value": "now"
+  },
+  "time.minutesAgo": {
+    "value": {
+      "one": "{{count}} min ago",
+      "other": "{{count}} min ago"
+    }
+  },
+  "time.hoursAgo": {
+    "value": {
+      "one": "{{count}}h ago",
+      "other": "{{count}}h ago"
+    }
+  },
+  "time.daysAgo": {
+    "value": {
+      "one": "{{count}} day ago",
+      "other": "{{count}} days ago"
+    }
+  },
+  "time.short.now": {
+    "value": "now"
+  },
+  "time.short.minutes": {
+    "value": "{{count}} min"
+  },
+  "time.short.hours": {
+    "value": "{{count}} h"
+  },
+  "time.short.days": {
+    "value": "{{count}} d"
+  },
+  "names.two": {
+    "value": "{{first}} and {{second}}"
+  },
+  "names.more": {
+    "value": "{{first}}, {{second}} and {{count}} more"
+  },
+  "tabs.chats": {
+    "value": "Chats"
+  },
+  "tabs.threads": {
+    "value": "Threads"
+  },
+  "tabs.agents": {
+    "value": "Agents"
+  },
+  "tabs.activity": {
+    "value": "Activity"
+  },
+  "tabs.search": {
+    "value": "Search"
+  },
+  "tabs.withCount": {
+    "value": "{{label}}, {{count}}"
+  },
+  "home.greeting.morning": {
+    "value": "Good morning, {{name}}"
+  },
+  "home.greeting.afternoon": {
+    "value": "Good afternoon, {{name}}"
+  },
+  "home.greeting.evening": {
+    "value": "Good evening, {{name}}"
+  },
+  "home.hello.morning": {
+    "value": "Good morning"
+  },
+  "home.hello.afternoon": {
+    "value": "Good afternoon"
+  },
+  "home.hello.evening": {
+    "value": "Good evening"
+  },
+  "home.waiting": {
+    "value": "Waiting for you"
+  },
+  "home.workingNow": {
+    "value": "Working now"
+  },
+  "home.missionTitle": {
+    "value": "Mission {{title}}"
+  },
+  "home.directChat": {
+    "value": "Direct chat"
+  },
+  "approval.asksIn": {
+    "value": "asks for your approval · #{{channel}}"
+  },
+  "approval.asksYou": {
+    "value": "asks for your approval"
+  },
+  "approval.expiresIn": {
+    "value": {
+      "one": "expires in {{count}} min",
+      "other": "expires in {{count}} min"
+    }
+  },
+  "approval.refuse": {
+    "value": "Decline"
+  },
+  "approval.approve": {
+    "value": "Approve"
+  },
+  "approval.hold": {
+    "value": "Hold to approve"
+  },
+  "approval.holdNote": {
+    "value": "High risk: hold the button for a second."
+  },
+  "approval.tapNote": {
+    "value": "Approving does it right away."
+  },
+  "approval.tapNoteAhead": {
+    "value": "Approving now covers {{when}}."
+  },
+  "approval.refuseTitle": {
+    "value": "Decline the request"
+  },
+  "approval.refuseAsk": {
+    "value": "Decline the request?"
+  },
+  "approval.leaves": {
+    "value": "goes outside the company"
+  },
+  "approval.leavesPersonal": {
+    "value": "goes outside your workspace"
+  },
+  "approval.refuseWhyF": {
+    "value": "{{name}} learns from the reason. Optional."
+  },
+  "approval.refuseWhyM": {
+    "value": "{{name}} learns from the reason. Optional."
+  },
+  "approval.sheet.title": {
+    "value": "Request"
+  },
+  "approval.sheet.request": {
+    "value": "The request"
+  },
+  "approval.sheet.why": {
+    "value": "Why"
+  },
+  "approval.sheet.service": {
+    "value": "Service"
+  },
+  "approval.sheet.nextTime": {
+    "value": "Next time"
+  },
+  "approval.whyPlaceholderF": {
+    "value": "Why? Optional, but {{name}} learns from it"
+  },
+  "approval.whyPlaceholderM": {
+    "value": "Why? Optional, but {{name}} learns from it"
+  },
+  "approval.approved": {
+    "value": "Approved"
+  },
+  "approval.approvedSubF": {
+    "value": "{{name}} is on it."
+  },
+  "approval.approvedSubM": {
+    "value": "{{name}} is on it."
+  },
+  "approval.approvedAhead": {
+    "value": "It runs by itself {{when}}, without asking again."
+  },
+  "approval.refused": {
+    "value": "Declined"
+  },
+  "approval.refusedSubF": {
+    "value": "{{name}} will remember next time."
+  },
+  "approval.refusedSubM": {
+    "value": "{{name}} will remember next time."
+  },
+  "approval.alwaysUndoF": {
+    "value": "To undo it, open her profile, in Always approved."
+  },
+  "approval.alwaysUndoM": {
+    "value": "To undo it, open his profile, in Always approved."
+  },
+  "approval.via": {
+    "value": "Through"
+  },
+  "approval.why": {
+    "value": "{{name}} said before: “{{text}}”"
+  },
+  "approval.saidText": {
+    "value": "“{{text}}”"
+  },
+  "approval.answers": {
+    "value": "Answers “{{subject}}”"
+  },
+  "approval.answersFrom": {
+    "value": "Answers “{{subject}}”, from {{from}}"
+  },
+  "approval.forwards": {
+    "value": "Forwards “{{subject}}”"
+  },
+  "approval.forwardsFrom": {
+    "value": "Forwards “{{subject}}”, from {{from}}"
+  },
+  "approval.onlyOwner": {
+    "value": "Only {{name}} or an admin can decide."
+  },
+  "approval.onlyAdmins": {
+    "value": "Only an admin can decide."
+  },
+  "approval.notFound": {
+    "value": "This request no longer exists or you can't see it."
+  },
+  "approval.trait.production": {
+    "value": "For everyone, in production"
+  },
+  "approval.trait.irreversible": {
+    "value": "Can't be undone"
+  },
+  "approval.trait.reversible": {
+    "value": "Can be undone"
+  },
+  "approval.trait.external": {
+    "value": "Leaves the company"
+  },
+  "approval.trait.externalPersonal": {
+    "value": "Leaves your workspace"
+  },
+  "approval.trait.unsent": {
+    "value": "Nothing is sent"
+  },
+  "approval.trait.deletable": {
+    "value": "Can be deleted"
+  },
+  "approval.status.approved": {
+    "value": "Already approved."
+  },
+  "approval.status.refused": {
+    "value": "Already declined."
+  },
+  "approval.status.expired": {
+    "value": "Expired without an answer."
+  },
+  "approval.status.canceled": {
+    "value": "The agent canceled the request."
+  },
+  "approval.status.scheduled": {
+    "value": "Approved. The action runs by itself {{when}}."
+  },
+  "chats.title": {
+    "value": "Chats"
+  },
+  "chats.serverError.offline": {
+    "value": "No internet on your phone."
+  },
+  "chats.serverError.answered": {
+    "value": "{{host}} answered, but your chats didn't load. Try again in a moment."
+  },
+  "chats.serverError.text": {
+    "value": "It may be down or outside your network. Your chats show up on their own when it's back."
+  },
+  "chats.serverError.kept": {
+    "value": "Showing what was already in the app."
+  },
+  "chats.section.agents": {
+    "value": "Agents"
+  },
+  "chats.section.channels": {
+    "value": "Channels"
+  },
+  "chats.section.people": {
+    "value": "People"
+  },
+  "chats.seeAll.agents": {
+    "value": "See all agents"
+  },
+  "chats.seeAll.channels": {
+    "value": "See all channels"
+  },
+  "chats.seeAll.people": {
+    "value": "See all people"
+  },
+  "chats.wait.verb.approval": {
+    "value": "needs your ok"
+  },
+  "chats.wait.verb.question": {
+    "value": "has a question"
+  },
+  "chats.wait.verb.mission": {
+    "value": "wants your review"
+  },
+  "chats.wait.line": {
+    "value": "{{name}} {{verb}}"
+  },
+  "chats.wait.chip.approval": {
+    "value": "Approve"
+  },
+  "chats.wait.chip.question": {
+    "value": "Question"
+  },
+  "chats.wait.chip.mission": {
+    "value": "Mission"
+  },
+  "chats.wait.review": {
+    "value": "Review"
+  },
+  "chats.wait.more": {
+    "value": {
+      "one": "and {{count}} more waiting on you",
+      "other": "and {{count}} more waiting on you"
+    }
+  },
+  "chats.wait.open": {
+    "value": "See what waits on you"
+  },
+  "chats.thread": {
+    "value": "Thread"
+  },
+  "chats.missionState.working": {
+    "value": "working…"
+  },
+  "chats.missionState.waiting": {
+    "value": "Waiting on you"
+  },
+  "chats.missionState.paused": {
+    "value": "Paused"
+  },
+  "chats.missionState.done": {
+    "value": "Done"
+  },
+  "chats.missionState.canceled": {
+    "value": "Canceled"
+  },
+  "chats.missionState.active": {
+    "value": "In progress"
+  },
+  "chats.missionState.proposed": {
+    "value": "Proposed"
+  },
+  "chats.sayHi": {
+    "value": "Say hi to {{name}}."
+  },
+  "chats.channelEmpty": {
+    "value": "No messages yet. Start the conversation."
+  },
+  "chats.closed": {
+    "value": "Closed"
+  },
+  "chats.working": {
+    "value": "working…"
+  },
+  "chats.missionProgress": {
+    "value": "{{done}} of {{total}} items"
+  },
+  "chats.missionIn": {
+    "value": "Mission in {{where}}"
+  },
+  "chats.missionWith": {
+    "value": "Mission with {{who}}"
+  },
+  "chats.mission": {
+    "value": "Mission"
+  },
+  "chats.unreadLabel": {
+    "value": {
+      "one": "{{count}} unread",
+      "other": "{{count}} unread"
+    }
+  },
+  "chats.newChannel": {
+    "value": "New channel"
+  },
+  "chats.newChannelHint": {
+    "value": "For a team or a topic"
+  },
+  "chats.channelPlaceholder": {
+    "value": "Channel name, e.g. marketing"
+  },
+  "chats.createChannel": {
+    "value": "Create channel"
+  },
+  "chats.newChannelHintPersonal": {
+    "value": "For one subject, with several agents"
+  },
+  "chats.channelPlaceholderPersonal": {
+    "value": "Name, e.g. travel"
+  },
+  "chats.createChannelPersonal": {
+    "value": "Create group conversation"
+  },
+  "chats.waitIn": {
+    "value": "in {{where}}"
+  },
+  "chats.workingNowLine": {
+    "value": {
+      "one": "{{count}} agent working now",
+      "other": "{{count}} agents working now"
+    }
+  },
+  "chats.nobodyWorking": {
+    "value": "No agent working right now"
+  },
+  "chats.workingOne": {
+    "value": "{{name}} is working"
+  },
+  "chats.swipe.mute": {
+    "value": "Mute"
+  },
+  "chats.swipe.unmute": {
+    "value": "Unmute"
+  },
+  "chats.firstRunLine": {
+    "value": "{{name}} is setting up the team · {{done}} of {{total}}"
+  },
+  "chats.firstRunLinePersonal": {
+    "value": "{{name}} is setting up your agents · {{done}} of {{total}}"
+  },
+  "chats.first.title": {
+    "value": "Start with your first agent"
+  },
+  "chats.first.subtitle": {
+    "value": "Give it a name and say what it does. It shows up here, as a chat."
+  },
+  "chats.first.examples": {
+    "value": "Examples of what it can do"
+  },
+  "chats.first.example.support.title": {
+    "value": "Answer customers"
+  },
+  "chats.first.example.support.hint": {
+    "value": "Answers questions and calls you when it's urgent"
+  },
+  "chats.first.example.support.what": {
+    "value": "Answer customers' questions and call me when something is urgent"
+  },
+  "chats.first.example.reports.title": {
+    "value": "Write reports"
+  },
+  "chats.first.example.reports.hint": {
+    "value": "Gathers the numbers and hands you a document"
+  },
+  "chats.first.example.reports.what": {
+    "value": "Gather the week's numbers and hand me a report"
+  },
+  "chats.first.example.weekly.title": {
+    "value": "Do something every week"
+  },
+  "chats.first.example.weekly.hint": {
+    "value": "Ask in the chat: “every Monday, send me…”"
+  },
+  "chats.first.example.weekly.what": {
+    "value": "Every Monday morning, send me a summary of what happened that week"
+  },
+  "new.title": {
+    "value": "New"
+  },
+  "new.chat": {
+    "value": "Chat with…"
+  },
+  "new.name": {
+    "value": "Name"
+  },
+  "new.channelFine": {
+    "value": "For a team or a topic."
+  },
+  "new.channelPersonal": {
+    "value": "Group conversation"
+  },
+  "new.channelFinePersonal": {
+    "value": "For one subject, with several agents."
+  },
+  "new.chatSearch": {
+    "value": "Search for a person or an agent"
+  },
+  "new.to": {
+    "value": "To:"
+  },
+  "new.people": {
+    "value": "People"
+  },
+  "new.search": {
+    "value": "Person or agent"
+  },
+  "new.create": {
+    "value": "Create"
+  },
+  "new.agentHint": {
+    "value": "A name and what it does"
+  },
+  "new.chatShort": {
+    "value": "Conversation"
+  },
+  "new.chatHint": {
+    "value": "A person or an agent"
+  },
+  "new.taskHint": {
+    "value": "With an assignee and a due date"
+  },
+  "new.routineHint": {
+    "value": "An agent does it on its own, on schedule"
+  },
+  "new.wikiPage": {
+    "value": "Wiki page"
+  },
+  "new.wikiHint": {
+    "value": "For the team and the agents to read"
+  },
+  "new.wikiHintPersonal": {
+    "value": "For your agents to read"
+  },
+  "new.inviteHint": {
+    "value": "By email or link"
+  },
+  "new.agent.question": {
+    "value": "What will it do?"
+  },
+  "along.agent": {
+    "value": "An agent"
+  },
+  "along.waits": {
+    "value": "{{name}} is waiting for your ok"
+  },
+  "along.on": {
+    "value": "{{name}} · {{what}}"
+  },
+  "along.working": {
+    "value": "{{name}} is working"
+  },
+  "along.more": {
+    "value": "+{{count}}"
+  },
+  "share.title": {
+    "value": "Share"
+  },
+  "share.to": {
+    "value": "To"
+  },
+  "share.line": {
+    "value": "Add a line, if you like"
+  },
+  "share.send": {
+    "value": "Send to {{name}}"
+  },
+  "share.pick": {
+    "value": "Pick an agent"
+  },
+  "share.more": {
+    "value": "+{{count}}"
+  },
+  "share.firstTen": {
+    "value": "The first {{count}} go in this message."
+  },
+  "share.waiting": {
+    "value": "Receiving…"
+  },
+  "share.nothing": {
+    "value": "Nothing to share"
+  },
+  "share.nothingHint": {
+    "value": "Open what you want to send and tap Share."
+  },
+  "share.noAgents": {
+    "value": "No agents yet"
+  },
+  "share.noAgentsHint": {
+    "value": "Create one and it shows here, ready to receive."
+  },
+  "share.createAgent": {
+    "value": "Create agent"
+  },
+  "voice.slideToCancel": {
+    "value": "slide to cancel"
+  },
+  "voice.slideUpToLock": {
+    "value": "slide up to lock"
+  },
+  "voice.locked": {
+    "value": "Locked"
+  },
+  "voice.recording": {
+    "value": "Recording"
+  },
+  "voice.discard": {
+    "value": "Delete"
+  },
+  "voice.send": {
+    "value": "Send"
+  },
+  "voice.seeAll": {
+    "value": "See all"
+  },
+  "chat.someone": {
+    "value": "Someone"
+  },
+  "chat.messageTo": {
+    "value": "Message {{name}}"
+  },
+  "chat.messageIn": {
+    "value": "Message {{channel}}"
+  },
+  "chat.reply": {
+    "value": "Reply"
+  },
+  "chat.people": {
+    "value": {
+      "one": "{{count}} person",
+      "other": "{{count}} people"
+    }
+  },
+  "chat.agentsHere": {
+    "value": {
+      "one": "{{count}} agent",
+      "other": "{{count}} agents"
+    }
+  },
+  "chat.threadIn": {
+    "value": "Thread in #{{channel}}"
+  },
+  "chat.closedThreadIn": {
+    "value": "Closed thread in #{{channel}}"
+  },
+  "chat.missionIn": {
+    "value": "Mission in #{{channel}}"
+  },
+  "chat.threadWith": {
+    "value": "Thread with {{name}}"
+  },
+  "chat.closedThreadWith": {
+    "value": "Closed thread with {{name}}"
+  },
+  "chat.missionWith": {
+    "value": "Mission with {{name}}"
+  },
+  "chat.startedIn": {
+    "value": "Started in #{{channel}}"
+  },
+  "chat.startedWith": {
+    "value": "Started in the conversation with {{name}}"
+  },
+  "chat.replies": {
+    "value": {
+      "one": "{{count}} reply",
+      "other": "{{count}} replies"
+    }
+  },
+  "chat.repliesWord": {
+    "value": {
+      "one": "reply",
+      "other": "replies"
+    }
+  },
+  "chat.thread": {
+    "value": "Thread"
+  },
+  "chat.closed": {
+    "value": "closed"
+  },
+  "chat.options": {
+    "value": "Options"
+  },
+  "chat.profile": {
+    "value": "Profile"
+  },
+  "chat.here": {
+    "value": {
+      "one": "{{count}} here",
+      "other": "{{count}} here"
+    }
+  },
+  "chat.headerAgent": {
+    "value": "{{who}}. Open the profile"
+  },
+  "chat.headerChannel": {
+    "value": "{{who}}. Options"
+  },
+  "chat.switchHint": {
+    "value": "Hold to switch conversations"
+  },
+  "chat.switchTitle": {
+    "value": "Switch conversation"
+  },
+  "chat.switchSearch": {
+    "value": "Search conversations"
+  },
+  "chat.switchAgents": {
+    "value": "Agents"
+  },
+  "chat.switchChannels": {
+    "value": "Channels"
+  },
+  "chat.switchPeople": {
+    "value": "People"
+  },
+  "chat.switchNone": {
+    "value": "No conversation with that name."
+  },
+  "chat.switchWorking": {
+    "value": "working"
+  },
+  "chat.join": {
+    "value": "Join the channel"
+  },
+  "chat.sending": {
+    "value": "Sending…"
+  },
+  "chat.failed": {
+    "value": "Not sent · Try again"
+  },
+  "chat.notSent": {
+    "value": "The message wasn't sent."
+  },
+  "chat.toLatest": {
+    "value": "Go to the latest messages"
+  },
+  "chat.toLatestNew": {
+    "value": "Go to the latest messages: {{text}}"
+  },
+  "chat.stopAgent": {
+    "value": "Stop {{name}}"
+  },
+  "chat.offlineWait": {
+    "value": "Goes out when the connection is back"
+  },
+  "chat.steer.waiting": {
+    "value": "{{name}} reads it at the next pause"
+  },
+  "chat.steer.computer": {
+    "value": "{{name}} reads it when it gets the computer"
+  },
+  "chat.steer.now": {
+    "value": "{{name}} stopped to read it"
+  },
+  "chat.steer.delivered": {
+    "value": "{{name}} got it"
+  },
+  "chat.steer.held": {
+    "value": "{{name}} reads it after your decision"
+  },
+  "chat.steer.read": {
+    "value": "{{name}} read it"
+  },
+  "chat.steer.resolved": {
+    "value": "{{name}} closed the help request"
+  },
+  "chat.steer.well": {
+    "value": "Read your note"
+  },
+  "chat.steer.wellNow": {
+    "value": "Stopped to read your note"
+  },
+  "chat.stopped.byYou": {
+    "value": "Stopped here"
+  },
+  "chat.stopped.by": {
+    "value": "{{name}} stopped here"
+  },
+  "chat.stopped.plain": {
+    "value": "Stopped here"
+  },
+  "chat.stopped.limit": {
+    "value": "At the step limit"
+  },
+  "chat.stopped.stuck": {
+    "value": "Stopped because it got stuck"
+  },
+  "chat.stopped.continue": {
+    "value": "Continue"
+  },
+  "chat.stopped.failed": {
+    "value": "Couldn't continue. Try again."
+  },
+  "chat.unseen.count": {
+    "value": {
+      "one": "{{count}} new",
+      "other": "{{count}} new"
+    }
+  },
+  "chat.unseen.working": {
+    "value": "{{names}} writing"
+  },
+  "chat.unseen.mentionsYou": {
+    "value": "you were mentioned"
+  },
+  "chat.unseen.divider": {
+    "value": "New"
+  },
+  "chat.connection.down": {
+    "value": "No connection. What you send goes out on its own when it's back."
+  },
+  "chat.connection.back": {
+    "value": "Connected again"
+  },
+  "chat.longPressHint": {
+    "value": "Hold to react and see more actions"
+  },
+  "chat.file": {
+    "value": "File"
+  },
+  "chat.fileOpen": {
+    "value": "Tap to open"
+  },
+  "chat.fileDeleted": {
+    "value": "File removed"
+  },
+  "chat.fileFailed": {
+    "value": "Couldn't open the file."
+  },
+  "chat.question.fromF": {
+    "value": "Question from {{name}}"
+  },
+  "chat.question.fromM": {
+    "value": "Question from {{name}}"
+  },
+  "chat.question.own": {
+    "value": "Answer in my own words"
+  },
+  "chat.question.placeholder": {
+    "value": "Your answer"
+  },
+  "chat.question.answered": {
+    "value": "{{name}} answered: {{answer}}"
+  },
+  "chat.question.answeredByYou": {
+    "value": "You answered: {{answer}}"
+  },
+  "chat.question.taken": {
+    "value": "This question was already answered or closed."
+  },
+  "chat.question.closed": {
+    "value": "Closed without an answer."
+  },
+  "chat.approvalPreview": {
+    "value": "Request to approve"
+  },
+  "chat.reactionLabel": {
+    "value": "{{emoji}} {{count}}"
+  },
+  "chat.agentReacted": {
+    "value": "An agent reacted with {{emoji}}"
+  },
+  "chat.reactWith": {
+    "value": "React with {{emoji}}"
+  },
+  "chat.replyInThread": {
+    "value": "Reply in thread"
+  },
+  "chat.openThread": {
+    "value": "Open the thread"
+  },
+  "chat.toMission": {
+    "value": "Turn into a mission"
+  },
+  "chat.copy": {
+    "value": "Copy text"
+  },
+  "chat.copied": {
+    "value": "Copied"
+  },
+  "chat.seeAgent": {
+    "value": "See {{name}}"
+  },
+  "chat.summaryMessage": {
+    "value": "Sum up the chat for me: what happened while I was away?"
+  },
+  "chat.noMission": {
+    "value": "This chat has no mission."
+  },
+  "chat.missionDone.pause": {
+    "value": "Mission paused"
+  },
+  "chat.missionDone.resume": {
+    "value": "Mission resumed"
+  },
+  "chat.missionDone.stop": {
+    "value": "Mission stopped"
+  },
+  "chat.uploading": {
+    "value": "Sending the file…"
+  },
+  "chat.uploadFailed": {
+    "value": "Couldn't send the file."
+  },
+  "chat.doubleTapHint": {
+    "value": "Double tap = 👍"
+  },
+  "chat.react": {
+    "value": "React"
+  },
+  "chat.attach.more": {
+    "value": "Add another photo or file"
+  },
+  "chat.attach.remove": {
+    "value": "Remove {{name}}"
+  },
+  "chat.attach.waiting": {
+    "value": "{{name}}, waiting to be sent"
+  },
+  "chat.attach.sending": {
+    "value": "{{name}}, sending"
+  },
+  "chat.attach.tooMany": {
+    "value": "Up to {{count}} files per message."
+  },
+  "chat.swipeReply": {
+    "value": "Swipe right to reply"
+  },
+  "chat.intent.suggest.merge": {
+    "value": "Go ahead and merge"
+  },
+  "chat.intent.suggest.review": {
+    "value": "Ask {{name}} to review first"
+  },
+  "chat.intent.suggest.seeChange": {
+    "value": "Show me what changed"
+  },
+  "chat.intent.suggest.summarize": {
+    "value": "Sum it up in 3 points"
+  },
+  "chat.intent.suggest.nextStep": {
+    "value": "What's the next step?"
+  },
+  "chat.intent.arrived": {
+    "value": "{{name}} joined the team"
+  },
+  "chat.intent.meet": {
+    "value": "Your first conversation with {{name}}"
+  },
+  "chat.intent.roleIntro": {
+    "value": "{{role}} on your team. Ask in plain words."
+  },
+  "chat.intent.roleIntroPersonal": {
+    "value": "{{role}}, here for you. Ask in plain words."
+  },
+  "chat.intent.noIntro": {
+    "value": "Ask for what you need, in plain words."
+  },
+  "chat.intent.firstTitle": {
+    "value": "To start"
+  },
+  "chat.intent.sendHint": {
+    "value": "Tap to send"
+  },
+  "chat.intent.hello": {
+    "value": "Hi, {{person}}! I'm {{name}}."
+  },
+  "chat.intent.helloNoName": {
+    "value": "Hi! I'm {{name}}."
+  },
+  "chat.intent.helloRole": {
+    "value": "{{role}} on the team."
+  },
+  "chat.intent.helloRolePersonal": {
+    "value": "{{role}}, here for you."
+  },
+  "chat.intent.helloAsk": {
+    "value": "Where do we start?"
+  },
+  "chat.intent.now": {
+    "value": "now"
+  },
+  "chat.intent.start.support.how": {
+    "value": "What's urgent for you"
+  },
+  "chat.intent.start.support.task": {
+    "value": "Reply about the deadline"
+  },
+  "chat.intent.start.support.routine": {
+    "value": "Urgent things, every morning"
+  },
+  "chat.intent.start.ops.how": {
+    "value": "How you spot an outage"
+  },
+  "chat.intent.start.ops.task": {
+    "value": "Check that all is up"
+  },
+  "chat.intent.start.ops.routine": {
+    "value": "The night, every morning"
+  },
+  "chat.intent.start.qa.how": {
+    "value": "What you test first"
+  },
+  "chat.intent.start.qa.task": {
+    "value": "Test cases for sign-in"
+  },
+  "chat.intent.start.qa.routine": {
+    "value": "What broke, every week"
+  },
+  "chat.intent.start.dev.how": {
+    "value": "What you do in our code"
+  },
+  "chat.intent.start.dev.task": {
+    "value": "Review the latest pull request"
+  },
+  "chat.intent.start.dev.routine": {
+    "value": "What changed, every Friday"
+  },
+  "chat.intent.start.research.how": {
+    "value": "What you research best"
+  },
+  "chat.intent.start.research.task": {
+    "value": "Compare three competitors"
+  },
+  "chat.intent.start.research.routine": {
+    "value": "The market, every Monday"
+  },
+  "chat.intent.start.writing.how": {
+    "value": "What you write best"
+  },
+  "chat.intent.start.writing.task": {
+    "value": "Improve a text of mine"
+  },
+  "chat.intent.start.writing.routine": {
+    "value": "Your week in writing"
+  },
+  "chat.intent.start.product.how": {
+    "value": "How you set priorities"
+  },
+  "chat.intent.start.product.task": {
+    "value": "What's late in the tasks"
+  },
+  "chat.intent.start.product.routine": {
+    "value": "The plan, every Monday"
+  },
+  "chat.intent.start.sales.how": {
+    "value": "How you find good leads"
+  },
+  "chat.intent.start.sales.task": {
+    "value": "An email about the product"
+  },
+  "chat.intent.start.sales.routine": {
+    "value": "New leads, every Monday"
+  },
+  "chat.intent.start.general.how": {
+    "value": "What you can do for me"
+  },
+  "chat.intent.start.general.task": {
+    "value": "Show me an example"
+  },
+  "chat.intent.start.general.routine": {
+    "value": "Your week, every Monday"
+  },
+  "chat.intent.first.support.how": {
+    "value": "How do you decide what's urgent?"
+  },
+  "chat.intent.first.support.task": {
+    "value": "Write a reply for people asking about the deadline"
+  },
+  "chat.intent.first.support.routine": {
+    "value": "Every morning, send me what came in that's urgent"
+  },
+  "chat.intent.first.ops.how": {
+    "value": "How do you know when something goes down?"
+  },
+  "chat.intent.first.ops.task": {
+    "value": "Check that everything is up right now"
+  },
+  "chat.intent.first.ops.routine": {
+    "value": "Every morning, tell me how the night went"
+  },
+  "chat.intent.first.qa.how": {
+    "value": "How do you decide what to test first?"
+  },
+  "chat.intent.first.qa.task": {
+    "value": "Write the test cases for sign-in"
+  },
+  "chat.intent.first.qa.routine": {
+    "value": "Every week, send me what broke"
+  },
+  "chat.intent.first.dev.how": {
+    "value": "What can you do in our code?"
+  },
+  "chat.intent.first.dev.task": {
+    "value": "Review the latest open pull request"
+  },
+  "chat.intent.first.dev.routine": {
+    "value": "Every Friday, send me what changed in the code"
+  },
+  "chat.intent.first.research.how": {
+    "value": "What kind of research do you do best?"
+  },
+  "chat.intent.first.research.task": {
+    "value": "Research three competitors and compare their prices"
+  },
+  "chat.intent.first.research.routine": {
+    "value": "Every Monday, send me what's new in the market"
+  },
+  "chat.intent.first.writing.how": {
+    "value": "What kind of writing do you do best?"
+  },
+  "chat.intent.first.writing.task": {
+    "value": "Review a text of mine and tell me what to improve"
+  },
+  "chat.intent.first.writing.routine": {
+    "value": "Every Friday, tell me what you wrote this week"
+  },
+  "chat.intent.first.product.how": {
+    "value": "How do you set priorities?"
+  },
+  "chat.intent.first.product.task": {
+    "value": "List what's late in the tasks"
+  },
+  "chat.intent.first.product.routine": {
+    "value": "Every Monday, send me the plan for the week"
+  },
+  "chat.intent.first.sales.how": {
+    "value": "How do you find good leads?"
+  },
+  "chat.intent.first.sales.task": {
+    "value": "Write an email introducing the product"
+  },
+  "chat.intent.first.sales.routine": {
+    "value": "Every Monday, send me the new leads"
+  },
+  "chat.intent.first.general.how": {
+    "value": "What can you do for me?"
+  },
+  "chat.intent.first.general.task": {
+    "value": "Show me an example of what you do"
+  },
+  "chat.intent.first.general.routine": {
+    "value": "Every Monday, tell me what you did this week"
+  },
+  "plus.camera": {
+    "value": "Camera"
+  },
+  "plus.photos": {
+    "value": "Photos"
+  },
+  "plus.file": {
+    "value": "File"
+  },
+  "plus.media": {
+    "value": "GIFs"
+  },
+  "plus.noCamera": {
+    "value": "No camera access. Allow it in the phone's Settings."
+  },
+  "plus.mission": {
+    "value": "Start a mission"
+  },
+  "plus.missionHint": {
+    "value": "Long work, with a plan, from start to finish"
+  },
+  "plus.summary": {
+    "value": "Sum up the chat"
+  },
+  "plus.summaryHint": {
+    "value": "What happened while you were away"
+  },
+  "plus.remind": {
+    "value": "Remind me later"
+  },
+  "plus.remindHint": {
+    "value": "An agent reminds you here"
+  },
+  "remind.title": {
+    "value": "Remind me"
+  },
+  "remind.sub": {
+    "value": "An agent here reminds you in this chat"
+  },
+  "remind.what": {
+    "value": "Remind you of what?"
+  },
+  "remind.placeholder": {
+    "value": "Remind you of what? E.g. review the pricing page"
+  },
+  "remind.aboutThis": {
+    "value": "Remind me about this"
+  },
+  "remind.preset.inHour": {
+    "value": "In 1 hour"
+  },
+  "remind.preset.tonight": {
+    "value": "Tonight"
+  },
+  "remind.preset.tomorrowMorning": {
+    "value": "Tomorrow morning"
+  },
+  "remind.custom": {
+    "value": "Pick a time…"
+  },
+  "remind.tomorrow": {
+    "value": "Tomorrow"
+  },
+  "remind.todayAt": {
+    "value": "Today, {{time}}"
+  },
+  "remind.tomorrowAt": {
+    "value": "Tomorrow, {{time}}"
+  },
+  "remind.dayAt": {
+    "value": "{{day}}, {{time}}"
+  },
+  "remind.hour": {
+    "value": "Hour"
+  },
+  "remind.hourLess": {
+    "value": "One hour earlier"
+  },
+  "remind.hourMore": {
+    "value": "One hour later"
+  },
+  "remind.minute": {
+    "value": "Minutes"
+  },
+  "remind.minuteLess": {
+    "value": "{{n}} minutes earlier"
+  },
+  "remind.minuteMore": {
+    "value": "{{n}} minutes later"
+  },
+  "remind.submit": {
+    "value": "Remind me at this time"
+  },
+  "remind.quick": {
+    "value": "See quick times"
+  },
+  "remind.done": {
+    "value": "Reminder set"
+  },
+  "remind.error.noAgent": {
+    "value": "No agent here can remind you"
+  },
+  "remind.error.past": {
+    "value": "That time has already passed"
+  },
+  "remind.error.tooFar": {
+    "value": "Reminders go up to a year ahead"
+  },
+  "remind.error.noText": {
+    "value": "Write what to remind you of"
+  },
+  "remind.error.failed": {
+    "value": "Couldn't set the reminder. Try again."
+  },
+  "pins.title": {
+    "value": "Pinned"
+  },
+  "pins.pin": {
+    "value": "Pin"
+  },
+  "pins.unpin": {
+    "value": "Unpin"
+  },
+  "pins.pinned": {
+    "value": "Message pinned"
+  },
+  "pins.unpinned": {
+    "value": "Message unpinned"
+  },
+  "pins.full": {
+    "value": "This chat already has 100 pinned. Unpin one first."
+  },
+  "pins.mark": {
+    "value": "Pinned"
+  },
+  "pins.none": {
+    "value": "Nothing pinned yet"
+  },
+  "pins.empty": {
+    "value": "Nothing pinned here yet. Hold a message and tap Pin."
+  },
+  "pins.bar": {
+    "value": {
+      "one": "Pinned messages ({{count}})",
+      "other": "Pinned messages ({{count}})"
+    }
+  },
+  "pins.unpinOf": {
+    "value": "Unpin the message from {{name}}"
+  },
+  "pins.peek": {
+    "value": "Pinned"
+  },
+  "pins.peekHint": {
+    "value": "Pull down to see the pinned messages"
+  },
+  "thread.threadIn": {
+    "value": "Thread in #{{channel}}"
+  },
+  "thread.missionIn": {
+    "value": "Mission in #{{channel}}"
+  },
+  "thread.seePlan": {
+    "value": "See plan and progress"
+  },
+  "thread.pause": {
+    "value": "Pause the mission"
+  },
+  "thread.pauseHintF": {
+    "value": "{{name}} finishes the current item and stops"
+  },
+  "thread.pauseHintM": {
+    "value": "{{name}} finishes the current item and stops"
+  },
+  "thread.resume": {
+    "value": "Resume the mission"
+  },
+  "thread.conclude": {
+    "value": "Finish the mission"
+  },
+  "thread.concludeHint": {
+    "value": "Keeps the decisions in the wiki"
+  },
+  "thread.toMissionHint": {
+    "value": "Becomes work with a plan"
+  },
+  "thread.follow": {
+    "value": "Follow"
+  },
+  "thread.followHint": {
+    "value": "Let me know when someone replies"
+  },
+  "thread.close": {
+    "value": "Close"
+  },
+  "thread.closeHint": {
+    "value": "Resolved. It opens again if someone replies"
+  },
+  "thread.reopen": {
+    "value": "Open again"
+  },
+  "thread.archive": {
+    "value": "Archive"
+  },
+  "thread.archiveHint": {
+    "value": "Leaves the lists and search"
+  },
+  "thread.done.close": {
+    "value": "Thread closed"
+  },
+  "thread.done.closeSub": {
+    "value": "It opens again if someone replies."
+  },
+  "thread.done.reopen": {
+    "value": "Thread open again"
+  },
+  "thread.done.archive": {
+    "value": "Archived"
+  },
+  "thread.done.paused": {
+    "value": "Mission paused"
+  },
+  "thread.done.resumed": {
+    "value": "Mission resumed"
+  },
+  "thread.done.concluded": {
+    "value": "Mission finished"
+  },
+  "newMission.title": {
+    "value": "New mission"
+  },
+  "newMission.intro": {
+    "value": "The agent makes a plan and only starts when you say so."
+  },
+  "newMission.placeholder": {
+    "value": "What needs to get done?"
+  },
+  "newMission.submit": {
+    "value": "Ask for a plan"
+  },
+  "newMission.created": {
+    "value": "{{name}} is making the plan"
+  },
+  "newMission.noAgents": {
+    "value": "No agent can run missions yet. Connect a computer on the website."
+  },
+  "newMission.reason.no_computer": {
+    "value": "Needs a connected computer"
+  },
+  "newMission.reason.exec_off": {
+    "value": "The computer doesn't allow running commands"
+  },
+  "newMission.reason.runner_outdated": {
+    "value": "The computer needs an update"
+  },
+  "newMission.reason.not_in_audience": {
+    "value": "Doesn't work with you"
+  },
+  "mission.kind": {
+    "value": "Mission"
+  },
+  "mission.in": {
+    "value": "Mission in #{{channel}}"
+  },
+  "mission.working": {
+    "value": "{{name}} working"
+  },
+  "mission.ofTotal": {
+    "value": "of {{total}}"
+  },
+  "mission.waitingYou": {
+    "value": {
+      "one": "{{count}} waiting for you",
+      "other": "{{count}} waiting for you"
+    }
+  },
+  "mission.cardLabel": {
+    "value": "Mission {{title}}, {{done}} of {{total}} items done"
+  },
+  "mission.owner": {
+    "value": "{{name}} owns it"
+  },
+  "mission.since": {
+    "value": "since {{when}}"
+  },
+  "mission.hours": {
+    "value": {
+      "one": "{{count}} h of work",
+      "other": "{{count}} h of work"
+    }
+  },
+  "mission.itemsDone": {
+    "value": "of {{total}} items done"
+  },
+  "mission.computerOn": {
+    "value": "{{name}} · on"
+  },
+  "mission.computerOff": {
+    "value": "{{name}} · off"
+  },
+  "mission.computerNotAnswering": {
+    "value": "{{name}} · not answering"
+  },
+  "mission.computerOffPlain": {
+    "value": "Computer off"
+  },
+  "mission.computerNotAnsweringPlain": {
+    "value": "Computer not answering"
+  },
+  "mission.running": {
+    "value": {
+      "one": "{{count}} item in progress",
+      "other": "{{count}} items in progress"
+    }
+  },
+  "mission.conversation": {
+    "value": "Mission chat"
+  },
+  "mission.onComputer": {
+    "value": "On the computer now"
+  },
+  "mission.queued": {
+    "value": "Queued"
+  },
+  "mission.base": {
+    "value": "from {{base}}"
+  },
+  "mission.setupTitle": {
+    "value": "Prepare the project"
+  },
+  "mission.readOnly": {
+    "value": "read only"
+  },
+  "mission.setup.cap": {
+    "value": "Project"
+  },
+  "mission.setup.preparing": {
+    "value": "Preparing the project…"
+  },
+  "mission.setup.failedShort": {
+    "value": "Couldn't prepare the project"
+  },
+  "mission.setup.failedTitle": {
+    "value": "I couldn't prepare the project"
+  },
+  "mission.setup.retry": {
+    "value": "Try again"
+  },
+  "mission.setup.retrying": {
+    "value": "Preparing the project again"
+  },
+  "mission.setup.ready": {
+    "value": "Project ready: the mission goes on"
+  },
+  "mission.setup.waiting": {
+    "value": "Whoever acts on the mission can try again."
+  },
+  "mission.setup.lostTitle": {
+    "value": "The mission's work is gone from this computer"
+  },
+  "mission.setup.lostText": {
+    "value": "The branch {{branch}} no longer exists. Starting over makes a new copy from the base."
+  },
+  "mission.setup.restart": {
+    "value": "Start over"
+  },
+  "mission.minutes": {
+    "value": {
+      "one": "{{count}} min",
+      "other": "{{count}} min"
+    }
+  },
+  "mission.decisions": {
+    "value": "Decisions"
+  },
+  "mission.notFound": {
+    "value": "This mission no longer exists or you can't see it."
+  },
+  "mission.status.proposed": {
+    "value": "Plan to approve"
+  },
+  "mission.status.active": {
+    "value": "In progress"
+  },
+  "mission.status.paused": {
+    "value": "Paused"
+  },
+  "mission.status.awaiting_close": {
+    "value": "Ready to finish"
+  },
+  "mission.status.done": {
+    "value": "Finished"
+  },
+  "mission.status.canceled": {
+    "value": "Canceled"
+  },
+  "mission.plan.section": {
+    "value": "Plan"
+  },
+  "mission.plan.title": {
+    "value": "Mission plan"
+  },
+  "mission.plan.titleCount": {
+    "value": {
+      "one": "Plan · {{count}} item",
+      "other": "Plan · {{count}} items"
+    }
+  },
+  "mission.plan.more": {
+    "value": {
+      "one": "and {{count}} more",
+      "other": "and {{count}} more"
+    }
+  },
+  "mission.plan.planningF": {
+    "value": "{{name}} is making the plan…"
+  },
+  "mission.plan.planningM": {
+    "value": "{{name}} is making the plan…"
+  },
+  "mission.plan.change": {
+    "value": "Change something"
+  },
+  "mission.plan.changeTitle": {
+    "value": "What should change in the plan?"
+  },
+  "mission.plan.changePlaceholder": {
+    "value": "E.g. start with the sign-in screen"
+  },
+  "mission.plan.changeSent": {
+    "value": "Note delivered"
+  },
+  "mission.plan.changeQueued": {
+    "value": "Note saved: it arrives when the computer is on"
+  },
+  "mission.plan.start": {
+    "value": "Start"
+  },
+  "mission.plan.started": {
+    "value": "Mission started: {{title}}"
+  },
+  "mission.plan.startedToast": {
+    "value": "Mission started"
+  },
+  "mission.plan.startedSubF": {
+    "value": "{{name}} will show you when there's something to see."
+  },
+  "mission.plan.startedSubM": {
+    "value": "{{name}} will show you when there's something to see."
+  },
+  "mission.plan.doing": {
+    "value": "In progress"
+  },
+  "mission.plan.waiting": {
+    "value": "Waiting for you"
+  },
+  "mission.review.ready": {
+    "value": "Ready for you to see"
+  },
+  "mission.review.approve": {
+    "value": "Approve"
+  },
+  "mission.review.askChanges": {
+    "value": "Ask for changes"
+  },
+  "mission.review.whatChange": {
+    "value": "What should change?"
+  },
+  "mission.review.changesPlaceholder": {
+    "value": "E.g. the send button is small on Android"
+  },
+  "mission.review.sendChanges": {
+    "value": "Send changes"
+  },
+  "mission.review.changesSent": {
+    "value": "Changes sent"
+  },
+  "mission.review.changesSentSubF": {
+    "value": "{{name}} adjusts it and shows you again."
+  },
+  "mission.review.changesSentSubM": {
+    "value": "{{name}} adjusts it and shows you again."
+  },
+  "mission.review.approvedSubF": {
+    "value": "{{name}} moves on to the next item."
+  },
+  "mission.review.approvedSubM": {
+    "value": "{{name}} moves on to the next item."
+  },
+  "mission.review.approved": {
+    "value": "You approved: {{title}}"
+  },
+  "mission.review.changes": {
+    "value": "Changes asked: {{title}}"
+  },
+  "mission.decision.title": {
+    "value": "Decision"
+  },
+  "mission.decision.decided": {
+    "value": "Decided"
+  },
+  "mission.decision.recommended": {
+    "value": "Recommended"
+  },
+  "mission.decision.noted": {
+    "value": "Decision noted"
+  },
+  "mission.decision.notedSub": {
+    "value": "It stays in the mission's decisions."
+  },
+  "threads.title": {
+    "value": "Threads"
+  },
+  "threads.section.missions": {
+    "value": "Missions"
+  },
+  "threads.section.threads": {
+    "value": "Threads"
+  },
+  "agents.title": {
+    "value": "Agents"
+  },
+  "agents.subtitle": {
+    "value": {
+      "one": "{{count}} on the team · {{working}} working",
+      "other": "{{count}} on the team · {{working}} working"
+    }
+  },
+  "agents.free": {
+    "value": "Free"
+  },
+  "agents.workingLabel": {
+    "value": "{{name}}, working"
+  },
+  "agents.new": {
+    "value": "New agent"
+  },
+  "agents.namePlaceholder": {
+    "value": "Name, e.g. Nina"
+  },
+  "agents.whatPlaceholder": {
+    "value": "E.g. answer customers by email and tell me when something is urgent"
+  },
+  "agents.create": {
+    "value": "Create agent"
+  },
+  "agents.created": {
+    "value": "{{name}} joined the team"
+  },
+  "agents.createFailed": {
+    "value": "Couldn't create the agent. Maybe that name is taken."
+  },
+  "agents.freeSection": {
+    "value": "Free"
+  },
+  "agents.noGroupSection": {
+    "value": "No department"
+  },
+  "agents.workingSection": {
+    "value": "Working"
+  },
+  "agents.teamSection": {
+    "value": "Team"
+  },
+  "agents.teamSectionPersonal": {
+    "value": "Your agents"
+  },
+  "agents.managerQuiet": {
+    "value": "Nothing in progress"
+  },
+  "agents.state.waitsYou": {
+    "value": "waits for your OK"
+  },
+  "agents.state.noAi": {
+    "value": "No AI connected"
+  },
+  "agents.state.connect": {
+    "value": "Connect"
+  },
+  "agents.state.archived": {
+    "value": "Archived"
+  },
+  "agents.state.routine": {
+    "value": "On a routine · {{time}}"
+  },
+  "agents.state.routineShort": {
+    "value": "on a routine"
+  },
+  "agents.thinksWith": {
+    "value": "Thinks with {{label}}"
+  },
+  "team.entry": {
+    "value": "Org chart and channels"
+  },
+  "team.sectorLead": {
+    "value": "{{name}} leads"
+  },
+  "team.sectorBackup": {
+    "value": "{{name}} stands in"
+  },
+  "team.mapHint": {
+    "value": "To move an agent to another channel, use the map on the web or talk to {{name}}."
+  },
+  "agentEdit.missing": {
+    "value": "This agent no longer exists."
+  },
+  "agentEdit.saved": {
+    "value": "Changes saved"
+  },
+  "agentEdit.adminsOnly": {
+    "value": "Only admins change the name, role and instructions."
+  },
+  "agentEdit.discardTitle": {
+    "value": "Discard your changes?"
+  },
+  "agentEdit.discardText": {
+    "value": "What you changed hasn't been saved yet."
+  },
+  "agentEdit.discard": {
+    "value": "Discard"
+  },
+  "agentEdit.keepEditing": {
+    "value": "Keep editing"
+  },
+  "newAgent.leaveTitle": {
+    "value": "Leave without creating?"
+  },
+  "newAgent.leaveText": {
+    "value": "The agent you started won't be created."
+  },
+  "newAgent.keepGoing": {
+    "value": "Keep creating"
+  },
+  "newAgent.identityQuestion": {
+    "value": "Who is the agent?"
+  },
+  "newAgent.identityLead": {
+    "value": "Its name, how to call it in the chat, and its face."
+  },
+  "newAgent.handleMention": {
+    "value": "Mention @{{handle}} to call it."
+  },
+  "newAgent.handleFromName": {
+    "value": "In the chat: @{{handle}}. It comes from the name. You can change it."
+  },
+  "newAgent.handleFromNameEmpty": {
+    "value": "Its @ in the chat comes from the name."
+  },
+  "newAgent.reviewLead": {
+    "value": "Tap a line to change it."
+  },
+  "newAgent.planHint": {
+    "value": "Or connect your AI plan: {{name}} then thinks with it, without spending the key.",
+    "female": "Or connect your AI plan: {{name}} then thinks with it, without spending the key."
+  },
+  "newAgent.partly": {
+    "value": "The agent was created, but part of what its role brings didn't go through. Adjust it on its profile."
+  },
+  "newAgent.import.where.openbotrun": {
+    "value": "Pick openbot-import.json (from Migrator by OpenBot) or openbot-transfer.json (from the instance transfer). A .zip opens in the Files app first: a tap unzips it."
+  },
+  "newAgent.import.where.openmausbot": {
+    "value": "In OpenMausBot: right-click the team › Share team… › Save file. Then pick that file here."
+  },
+  "newAgent.import.where.hermes": {
+    "value": "Hermes exports from a terminal (hermes profile export), as a .tar.gz the phone can't open. Import it on the computer, or pick the profile's .md and .yaml files here."
+  },
+  "newAgent.import.where.openclaw": {
+    "value": "OpenClaw keeps agents in the ~/.openclaw folder on the computer. Pick a workspace's .md files here, or import the whole folder on the computer."
+  },
+  "newAgent.import.where.paperclip": {
+    "value": "Paste the package's GitHub link below, or pick its COMPANY.md and the other .md files."
+  },
+  "newAgent.import.where.agenteschat": {
+    "value": "In the other workspace: Settings › Import and export › Download the file. Then pick the .json here."
+  },
+  "newAgent.import.pick": {
+    "value": "Choose files"
+  },
+  "newAgent.import.pasteTitle": {
+    "value": "Or paste the other app's reply or a GitHub link"
+  },
+  "newAgent.import.paste": {
+    "value": "Paste"
+  },
+  "newAgent.import.read": {
+    "value": "Read"
+  },
+  "newAgent.import.copyFailed": {
+    "value": "Couldn't copy. Try again."
+  },
+  "newAgent.import.archive": {
+    "value": "The phone doesn't open .zip or .tar.gz files. In the Files app, tap the .zip to unzip it and pick the files inside, or import on the computer."
+  },
+  "newAgent.import.privacy": {
+    "value": "Read on this phone. Key and login files are never opened."
+  },
+  "newAgent.import.also": {
+    "value": "Also comes along"
+  },
+  "newAgent.import.change": {
+    "value": "Change"
+  },
+  "newAgent.import.arrived": {
+    "value": {
+      "one": "{{name}} arrived",
+      "other": "{{count}} agents arrived"
+    }
+  },
+  "newAgent.import.partial": {
+    "value": "{{done}} of {{total}} arrived. Importing again brings the rest."
+  },
+  "agent.talk": {
+    "value": "Chat"
+  },
+  "agent.task": {
+    "value": "Task"
+  },
+  "agent.owner": {
+    "value": "owner: {{name}}"
+  },
+  "agent.cantTalk": {
+    "value": "This agent doesn't work with you."
+  },
+  "agent.now": {
+    "value": "Now"
+  },
+  "agent.freeHint": {
+    "value": "Call it when you need"
+  },
+  "agent.does": {
+    "value": "What it does"
+  },
+  "agent.canUse": {
+    "value": "Can use"
+  },
+  "agent.month": {
+    "value": "This month"
+  },
+  "agent.ofBudget": {
+    "value": "of {{budget}} a month"
+  },
+  "agent.ofMonthBudget": {
+    "value": "of this month's budget"
+  },
+  "agent.exhaustedF": {
+    "value": "{{name}} used all of this month's budget."
+  },
+  "agent.exhaustedM": {
+    "value": "{{name}} used all of this month's budget."
+  },
+  "agent.taskForF": {
+    "value": "Task for {{name}}"
+  },
+  "agent.taskForM": {
+    "value": "Task for {{name}}"
+  },
+  "agent.taskPlaceholder": {
+    "value": "What needs to get done?"
+  },
+  "agent.sendTask": {
+    "value": "Send task"
+  },
+  "agent.taskSent": {
+    "value": "Task sent"
+  },
+  "activity.title": {
+    "value": "Activity"
+  },
+  "activity.chooseModel": {
+    "value": "Choose another model"
+  },
+  "activity.filter.all": {
+    "value": "All"
+  },
+  "activity.filter.waiting": {
+    "value": "Requests"
+  },
+  "activity.filter.done": {
+    "value": "Done"
+  },
+  "activity.doneToast": {
+    "value": "Done"
+  },
+  "activity.undo": {
+    "value": "Undo"
+  },
+  "activity.day.today": {
+    "value": "Today"
+  },
+  "activity.day.yesterday": {
+    "value": "Yesterday"
+  },
+  "activity.day.week": {
+    "value": "This week"
+  },
+  "activity.day.older": {
+    "value": "Older"
+  },
+  "activity.kind.proposal_waiting": {
+    "value": {
+      "one": "{{names}} proposes an improvement",
+      "other": "{{names}} propose improvements"
+    }
+  },
+  "activity.kind.mention": {
+    "value": {
+      "one": "{{names}} mentioned you",
+      "other": "{{names}} mentioned you"
+    }
+  },
+  "activity.kind.thread_reply": {
+    "value": {
+      "one": "{{names}} replied in the thread",
+      "other": "{{names}} replied in the thread"
+    }
+  },
+  "activity.kind.agent_reply": {
+    "value": {
+      "one": "{{names}} replied",
+      "other": "{{names}} replied"
+    }
+  },
+  "activity.kind.dm": {
+    "value": {
+      "one": "{{names}} sent you a message",
+      "other": "{{names}} sent you messages"
+    }
+  },
+  "activity.kind.agent_question": {
+    "value": {
+      "one": "{{names}} asks",
+      "other": "{{names}} ask"
+    }
+  },
+  "activity.kind.issue_assigned": {
+    "value": {
+      "one": "A task for you",
+      "other": "Tasks for you"
+    }
+  },
+  "activity.kind.issue_comment": {
+    "value": {
+      "one": "{{names}} commented on a task",
+      "other": "{{names}} commented on a task"
+    }
+  },
+  "activity.kind.issue_status": {
+    "value": {
+      "one": "{{names}} changed a task",
+      "other": "{{names}} changed a task"
+    }
+  },
+  "activity.kind.approval": {
+    "value": {
+      "one": "{{names}} asks for approval",
+      "other": "{{names}} ask for approval"
+    }
+  },
+  "activity.kind.mission_finished": {
+    "value": {
+      "one": "Mission finished",
+      "other": "Mission finished"
+    }
+  },
+  "activity.kind.mission_stopped": {
+    "value": {
+      "one": "Mission stopped",
+      "other": "Mission stopped"
+    }
+  },
+  "activity.kind.routine_finished": {
+    "value": {
+      "one": "Routine finished",
+      "other": "Routine finished"
+    }
+  },
+  "activity.kind.routine_failed": {
+    "value": {
+      "one": "Routine failed",
+      "other": "Routine failed"
+    }
+  },
+  "activity.kind.run_failed": {
+    "value": {
+      "one": "Couldn't finish",
+      "other": "Couldn't finish"
+    }
+  },
+  "activity.kind.routine_paused": {
+    "value": {
+      "one": "Routine paused",
+      "other": "Routine paused"
+    }
+  },
+  "activity.kind.routine_stalled": {
+    "value": {
+      "one": "Routine waiting for the computer",
+      "other": "Routine waiting for the computer"
+    }
+  },
+  "activity.kind.agent_unreached": {
+    "value": {
+      "one": "A routine couldn't call an agent",
+      "other": "A routine couldn't call an agent"
+    }
+  },
+  "activity.kind.routine_waiting_plan": {
+    "value": {
+      "one": "Routine waiting for the plan to reset",
+      "other": "Routine waiting for the plan to reset"
+    }
+  },
+  "activity.kind.plan_reset_unknown": {
+    "value": {
+      "one": "{{plan}} didn't say when its limit resets",
+      "other": "{{plan}} didn't say when its limit resets"
+    }
+  },
+  "activity.kind.catch_up_closed": {
+    "value": {
+      "one": "{{names}} skipped {{count}} conversation that didn't need an answer",
+      "other": "{{names}} skipped {{count}} conversations that didn't need an answer"
+    }
+  },
+  "activity.kind.catch_up_closed_asker": {
+    "value": {
+      "one": "{{names}} didn't answer: {{who}} already took care of it",
+      "other": "{{names}} didn't answer: {{who}} already took care of it"
+    }
+  },
+  "activity.kind.catch_up_closed_asker_task": {
+    "value": {
+      "one": "{{names}} didn't answer: {{who}} canceled the task",
+      "other": "{{names}} didn't answer: {{who}} canceled the task"
+    }
+  },
+  "activity.kind.reaction": {
+    "value": {
+      "one": "{{names}} reacted",
+      "other": "{{names}} reacted"
+    }
+  },
+  "activity.kind.browser_handoff": {
+    "value": {
+      "one": "{{names}} needs you in the browser",
+      "other": "{{names}} need you in the browser"
+    }
+  },
+  "activity.kind.secret_request": {
+    "value": {
+      "one": "{{names}} needs a secret from you",
+      "other": "{{names}} need a secret from you"
+    }
+  },
+  "activity.kind.desktop_handoff": {
+    "value": {
+      "one": "{{names}} needs you on the computer",
+      "other": "{{names}} need you on the computer"
+    }
+  },
+  "activity.kind.org_standing": {
+    "value": {
+      "one": "The workspace's status changed",
+      "other": "The workspace's status changed"
+    }
+  },
+  "activity.kind.computer_ready": {
+    "value": {
+      "one": "Your workspace's computer is ready",
+      "other": "Your workspace's computer is ready"
+    }
+  },
+  "activity.kind.invitation_accepted": {
+    "value": {
+      "one": "{{names}} accepted your invitation",
+      "other": "{{names}} accepted your invitation"
+    }
+  },
+  "activity.kind.composio_limit": {
+    "value": {
+      "one": "This workspace used its Composio calls for the month",
+      "other": "This workspace used its Composio calls for the month"
+    }
+  },
+  "activity.kind.change_request": {
+    "value": {
+      "one": "{{names}} asks for a change to the team",
+      "other": "{{names}} ask for a change to the team"
+    }
+  },
+  "activity.kind.usage_limit_warning": {
+    "value": "You've used {{percent}}% of your limit this month"
+  },
+  "activity.kind.usage_limit_reached_notify": {
+    "value": "You've reached your usage limit for this month"
+  },
+  "activity.kind.usage_limit_reached": {
+    "value": "{{names}} reached their {{amount}} limit"
+  },
+  "activity.kind.usage_limit_request": {
+    "value": "{{names}} reached their {{amount}} limit and asks for more"
+  },
+  "activity.kind.usage_limit_raised": {
+    "value": "{{names}} raised your limit for this month"
+  },
+  "activity.kind.usage_limit_refused": {
+    "value": "{{names}} turned down your request for more"
+  },
+  "activity.kind.approval_cover": {
+    "value": {
+      "one": "{{names}} picked you in Who approves for me",
+      "other": "{{names}} picked you in Who approves for me"
+    }
+  },
+  "activity.kind.approval_cover_declined": {
+    "value": {
+      "one": "{{names}} won't approve for you any more",
+      "other": "{{names}} won't approve for you any more"
+    }
+  },
+  "activity.kind.approval_cover_ended": {
+    "value": {
+      "one": "{{names}} ended who approves for you",
+      "other": "{{names}} ended who approves for you"
+    }
+  },
+  "activity.kind.right_hand_decided": {
+    "value": {
+      "one": "{{names}} approved requests for you today",
+      "other": "{{names}} approved requests for you today"
+    }
+  },
+  "activity.kind.right_hand_paused": {
+    "value": {
+      "one": "{{names}} stopped approving for you",
+      "other": "{{names}} stopped approving for you"
+    }
+  },
+  "activity.kind.browser_profile_request": {
+    "value": {
+      "one": "{{names}} asks for one more browser profile",
+      "other": "{{names}} ask for one more browser profile"
+    }
+  },
+  "activity.kind.desktop_taken": {
+    "value": {
+      "one": "{{names}} took control of the screen of {{agent}}'s computer",
+      "other": "{{names}} took control of the screen of {{agent}}'s computer"
+    },
+    "female": {
+      "one": "{{names}} took control of the screen of {{agent}}'s computer",
+      "other": "{{names}} took control of the screen of {{agent}}'s computer"
+    }
+  },
+  "activity.kind.plan_lent": {
+    "value": {
+      "one": "{{names}} connected your {{plan}} plan to {{agent}}",
+      "other": "{{names}} connected your {{plan}} plan to {{agent}}"
+    },
+    "female": {
+      "one": "{{names}} connected your {{plan}} plan to {{agent}}",
+      "other": "{{names}} connected your {{plan}} plan to {{agent}}"
+    }
+  },
+  "activity.kind.plan_model_dropped": {
+    "value": {
+      "one": "{{model}} left {{plan}}. {{names}} is using {{runs}} for now",
+      "other": "{{model}} left {{plan}}. {{names}} is using {{runs}} for now"
+    }
+  },
+  "activity.kind.computer_disk_full": {
+    "value": {
+      "one": "A computer's disk is almost full",
+      "other": "A computer's disk is almost full"
+    }
+  },
+  "activity.kind.computer_no_chrome": {
+    "value": {
+      "one": "A computer needs Google Chrome. Get it at google.com/chrome",
+      "other": "Computers need Google Chrome. Get it at google.com/chrome"
+    }
+  },
+  "activity.kind.app_created": {
+    "value": {
+      "one": "An AI app created things for you",
+      "other": "An AI app created things for you"
+    }
+  },
+  "activity.markRead": {
+    "value": "Mark as read"
+  },
+  "activity.markUnread": {
+    "value": "Mark as unread"
+  },
+  "activity.unread": {
+    "value": "Unread"
+  },
+  "activity.done": {
+    "value": "Done"
+  },
+  "activity.restore": {
+    "value": "Move back"
+  },
+  "activity.noneDone": {
+    "value": "Nothing marked done in the last 30 days."
+  },
+  "activity.more": {
+    "value": "See more"
+  },
+  "activity.empty": {
+    "value": "Nothing is waiting for you. Breathe."
+  },
+  "find.title": {
+    "value": "Search"
+  },
+  "find.short": {
+    "value": "Search"
+  },
+  "find.recent": {
+    "value": "Recent"
+  },
+  "find.placeholder": {
+    "value": "Search chats, agents, messages"
+  },
+  "find.actions": {
+    "value": "Actions"
+  },
+  "find.agents": {
+    "value": "Agents"
+  },
+  "find.conversations": {
+    "value": "Chats"
+  },
+  "find.messages": {
+    "value": "Messages"
+  },
+  "find.files": {
+    "value": "Files"
+  },
+  "find.filter.all": {
+    "value": "All"
+  },
+  "find.nothing": {
+    "value": "Nothing for “{{q}}”."
+  },
+  "find.filters": {
+    "value": "Filters"
+  },
+  "find.filterWord.from": {
+    "value": "From"
+  },
+  "find.filterWord.in": {
+    "value": "In"
+  },
+  "find.filterWord.has": {
+    "value": "With a file"
+  },
+  "find.filterWord.date": {
+    "value": "Date"
+  },
+  "find.action.newConversation": {
+    "value": "New chat"
+  },
+  "find.action.newTask": {
+    "value": "Ask for a task"
+  },
+  "find.action.newAgent": {
+    "value": "Create agent"
+  },
+  "channelRef.list": {
+    "value": "Channels"
+  },
+  "channelRef.a11y": {
+    "value": "Channel #{{name}}"
+  },
+  "channelRef.archivedA11y": {
+    "value": "Channel #{{name}}, archived"
+  },
+  "channelRef.archived": {
+    "value": "#{{name}} was archived"
+  },
+  "channelRef.notMember": {
+    "value": "you're not in it"
+  },
+  "mention.list": {
+    "value": "People and agents"
+  },
+  "mention.inChannel": {
+    "value": "In this channel"
+  },
+  "mention.outside": {
+    "value": "Not in the channel"
+  },
+  "mention.agent": {
+    "value": "agent"
+  },
+  "mention.person": {
+    "value": "person"
+  },
+  "mention.add": {
+    "value": "Add"
+  },
+  "mention.addA11y": {
+    "value": "Add {{name}} to the channel"
+  },
+  "mention.added": {
+    "value": "{{name}} joined the channel"
+  },
+  "me.title": {
+    "value": "You"
+  },
+  "me.role.owner": {
+    "value": "owner"
+  },
+  "me.role.member": {
+    "value": "member"
+  },
+  "me.role.ownerPersonal": {
+    "value": "your personal workspace"
+  },
+  "me.role.memberPersonal": {
+    "value": "a personal workspace shared with you"
+  },
+  "me.appearance": {
+    "value": "Appearance"
+  },
+  "me.notifications": {
+    "value": "Notifications"
+  },
+  "me.pushOff": {
+    "value": "Notifications are off"
+  },
+  "me.pushOffSub": {
+    "value": "Turn them on in the phone's Settings to get alerts."
+  },
+  "me.language": {
+    "value": "Language"
+  },
+  "me.start": {
+    "value": "When the app opens"
+  },
+  "me.startHome": {
+    "value": "Conversations"
+  },
+  "me.startLast": {
+    "value": "Where you left off"
+  },
+  "me.startChannels": {
+    "value": "A channel"
+  },
+  "me.startHint": {
+    "value": "For this workspace, here and on your computer, where home is the Home page."
+  },
+  "me.startFailed": {
+    "value": "Couldn't save that. Try again."
+  },
+  "me.activity": {
+    "value": "Agents' replies"
+  },
+  "me.activityShow": {
+    "value": "Show what agents did under each reply"
+  },
+  "me.activityHint": {
+    "value": "The tools they used and how long it took, in this workspace, here and on your computer. While they work, you still see what they're doing."
+  },
+  "me.activityFailed": {
+    "value": "Couldn't save that. Try again."
+  },
+  "me.sounds": {
+    "value": "Sounds"
+  },
+  "me.soundsOn": {
+    "value": "Sounds in the app"
+  },
+  "me.soundsOff": {
+    "value": "Off"
+  },
+  "me.soundsHint": {
+    "value": "Quiet, while the app is open. In silent mode, nothing plays."
+  },
+  "me.soundStyle": {
+    "value": "Style"
+  },
+  "me.soundTactile": {
+    "value": "Tactile"
+  },
+  "me.soundSky": {
+    "value": "Sky"
+  },
+  "me.soundPixel": {
+    "value": "Pixel"
+  },
+  "me.signOut": {
+    "value": "Sign out"
+  },
+  "me.signOutConfirm": {
+    "value": "Sign out of this account?"
+  },
+  "me.signOutConfirmText": {
+    "value": "To come back, sign in again with your e-mail."
+  },
+  "me.deleteAccount": {
+    "value": "Delete account"
+  },
+  "me.deleteAccountHint": {
+    "value": "For good, with everything that is only yours"
+  },
+  "me.accountSub": {
+    "value": "@{{handle}} · photo, name and account"
+  },
+  "me.workspaceSub": {
+    "value": {
+      "one": "You're {{role}} · {{count}} workspace",
+      "other": "You're {{role}} · {{count}} workspaces"
+    }
+  },
+  "me.switchOrg": {
+    "value": "Switch"
+  },
+  "me.fromWorkspace": {
+    "value": "From the workspace"
+  },
+  "me.issues": {
+    "value": "Tasks"
+  },
+  "me.issuesWithMe": {
+    "value": {
+      "one": "{{count}} with you",
+      "other": "{{count}} with you"
+    }
+  },
+  "me.proposalsWaiting": {
+    "value": {
+      "one": "{{count}} waiting",
+      "other": "{{count}} waiting"
+    }
+  },
+  "me.drive": {
+    "value": "Drive"
+  },
+  "me.connectors": {
+    "value": "Connectors and MCPs"
+  },
+  "me.preferences": {
+    "value": "Preferences"
+  },
+  "me.editProfile": {
+    "value": "Edit profile"
+  },
+  "me.switchWorkspace": {
+    "value": "Switch workspace"
+  },
+  "me.yourAgents": {
+    "value": "Your agents"
+  },
+  "me.newAgent": {
+    "value": "New"
+  },
+  "me.thinksWith": {
+    "value": "They think with"
+  },
+  "me.ownOn": {
+    "value": "Signed in on {{computer}}"
+  },
+  "me.on": {
+    "value": "On"
+  },
+  "me.off": {
+    "value": "Off"
+  },
+  "me.notificationsPhone": {
+    "value": "Notifications on this phone"
+  },
+  "me.chatOpenAtHelp": {
+    "value": "Where you stopped, a “New” line marks what came after."
+  },
+  "me.notificationsOnHint": {
+    "value": "They also arrive in the browser and the desktop app, if they're on there."
+  },
+  "me.notificationsOffHint": {
+    "value": "Turn them on to get notifications here. The kinds below apply to all your devices."
+  },
+  "me.notificationsKindsHint": {
+    "value": "Activity keeps everything. This applies to this workspace, on all your devices."
+  },
+  "me.version": {
+    "value": "agentes.chat · version {{version}}"
+  },
+  "me.edit": {
+    "value": "Edit"
+  },
+  "me.status": {
+    "value": "Status"
+  },
+  "me.workspace": {
+    "value": "Workspace"
+  },
+  "me.workspaceMore": {
+    "value": {
+      "one": "{{count}} more",
+      "other": "{{count}} more"
+    }
+  },
+  "me.workspaceMoreElsewhere": {
+    "value": {
+      "one": "{{count}} more, on another server",
+      "other": "{{count}} more, on another server"
+    }
+  },
+  "me.workspaceMoreServers": {
+    "value": {
+      "one": "{{count}} more, on other servers",
+      "other": "{{count}} more, on other servers"
+    }
+  },
+  "me.allAgents": {
+    "value": "See all"
+  },
+  "me.work": {
+    "value": "Work"
+  },
+  "me.dashboards": {
+    "value": "Dashboards"
+  },
+  "me.agentStyle": {
+    "value": "How agents talk"
+  },
+  "me.workspaces": {
+    "value": "Workspaces"
+  },
+  "me.workspacesIn": {
+    "value": "You're in"
+  },
+  "me.workspacesFoot": {
+    "value": "You stay signed in to each one and get notifications from all of them. Tap a workspace to open it."
+  },
+  "me.workspacesUnreachable": {
+    "value": "No answer right now"
+  },
+  "me.addWorkspace": {
+    "value": "Add workspace"
+  },
+  "me.addWorkspaceCreate": {
+    "value": "Create a new workspace"
+  },
+  "me.addWorkspaceCreateSub": {
+    "value": "On agentes.chat"
+  },
+  "me.addWorkspaceTeam": {
+    "value": "Join your team's server"
+  },
+  "me.addWorkspaceTeamSub": {
+    "value": "By its address or the QR code shown on the computer"
+  },
+  "me.teamServer": {
+    "value": "Team server"
+  },
+  "me.teamServerLead": {
+    "value": "Your team's agentes.chat address, the same one shown in the browser."
+  },
+  "me.teamServerFoot": {
+    "value": "You don't leave any workspace: your team's server joins your list, with your account there."
+  },
+  "me.workspacesHoldHint": {
+    "value": "Hold to switch workspace"
+  },
+  "me.workspacesSheetFoot": {
+    "value": "You stay signed in to all of them. Each one's notices reach you here."
+  },
+  "me.addWorkspaceTeamShort": {
+    "value": "Join your team's server"
+  },
+  "me.addWorkspaceTeamSubShort": {
+    "value": "Address or the computer's QR code"
+  },
+  "me.addWorkspaceFoot": {
+    "value": "You don't leave any workspace."
+  },
+  "me.teamServerLeadShort": {
+    "value": "What your team opens in the browser."
+  },
+  "me.teamServerQuestion": {
+    "value": "What's your team's address?"
+  },
+  "me.account.title": {
+    "value": "Account"
+  },
+  "me.account.save": {
+    "value": "OK"
+  },
+  "me.account.changePhoto": {
+    "value": "Change photo"
+  },
+  "me.account.fromLibrary": {
+    "value": "Choose from library"
+  },
+  "me.account.fromCamera": {
+    "value": "Take photo"
+  },
+  "me.account.removePhoto": {
+    "value": "Remove photo"
+  },
+  "me.account.noCamera": {
+    "value": "No access to the camera"
+  },
+  "me.account.photoSaved": {
+    "value": "Photo saved"
+  },
+  "me.account.photoRemoved": {
+    "value": "Photo removed"
+  },
+  "me.account.photoFailed": {
+    "value": "Couldn't upload the photo"
+  },
+  "me.account.photoTooBig": {
+    "value": "That photo is too big. Try another."
+  },
+  "me.account.name": {
+    "value": "Name"
+  },
+  "me.account.namePlaceholder": {
+    "value": "Your name"
+  },
+  "me.account.email": {
+    "value": "Email"
+  },
+  "me.account.inWorkspace": {
+    "value": "In this workspace · {{org}}"
+  },
+  "me.account.handle": {
+    "value": "Your @"
+  },
+  "me.account.timezone": {
+    "value": "Time zone"
+  },
+  "me.account.timezoneHint": {
+    "value": "Shows on your profile card and sets when routines and reminders run."
+  },
+  "me.account.orgZone": {
+    "value": "The workspace's"
+  },
+  "me.account.nameEmpty": {
+    "value": "Write your name."
+  },
+  "me.account.handleInvalid": {
+    "value": "Your @ has 2 to 32 lowercase letters, numbers, - or _."
+  },
+  "me.account.handleTaken": {
+    "value": "That @ belongs to someone else."
+  },
+  "me.account.handleAgent": {
+    "value": "That @ belongs to an agent."
+  },
+  "me.account.saved": {
+    "value": "Account saved"
+  },
+  "me.zone.title": {
+    "value": "Time zone"
+  },
+  "me.zone.search": {
+    "value": "Search a city or zone"
+  },
+  "me.zone.useOrg": {
+    "value": "Use the workspace's time zone"
+  },
+  "me.zone.suggested": {
+    "value": "Suggested"
+  },
+  "me.zone.all": {
+    "value": "All"
+  },
+  "me.zone.none": {
+    "value": "No time zone by that name"
+  },
+  "delete.intro": {
+    "value": "There's no undo."
+  },
+  "delete.introGrace": {
+    "value": "You have 7 days to change your mind."
+  },
+  "delete.goes.account": {
+    "value": "Your account, your access and your sessions are gone."
+  },
+  "delete.goes.orgs": {
+    "value": "Workspaces where you are the only member are deleted."
+  },
+  "delete.goes.phones": {
+    "value": "This phone and the others stop getting alerts."
+  },
+  "delete.stays": {
+    "value": "Messages you wrote stay in the chats, without your name."
+  },
+  "delete.blocked": {
+    "value": "You're the only owner of {{names}}. On the website, in People, make someone else an owner, then come back."
+  },
+  "delete.addPasswordFirst": {
+    "value": "Add a password to your account on the website first, then type it here."
+  },
+  "delete.addPasswordWeb": {
+    "value": "Add a password on the website"
+  },
+  "delete.otherAccount": {
+    "value": "You signed in to another account. Nothing was deleted."
+  },
+  "delete.hold": {
+    "value": "Hold to delete"
+  },
+  "files.type.image": {
+    "value": "Image"
+  },
+  "files.type.video": {
+    "value": "Video"
+  },
+  "files.type.pdf": {
+    "value": "PDF"
+  },
+  "files.type.document": {
+    "value": "Document"
+  },
+  "files.type.table": {
+    "value": "Table"
+  },
+  "files.type.code": {
+    "value": "Code"
+  },
+  "files.type.archive": {
+    "value": "Archive"
+  },
+  "files.type.diff": {
+    "value": "Code change"
+  },
+  "files.type.diagram": {
+    "value": "Diagram"
+  },
+  "files.type.page": {
+    "value": "Page"
+  },
+  "files.type.text": {
+    "value": "Text"
+  },
+  "files.type.file": {
+    "value": "File"
+  },
+  "files.more": {
+    "value": "More options"
+  },
+  "files.send": {
+    "value": "Send"
+  },
+  "files.savePhotos": {
+    "value": "Save to Photos"
+  },
+  "files.drive": {
+    "value": "View in Drive"
+  },
+  "files.saved": {
+    "value": "Saved to Photos"
+  },
+  "files.photosDenied": {
+    "value": "No access to Photos"
+  },
+  "files.photosDeniedSub": {
+    "value": "Allow it in Settings to save pictures."
+  },
+  "files.shareFailed": {
+    "value": "Couldn't send the file."
+  },
+  "files.saveFailed": {
+    "value": "Couldn't save the picture."
+  },
+  "files.loadFailed": {
+    "value": "Couldn't open the file."
+  },
+  "files.openImage": {
+    "value": "Open picture"
+  },
+  "files.imageOf": {
+    "value": "Picture {{index}} of {{count}}"
+  },
+  "files.place": {
+    "value": "{{index}} of {{count}}"
+  },
+  "files.previous": {
+    "value": "Previous picture"
+  },
+  "files.next": {
+    "value": "Next picture"
+  },
+  "files.noPreview": {
+    "value": "This file doesn't open in the app. Send it to another app to open it."
+  },
+  "files.video.play": {
+    "value": "Play"
+  },
+  "files.video.pause": {
+    "value": "Pause"
+  },
+  "files.video.replay": {
+    "value": "Play again"
+  },
+  "files.video.seek": {
+    "value": "Position in the video"
+  },
+  "files.video.mute": {
+    "value": "Mute"
+  },
+  "files.video.unmute": {
+    "value": "Unmute"
+  },
+  "files.video.fullscreen": {
+    "value": "Full screen"
+  },
+  "files.video.open": {
+    "value": "Open"
+  },
+  "issues.title": {
+    "value": "Tasks"
+  },
+  "issues.new": {
+    "value": "New task"
+  },
+  "issues.viewList": {
+    "value": "List"
+  },
+  "issues.viewBoard": {
+    "value": "Board"
+  },
+  "issues.search": {
+    "value": "Search tasks"
+  },
+  "issues.noMatch": {
+    "value": "No task by that name."
+  },
+  "issues.list.mine": {
+    "value": "For you"
+  },
+  "issues.list.in_progress": {
+    "value": "In progress"
+  },
+  "issues.list.in_review": {
+    "value": "In review"
+  },
+  "issues.list.todo": {
+    "value": "To do"
+  },
+  "issues.list.doneToday": {
+    "value": "Done today"
+  },
+  "issues.filters": {
+    "value": "Filter tasks"
+  },
+  "issues.section.todo": {
+    "value": "To do"
+  },
+  "issues.section.in_progress": {
+    "value": "In progress"
+  },
+  "issues.section.in_review": {
+    "value": "In review"
+  },
+  "issues.section.done": {
+    "value": "Done"
+  },
+  "issues.section.canceled": {
+    "value": "Canceled"
+  },
+  "issues.columnEmpty": {
+    "value": "Nothing here for now."
+  },
+  "issues.commentHere": {
+    "value": "Comment…"
+  },
+  "issues.state.running": {
+    "value": "Working"
+  },
+  "issues.state.waiting": {
+    "value": "Waiting for you"
+  },
+  "issues.state.stalled": {
+    "value": "Stalled"
+  },
+  "issues.state.review": {
+    "value": "In review"
+  },
+  "issues.state.reviewPr": {
+    "value": "In review · PR #{{number}}"
+  },
+  "issues.state.progress": {
+    "value": "In progress"
+  },
+  "issues.state.todo": {
+    "value": "To do"
+  },
+  "issues.state.done": {
+    "value": "Done"
+  },
+  "issues.state.canceled": {
+    "value": "Canceled"
+  },
+  "issues.until": {
+    "value": "due {{date}}"
+  },
+  "issues.loadFailed": {
+    "value": "Couldn't load the tasks."
+  },
+  "issues.createdBy": {
+    "value": "created by {{name}}"
+  },
+  "issues.fromMessage": {
+    "value": "from a message"
+  },
+  "issues.fromAgent": {
+    "value": "from a request to an agent"
+  },
+  "issues.fromWebhook": {
+    "value": "from {{provider}}"
+  },
+  "issues.workingFor": {
+    "value": {
+      "one": "working for {{count}} min",
+      "other": "working for {{count}} min"
+    }
+  },
+  "issues.justStarted": {
+    "value": "just started"
+  },
+  "issues.waitsYou": {
+    "value": "is waiting for you"
+  },
+  "issues.stalledSince": {
+    "value": "stopped {{when}}"
+  },
+  "issues.criteriaOf": {
+    "value": "{{done}} of {{total}}"
+  },
+  "issues.linkMessage": {
+    "value": "Message in #{{channel}}"
+  },
+  "issues.linkMessagePlain": {
+    "value": "The original message"
+  },
+  "issues.subIssues": {
+    "value": "Subtasks"
+  },
+  "issues.talk": {
+    "value": "Chat"
+  },
+  "issues.finish": {
+    "value": "Mark done"
+  },
+  "issues.reopen": {
+    "value": "Reopen"
+  },
+  "issues.finished": {
+    "value": "#{{number}} done"
+  },
+  "issues.reopened": {
+    "value": "#{{number}} reopened"
+  },
+  "issues.changed": {
+    "value": "Task updated"
+  },
+  "issues.moved": {
+    "value": "#{{number}} moved to {{column}}"
+  },
+  "issues.more": {
+    "value": "More options"
+  },
+  "issues.actions.status": {
+    "value": "Column"
+  },
+  "issues.actions.priority": {
+    "value": "Priority"
+  },
+  "issues.actions.assignee": {
+    "value": "Who does it"
+  },
+  "issues.actions.cancel": {
+    "value": "Cancel task"
+  },
+  "issues.actions.canceled": {
+    "value": "#{{number}} canceled"
+  },
+  "issues.nobody": {
+    "value": "Nobody"
+  },
+  "issues.you": {
+    "value": "You"
+  },
+  "issues.form.title": {
+    "value": "New task"
+  },
+  "issues.form.create": {
+    "value": "Create"
+  },
+  "issues.form.titlePlaceholder": {
+    "value": "What needs to be done"
+  },
+  "issues.form.description": {
+    "value": "Description (optional)"
+  },
+  "issues.form.who": {
+    "value": "Who does it"
+  },
+  "issues.form.agentStarts": {
+    "value": "The agent starts as soon as you create the task."
+  },
+  "issues.form.details": {
+    "value": "Details"
+  },
+  "issues.form.due": {
+    "value": "Due"
+  },
+  "issues.form.dueChoice.none": {
+    "value": "None"
+  },
+  "issues.form.dueChoice.today": {
+    "value": "Today"
+  },
+  "issues.form.dueChoice.tomorrow": {
+    "value": "Tomorrow"
+  },
+  "issues.form.dueChoice.friday": {
+    "value": "Friday"
+  },
+  "issues.form.dueChoice.nextWeek": {
+    "value": "In a week"
+  },
+  "issues.form.created": {
+    "value": "Task #{{number}} created"
+  },
+  "issues.form.createFailed": {
+    "value": "Couldn't create the task."
+  },
+  "drive.title": {
+    "value": "Drive"
+  },
+  "drive.search": {
+    "value": "Search the Drive"
+  },
+  "drive.types": {
+    "value": "File types"
+  },
+  "drive.type.all": {
+    "value": "All"
+  },
+  "drive.type.documents": {
+    "value": "Documents"
+  },
+  "drive.type.images": {
+    "value": "Images"
+  },
+  "drive.type.tables": {
+    "value": "Tables"
+  },
+  "drive.type.diffs": {
+    "value": "Diffs"
+  },
+  "drive.section.today": {
+    "value": "Today"
+  },
+  "drive.section.week": {
+    "value": "This week"
+  },
+  "drive.kind.document": {
+    "value": "Document"
+  },
+  "drive.kind.table": {
+    "value": "Table"
+  },
+  "drive.kind.diff": {
+    "value": "Diff"
+  },
+  "drive.kind.image": {
+    "value": "Image"
+  },
+  "drive.kind.file": {
+    "value": "File"
+  },
+  "drive.by": {
+    "value": "{{name}} · {{when}}"
+  },
+  "drive.noResults": {
+    "value": "Nothing with these filters."
+  },
+  "drive.loadFailed": {
+    "value": "Couldn't load the Drive."
+  },
+  "drive.more": {
+    "value": "Show more"
+  },
+  "constellation.openHint": {
+    "value": "Opens what you tapped in the sky"
+  },
+  "memory.title": {
+    "value": "Memory"
+  },
+  "memory.subtitle": {
+    "value": "What the agents learned from the team."
+  },
+  "memory.search": {
+    "value": "Search memories"
+  },
+  "memory.all": {
+    "value": "All"
+  },
+  "memory.sky": {
+    "value": "Constellation"
+  },
+  "memory.recent": {
+    "value": "Just learned"
+  },
+  "memory.mostUsed": {
+    "value": "Most used"
+  },
+  "memory.noMatch": {
+    "value": "No memory with that."
+  },
+  "memory.gone": {
+    "value": "This memory no longer exists."
+  },
+  "memory.of": {
+    "value": "{{name}}'s memory"
+  },
+  "memory.line": {
+    "value": {
+      "one": "{{name}} · used {{count}} time",
+      "other": "{{name}} · used {{count}} times"
+    }
+  },
+  "memory.agentLine": {
+    "value": {
+      "one": "{{count}} memory",
+      "other": "{{count}} memories"
+    }
+  },
+  "memory.uses": {
+    "value": {
+      "one": "Used {{count}} time",
+      "other": "Used {{count}} times"
+    }
+  },
+  "memory.confirmed": {
+    "value": "Confirmed by a person"
+  },
+  "memory.unconfirmed": {
+    "value": "Not confirmed yet"
+  },
+  "memory.confirm": {
+    "value": "Confirm"
+  },
+  "memory.confirmedToast": {
+    "value": "Confirmed"
+  },
+  "memory.details": {
+    "value": "Technical details"
+  },
+  "memory.before": {
+    "value": "It used to say: {{text}}"
+  },
+  "memory.fix": {
+    "value": "Fix"
+  },
+  "memory.forgetTitle": {
+    "value": "Forget this memory?"
+  },
+  "memory.forgetText": {
+    "value": "{{name}} stops using this in future conversations."
+  },
+  "wiki.map": {
+    "value": "Page map"
+  },
+  "wiki.graph": {
+    "value": "Connections"
+  },
+  "wiki.links": {
+    "value": {
+      "one": "{{count}} link",
+      "other": "{{count}} links"
+    }
+  },
+  "wiki.linksOut": {
+    "value": "Links to"
+  },
+  "wiki.continue": {
+    "value": "Keep reading"
+  },
+  "wiki.more": {
+    "value": "More options"
+  },
+  "wiki.mapAgent": {
+    "value": "Agent that read pages this week"
+  },
+  "wiki.usedBy": {
+    "value": "Agents that use it"
+  },
+  "wiki.readsWeek": {
+    "value": {
+      "one": "{{count}} read this week",
+      "other": "{{count}} reads this week"
+    }
+  },
+  "wiki.blank": {
+    "value": "Blank page."
+  },
+  "wiki.folderGone": {
+    "value": "This folder has no pages any more."
+  },
+  "wiki.reads": {
+    "value": {
+      "one": "{{count}} time",
+      "other": "{{count}} times"
+    }
+  },
+  "wiki.taskConflict": {
+    "value": "The page changed and is up to date now. Check it again."
+  },
+  "wiki.view": {
+    "value": "View"
+  },
+  "wiki.notSaved": {
+    "value": "Preview · not saved yet"
+  },
+  "wiki.placeholder": {
+    "value": "Write here. [[ links another page."
+  },
+  "wiki.hideKeyboard": {
+    "value": "Hide the keyboard"
+  },
+  "wiki.createLink": {
+    "value": "Create “{{title}}”"
+  },
+  "wiki.discardTitle": {
+    "value": "Leave without saving?"
+  },
+  "wiki.discardText": {
+    "value": "What you wrote here will be lost."
+  },
+  "wiki.discard": {
+    "value": "Discard"
+  },
+  "wiki.keepWriting": {
+    "value": "Keep writing"
+  },
+  "wiki.conflictText": {
+    "value": "The saved version is now v{{version}}. See the difference and choose which one stays."
+  },
+  "wiki.conflictDiff": {
+    "value": "Difference: saved → yours"
+  },
+  "wiki.createAndWrite": {
+    "value": "Create and write"
+  },
+  "wiki.exists": {
+    "value": "A page with this title already exists."
+  },
+  "wiki.openExisting": {
+    "value": "Open the page"
+  },
+  "routines.loadFailed": {
+    "value": "Couldn't load the routines."
+  },
+  "routines.anyAgent": {
+    "value": "All agents"
+  },
+  "routines.create": {
+    "value": "Create"
+  },
+  "routines.when.custom": {
+    "value": "Your own way"
+  },
+  "routines.when.write": {
+    "value": "Write it your way…"
+  },
+  "routines.when.day": {
+    "value": "Day"
+  },
+  "routines.when.monthDay": {
+    "value": "Day {{day}}"
+  },
+  "routines.when.lastDay": {
+    "value": "Last day"
+  },
+  "taskManager.loadFailed": {
+    "value": "Couldn't load the tasks."
+  },
+  "taskManager.gone": {
+    "value": "This task is no longer here."
+  },
+  "taskManager.quiet": {
+    "value": "Nothing in progress"
+  },
+  "taskManager.doneToday": {
+    "value": {
+      "one": "{{count}} done today",
+      "other": "{{count}} done today"
+    }
+  },
+  "taskManager.request": {
+    "value": "Request"
+  },
+  "taskManager.stopTitle": {
+    "value": "Stop “{{title}}”?"
+  },
+  "taskManager.stopBody": {
+    "value": "{{name}} stops now and tells the conversation what was done so far.",
+    "female": "{{name}} stops now and tells the conversation what was done so far."
+  },
+  "homeNow.working": {
+    "value": {
+      "one": "{{count}} working",
+      "other": "{{count}} working"
+    }
+  },
+  "homeNow.finished.run": {
+    "value": "finished “{{what}}”"
+  },
+  "homeNow.finished.mission": {
+    "value": "finished the mission “{{what}}”"
+  },
+  "homeNow.finished.routine": {
+    "value": "finished the routine “{{what}}”"
+  },
+  "homeNow.finished.plain": {
+    "value": "finished a task"
+  },
+  "homeNow.rowWait.approval": {
+    "value": "waits for your ok"
+  },
+  "homeNow.rowWait.question": {
+    "value": "waits for your answer"
+  },
+  "homeNow.rowWait.mission": {
+    "value": "waits for your review"
+  },
+  "homeNow.doingLabel": {
+    "value": "working: {{what}}"
+  },
+  "homeNow.first.subtitle": {
+    "value": "It shows up here, as a chat."
+  },
+  "homeNow.first.create": {
+    "value": "Create my first agent"
+  },
+  "homeNow.first.examples": {
+    "value": "Or start with one of these"
+  },
+  "activityNow.kind.approval": {
+    "value": "Approve"
+  },
+  "activityNow.kind.question": {
+    "value": "Question"
+  },
+  "activityNow.kind.browser": {
+    "value": "Browser"
+  },
+  "activityNow.kind.secret": {
+    "value": "Secret"
+  },
+  "activityNow.kind.join": {
+    "value": "Members"
+  },
+  "activityNow.kind.limit": {
+    "value": "Limit"
+  },
+  "activityNow.review": {
+    "value": "Review"
+  },
+  "activityNow.answer": {
+    "value": "Reply"
+  },
+  "activityNow.open": {
+    "value": "Open"
+  },
+  "activityNow.clear.title": {
+    "value": "Nothing waiting on you"
+  },
+  "activityNow.clear.text": {
+    "value": "When an agent needs you, it shows up here first."
+  },
+  "activityNow.next.title": {
+    "value": "Next: {{name}}"
+  },
+  "activityNow.next.routineOf": {
+    "value": "{{agent}}'s routine · {{when}}"
+  },
+  "activityNow.next.routine": {
+    "value": "Routine · {{when}}"
+  },
+  "activityNow.next.today": {
+    "value": "today at {{time}}"
+  },
+  "activityNow.next.tomorrow": {
+    "value": "tomorrow at {{time}}"
+  },
+  "activityNow.next.later": {
+    "value": "{{day}} at {{time}}"
+  },
+  "intentAgents.waitingSection": {
+    "value": "Waiting on you"
+  },
+  "intentAgents.waitingLine": {
+    "value": "{{title}} · needs your ok"
+  },
+  "intentAgents.waitingMore": {
+    "value": {
+      "one": "{{title}} · and {{count}} more waiting on you",
+      "other": "{{title}} · and {{count}} more waiting on you"
+    }
+  },
+  "intentAgents.waitingLabel": {
+    "value": "{{name}}, needs your ok"
+  },
+  "intentAgents.owner": {
+    "value": "Owner: {{name}}"
+  },
+  "intentAgents.ownerYou": {
+    "value": "Owner: you"
+  },
+  "intentAgents.nowWaiting": {
+    "value": "Needs your ok: {{title}}"
+  },
+  "intentAgents.did.title": {
+    "value": "What he did for you",
+    "female": "What she did for you"
+  },
+  "intentAgents.did.month": {
+    "value": {
+      "one": "{{count}} this month",
+      "other": "{{count}} this month"
+    }
+  },
+  "intentAgents.did.seeAll": {
+    "value": "See all"
+  },
+  "intentAgents.did.seeLess": {
+    "value": "See less"
+  },
+  "intentAgents.did.emptyF": {
+    "value": "Nothing yet."
+  },
+  "intentAgents.did.emptyM": {
+    "value": "Nothing yet."
+  },
+  "intentAgents.did.file": {
+    "value": "{{title}}"
+  },
+  "intentAgents.did.approval": {
+    "value": "{{title}}"
+  },
+  "intentAgents.did.fileKind.document": {
+    "value": "Document"
+  },
+  "intentAgents.did.fileKind.table": {
+    "value": "Table"
+  },
+  "intentAgents.did.fileKind.diff": {
+    "value": "Code change"
+  },
+  "intentAgents.did.fileKind.image": {
+    "value": "Image"
+  },
+  "intentAgents.did.fileKind.file": {
+    "value": "File"
+  },
+  "intentAgents.did.waitingOnYou": {
+    "value": "Needs your ok"
+  },
+  "intentAgents.did.youApproved": {
+    "value": "You approved"
+  },
+  "intentAgents.did.youRefused": {
+    "value": "You declined"
+  },
+  "intentAgents.did.action.issueCreated": {
+    "value": "Opened task #{{number}}"
+  },
+  "intentAgents.did.action.issueUpdated": {
+    "value": "Changed task #{{number}}"
+  },
+  "intentAgents.did.action.issueAssigned": {
+    "value": "Handed off task #{{number}}"
+  },
+  "intentAgents.did.action.routineCreated": {
+    "value": "Created the routine {{name}}"
+  },
+  "intentAgents.did.action.routineUpdated": {
+    "value": "Changed the routine {{name}}"
+  },
+  "intentAgents.did.action.agentAdded": {
+    "value": "Brought {{name}} to #{{channel}}"
+  },
+  "intentAgents.did.action.pageCreated": {
+    "value": "Created the page {{title}}"
+  },
+  "intentAgents.did.action.pageEdited": {
+    "value": "Edited the page {{title}}"
+  },
+  "intentAgents.did.action.pageEditedRestricted": {
+    "value": "Edited a restricted page"
+  },
+  "intentAgents.did.action.threadRenamed": {
+    "value": "Renamed a thread to {{to}}"
+  },
+  "intentAgents.did.action.threadClosed": {
+    "value": "Closed the thread {{title}}"
+  },
+  "intentAgents.knows.title": {
+    "value": "What he knows about you",
+    "female": "What she knows about you"
+  },
+  "intentAgents.knows.footF": {
+    "value": "Tap to correct or forget."
+  },
+  "intentAgents.knows.footM": {
+    "value": "Tap to correct or forget."
+  },
+  "intentAgents.knows.footSwipe": {
+    "value": "Tap to correct. Swipe to forget."
+  },
+  "intentAgents.knows.forgetTitle": {
+    "value": "Forget this?"
+  },
+  "intentAgents.knows.forgetBody": {
+    "value": "{{name}} stops using this memory. The messages stay.",
+    "female": "{{name}} stops using this memory. The messages stay."
+  },
+  "intentAgents.knows.forget": {
+    "value": "Forget"
+  },
+  "intentAgents.knows.ruleTitle": {
+    "value": "Remove this rule?"
+  },
+  "intentAgents.knows.ruleBody": {
+    "value": "{{name}} stops following this rule. Whoever gave the rule can give the same one again.",
+    "female": "{{name}} stops following this rule. Whoever gave the rule can give the same one again."
+  },
+  "intentAgents.knows.ruleRemove": {
+    "value": "Remove"
+  },
+  "intentAgents.knows.footOwner": {
+    "value": "Only {{name}} or an admin can correct these."
+  },
+  "intentAgents.knows.footAdmins": {
+    "value": "Only an admin can correct these."
+  },
+  "intentAgents.knows.emptyF": {
+    "value": "{{name}} hasn't saved anything about you yet."
+  },
+  "intentAgents.knows.emptyM": {
+    "value": "{{name}} hasn't saved anything about you yet."
+  },
+  "intentAgents.knows.saidDm": {
+    "value": "You said {{when}}, in your direct chat"
+  },
+  "intentAgents.knows.saidChannel": {
+    "value": "You said in #{{channel}} · {{date}}"
+  },
+  "intentAgents.knows.saidSomewhere": {
+    "value": "You said in a conversation · {{date}}"
+  },
+  "intentAgents.knows.wrote": {
+    "value": "You wrote · {{date}}"
+  },
+  "intentAgents.knows.learned": {
+    "value": "Learned in a conversation · {{date}}"
+  },
+  "intentAgents.knows.when.today": {
+    "value": "today"
+  },
+  "intentAgents.knows.when.yesterday": {
+    "value": "yesterday"
+  },
+  "intentAgents.knows.when.date": {
+    "value": "on {{date}}"
+  },
+  "intentAgents.fix.titleF": {
+    "value": "What {{name}} knows"
+  },
+  "intentAgents.fix.titleM": {
+    "value": "What {{name}} knows"
+  },
+  "intentAgents.fix.from": {
+    "value": "From your conversation · {{when}}"
+  },
+  "intentAgents.fix.see": {
+    "value": "See"
+  },
+  "intentAgents.fix.save": {
+    "value": "Save"
+  },
+  "intentAgents.fix.forget": {
+    "value": "Forget this"
+  },
+  "intentAgents.fix.saved": {
+    "value": "Memory corrected"
+  },
+  "intentAgents.fix.forgotten": {
+    "value": "Forgotten"
+  },
+  "intentAgents.thinks": {
+    "value": "Thinks with"
+  },
+  "intentAgents.asksApproval": {
+    "value": "Asks your approval"
+  },
+  "intentAgents.uses.title": {
+    "value": "What he can use",
+    "female": "What she can use"
+  },
+  "intentAgents.uses.level.read": {
+    "value": "Read"
+  },
+  "intentAgents.uses.level.write": {
+    "value": "Read and write"
+  },
+  "intentAgents.uses.level.some": {
+    "value": "Partly"
+  },
+  "intentAgents.uses.area.context": {
+    "value": "Memory"
+  },
+  "intentAgents.uses.area.drive": {
+    "value": "Drive"
+  },
+  "intentAgents.uses.area.issues": {
+    "value": "Tasks"
+  },
+  "intentAgents.uses.area.calendar": {
+    "value": "Calendar"
+  },
+  "intentAgents.uses.area.wiki": {
+    "value": "Wiki"
+  },
+  "intentAgents.uses.area.skills": {
+    "value": "Skills"
+  },
+  "intentAgents.uses.area.schedule": {
+    "value": "Routines"
+  },
+  "intentAgents.uses.area.sandbox": {
+    "value": "Own computer"
+  },
+  "intentAgents.uses.area.browser": {
+    "value": "Browser"
+  },
+  "intentAgents.uses.area.setup": {
+    "value": "Workspace setup"
+  },
+  "intentAgents.uses.area.desktop": {
+    "value": "Computer screen"
+  },
+  "intentAgents.uses.asksYou": {
+    "value": "Merging and publishing always ask for your approval, at any level."
+  },
+  "intentAgents.uses.asksOwner": {
+    "value": "Merging and publishing always ask for {{name}}'s approval, at any level."
+  },
+  "intentAgents.uses.asksAdmins": {
+    "value": "Merging and publishing always ask for an admin's approval, at any level."
+  },
+  "intentAgents.uses.empty": {
+    "value": "For now, only conversation."
+  },
+  "outage.a11y": {
+    "value": "Computer disconnected"
+  },
+  "outage.title": {
+    "value": "{{computer}} disconnected"
+  },
+  "outage.back": {
+    "value": "{{computer}} is back"
+  },
+  "outage.whoOne": {
+    "value": "{{name}} is waiting for it"
+  },
+  "outage.whoMany": {
+    "value": "{{names}} are waiting for it"
+  },
+  "outage.tasks": {
+    "value": {
+      "one": "{{count}} task",
+      "other": "{{count}} tasks"
+    }
+  },
+  "outage.switch": {
+    "value": "Switch computer"
+  },
+  "outage.dismiss": {
+    "value": "Close notice"
+  },
+  "outage.rowWaiting": {
+    "value": "Waiting for {{computer}}"
+  },
+  "outage.rowWaitingLabel": {
+    "value": "{{name}}, waiting for {{computer}}"
+  },
+  "outage.waiting.routines": {
+    "value": {
+      "one": "{{count}} routine waiting",
+      "other": "{{count}} routines waiting"
+    }
+  },
+  "outage.waiting.conversations": {
+    "value": {
+      "one": "{{count}} conversation waiting",
+      "other": "{{count}} conversations waiting"
+    }
+  },
+  "outage.waiting.tasks": {
+    "value": {
+      "one": "{{count}} task waiting",
+      "other": "{{count}} tasks waiting"
+    }
+  },
+  "outage.waiting.none": {
+    "value": "Nothing waiting"
+  },
+  "outage.sheet.title": {
+    "value": "Switch the computer"
+  },
+  "outage.sheet.descOne": {
+    "value": "Choose where {{names}} works from now on."
+  },
+  "outage.sheet.descMany": {
+    "value": "Choose where {{names}} work from now on."
+  },
+  "outage.sheet.where": {
+    "value": "Where to"
+  },
+  "outage.sheet.who": {
+    "value": "Who switches"
+  },
+  "outage.sheet.hint": {
+    "value": "Tasks that already changed files on {{computer}} wait for it."
+  },
+  "outage.sheet.submit": {
+    "value": {
+      "one": "Switch {{count}} agent",
+      "other": "Switch {{count}} agents"
+    }
+  },
+  "outage.sheet.later": {
+    "value": "Not now"
+  },
+  "outage.sheet.on": {
+    "value": "On"
+  },
+  "outage.sheet.cloudTag": {
+    "value": "Always on"
+  },
+  "outage.sheet.managedDesc": {
+    "value": "Just for this workspace · one user per agent"
+  },
+  "outage.sheet.has": {
+    "value": "Has {{brains}}"
+  },
+  "outage.sheet.none": {
+    "value": "No other computer can take these agents right now. Connect one on the website."
+  },
+  "outage.sheet.gone": {
+    "value": "{{computer}} is back. Nobody needs to switch."
+  },
+  "outage.sheet.reason.offline": {
+    "value": "Disconnected"
+  },
+  "outage.sheet.reason.paused": {
+    "value": "Paused"
+  },
+  "outage.sheet.reason.missing_brain": {
+    "value": "Doesn't have {{brain}}"
+  },
+  "outage.sheet.reason.exec_off": {
+    "value": "Doesn't allow running commands"
+  },
+  "outage.sheet.reason.runner_old": {
+    "value": "Needs an update"
+  },
+  "outage.sheet.reason.outdated": {
+    "value": "Needs an update"
+  },
+  "outage.sheet.reason.tool_off": {
+    "value": "{{brain}} is turned off on it"
+  },
+  "outage.sheet.reason.not_installed": {
+    "value": "{{brain}} isn't installed"
+  },
+  "outage.sheet.reason.other": {
+    "value": "Can't be used right now"
+  },
+  "outage.result.done": {
+    "value": {
+      "one": "{{count}} agent switched computers",
+      "other": "{{count}} agents switched computers"
+    }
+  },
+  "outage.result.none": {
+    "value": "Nobody switched computers"
+  },
+  "outage.result.resumed": {
+    "value": {
+      "one": "{{count}} task already went on",
+      "other": "{{count}} tasks already went on"
+    }
+  },
+  "outage.result.still": {
+    "value": {
+      "one": "{{count}} task waits for {{computer}}",
+      "other": "{{count}} tasks wait for {{computer}}"
+    }
+  },
+  "outage.result.skipped": {
+    "value": {
+      "one": "{{count}} agent couldn't switch",
+      "other": "{{count}} agents couldn't switch"
+    }
+  },
+  "outage.error.target_offline": {
+    "value": "That computer disconnected. Choose another one."
+  },
+  "outage.error.target_not_found": {
+    "value": "That computer isn't connected anymore. Choose another one."
+  },
+  "outage.error.target_same": {
+    "value": "Choose a computer other than {{computer}}."
+  },
+  "outage.error.target_paused": {
+    "value": "That computer is paused. Choose another one."
+  },
+  "outage.error.not_found": {
+    "value": "{{computer}} isn't in the computers list anymore."
+  },
+  "outage.card.waiting": {
+    "value": "Waiting for {{computer}} to come back"
+  },
+  "outage.card.body": {
+    "value": "{{brain}} runs on it. I'll go on from here as soon as it's back"
+  },
+  "outage.card.back": {
+    "value": "{{computer}} is back"
+  },
+  "outage.card.backSome": {
+    "value": "The computer is back"
+  },
+  "outage.card.backBody": {
+    "value": "Going on with what was waiting."
+  },
+  "outage.card.moved": {
+    "value": "Switched computers"
+  },
+  "outage.card.movedBody": {
+    "value": "What was waiting for {{computer}} goes on on the new computer."
+  },
+  "outage.titleCloud": {
+    "value": "{{computer}} isn't answering"
+  },
+  "outage.a11yCloud": {
+    "value": "Computer not answering"
+  },
+  "outage.cloudSub": {
+    "value": "We're on it"
+  },
+  "browser.card.needs": {
+    "value": "{{name}} needs help"
+  },
+  "browser.card.needsFor": {
+    "value": "{{name}} needs help · {{time}}"
+  },
+  "browser.card.inControlAt": {
+    "value": "You're in control · {{host}}"
+  },
+  "browser.card.doing": {
+    "value": "{{name}} · {{doing}}"
+  },
+  "browser.card.startingF": {
+    "value": "Opening {{name}}'s browser…"
+  },
+  "browser.card.startingM": {
+    "value": "Opening {{name}}'s browser…"
+  },
+  "browser.card.stopAskF": {
+    "value": "Close {{name}}'s browser?"
+  },
+  "browser.card.stopAskM": {
+    "value": "Close {{name}}'s browser?"
+  },
+  "browser.card.whereF": {
+    "value": "In {{name}}'s browser"
+  },
+  "browser.card.whereM": {
+    "value": "In {{name}}'s browser"
+  },
+  "browser.card.open": {
+    "value": "Open"
+  },
+  "browser.card.expandHint": {
+    "value": "Tap to expand"
+  },
+  "browser.card.stop": {
+    "value": "Stop"
+  },
+  "browser.card.giveUp": {
+    "value": "Give up"
+  },
+  "browser.card.done": {
+    "value": "Done: {{title}}"
+  },
+  "browser.card.failed": {
+    "value": "Couldn't: {{title}}"
+  },
+  "browser.card.failedNote": {
+    "value": "Couldn't: {{note}}"
+  },
+  "browser.card.expired": {
+    "value": "Nobody opened it in time: {{title}}"
+  },
+  "browser.card.cancelled": {
+    "value": "Canceled: {{title}}"
+  },
+  "browser.card.withdrawn": {
+    "value": "{{name}} no longer needs this: {{title}}"
+  },
+  "browser.live.inControl": {
+    "value": "You're in control"
+  },
+  "browser.live.helping": {
+    "value": "{{name}} is in control"
+  },
+  "browser.live.watchOnly": {
+    "value": "{{name}} is in control. You're only watching."
+  },
+  "browser.live.takeOver": {
+    "value": "Take over"
+  },
+  "browser.live.done": {
+    "value": "Done"
+  },
+  "browser.live.handBack": {
+    "value": "Hand back"
+  },
+  "browser.live.couldnt": {
+    "value": "Couldn't do it"
+  },
+  "browser.live.typeHere": {
+    "value": "Type here"
+  },
+  "browser.live.typeMarked": {
+    "value": "Type into the marked field"
+  },
+  "browser.live.typeMarkedSecret": {
+    "value": "Password for the marked field"
+  },
+  "browser.live.keys": {
+    "value": "Keys"
+  },
+  "browser.live.paste": {
+    "value": "Paste"
+  },
+  "browser.live.pasteHint": {
+    "value": "Paste what you copied into the page"
+  },
+  "browser.live.secureOn": {
+    "value": "Show the text"
+  },
+  "browser.live.secureOff": {
+    "value": "Hide the text (password)"
+  },
+  "browser.live.send": {
+    "value": "Send"
+  },
+  "browser.live.password": {
+    "value": "Password"
+  },
+  "browser.live.page": {
+    "value": "The browser's page. Tap to click."
+  },
+  "browser.live.graceF": {
+    "value": "If you leave, {{name}} waits 2 min."
+  },
+  "browser.live.graceM": {
+    "value": "If you leave, {{name}} waits 2 min."
+  },
+  "browser.live.closedHelpF": {
+    "value": "Logins stay saved for next time."
+  },
+  "browser.live.closedHelpM": {
+    "value": "Logins stay saved for next time."
+  },
+  "browser.live.stuckHelpF": {
+    "value": "Try again restarts the browser. Logins stay saved."
+  },
+  "browser.live.stuckHelpM": {
+    "value": "Try again restarts the browser. Logins stay saved."
+  },
+  "browser.live.hidden": {
+    "value": "{{name}} is in control · screen hidden"
+  },
+  "browser.live.key.Tab": {
+    "value": "Tab"
+  },
+  "browser.live.key.Enter": {
+    "value": "Enter"
+  },
+  "browser.live.key.Backspace": {
+    "value": "Delete"
+  },
+  "browser.live.key.Escape": {
+    "value": "Esc"
+  },
+  "browser.live.key.ArrowLeft": {
+    "value": "Left arrow"
+  },
+  "browser.live.key.ArrowUp": {
+    "value": "Up arrow"
+  },
+  "browser.live.key.ArrowDown": {
+    "value": "Down arrow"
+  },
+  "browser.live.key.ArrowRight": {
+    "value": "Right arrow"
+  },
+  "browser.live.unavailable.reconnectingF": {
+    "value": "Reconnecting…"
+  },
+  "browser.live.unavailable.reconnectingM": {
+    "value": "Reconnecting…"
+  },
+  "browser.live.unavailable.offlineF": {
+    "value": "{{name}}'s computer is offline."
+  },
+  "browser.live.unavailable.offlineM": {
+    "value": "{{name}}'s computer is offline."
+  },
+  "browser.live.unavailable.no_computerF": {
+    "value": "{{name}} has no computer."
+  },
+  "browser.live.unavailable.no_computerM": {
+    "value": "{{name}} has no computer."
+  },
+  "browser.live.unavailable.unavailableF": {
+    "value": "{{name}}'s browser isn't available right now."
+  },
+  "browser.live.unavailable.unavailableM": {
+    "value": "{{name}}'s browser isn't available right now."
+  },
+  "browser.live.unavailable.endedF": {
+    "value": "{{name}}'s browser closed."
+  },
+  "browser.live.unavailable.endedM": {
+    "value": "{{name}}'s browser closed."
+  },
+  "browser.live.unavailable.forbiddenF": {
+    "value": "You can't see this browser."
+  },
+  "browser.live.unavailable.forbiddenM": {
+    "value": "You can't see this browser."
+  },
+  "browser.live.unavailable.closedF": {
+    "value": "{{name}}'s browser is closed."
+  },
+  "browser.live.unavailable.closedM": {
+    "value": "{{name}}'s browser is closed."
+  },
+  "browser.live.unavailable.offlineCloudF": {
+    "value": "{{name}}'s computer isn't answering right now."
+  },
+  "browser.live.unavailable.offlineCloudM": {
+    "value": "{{name}}'s computer isn't answering right now."
+  },
+  "browser.live.unavailable.stuckF": {
+    "value": "Couldn't open {{name}}'s browser."
+  },
+  "browser.live.unavailable.stuckM": {
+    "value": "Couldn't open {{name}}'s browser."
+  },
+  "browser.live.unavailable.tooManyF": {
+    "value": "Too many browsers open at once. This one shows when another one closes."
+  },
+  "browser.live.unavailable.tooManyM": {
+    "value": "Too many browsers open at once. This one shows when another one closes."
+  },
+  "browser.done.title": {
+    "value": "Anything to add?"
+  },
+  "browser.done.introF": {
+    "value": "Optional. {{name}} reads it before going on."
+  },
+  "browser.done.introM": {
+    "value": "Optional. {{name}} reads it before going on."
+  },
+  "browser.done.placeholder": {
+    "value": "E.g. I signed in with the test account"
+  },
+  "browser.failed.title": {
+    "value": "What happened?"
+  },
+  "browser.failed.introF": {
+    "value": "{{name}} will read this and decide what to do."
+  },
+  "browser.failed.introM": {
+    "value": "{{name}} will read this and decide what to do."
+  },
+  "browser.failed.placeholder": {
+    "value": "A few words (optional)"
+  },
+  "browser.failed.send": {
+    "value": "Send"
+  },
+  "browser.failed.reason.code": {
+    "value": "It asked for a code I don't have"
+  },
+  "browser.failed.reason.password": {
+    "value": "I don't know the password"
+  },
+  "browser.failed.reason.blocked": {
+    "value": "The site blocked it"
+  },
+  "computer.pick": {
+    "value": "Choose a computer"
+  },
+  "computer.pickHelp": {
+    "value": "Pick one of the computers that are on."
+  },
+  "devices.title": {
+    "value": "Devices"
+  },
+  "devices.empty.title": {
+    "value": "No devices yet"
+  },
+  "devices.empty.text": {
+    "value": "Connect a computer, then plug a phone into it."
+  },
+  "devices.status.ready": {
+    "value": "Ready"
+  },
+  "devices.status.inUse": {
+    "value": "In use by {{name}}"
+  },
+  "devices.status.inUseFor": {
+    "value": "for {{person}} since {{time}}"
+  },
+  "devices.status.since": {
+    "value": "since {{time}}"
+  },
+  "devices.status.busy": {
+    "value": "Busy {{running}}/{{max}}"
+  },
+  "devices.status.needsYou": {
+    "value": "Needs you"
+  },
+  "devices.status.preparing": {
+    "value": "Getting ready"
+  },
+  "devices.status.paused": {
+    "value": "Paused"
+  },
+  "devices.status.until": {
+    "value": "until {{time}}"
+  },
+  "devices.status.offline": {
+    "value": "Offline"
+  },
+  "devices.status.seen": {
+    "value": "last seen {{when}}"
+  },
+  "devices.status.withHost": {
+    "value": "with {{host}}"
+  },
+  "devices.status.unsupported": {
+    "value": "Can't be used"
+  },
+  "devices.reason.locked": {
+    "value": "The screen is locked"
+  },
+  "devices.reason.unauthorized": {
+    "value": "Tap Allow on the phone"
+  },
+  "devices.reason.untrusted": {
+    "value": "Tap Trust on the iPhone"
+  },
+  "devices.reason.developer_mode_off": {
+    "value": "Developer Mode is off"
+  },
+  "devices.reason.ui_automation_off": {
+    "value": "UI Automation is off"
+  },
+  "devices.reason.xcode_missing": {
+    "value": "The Mac needs Xcode"
+  },
+  "devices.reason.xcode_too_old": {
+    "value": "Xcode is too old for this iPhone"
+  },
+  "devices.reason.device_support": {
+    "value": "The Mac is preparing this iPhone"
+  },
+  "devices.reason.helper_missing": {
+    "value": "The test helper isn't set up yet"
+  },
+  "devices.reason.helper_expired": {
+    "value": "The test helper needs renewing"
+  },
+  "devices.reason.apple_account_missing": {
+    "value": "Xcode on the Mac needs an Apple Account"
+  },
+  "devices.reason.apple_team_missing": {
+    "value": "Xcode on the Mac shows no team yet"
+  },
+  "devices.reason.ui_not_authorized": {
+    "value": "This iPhone refused the test helper's taps"
+  },
+  "devices.reason.team_limit": {
+    "value": "Remove an app you built from this iPhone"
+  },
+  "devices.reason.helper_untrusted": {
+    "value": "Trust the test helper on this iPhone"
+  },
+  "devices.reason.booting": {
+    "value": "Starting up"
+  },
+  "devices.reason.no_driver": {
+    "value": "Windows needs the phone maker's USB driver"
+  },
+  "devices.reason.no_driverLinux": {
+    "value": "Linux needs udev rules for this phone"
+  },
+  "devices.reason.os_too_old": {
+    "value": "This phone's system is too old"
+  },
+  "devices.reason.adb_offline": {
+    "value": "Unplug the cable and plug it in again"
+  },
+  "devices.reason.wifi_away": {
+    "value": "Join the Mac's Wi-Fi on this iPhone, or plug it in"
+  },
+  "devices.reason.wifi_asleep": {
+    "value": "Wake and unlock this iPhone, and keep it near the Mac"
+  },
+  "devices.reason.tunnel_down": {
+    "value": "The Wi-Fi link dropped. Keep this iPhone near the Mac, or plug it in"
+  },
+  "devices.reason.wifi_untrusted": {
+    "value": "Plug it in once and tap Trust"
+  },
+  "devices.reason.other": {
+    "value": "Not ready yet"
+  },
+  "devices.os.android": {
+    "value": "Android {{version}}"
+  },
+  "devices.os.ios": {
+    "value": "iOS {{version}}"
+  },
+  "devices.onHost": {
+    "value": "on {{host}}"
+  },
+  "devices.cpus": {
+    "value": {
+      "one": "{{count}} CPU",
+      "other": "{{count}} CPUs"
+    }
+  },
+  "devices.memory": {
+    "value": "{{gb}} GB"
+  },
+  "devices.audience.label": {
+    "value": "Who can use it"
+  },
+  "devices.audience.me": {
+    "value": "Only me"
+  },
+  "devices.audience.only": {
+    "value": "Only {{name}}"
+  },
+  "devices.audience.everyone": {
+    "value": "Everyone"
+  },
+  "devices.audience.sameAs": {
+    "value": "Same as {{host}}"
+  },
+  "devices.audience.mode.owner": {
+    "value": "Only me"
+  },
+  "devices.audience.mode.ownerOf": {
+    "value": "Only {{name}}"
+  },
+  "devices.audience.mode.everyone": {
+    "value": "Everyone in the workspace"
+  },
+  "devices.audience.mode.people": {
+    "value": "Only some people or roles"
+  },
+  "devices.audience.modeText.owner": {
+    "value": "You, and agents working for you."
+  },
+  "devices.audience.modeText.ownerOf": {
+    "value": "{{name}}, and agents working for them."
+  },
+  "devices.audience.modeText.everyone": {
+    "value": "Anyone's agents in the workspace can use it."
+  },
+  "devices.audience.modeText.people": {
+    "value": "Pick the people and roles whose agents can use it."
+  },
+  "devices.audience.people": {
+    "value": "People and roles"
+  },
+  "devices.audience.pickSomeone": {
+    "value": "Pick at least one person or role."
+  },
+  "devices.audience.narrowOnly": {
+    "value": "You can narrow who uses {{name}}'s device, never widen it."
+  },
+  "devices.audience.runsAs": {
+    "value": "Other people's agents will run as you on it and can read your files."
+  },
+  "devices.audience.phoneOnly": {
+    "value": "This shares only the phone, never {{host}}."
+  },
+  "devices.audience.saved": {
+    "value": "Saved"
+  },
+  "devices.page.belongs": {
+    "value": "Belongs to the workspace"
+  },
+  "devices.page.belongsHint": {
+    "value": "It stays when its owner leaves the workspace, and Only me then reads as everyone."
+  },
+  "devices.page.phones": {
+    "value": "Phones"
+  },
+  "devices.page.ownerReads": {
+    "value": "Its owner can read the code, files and builds your agent puts here."
+  },
+  "devices.page.followsHost": {
+    "value": "An iPhone follows its Mac's rule."
+  },
+  "devices.page.shareNote": {
+    "value": "Sharing a phone never shares {{host}}."
+  },
+  "devices.page.showHow": {
+    "value": "Show me how"
+  },
+  "devices.page.name": {
+    "value": "Name"
+  },
+  "devices.page.renamed": {
+    "value": "Renamed to {{name}}"
+  },
+  "devices.page.stop": {
+    "value": "Stop {{name}}"
+  },
+  "devices.page.stopped": {
+    "value": "{{device}} is back from {{name}}"
+  },
+  "devices.page.forget": {
+    "value": "Forget this phone"
+  },
+  "devices.page.forgetTitle": {
+    "value": "Forget {{name}}?"
+  },
+  "devices.page.forgetText": {
+    "value": "It comes back if {{host}} sees it again."
+  },
+  "devices.page.forgotten": {
+    "value": "{{name}} was forgotten"
+  },
+  "devices.page.notFound": {
+    "value": "This device isn't here anymore"
+  },
+  "devices.page.notFoundText": {
+    "value": "It was removed, or it left with its owner."
+  },
+  "devices.join.header": {
+    "value": "Asking to join"
+  },
+  "devices.join.title": {
+    "value": "{{name}} wants to join {{org}}"
+  },
+  "devices.join.allow": {
+    "value": "Let it join"
+  },
+  "devices.join.deny": {
+    "value": "Deny"
+  },
+  "devices.join.joined": {
+    "value": "{{name}} joined"
+  },
+  "devices.join.denied": {
+    "value": "{{name}} was denied"
+  },
+  "devices.connect.title": {
+    "value": "Connect a device"
+  },
+  "devices.connect.thisPhone": {
+    "value": "This phone"
+  },
+  "devices.connect.computers": {
+    "value": "Computers"
+  },
+  "devices.connect.androidText": {
+    "value": "Through a computer it's plugged into"
+  },
+  "devices.connect.iphoneText": {
+    "value": "Through a Mac"
+  },
+  "devices.connect.server": {
+    "value": "A server or VPS"
+  },
+  "devices.connect.serverText": {
+    "value": "One line to paste in its terminal"
+  },
+  "devices.connect.computer": {
+    "value": "Another computer"
+  },
+  "devices.connect.computerText": {
+    "value": "Install the app on it"
+  },
+  "devices.connect.appNote": {
+    "value": "On a Mac or a PC you use, the agentes.chat desktop app connects it too."
+  },
+  "devices.connect.appStep1": {
+    "value": "Get the agentes.chat app on it"
+  },
+  "devices.connect.appStep2": {
+    "value": "Open it and sign in as yourself"
+  },
+  "devices.connect.appStep3": {
+    "value": "Click Allow when it asks to let {{org}}'s agents use it"
+  },
+  "devices.connect.appShows": {
+    "value": "It shows up here by itself, only for you until you share it."
+  },
+  "devices.connect.appWaiting": {
+    "value": "Waiting for a computer of yours…"
+  },
+  "devices.connect.appConnected": {
+    "value": "Connected: {{name}}"
+  },
+  "devices.connect.appLine": {
+    "value": "Can't install the app on it? Use a terminal line"
+  },
+  "devices.connect.unix": {
+    "value": "Linux and macOS"
+  },
+  "devices.connect.windows": {
+    "value": "Windows"
+  },
+  "devices.connect.once": {
+    "value": "Works once, for 10 minutes. Run it on the computer, then let it join here."
+  },
+  "devices.connect.copied": {
+    "value": "Command copied. Paste it in the computer's terminal."
+  },
+  "devices.connect.waiting": {
+    "value": "Waiting for the computer to run it"
+  },
+  "devices.connect.joined": {
+    "value": "{{name}} is connected"
+  },
+  "devices.connect.denied": {
+    "value": "You didn't let {{name}} join."
+  },
+  "devices.connect.expired": {
+    "value": "This link expired."
+  },
+  "devices.connect.again": {
+    "value": "Make a new link"
+  },
+  "devices.android.entry": {
+    "value": "Use this phone with agents"
+  },
+  "devices.android.title": {
+    "value": "Let agents use this phone"
+  },
+  "devices.android.connecting": {
+    "value": "Connecting to {{host}}"
+  },
+  "devices.android.computer": {
+    "value": "Computer"
+  },
+  "devices.android.noHost": {
+    "value": "This phone works through a computer of yours. Connect one first."
+  },
+  "devices.android.hostOffline": {
+    "value": "{{host}} is offline. Turn it on and open agentes.chat there."
+  },
+  "devices.android.step1": {
+    "value": "Turn on Developer options"
+  },
+  "devices.android.step1Text": {
+    "value": "Tap Build number 7 times, then enter your PIN. On Samsung: Software information › Build number."
+  },
+  "devices.android.openAbout": {
+    "value": "Open About phone"
+  },
+  "devices.android.step2": {
+    "value": "Turn on USB debugging"
+  },
+  "devices.android.openDev": {
+    "value": "Open Developer options"
+  },
+  "devices.android.step3": {
+    "value": "Plug it into {{host}}"
+  },
+  "devices.android.looking": {
+    "value": "Looking for this phone"
+  },
+  "devices.android.step4": {
+    "value": "Tap Allow on this phone"
+  },
+  "devices.android.step4Text": {
+    "value": "Check Always allow from this computer first."
+  },
+  "devices.android.prompt.a11y": {
+    "value": "Android asks: Allow USB debugging? Check Always allow from this computer, then tap Allow."
+  },
+  "devices.android.prompt.title": {
+    "value": "Allow USB debugging?"
+  },
+  "devices.android.prompt.fingerprint": {
+    "value": "The computer's RSA key fingerprint is:"
+  },
+  "devices.android.prompt.always": {
+    "value": "Always allow from this computer"
+  },
+  "devices.android.prompt.cancel": {
+    "value": "Cancel"
+  },
+  "devices.android.prompt.allow": {
+    "value": "Allow"
+  },
+  "devices.android.wifi": {
+    "value": "No cable? Pair over Wi-Fi"
+  },
+  "devices.android.wifiText": {
+    "value": "Phone and computer on the same Wi-Fi"
+  },
+  "devices.android.cable": {
+    "value": "Use a cable instead"
+  },
+  "devices.android.wifi1": {
+    "value": "Turn on Wireless debugging"
+  },
+  "devices.android.wifi1Text": {
+    "value": "Check Always allow on this network, then tap Allow."
+  },
+  "devices.android.wifi2": {
+    "value": "Scan the code on a computer"
+  },
+  "devices.android.wifi2Text": {
+    "value": "From Wireless debugging › Pair device with QR code. Don't use the camera: it reads the code as a Wi-Fi network and takes the phone off your Wi-Fi."
+  },
+  "devices.android.wifi2Hint": {
+    "value": "In agentes.chat on a computer, open Connect a device › Android phone › Over Wi-Fi and pick {{host}}."
+  },
+  "devices.android.codeHead": {
+    "value": "Pair with a pairing code"
+  },
+  "devices.android.codeNote": {
+    "value": "From Wireless debugging › Pair device with pairing code. Open Settings and agentes.chat side by side so the code stays on screen."
+  },
+  "devices.android.wifiNote": {
+    "value": "Wi-Fi can drop after a restart. A cable is more reliable."
+  },
+  "devices.android.done": {
+    "value": "{{name}} is connected"
+  },
+  "devices.android.openFailed": {
+    "value": "This phone didn't open that screen. Find it in Settings."
+  },
+  "devices.iphone.title": {
+    "value": "Connect this iPhone"
+  },
+  "devices.iphone.with": {
+    "value": "With {{host}}"
+  },
+  "devices.iphone.noHost": {
+    "value": "An iPhone connects through a Mac of yours. Connect one first."
+  },
+  "devices.iphone.step1": {
+    "value": "Plug into {{host}}"
+  },
+  "devices.iphone.step2": {
+    "value": "Tap Trust on this iPhone"
+  },
+  "devices.iphone.step2Text": {
+    "value": "Then enter your passcode."
+  },
+  "devices.iphone.step3": {
+    "value": "Turn on Developer Mode"
+  },
+  "devices.iphone.step3Hint": {
+    "value": "iPhone apps can't open another app's settings, so here is the path."
+  },
+  "devices.iphone.path.settings": {
+    "value": "Settings"
+  },
+  "devices.iphone.path.privacy": {
+    "value": "Privacy & Security"
+  },
+  "devices.iphone.path.devMode": {
+    "value": "Developer Mode"
+  },
+  "devices.iphone.pathA11y": {
+    "value": "On this iPhone: Settings, then Privacy & Security, then Developer Mode"
+  },
+  "devices.iphone.switchA11y": {
+    "value": "The Developer Mode switch, off"
+  },
+  "devices.iphone.step3Text": {
+    "value": "Turn it on and tap Restart. After the restart, tap Turn On and enter your passcode."
+  },
+  "devices.iphone.step4": {
+    "value": "Turn on UI Automation"
+  },
+  "devices.iphone.step4Text": {
+    "value": "Settings › Developer › Enable UI Automation"
+  },
+  "devices.iphone.step5": {
+    "value": "Trust the test helper"
+  },
+  "devices.iphone.step5Hint": {
+    "value": "The app {{host}} installs so agents can tap and type on this iPhone. It shows up in this list once installed."
+  },
+  "devices.iphone.step5Text": {
+    "value": "Settings › General › VPN & Device Management. Tap the developer's name, then Trust."
+  },
+  "devices.iphone.waiting": {
+    "value": "Waiting for {{host}} to see it"
+  },
+  "devices.iphone.footer": {
+    "value": "Your Mac does the rest, and renews the test helper every 7 days while it's on."
+  },
+  "devices.iphone.tooOld": {
+    "value": "This iPhone runs iOS {{version}}, and agents need iOS 17 or newer. Update it if it can, or use a newer iPhone."
+  },
+  "devices.iphone.xcodeOld": {
+    "value": "This iPhone runs iOS {{version}}, newer than Xcode on {{host}} knows. Install Xcode {{major}} there, then run xcrun devicectl manage ddis update in Terminal."
+  },
+  "devices.iphone.teamMissing": {
+    "value": "Xcode is signed in but shows no team yet. In Xcode, make any iOS app, pick your team under Signing & Capabilities and run it on this iPhone once."
+  },
+  "devices.iphone.uiRefused": {
+    "value": "This iPhone refused the test helper's taps. Unlock it and enter its passcode if it asks. If it keeps happening, turn Settings › Developer › Enable UI Automation off and on."
+  },
+  "devices.iphone.pluggedIn": {
+    "value": "It's plugged in"
+  },
+  "devices.iphone.wifi.also": {
+    "value": "Also on the Wi-Fi of {{host}}: {{name}}"
+  },
+  "devices.iphone.wifi.use": {
+    "value": "Use over Wi-Fi"
+  },
+  "devices.iphone.wifi.hint": {
+    "value": "Only an iPhone that trusted the Mac over a cable shows up here. The Mac reaches it through Apple's own encrypted link, the one Xcode uses."
+  },
+  "devices.iphone.wifi.stop": {
+    "value": "Stop using over Wi-Fi"
+  },
+  "devices.iphone.wifi.stopTitle": {
+    "value": "Stop using {{name}} over Wi-Fi?"
+  },
+  "devices.iphone.wifi.stopText": {
+    "value": "Agents can't reach it any more. Pick it again with {{host}} to use it."
+  },
+  "devices.iphone.wifi.stopped": {
+    "value": "{{name}} isn't used over Wi-Fi any more"
+  },
+  "devices.iphone.stall.plug": {
+    "value": "{{host}} doesn't see this iPhone yet. Use a cable that carries data, not only power, keep this iPhone unlocked and tap Trust if it asks."
+  },
+  "devices.iphone.stall.devmode": {
+    "value": "Developer Mode turns on only after this iPhone restarts. Tap Restart, then Turn On once it's back. No switch there? Unplug this iPhone and plug it in again."
+  },
+  "devices.notice.kind": {
+    "value": "Devices"
+  },
+  "devices.notice.join_request": {
+    "value": "{{device}} wants to join {{org}}"
+  },
+  "devices.notice.in_use": {
+    "value": "{{names}} is using {{device}}"
+  },
+  "devices.notice.in_useFor": {
+    "value": "{{names}} is using {{device}} for {{person}}"
+  },
+  "devices.notice.access_request": {
+    "value": "{{names}} asks to use {{device}}"
+  },
+  "devices.notice.access_requestFor": {
+    "value": "{{names}} asks to use {{device}} for {{person}}"
+  },
+  "devices.notice.waiting": {
+    "value": "{{names}} is waiting for {{device}}"
+  },
+  "devices.notice.waitingFor": {
+    "value": "{{names}} is waiting for {{device}} for {{person}}"
+  },
+  "devices.notice.allowOnce": {
+    "value": "Allow once"
+  },
+  "devices.notice.always": {
+    "value": "Always allow {{name}}"
+  },
+  "devices.notice.no": {
+    "value": "No"
+  },
+  "devices.notice.stop": {
+    "value": "Stop"
+  },
+  "devices.wait.waiting": {
+    "value": "Waiting for {{device}}"
+  },
+  "devices.wait.back": {
+    "value": "{{device}} is back"
+  },
+  "devices.wait.tryNow": {
+    "value": "Try now"
+  },
+  "devices.wait.other": {
+    "value": "Use another device"
+  },
+  "devices.wait.stop": {
+    "value": "Stop waiting"
+  },
+  "devices.wait.useInstead": {
+    "value": "Use {{name}} instead"
+  },
+  "devices.wait.none": {
+    "value": "No other device you can use is ready."
+  },
+  "connectors.title": {
+    "value": "Connectors"
+  },
+  "connectors.search": {
+    "value": "Search or paste an address"
+  },
+  "connectors.mcps": {
+    "value": "MCPs"
+  },
+  "connectors.mcpsNone": {
+    "value": "MCP servers you connect by their address show up here."
+  },
+  "connectors.addMcp": {
+    "value": "Add MCP"
+  },
+  "connectors.add": {
+    "value": "Add"
+  },
+  "connectors.allServices": {
+    "value": "All services"
+  },
+  "connectors.waitLine": {
+    "value": {
+      "one": "{{count}} tool needs you",
+      "other": "{{count}} tools need you"
+    }
+  },
+  "connectors.toolsWait": {
+    "value": {
+      "one": "{{count}} needs you",
+      "other": "{{count}} need you"
+    }
+  },
+  "connectors.connectedState": {
+    "value": "Connected"
+  },
+  "connectors.connected": {
+    "value": "Connected"
+  },
+  "connectors.suggested": {
+    "value": "Suggested for {{org}}"
+  },
+  "connectors.all": {
+    "value": "All"
+  },
+  "connectors.noResults": {
+    "value": "No service by that name. Try its address."
+  },
+  "connectors.soon": {
+    "value": "Soon"
+  },
+  "connectors.loadFailed": {
+    "value": "Couldn't load the connectors."
+  },
+  "connectors.connectedCheck": {
+    "value": "{{name}}, connected"
+  },
+  "connectors.adminsOnly": {
+    "value": "Only an admin of {{org}} connects services. Ask one of them."
+  },
+  "connectors.adminsOnlyPersonal": {
+    "value": "Only whoever runs this workspace connects apps. Ask them."
+  },
+  "connectors.canTitle": {
+    "value": "Agents will be able to"
+  },
+  "connectors.asks": {
+    "value": "{{text}} · asks for your approval"
+  },
+  "connectors.connect": {
+    "value": "Connect"
+  },
+  "connectors.signIn": {
+    "value": "Sign in to {{name}}"
+  },
+  "connectors.useKey": {
+    "value": "Use a key"
+  },
+  "connectors.useSignIn": {
+    "value": "Sign in in the browser"
+  },
+  "connectors.keyLabel": {
+    "value": "{{name}} key"
+  },
+  "connectors.keyHelp": {
+    "value": "Stored encrypted. Neither you nor the agents see it again."
+  },
+  "connectors.keyShort": {
+    "value": "The key looks too short."
+  },
+  "connectors.paste": {
+    "value": "Paste"
+  },
+  "connectors.addressTitle": {
+    "value": "Connect by address"
+  },
+  "connectors.addressHelp": {
+    "value": "The service's MCP server address (starts with https://)."
+  },
+  "connectors.addressLabel": {
+    "value": "Address"
+  },
+  "connectors.addressInvalid": {
+    "value": "Use an https:// address."
+  },
+  "connectors.needsKey": {
+    "value": "This server asks for a key."
+  },
+  "connectors.working": {
+    "value": "Connecting…"
+  },
+  "connectors.failed": {
+    "value": "Couldn't connect. Try again."
+  },
+  "connectors.refused": {
+    "value": "{{name}} didn't authorize. Nothing was connected."
+  },
+  "connectors.connectedTitle": {
+    "value": "{{name}} connected"
+  },
+  "connectors.connectedDone": {
+    "value": "Service connected."
+  },
+  "connectors.levelFailed": {
+    "value": "Couldn't change {{name}}'s access. Try again."
+  },
+  "connectors.everyoneFailed": {
+    "value": "Couldn't change everyone's access. Try again."
+  },
+  "connectors.disconnectFailed": {
+    "value": "Couldn't disconnect {{name}}. Try again."
+  },
+  "connectors.needsReconnect": {
+    "value": "The {{name}} account stopped working. Agents can't use it until someone reconnects it."
+  },
+  "connectors.noTools": {
+    "value": "{{name}}'s tools couldn't be read. Agents go without them until they're read again, in Tools."
+  },
+  "connectors.accountTitle": {
+    "value": "Account"
+  },
+  "connectors.renameFailed": {
+    "value": "Couldn't rename it. Try again."
+  },
+  "connectors.whoTitle": {
+    "value": "Who uses it"
+  },
+  "connectors.level.none": {
+    "value": "Doesn't use"
+  },
+  "connectors.level.read": {
+    "value": "Only looks"
+  },
+  "connectors.level.write": {
+    "value": "Can change"
+  },
+  "connectors.level.custom": {
+    "value": "Your own way"
+  },
+  "connectors.safe": {
+    "value": "Deleting and publishing always ask you first."
+  },
+  "connectors.done": {
+    "value": "Done"
+  },
+  "connectors.step": {
+    "value": "Step {{n}} of {{total}}: {{label}}"
+  },
+  "connectors.disconnect": {
+    "value": "Disconnect"
+  },
+  "connectors.disconnected": {
+    "value": "{{name}} disconnected."
+  },
+  "connectors.usedBy": {
+    "value": {
+      "zero": "No agent uses it",
+      "one": "{{names}} uses it",
+      "other": "{{names}} use it"
+    }
+  },
+  "connectors.fromAgent": {
+    "value": "Connect a service"
+  },
+  "connectors.githubApp.useApp": {
+    "value": "Use the agentes.chat app"
+  },
+  "connectors.githubApp.useAccount": {
+    "value": "Use a GitHub account"
+  },
+  "connectors.githubApp.createInBrowser": {
+    "value": "Create in the browser"
+  },
+  "connectors.review.stepAbout": {
+    "value": "What it can do"
+  },
+  "connectors.review.saving": {
+    "value": "Saving…"
+  },
+  "connectors.review.saveFailed": {
+    "value": "Couldn't save {{name}}'s tools. Try again."
+  },
+  "connectors.review.refreshing": {
+    "value": "Looking…"
+  },
+  "connectors.review.refreshFailed": {
+    "value": "Couldn't look for the tools again. Try again."
+  },
+  "connectors.review.waiting": {
+    "value": "An admin needs to review this server's tools before agents use them."
+  },
+  "invite.invitedBy": {
+    "value": "{{name}} invited you to {{org}}"
+  },
+  "invite.invited": {
+    "value": "You were invited to {{org}}"
+  },
+  "invite.joinAs": {
+    "value": "You join as {{role}}."
+  },
+  "invite.apple": {
+    "value": "Continue with Apple"
+  },
+  "invite.signIn": {
+    "value": "Sign in to accept"
+  },
+  "invite.accept": {
+    "value": "Join {{org}}"
+  },
+  "invite.wrongAccount": {
+    "value": "This invitation is for {{email}}."
+  },
+  "invite.otherAccount": {
+    "value": "Use another account"
+  },
+  "invite.failed": {
+    "value": "Couldn't accept the invitation. Try again."
+  },
+  "invite.askNewOf": {
+    "value": "Ask {{name}} for another"
+  },
+  "invite.ask.called": {
+    "value": "{{name}} called you to {{org}}."
+  },
+  "invite.ask.calledNoName": {
+    "value": "This is {{org}}'s invitation."
+  },
+  "invite.ask.approves": {
+    "value": "Someone at {{org}} approves your joining."
+  },
+  "invite.ask.youTitle": {
+    "value": "Only you are missing."
+  },
+  "invite.ask.emailConfirmed": {
+    "value": "E-mail confirmed"
+  },
+  "invite.ask.stepOf": {
+    "value": "{{n}} of {{total}} · {{name}}"
+  },
+  "invite.ask.step.email": {
+    "value": "Your e-mail"
+  },
+  "invite.ask.step.code": {
+    "value": "Code"
+  },
+  "invite.ask.step.you": {
+    "value": "You"
+  },
+  "invite.ask.haveAccount": {
+    "value": "I have an account"
+  },
+  "invite.ask.notePlaceholder": {
+    "value": "Anything for whoever approves? Optional"
+  },
+  "invite.join.skip": {
+    "value": "Skip"
+  },
+  "invite.join.sharedBy": {
+    "value": "{{name}} shared this link"
+  },
+  "invite.join.waitLead": {
+    "value": "You're in as soon as an admin approves. You can close the app: we'll let you know by email."
+  },
+  "invite.join.waitLeadOpen": {
+    "value": "With the app open, you're in by yourself once they approve. Closed, we'll tell you by e-mail."
+  },
+  "invite.join.passwordLead": {
+    "value": "Your password, and you're in."
+  },
+  "joinRequests.share": {
+    "value": "Share the link"
+  },
+  "joinRequests.roles": {
+    "value": "Roles"
+  },
+  "joinRequests.rolesHint": {
+    "value": "They join with the roles turned on. With none, they may do what Everyone may."
+  },
+  "humanCheck.title": {
+    "value": "Quick check"
+  },
+  "humanCheck.blocked": {
+    "value": "The check didn't load. Try another network."
+  },
+  "invitePeople.emailsHelp": {
+    "value": "Paste a list or type. Each person gets an email and joins right away."
+  },
+  "invitePeople.here": {
+    "value": "Already here"
+  },
+  "invitePeople.invited": {
+    "value": "Already invited"
+  },
+  "invitePeople.fix": {
+    "value": "Check this"
+  },
+  "invitePeople.channels": {
+    "value": "Channels"
+  },
+  "invitePeople.optional": {
+    "value": "Optional"
+  },
+  "invitePeople.ok": {
+    "value": "OK"
+  },
+  "invitePeople.noteHelp": {
+    "value": "It shows in the email with your name. Up to {{max}} characters."
+  },
+  "invitePeople.roleHelp": {
+    "value": "Changes what the person gets on joining."
+  },
+  "invitePeople.remove": {
+    "value": "Take off the list"
+  },
+  "invitePeople.sendAgain": {
+    "value": "Send again"
+  },
+  "invitePeople.cancelTitle": {
+    "value": "Cancel the invitation to {{email}}?"
+  },
+  "invitePeople.cancelText": {
+    "value": "Its link stops opening."
+  },
+  "invitePeople.send": {
+    "value": "Send"
+  },
+  "members.waiting": {
+    "value": {
+      "one": "{{count}} waiting",
+      "other": "{{count}} waiting"
+    }
+  },
+  "reset.title": {
+    "value": "Pick a new password"
+  },
+  "reset.save": {
+    "value": "Save and sign in"
+  },
+  "reset.done": {
+    "value": "Password changed."
+  },
+  "reset.expired": {
+    "value": "This link expired"
+  },
+  "reset.expiredLead": {
+    "value": "Password links last 1 hour."
+  },
+  "reset.toSignIn": {
+    "value": "Go to sign in"
+  },
+  "entering.title": {
+    "value": "Entering {{org}}…"
+  },
+  "entering.titleNew": {
+    "value": "Entering…"
+  },
+  "entering.lead": {
+    "value": "Your conversations are on their way."
+  },
+  "entering.team": {
+    "value": "The team is already there."
+  },
+  "splash.slow": {
+    "value": "Connecting…"
+  },
+  "splash.offline": {
+    "value": "No connection. Trying again."
+  },
+  "onb.logo": {
+    "value": "Logo"
+  },
+  "onb.logoHelp": {
+    "value": "Optional."
+  },
+  "onb.logoPick": {
+    "value": "Choose"
+  },
+  "onb.zone": {
+    "value": "Time zone: {{zone}}"
+  },
+  "onb.zoneChange": {
+    "value": "Change"
+  },
+  "onb.zoneTitle": {
+    "value": "Time zone"
+  },
+  "onb.anotherTitle": {
+    "value": "What's the new workspace called?"
+  },
+  "onb.anotherPurpose": {
+    "value": "What's the new workspace for?"
+  },
+  "onb.anotherLead": {
+    "value": "On agentes.chat. You stay in {{org}} and can switch any time."
+  },
+  "onb.suggested": {
+    "value": "From your {{domain}} e-mail, I suggested {{org}}."
+  },
+  "onb.create": {
+    "value": "Create"
+  },
+  "onb.enter": {
+    "value": "Go to the workspace"
+  },
+  "onb.shareMessage": {
+    "value": "Join {{org}} on agentes.chat: {{url}}"
+  },
+  "onb.failed": {
+    "value": "Couldn't save. Try again."
+  },
+  "ai.yourPlan": {
+    "value": "Your AI plan"
+  },
+  "ai.plansSub": {
+    "value": "Claude, ChatGPT, Gemini, GLM and others"
+  },
+  "ai.plansFoot": {
+    "value": "Agents think with your plan, no API key needed. It signs in on the agent's computer."
+  },
+  "ai.change": {
+    "value": "Change"
+  },
+  "ai.how": {
+    "value": "How to connect"
+  },
+  "ai.whose": {
+    "value": "Whose key"
+  },
+  "ai.meanwhile": {
+    "value": "Meanwhile, agents can think with an API key."
+  },
+  "ai.failed": {
+    "value": "Couldn't save this key. Check that it's right and try again."
+  },
+  "ai.save": {
+    "value": "Save the key"
+  },
+  "ai.saving": {
+    "value": "Saving…"
+  },
+  "ai.row": {
+    "value": "AI accounts"
+  },
+  "ai.rowNone": {
+    "value": "None"
+  },
+  "ai.rowPlans": {
+    "value": {
+      "one": "{{count}} plan",
+      "other": "{{count}} plans"
+    }
+  },
+  "ai.rowKeys": {
+    "value": {
+      "one": "{{count}} key",
+      "other": "{{count}} keys"
+    }
+  },
+  "ai.taskNoAi": {
+    "value": "{{name}} has no AI yet: the task waits until one is connected."
+  },
+  "ai.connect": {
+    "value": "Connect an AI"
+  },
+  "ai.moveHere": {
+    "value": "Move it here"
+  },
+  "ai.audience": {
+    "value": "Who he answers",
+    "female": "Who she answers"
+  },
+  "ai.another": {
+    "value": "Another AI"
+  },
+  "ai.question": {
+    "value": "How will {{name}} think?",
+    "female": "How will {{name}} think?"
+  },
+  "ai.questionAny": {
+    "value": "How will the agents think?"
+  },
+  "ai.questionLead": {
+    "value": "You can change it later, on the profile."
+  },
+  "ai.planRow": {
+    "value": "My AI plan"
+  },
+  "ai.planRowSub": {
+    "value": "Signs in on the agent's computer, no key"
+  },
+  "ai.keyRow": {
+    "value": "A key"
+  },
+  "ai.keyRowSub": {
+    "value": "You pay per use, straight to the maker"
+  },
+  "ai.already": {
+    "value": "Already at {{org}}"
+  },
+  "ai.stepOf": {
+    "value": "{{step}} of {{total}}"
+  },
+  "crash.title": {
+    "value": "Something went wrong on this screen"
+  },
+  "crash.subtitle": {
+    "value": "The app hit an error showing this. Try again."
+  },
+  "crash.retry": {
+    "value": "Try again"
+  },
+  "notFound.title": {
+    "value": "We couldn't find that"
+  },
+  "notFound.subtitle": {
+    "value": "The link may have changed or you can't see it."
+  },
+  "notFound.home": {
+    "value": "Go to chats"
+  },
+  "settings.edit": {
+    "value": "Edit workspace"
+  },
+  "settings.editSub": {
+    "value": "Name, logo, time zone and what the agents know"
+  },
+  "settings.group.org": {
+    "value": "Workspace"
+  },
+  "settings.group.people": {
+    "value": "People"
+  },
+  "settings.section.members": {
+    "value": "Members"
+  },
+  "settings.section.roles": {
+    "value": "Roles"
+  },
+  "settings.section.access": {
+    "value": "Agents' access"
+  },
+  "settings.section.connectors": {
+    "value": "Connectors"
+  },
+  "settings.ofOnline": {
+    "value": "{{online}} of {{count}}"
+  },
+  "settings.deleteName": {
+    "value": "Delete {{name}}"
+  },
+  "settings.deleteFoot": {
+    "value": "You have 7 days to change your mind."
+  },
+  "settings.deleteAlert": {
+    "value": "Everyone can only read it from now on. It can be restored for 7 days."
+  },
+  "settings.deleteAction": {
+    "value": "Delete"
+  },
+  "settings.deleteIntro": {
+    "value": "{{name}} turns read-only for everyone right away and is deleted for good in 7 days."
+  },
+  "settings.holdDelete": {
+    "value": "Hold to delete"
+  },
+  "settings.deleteFailed": {
+    "value": "Couldn't delete the workspace. Try again."
+  },
+  "settings.access.how": {
+    "value": "Tap a row to change its level: No access, Read, Read and write."
+  },
+  "settings.logo.failed": {
+    "value": "Couldn't upload the logo"
+  },
+  "settings.logo.tooBig": {
+    "value": "That image is too big. Try another one."
+  },
+  "settings.machine.toolsHow": {
+    "value": "Tap a tool that's on to turn it off. Turning it back on happens only on the computer itself."
+  },
+  "settings.roles.onComputer": {
+    "value": "The roles' order and each role's icon change on the computer."
+  },
+  "settings.roles.items": {
+    "value": "Item by item"
+  },
+  "settings.roles.create": {
+    "value": "Create"
+  },
+  "settings.import.preparing": {
+    "value": "Preparing the file…"
+  },
+  "settings.import.failed": {
+    "value": "Couldn't download the file. Try again."
+  },
+  "vault.newItem": {
+    "value": "New item"
+  },
+  "vault.search": {
+    "value": "Search the Vault"
+  },
+  "vault.noResults": {
+    "value": "Nothing matches “{{q}}”."
+  },
+  "vault.personalText": {
+    "value": "Only you see these. Your agents use them only when you ask."
+  },
+  "vault.teamText": {
+    "value": "The team's logins, keys and contacts. You choose who sees each one and which agents use it."
+  },
+  "vault.teamReadText": {
+    "value": "Shared with you by the people who manage the workspace's keys."
+  },
+  "vault.missing": {
+    "value": "Missing"
+  },
+  "vault.usedAt": {
+    "value": "used {{when}}"
+  },
+  "vault.neverUsed": {
+    "value": "not used yet"
+  },
+  "vault.kindTitle": {
+    "value": "What to save"
+  },
+  "vault.teamAudience": {
+    "value": "Everyone in the workspace sees it. You can narrow it after saving."
+  },
+  "vault.savedToVault": {
+    "value": "Saved to the Vault"
+  },
+  "vault.tab.team": {
+    "value": "Team"
+  },
+  "vault.tab.personal": {
+    "value": "Personal"
+  },
+  "vault.tab.connections": {
+    "value": "Connections"
+  },
+  "vault.kind.login": {
+    "value": "Login"
+  },
+  "vault.kind.key": {
+    "value": "Key"
+  },
+  "vault.kind.contact": {
+    "value": "Contact"
+  },
+  "vault.kinds.all": {
+    "value": "All"
+  },
+  "vault.kinds.login": {
+    "value": "Logins"
+  },
+  "vault.kinds.key": {
+    "value": "Keys"
+  },
+  "vault.kinds.contact": {
+    "value": "Contacts"
+  },
+  "vault.kindText.login": {
+    "value": "A website, username and password. Agents sign in without seeing the password."
+  },
+  "vault.kindText.key": {
+    "value": "An API key or token. Agents use it in a command without seeing it."
+  },
+  "vault.kindText.contact": {
+    "value": "Name, company, email, phone and address agents fill in on forms."
+  },
+  "vault.import.title": {
+    "value": "Import from a computer"
+  },
+  "vault.import.text": {
+    "value": "To bring passwords from a browser or a password manager, open Settings, Vault on the web and choose Import."
+  },
+  "vault.connections.text": {
+    "value": "Connect a password manager and your agents use the logins kept there. Nothing is copied: a password is read only when it's used."
+  },
+  "vault.connections.connected": {
+    "value": "Connected"
+  },
+  "vault.connections.add": {
+    "value": "Connect"
+  },
+  "vault.connections.none": {
+    "value": "No password manager can be connected here."
+  },
+  "vault.connections.help": {
+    "value": "Use a vault or a folder only for your agents, with just what they need."
+  },
+  "vault.connect.title": {
+    "value": "Connect {{name}}"
+  },
+  "vault.connect.reconnectTitle": {
+    "value": "Reconnect {{name}}"
+  },
+  "vault.connect.action": {
+    "value": "Connect"
+  },
+  "vault.connect.text": {
+    "value": "Your agents will use the logins {{name}} keeps for them, without seeing the passwords."
+  },
+  "vault.connect.steps": {
+    "value": "How to connect"
+  },
+  "vault.connect.guide": {
+    "value": "Open the {{name}} guide"
+  },
+  "vault.connect.fields": {
+    "value": "Details"
+  },
+  "vault.connect.private": {
+    "value": "These details are kept encrypted and never shown again."
+  },
+  "vault.connect.teamHelp": {
+    "value": "Everyone in the workspace sees its items and every agent can use them. You can adjust it next."
+  },
+  "vault.connect.personalHelp": {
+    "value": "Only you see its items, and your agents use them when you ask."
+  },
+  "vault.connect.checking": {
+    "value": "Checking with {{name}}…"
+  },
+  "vault.connect.connected": {
+    "value": "{{name}} connected"
+  },
+  "vault.connect.reconnected": {
+    "value": "{{name}} reconnected"
+  },
+  "vault.connect.unknown": {
+    "value": "This password manager isn't available here."
+  },
+  "vault.connection.ready": {
+    "value": "Connected"
+  },
+  "vault.connection.syncing": {
+    "value": "Syncing…"
+  },
+  "vault.connection.reads": {
+    "value": "Reads {{label}}"
+  },
+  "vault.connection.noWrites": {
+    "value": "read-only"
+  },
+  "vault.connection.items": {
+    "value": {
+      "one": "{{count}} item",
+      "other": "{{count}} items"
+    }
+  },
+  "vault.connection.synced": {
+    "value": "synced {{when}}"
+  },
+  "vault.connection.sync": {
+    "value": "Sync now"
+  },
+  "vault.connection.syncDone": {
+    "value": "Synced"
+  },
+  "vault.connection.reconnect": {
+    "value": "Reconnect"
+  },
+  "vault.connection.change": {
+    "value": "Change sign-in details"
+  },
+  "vault.connection.readOnly": {
+    "value": "Logins from {{name}} change in {{name}}. Here you choose who uses them."
+  },
+  "vault.connection.disconnect": {
+    "value": "Disconnect"
+  },
+  "vault.connection.disconnectTitle": {
+    "value": "Disconnect {{name}}?"
+  },
+  "vault.connection.disconnectText": {
+    "value": {
+      "one": "Its item leaves the Vault and agents stop using it. Nothing changes in {{name}}.",
+      "other": "Its {{count}} items leave the Vault and agents stop using them. Nothing changes in {{name}}."
+    }
+  },
+  "vault.connection.disconnected": {
+    "value": "{{name}} disconnected"
+  },
+  "vault.connection.gone": {
+    "value": "This connection is gone or you can't see it."
+  },
+  "vault.item.gone": {
+    "value": "This item is gone or you can't see it."
+  },
+  "vault.item.missingText": {
+    "value": "It's gone from {{name}} since the last sync. Agents can't use it."
+  },
+  "vault.item.unreadable": {
+    "value": "This contact's details can't be read here. Whoever manages it can type them again and save."
+  },
+  "vault.item.externalText": {
+    "value": "It comes from {{name}}. Change its name, address, username or password there."
+  },
+  "vault.item.noValue": {
+    "value": "No value is saved yet."
+  },
+  "vault.item.sealedHelp": {
+    "value": "For safety, what's saved here never shows again. To change it, type it again."
+  },
+  "vault.item.changePassword": {
+    "value": "Change password"
+  },
+  "vault.item.changeValue": {
+    "value": "Change value"
+  },
+  "vault.item.changeHelp": {
+    "value": "Tap Save to keep it. Agents use the new one from then on."
+  },
+  "vault.item.hidden": {
+    "value": "Hidden"
+  },
+  "vault.item.saved": {
+    "value": "Saved"
+  },
+  "vault.item.delete": {
+    "value": "Delete"
+  },
+  "vault.item.deleteTitle": {
+    "value": "Delete {{title}}?"
+  },
+  "vault.item.deleteText": {
+    "value": "Agents stop using it at once. This can't be undone."
+  },
+  "vault.item.deleteExternal": {
+    "value": "It leaves the Vault and agents stop using it. It stays in {{name}}."
+  },
+  "vault.item.deleted": {
+    "value": "Deleted"
+  },
+  "vault.field.title": {
+    "value": "Name"
+  },
+  "vault.field.titleOptional": {
+    "value": "Optional"
+  },
+  "vault.field.website": {
+    "value": "Website"
+  },
+  "vault.field.websitePlaceholder": {
+    "value": "acme.example"
+  },
+  "vault.field.username": {
+    "value": "Username"
+  },
+  "vault.field.password": {
+    "value": "Password"
+  },
+  "vault.field.newPassword": {
+    "value": "New password"
+  },
+  "vault.field.keyName": {
+    "value": "Variable"
+  },
+  "vault.field.keyNamePlaceholder": {
+    "value": "ACME_API_KEY"
+  },
+  "vault.field.keyNameHelp": {
+    "value": "Capital letters, digits and _, like ACME_API_KEY. Agents ask for the key by this name."
+  },
+  "vault.field.value": {
+    "value": "Value"
+  },
+  "vault.field.newValue": {
+    "value": "New value"
+  },
+  "vault.field.description": {
+    "value": "Description"
+  },
+  "vault.field.descriptionPlaceholder": {
+    "value": "What it's for"
+  },
+  "vault.field.descriptionHelp": {
+    "value": "Agents read this to know when to use it."
+  },
+  "vault.field.loginHelp": {
+    "value": "Agents type the password only on this website, without seeing it."
+  },
+  "vault.field.contactHelp": {
+    "value": "Not a secret: agents read these and fill them in on forms."
+  },
+  "vault.contact.fullName": {
+    "value": "Full name"
+  },
+  "vault.contact.company": {
+    "value": "Company"
+  },
+  "vault.contact.document": {
+    "value": "Tax ID"
+  },
+  "vault.contact.email": {
+    "value": "Email"
+  },
+  "vault.contact.phone": {
+    "value": "Phone"
+  },
+  "vault.contact.address": {
+    "value": "Address"
+  },
+  "vault.contact.address2": {
+    "value": "Address line 2"
+  },
+  "vault.contact.city": {
+    "value": "City"
+  },
+  "vault.contact.region": {
+    "value": "State"
+  },
+  "vault.contact.postalCode": {
+    "value": "Postal code"
+  },
+  "vault.contact.country": {
+    "value": "Country"
+  },
+  "vault.match.title": {
+    "value": "Where agents may type it"
+  },
+  "vault.match.exact": {
+    "value": "Only this address"
+  },
+  "vault.match.exactText": {
+    "value": "The exact address above"
+  },
+  "vault.match.site": {
+    "value": "Whole site"
+  },
+  "vault.match.siteOn": {
+    "value": "Any page on the same site as {{host}}"
+  },
+  "vault.match.siteText": {
+    "value": "Any page on the same site"
+  },
+  "vault.match.help": {
+    "value": "Only on secure pages (https). Anywhere else the agent's computer refuses to type it."
+  },
+  "vault.problem.secret": {
+    "value": "Type the password or the key's value."
+  },
+  "vault.scope.title": {
+    "value": "Who sees it"
+  },
+  "vault.scope.personal": {
+    "value": "Personal"
+  },
+  "vault.scope.personalText": {
+    "value": "Only you see it. Your agents use it only when you ask."
+  },
+  "vault.scope.team": {
+    "value": "Team"
+  },
+  "vault.scope.teamText": {
+    "value": "People with access see it. Agents use it when one of them asks."
+  },
+  "vault.scope.teamLocked": {
+    "value": "Only people who manage the workspace's keys save for the team."
+  },
+  "vault.agents.title": {
+    "value": "Agents that may use it"
+  },
+  "vault.agents.allText": {
+    "value": "Every agent, new ones too"
+  },
+  "vault.agents.personalHelp": {
+    "value": "They use it only when you ask them."
+  },
+  "vault.agents.teamHelp": {
+    "value": "They use it when someone with access asks."
+  },
+  "vault.access.title": {
+    "value": "Who has access"
+  },
+  "vault.access.defaultTitle": {
+    "value": "Default access"
+  },
+  "vault.access.defaultText": {
+    "value": "Its items follow this until someone changes theirs."
+  },
+  "vault.access.teamText": {
+    "value": "Choose who sees it and which agents use it for them."
+  },
+  "vault.access.people": {
+    "value": "People"
+  },
+  "vault.access.persons": {
+    "value": "Specific people"
+  },
+  "vault.access.roles": {
+    "value": "Roles"
+  },
+  "vault.access.agents": {
+    "value": "Agents"
+  },
+  "vault.access.allAgents": {
+    "value": "All agents"
+  },
+  "vault.access.noAgent": {
+    "value": "No agent yet"
+  },
+  "vault.access.onlyYou": {
+    "value": "Only you"
+  },
+  "vault.access.everyone": {
+    "value": "Everyone in the workspace"
+  },
+  "vault.access.everyoneText": {
+    "value": "Anyone here sees it, and agents use it for them."
+  },
+  "vault.access.everyoneIn": {
+    "value": "Yes"
+  },
+  "vault.access.everyoneOut": {
+    "value": "No"
+  },
+  "vault.access.levelIn": {
+    "value": "Has access"
+  },
+  "vault.access.levelOut": {
+    "value": "No access"
+  },
+  "vault.access.everyoneHelp": {
+    "value": "Tap Everyone in the workspace to choose roles and people instead."
+  },
+  "vault.access.managersHelp": {
+    "value": "People who manage the workspace's keys always see team items."
+  },
+  "vault.access.managersOnly": {
+    "value": "Only who manages keys"
+  },
+  "vault.access.inRole": {
+    "value": "people in {{role}}"
+  },
+  "vault.access.saved": {
+    "value": "Access saved"
+  },
+  "vault.access.useConnection": {
+    "value": "Follow the connection's access"
+  },
+  "vault.access.followsConnection": {
+    "value": "It follows the connection's access."
+  },
+  "vault.access.tooManyRoles": {
+    "value": "Pick at most 100 roles."
+  },
+  "vault.access.tooManyPeople": {
+    "value": "Pick at most 500 people."
+  },
+  "vault.access.tooManyAgents": {
+    "value": "Pick at most 200 agents."
+  },
+  "vault.access.sentence.none": {
+    "value": "No agent uses it yet."
+  },
+  "vault.access.sentence.personalAll": {
+    "value": "Your agents use it when you ask."
+  },
+  "vault.access.sentence.everyAgent": {
+    "value": "All agents"
+  },
+  "vault.access.sentence.personal": {
+    "value": {
+      "one": "{{agents}} uses it when you ask.",
+      "other": "{{agents}} use it when you ask."
+    }
+  },
+  "vault.access.sentence.everyone": {
+    "value": {
+      "one": "{{agents}} uses it when anyone in the workspace asks.",
+      "other": "{{agents}} use it when anyone in the workspace asks."
+    }
+  },
+  "vault.access.sentence.managers": {
+    "value": {
+      "one": "{{agents}} uses it when someone who manages keys asks.",
+      "other": "{{agents}} use it when someone who manages keys asks."
+    }
+  },
+  "vault.access.sentence.people": {
+    "value": {
+      "one": "{{agents}} uses it for {{people}}.",
+      "other": "{{agents}} use it for {{people}}."
+    }
+  },
+  "vault.use.fill": {
+    "value": "{{name}} signed in"
+  },
+  "vault.use.fillOn": {
+    "value": "{{name}}, on {{host}}"
+  },
+  "vault.use.key": {
+    "value": "{{name}} used it in a command"
+  },
+  "vault.use.read": {
+    "value": "{{name}} read it"
+  },
+  "vault.use.create": {
+    "value": "{{name}} saved it"
+  },
+  "vault.use.edit": {
+    "value": "{{name}} changed it"
+  },
+  "vault.use.for": {
+    "value": "for {{name}}"
+  },
+  "vault.use.routine": {
+    "value": "routine {{name}}"
+  },
+  "vault.uses.title": {
+    "value": "Recent uses"
+  },
+  "vault.uses.none": {
+    "value": "Not used yet."
+  },
+  "vault.card.save": {
+    "value": "Save to the Vault"
+  },
+  "vault.card.saveText": {
+    "value": "Next time your agents use it without asking you."
+  },
+  "vault.card.personalOnly": {
+    "value": "Saved as personal: only you see it."
+  },
+  "vault.card.choose": {
+    "value": "Choose"
+  },
+  "vault.card.agentsText": {
+    "value": "The agent that asked is already chosen."
+  },
+  "vault.card.as": {
+    "value": "Signs in as {{username}}."
+  },
+  "vault.card.saved": {
+    "value": "Saved to the Vault"
+  },
+  "vault.card.notSaved": {
+    "value": "Sent, but not saved to the Vault"
+  },
+  "vault.card.codeIncomplete": {
+    "value": "Type every digit of the code."
+  },
+  "vault.card.codeNote": {
+    "value": "Sent encrypted straight to the computer. Codes are never saved."
+  },
+  "status.title": {
+    "value": "Status"
+  },
+  "status.doing": {
+    "value": "What you're doing"
+  },
+  "status.placeholder": {
+    "value": "In a meeting, at lunch…"
+  },
+  "status.noEmoji": {
+    "value": "No emoji"
+  },
+  "status.cleared": {
+    "value": "Status cleared"
+  },
+  "status.bySelfUntil": {
+    "value": "Written by {{name}} · {{when}}"
+  },
+  "dashboards.homeRow": {
+    "value": "Only you · your own widgets"
+  },
+  "dashboards.loadFailed": {
+    "value": "Couldn't load the dashboards."
+  },
+  "dashboards.create": {
+    "value": "Create"
+  },
+  "dashboards.routineTarget": {
+    "value": "its widget"
+  },
+  "dashboards.pin.which": {
+    "value": "Which chart"
+  },
+  "dashboards.organize.hint": {
+    "value": "Hold a widget and drag it to its new place, or use the arrows, and pick each one's size. Done saves the order."
+  },
+  "dashboards.organize.holdHint": {
+    "value": "Hold and drag to move it."
+  },
+  "dashboards.organize.up": {
+    "value": "Move up"
+  },
+  "dashboards.organize.down": {
+    "value": "Move down"
+  },
+  "dashboards.organize.position": {
+    "value": "{{at}} of {{count}}"
+  },
+  "dashboards.organize.saved": {
+    "value": "Dashboard organized"
+  },
+  "dashboards.edit.saved": {
+    "value": "Dashboard saved"
+  },
+  "dashboards.pinned": {
+    "value": "Pinned to the top"
+  },
+  "dashboards.unpinned": {
+    "value": "Unpinned"
+  },
+  "dashboards.sizeHint.s": {
+    "value": "Half a row on the phone, a quarter of the board on the web."
+  },
+  "dashboards.sizeHint.m": {
+    "value": "The whole row on the phone, half the board on the web."
+  },
+  "dashboards.sizeHint.l": {
+    "value": "The whole row, drawn big. Half the board and twice as tall on the web."
+  },
+  "dashboards.widget.caresFor": {
+    "value": "{{name}} looks after it"
+  },
+  "dashboards.widget.refreshing": {
+    "value": "{{name}} is updating it."
+  },
+  "dashboards.widget.scheduleSaved": {
+    "value": "It updates {{schedule}} now"
+  },
+  "dashboards.widget.alertSaved": {
+    "value": "Alert saved"
+  },
+  "dashboards.widget.removed": {
+    "value": "Widget removed. Its routine stopped."
+  },
+  "dashboards.widget.routine": {
+    "value": "Its routine"
+  },
+  "dashboards.widget.onBoard": {
+    "value": "Where it is"
+  },
+  "dashboards.widget.title": {
+    "value": "Title"
+  },
+  "dashboards.widget.titlePlaceholder": {
+    "value": "A short name for the widget"
+  },
+  "dashboards.widget.titleSaved": {
+    "value": "Title saved"
+  },
+  "dashboards.formatAuto": {
+    "value": "{{name}} picks the best one"
+  },
+  "dashboards.newWidget.titleHint": {
+    "value": "Title · {{name}} suggests one when testing"
+  },
+  "dashboards.newWidget.alerts": {
+    "value": "Alerts"
+  },
+  "dashboards.newWidget.realData": {
+    "value": "Real data"
+  },
+  "dashboards.newWidget.editAsk": {
+    "value": "Change the ask"
+  },
+  "dashboards.newWidget.asked": {
+    "value": "“{{ask}}”"
+  },
+  "dashboards.newWidget.autoFormat": {
+    "value": "Auto format"
+  },
+  "dashboards.agentPick.search": {
+    "value": "Search agents"
+  },
+  "dashboards.agentPick.noMatch": {
+    "value": "No agent with that name or role."
+  },
+  "dashboards.agentPick.note": {
+    "value": "Each agent reads only the apps it was given access to."
+  },
+  "dashboards.agentPick.reads": {
+    "value": "Reads {{apps}}"
+  },
+  "dashboards.agentPick.noApps": {
+    "value": "No connected apps"
+  },
+  "dashboards.notice.widget_alert": {
+    "value": {
+      "one": "{{names}} flagged a widget",
+      "other": "{{names}} flagged a widget"
+    }
+  },
+  "dashboards.notice.widget_failed": {
+    "value": {
+      "one": "{{names}} couldn't update a widget",
+      "other": "{{names}} couldn't update a widget"
+    }
+  },
+  "dashboards.notice.dashboard_proposal": {
+    "value": {
+      "one": "{{names}} wants to publish a dashboard",
+      "other": "{{names}} want to publish a dashboard"
+    }
+  },
+  "dashboards.notice.card.alert": {
+    "value": "Alert"
+  },
+  "dashboards.notice.card.failed": {
+    "value": "Didn't update"
+  },
+  "dashboards.notice.card.proposal": {
+    "value": "Dashboard"
+  },
+  "empty.agents.title": {
+    "value": "Build your team of agents"
+  },
+  "empty.agents.text": {
+    "value": "Each agent takes on a role and works with you right in the chat."
+  },
+  "empty.agents.viewerTitle": {
+    "value": "Your team of agents lives here"
+  },
+  "empty.agents.viewerText": {
+    "value": "Whoever creates agents in this workspace adds the first one, and it shows up here."
+  },
+  "empty.agents.titlePersonal": {
+    "value": "Get help from your own agents"
+  },
+  "empty.agents.textPersonal": {
+    "value": "Each agent takes care of one thing for you, right in the chat."
+  },
+  "empty.agents.viewerTitlePersonal": {
+    "value": "Your agents live here"
+  },
+  "empty.agents.viewerTextPersonal": {
+    "value": "Whoever creates agents here adds the first one, and it shows up here."
+  },
+  "empty.agentsForYou.title": {
+    "value": "Your agents show up here"
+  },
+  "empty.agentsForYou.text": {
+    "value": "Whoever manages agents chooses which ones work with you."
+  },
+  "empty.drive.title": {
+    "value": "Everything the team makes, in one place"
+  },
+  "empty.drive.text": {
+    "value": "Reports, tables and files from agents and people stay here, easy to find."
+  },
+  "empty.drive.viewerTitle": {
+    "value": "Find what the team makes"
+  },
+  "empty.drive.viewerText": {
+    "value": "What agents and people create in the chats shows up here."
+  },
+  "empty.drive.titlePersonal": {
+    "value": "Everything your agents make, in one place"
+  },
+  "empty.drive.textPersonal": {
+    "value": "Reports, tables and files from your agents stay here, easy to find."
+  },
+  "empty.drive.viewerTitlePersonal": {
+    "value": "Find what your agents make"
+  },
+  "empty.drive.viewerTextPersonal": {
+    "value": "What agents create in your chats shows up here."
+  },
+  "empty.tasks.title": {
+    "value": "Hand work to the team"
+  },
+  "empty.tasks.text": {
+    "value": "Create a task for an agent or a person and follow it to the end."
+  },
+  "empty.tasks.viewerTitle": {
+    "value": "Follow the team's work"
+  },
+  "empty.tasks.viewerText": {
+    "value": "Tasks show up here as soon as someone creates the first one."
+  },
+  "empty.tasks.titlePersonal": {
+    "value": "Hand your to-dos to your agents"
+  },
+  "empty.tasks.textPersonal": {
+    "value": "Create a task for an agent and follow it to the end."
+  },
+  "empty.tasks.viewerTitlePersonal": {
+    "value": "Follow your agents' work"
+  },
+  "empty.routines.title": {
+    "value": "Leave repeated work to your agents"
+  },
+  "empty.routines.text": {
+    "value": "A routine runs on its own, on a schedule or when something happens."
+  },
+  "empty.routines.viewerTitle": {
+    "value": "See what runs on its own"
+  },
+  "empty.routines.viewerText": {
+    "value": "Whoever manages routines or owns an agent creates them, and they show up here."
+  },
+  "empty.wiki.title": {
+    "value": "Keep what the team needs to know"
+  },
+  "empty.wiki.text": {
+    "value": "People and agents read these pages, so everyone works from the same facts."
+  },
+  "empty.wiki.viewerTitle": {
+    "value": "Look up what the team knows"
+  },
+  "empty.wiki.viewerText": {
+    "value": "Whoever edits the wiki writes the first page, and it shows up here."
+  },
+  "empty.wiki.titlePersonal": {
+    "value": "Keep notes your agents can read"
+  },
+  "empty.wiki.textPersonal": {
+    "value": "Your agents read these pages, so they work from what you wrote."
+  },
+  "empty.wiki.viewerTitlePersonal": {
+    "value": "Look up what's written here"
+  },
+  "empty.memory.title": {
+    "value": "Your agents learn as they work"
+  },
+  "empty.memory.text": {
+    "value": "What they pick up in conversations stays here, so you can see what they know."
+  },
+  "empty.memory.ask": {
+    "value": "Let me tell you how we work here."
+  },
+  "empty.memory.noneForAgent": {
+    "value": "No memories from this agent."
+  },
+  "empty.threads.title": {
+    "value": "Every topic in its own conversation"
+  },
+  "empty.threads.text": {
+    "value": "Hold a message to reply in a thread or turn it into a mission."
+  },
+  "empty.threads.action": {
+    "value": "Go to Chats"
+  },
+  "empty.chats.title": {
+    "value": "Talk to your agents"
+  },
+  "empty.chats.text": {
+    "value": "Ask for something in a chat and an agent gets to work."
+  },
+  "empty.chats.action": {
+    "value": "New chat"
+  },
+  "empty.channels.title": {
+    "value": "Bring people and agents together"
+  },
+  "empty.channels.text": {
+    "value": "Each channel gathers whoever takes care of one subject."
+  },
+  "empty.channels.viewerTitle": {
+    "value": "The team's channels live here"
+  },
+  "empty.channels.viewerText": {
+    "value": "Whoever creates channels opens the first one, and it shows up here."
+  },
+  "empty.channels.action": {
+    "value": "Create channel"
+  },
+  "empty.channels.titlePersonal": {
+    "value": "Talk to several agents at once"
+  },
+  "empty.channels.textPersonal": {
+    "value": "Each group conversation gathers the agents and people for one subject."
+  },
+  "empty.channels.viewerTitlePersonal": {
+    "value": "Group conversations live here"
+  },
+  "empty.channels.viewerTextPersonal": {
+    "value": "Whoever creates group conversations opens the first one, and it shows up here."
+  },
+  "empty.people.title": {
+    "value": "Work with your team here"
+  },
+  "empty.people.text": {
+    "value": "Invite people to talk to them and to your agents in one place."
+  },
+  "empty.people.viewerTitle": {
+    "value": "Your team shows up here"
+  },
+  "empty.people.viewerText": {
+    "value": "Whoever invites people brings the rest of the team, and they show up here."
+  },
+  "empty.people.titlePersonal": {
+    "value": "Bring your family or friends in"
+  },
+  "empty.people.textPersonal": {
+    "value": "Invite someone to talk to you and to your agents in one place."
+  },
+  "empty.people.viewerTitlePersonal": {
+    "value": "Family and friends show up here"
+  },
+  "empty.people.viewerTextPersonal": {
+    "value": "When someone joins, they show up here."
+  },
+  "empty.chat.title": {
+    "value": "It all starts with a message"
+  },
+  "empty.chat.text": {
+    "value": "Write below and everyone here sees it."
+  },
+  "empty.chat.viewerTitle": {
+    "value": "Messages show up here"
+  },
+  "empty.chat.viewerText": {
+    "value": "When someone writes, you read it here."
+  },
+  "empty.ai.title": {
+    "value": "Give your agents an AI to think with"
+  },
+  "empty.ai.text": {
+    "value": "Connect a plan you already pay for and they start working with it."
+  },
+  "empty.vaultPersonal.title": {
+    "value": "Keep your logins safe here"
+  },
+  "empty.vaultPersonal.text": {
+    "value": "Save a login or a key and your agents use it when you ask."
+  },
+  "empty.vaultTeam.title": {
+    "value": "Share logins without passing passwords around"
+  },
+  "empty.vaultTeam.text": {
+    "value": "Save the logins and keys your agents use for the team."
+  },
+  "empty.vaultTeam.viewerTitle": {
+    "value": "The team's logins show up here"
+  },
+  "empty.vaultTeam.viewerText": {
+    "value": "When someone shares a login or a key with you, it shows up here."
+  },
+  "empty.vaultTeam.titlePersonal": {
+    "value": "Keep shared logins in one place"
+  },
+  "empty.vaultTeam.textPersonal": {
+    "value": "Save the logins and keys your agents use for everyone here."
+  },
+  "empty.vaultTeam.viewerTitlePersonal": {
+    "value": "Shared logins show up here"
+  },
+  "empty.vaultTeam.viewerTextPersonal": {
+    "value": "When someone here shares a login or a key with you, it shows up here."
+  },
+  "empty.skills.title": {
+    "value": "Teach your agents how you do things"
+  },
+  "empty.skills.text": {
+    "value": "A skill holds the steps for a task, and agents open it when they need it."
+  },
+  "empty.apps.title": {
+    "value": "Ask your agents from other apps"
+  },
+  "empty.apps.text": {
+    "value": "Connect Claude or another app and ask for tasks without leaving it."
+  },
+  "empty.access.title": {
+    "value": "Choose what each agent can use"
+  },
+  "empty.access.text": {
+    "value": "Connect a service and set each agent's access here."
+  },
+  "empty.access.viewerTitle": {
+    "value": "Each agent's access shows up here"
+  },
+  "empty.access.viewerText": {
+    "value": "Whoever manages connectors connects the first service."
+  },
+  "empty.access.action": {
+    "value": "Connect a service"
+  },
+  "empty.board.title": {
+    "value": "See what matters on one board"
+  },
+  "empty.board.text": {
+    "value": "Add a widget, ask an agent for one or pin a block from the chat."
+  },
+  "empty.board.viewerTitle": {
+    "value": "This board is taking shape"
+  },
+  "empty.board.viewerText": {
+    "value": "Whoever edits this board adds the widgets, and they show up here."
+  },
+  "empty.computers.title": {
+    "value": "Bring another computer to your agents"
+  },
+  "empty.computers.text": {
+    "value": "Connect a Mac mini at home or another server with a code."
+  },
+  "empty.computers.viewerTitle": {
+    "value": "Other computers show up here"
+  },
+  "empty.computers.viewerText": {
+    "value": "Whoever connects computers adds them, and they show up here."
+  },
+  "empty.connectors.title": {
+    "value": "Give your agents real tools"
+  },
+  "empty.connectors.text": {
+    "value": "Connect a service and they start reading and acting in it."
+  },
+  "empty.connectors.viewerTitle": {
+    "value": "Your agents' tools show up here"
+  },
+  "empty.connectors.viewerText": {
+    "value": "Whoever manages connectors connects the services below."
+  },
+  "empty.audit.title": {
+    "value": "Nothing to review"
+  },
+  "empty.audit.text": {
+    "value": "When an agent does something outside the conversation, it shows up here."
+  }
+}

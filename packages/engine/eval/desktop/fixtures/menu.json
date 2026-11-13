@@ -1,0 +1,546 @@
+{
+  "snapshot": "- toolbar \"Panel\"\n  - button \"Applications\" [pressed, ref=e1]\n  - button \"agentes.chat · Your team and your agents, in the same conversation - Chromium\" [window, ref=e2]\n  - button \"agent - Thunar\" [window, active, ref=e3]\n  - button \"Terminal - agent@desktop: ~\" [window, ref=e4]\n  - button \"2026-10-24\" [ref=e5]\n- toolbar \"Panel\"\n  - button \"Show Desktop\" [ref=e6]\n  - button \"Terminal Emulator\" [ref=e7]\n  - button \"File Manager\" [ref=e8]\n  - button \"Web Browser\" [ref=e9]\n  - button [ref=e10]\n  - button \"Directory Menu\" [ref=e11]\n- menu \"Applications\"\n  - menuitem \"Terminal Emulator\" [ref=e12]\n  - menuitem \"File Manager\" [ref=e13]\n  - menuitem \"Mail Reader\" [ref=e14]\n  - menuitem \"Web Browser\" [ref=e15]\n  - menu \"Settings\" [ref=e16]\n  - menu \"Accessories\" [ref=e17]\n  - menu \"Internet\" [ref=e18]\n  - menu \"System\" [ref=e19]\n  - menuitem \"Log Out\" [ref=e20]\n- window \"agent - Thunar\" [active, ref=e21]\n  - toolbar\n    - button \"Back\" [disabled, ref=e22]\n    - button \"Forward\" [disabled, ref=e23]\n    - button \"Open Parent\" [ref=e24]\n    - button \"Home\" [ref=e25]\n    - textbox [ref=e26]: \"/home/agent/\"\n      - img \"dialog-error-symbolic\"\n    - button \"Search for Files...\" [ref=e27]\n  - menubar\n    - menu \"File\" [ref=e28]\n    - menu \"Edit\" [ref=e29]\n    - menu \"View\" [ref=e30]\n    - menu \"Go\" [ref=e31]\n    - menu \"Bookmarks\" [ref=e32]\n    - menu \"Help\" [ref=e33]\n    - menuitem [disabled, ref=e34]\n  - status \"11 folders | 5 files: 4.8 KiB (4962 bytes) | Free space: 67.0 GiB\"\n  - group \"Icon view\"\n- window \"agentes.chat · Your team and your agents, in the same conversation - Chromium\" [agent browser: use browser_do]\n- window \"Terminal - agent@desktop: ~\" [ref=e35]",
+  "refs": {
+    "e1": {
+      "role": "button",
+      "name": "Applications"
+    },
+    "e2": {
+      "role": "button",
+      "name": "agentes.chat · Your team and your agents, in the same conversation - Chromium"
+    },
+    "e3": {
+      "role": "button",
+      "name": "agent - Thunar"
+    },
+    "e4": {
+      "role": "button",
+      "name": "Terminal - agent@desktop: ~"
+    },
+    "e5": {
+      "role": "button",
+      "name": "2026-10-24"
+    },
+    "e6": {
+      "role": "button",
+      "name": "Show Desktop"
+    },
+    "e7": {
+      "role": "button",
+      "name": "Terminal Emulator"
+    },
+    "e8": {
+      "role": "button",
+      "name": "File Manager"
+    },
+    "e9": {
+      "role": "button",
+      "name": "Web Browser"
+    },
+    "e10": {
+      "role": "button",
+      "name": ""
+    },
+    "e11": {
+      "role": "button",
+      "name": "Directory Menu"
+    },
+    "e12": {
+      "role": "menuitem",
+      "name": "Terminal Emulator"
+    },
+    "e13": {
+      "role": "menuitem",
+      "name": "File Manager"
+    },
+    "e14": {
+      "role": "menuitem",
+      "name": "Mail Reader"
+    },
+    "e15": {
+      "role": "menuitem",
+      "name": "Web Browser"
+    },
+    "e16": {
+      "role": "menu",
+      "name": "Settings"
+    },
+    "e17": {
+      "role": "menu",
+      "name": "Accessories"
+    },
+    "e18": {
+      "role": "menu",
+      "name": "Internet"
+    },
+    "e19": {
+      "role": "menu",
+      "name": "System"
+    },
+    "e20": {
+      "role": "menuitem",
+      "name": "Log Out"
+    },
+    "e21": {
+      "role": "window",
+      "name": "agent - Thunar"
+    },
+    "e22": {
+      "role": "button",
+      "name": "Back"
+    },
+    "e23": {
+      "role": "button",
+      "name": "Forward"
+    },
+    "e24": {
+      "role": "button",
+      "name": "Open Parent"
+    },
+    "e25": {
+      "role": "button",
+      "name": "Home"
+    },
+    "e26": {
+      "role": "textbox",
+      "name": ""
+    },
+    "e27": {
+      "role": "button",
+      "name": "Search for Files..."
+    },
+    "e28": {
+      "role": "menu",
+      "name": "File"
+    },
+    "e29": {
+      "role": "menu",
+      "name": "Edit"
+    },
+    "e30": {
+      "role": "menu",
+      "name": "View"
+    },
+    "e31": {
+      "role": "menu",
+      "name": "Go"
+    },
+    "e32": {
+      "role": "menu",
+      "name": "Bookmarks"
+    },
+    "e33": {
+      "role": "menu",
+      "name": "Help"
+    },
+    "e34": {
+      "role": "menuitem",
+      "name": ""
+    },
+    "e35": {
+      "role": "window",
+      "name": "Terminal - agent@desktop: ~"
+    }
+  },
+  "address": "desktop://thunar/main",
+  "title": "agent - Thunar",
+  "screen": {
+    "width": 1280,
+    "height": 800
+  },
+  "marks": [
+    {
+      "ref": "e1",
+      "number": 1,
+      "role": "button",
+      "name": "Applications",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 96,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e2",
+      "number": 2,
+      "role": "button",
+      "name": "agentes.chat · Your team and your agents, in the same conversation - Chromium",
+      "box": {
+        "x": 104,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e3",
+      "number": 3,
+      "role": "button",
+      "name": "agent - Thunar",
+      "box": {
+        "x": 304,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e4",
+      "number": 4,
+      "role": "button",
+      "name": "Terminal - agent@desktop: ~",
+      "box": {
+        "x": 504,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e5",
+      "number": 5,
+      "role": "button",
+      "name": "2026-10-24",
+      "box": {
+        "x": 1176,
+        "y": 0,
+        "width": 58,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e6",
+      "number": 6,
+      "role": "button",
+      "name": "Show Desktop",
+      "box": {
+        "x": 488,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e7",
+      "number": 7,
+      "role": "button",
+      "name": "Terminal Emulator",
+      "box": {
+        "x": 544,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e8",
+      "number": 8,
+      "role": "button",
+      "name": "File Manager",
+      "box": {
+        "x": 592,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e9",
+      "number": 9,
+      "role": "button",
+      "name": "Web Browser",
+      "box": {
+        "x": 640,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e10",
+      "number": 10,
+      "role": "button",
+      "box": {
+        "x": 688,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e11",
+      "number": 11,
+      "role": "button",
+      "name": "Directory Menu",
+      "box": {
+        "x": 744,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e12",
+      "number": 12,
+      "role": "menuitem",
+      "name": "Terminal Emulator",
+      "box": {
+        "x": 0,
+        "y": 32,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e13",
+      "number": 13,
+      "role": "menuitem",
+      "name": "File Manager",
+      "box": {
+        "x": 0,
+        "y": 59,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e14",
+      "number": 14,
+      "role": "menuitem",
+      "name": "Mail Reader",
+      "box": {
+        "x": 0,
+        "y": 86,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e15",
+      "number": 15,
+      "role": "menuitem",
+      "name": "Web Browser",
+      "box": {
+        "x": 0,
+        "y": 113,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e16",
+      "number": 16,
+      "role": "menu",
+      "name": "Settings",
+      "box": {
+        "x": 0,
+        "y": 141,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e17",
+      "number": 17,
+      "role": "menu",
+      "name": "Accessories",
+      "box": {
+        "x": 0,
+        "y": 169,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e18",
+      "number": 18,
+      "role": "menu",
+      "name": "Internet",
+      "box": {
+        "x": 0,
+        "y": 196,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e19",
+      "number": 19,
+      "role": "menu",
+      "name": "System",
+      "box": {
+        "x": 0,
+        "y": 223,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e20",
+      "number": 20,
+      "role": "menuitem",
+      "name": "Log Out",
+      "box": {
+        "x": 0,
+        "y": 251,
+        "width": 166,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e22",
+      "number": 22,
+      "role": "button",
+      "name": "Back",
+      "box": {
+        "x": 715,
+        "y": 90,
+        "width": 37,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e23",
+      "number": 23,
+      "role": "button",
+      "name": "Forward",
+      "box": {
+        "x": 752,
+        "y": 90,
+        "width": 37,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e24",
+      "number": 24,
+      "role": "button",
+      "name": "Open Parent",
+      "box": {
+        "x": 789,
+        "y": 90,
+        "width": 37,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e25",
+      "number": 25,
+      "role": "button",
+      "name": "Home",
+      "box": {
+        "x": 826,
+        "y": 90,
+        "width": 37,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e26",
+      "number": 26,
+      "role": "textbox",
+      "box": {
+        "x": 868,
+        "y": 90,
+        "width": 372,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e27",
+      "number": 27,
+      "role": "button",
+      "name": "Search for Files...",
+      "box": {
+        "x": 1245,
+        "y": 90,
+        "width": 35,
+        "height": 35
+      }
+    },
+    {
+      "ref": "e28",
+      "number": 28,
+      "role": "menu",
+      "name": "File",
+      "box": {
+        "x": 711,
+        "y": 59,
+        "width": 37,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e29",
+      "number": 29,
+      "role": "menu",
+      "name": "Edit",
+      "box": {
+        "x": 748,
+        "y": 59,
+        "width": 39,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e30",
+      "number": 30,
+      "role": "menu",
+      "name": "View",
+      "box": {
+        "x": 787,
+        "y": 59,
+        "width": 44,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e31",
+      "number": 31,
+      "role": "menu",
+      "name": "Go",
+      "box": {
+        "x": 831,
+        "y": 59,
+        "width": 34,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e32",
+      "number": 32,
+      "role": "menu",
+      "name": "Bookmarks",
+      "box": {
+        "x": 865,
+        "y": 59,
+        "width": 86,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e33",
+      "number": 33,
+      "role": "menu",
+      "name": "Help",
+      "box": {
+        "x": 951,
+        "y": 59,
+        "width": 45,
+        "height": 27
+      }
+    },
+    {
+      "ref": "e34",
+      "number": 34,
+      "role": "menuitem",
+      "box": {
+        "x": 1253,
+        "y": 59,
+        "width": 27,
+        "height": 27
+      }
+    }
+  ]
+}

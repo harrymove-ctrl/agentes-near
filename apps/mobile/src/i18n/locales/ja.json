@@ -1,0 +1,159 @@
+{
+  "common": {
+    "back": "戻る",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "continue": "続ける",
+    "done": "完了",
+    "retry": "もう一度試す",
+    "loading": "読み込み中",
+    "or": "または"
+  },
+  "auth": {
+    "skyLabel": "エージェントのいる空",
+    "social": {
+      "failed": "今はログインできませんでした。もう一度お試しください。",
+      "unfinished": "ログインが完了しませんでした。もう一度試すか、メールアドレスを使ってください。"
+    },
+    "errors": {
+      "network": "接続がありません。インターネットを確認して、もう一度お試しください。",
+      "generic": "問題が発生しました。もう一度お試しください。",
+      "offlineRetry": "今はインターネットに接続されていません。接続が戻りしだい続けます。"
+    },
+    "flow": {
+      "email": "メールアドレスは？",
+      "emailLead": "ログインやアカウントの作成に使います。",
+      "signUp": "はじめまして。チームではなんと呼ばれていますか？"
+    },
+    "server": {
+      "line": "サーバー: {{host}} ·",
+      "change": "変更",
+      "title": "あなたのagentes.chatはどこにありますか？",
+      "subtitle": "チームがブラウザで開いているアドレスです。",
+      "label": "サーバーのアドレス",
+      "placeholder": "agentes.yourteam.ts.net",
+      "use": "このサーバーを使う",
+      "checking": "確認中…",
+      "scan": "QRコードを読み取る",
+      "backTo": "{{host}}に戻る",
+      "footChange": "変更",
+      "footChoose": "サーバーと言語",
+      "footServer": "別のサーバー",
+      "footLanguage": "言語",
+      "footTeam": "チームのサーバーを使いますか？",
+      "footTeamAction": "そのサーバーでログイン",
+      "footOn": "ログイン先: {{host}}",
+      "footSwitch": "変更",
+      "now": "{{host}}に接続中",
+      "invalid": "アドレスを確認してください（例: agentes.yourteam.ts.net）。",
+      "unreachable": "{{host}}に接続できません。アドレスと接続を確認して、もう一度お試しください。",
+      "unreachableTailscale": "{{host}}に接続できません。Tailscale上のサーバーです。Tailscaleアプリを開いて接続し、もう一度お試しください。すでに接続済みの場合は、サーバーのコンピュータがスリープ中か、アプリが閉じている可能性があります。",
+      "certificate": "{{host}}の証明書が無効です。サーバーの管理者に相談してください。",
+      "notAgentes": "{{host}}はagentes.chatのサーバーではありません。アドレスを確認してください。",
+      "serverTooOld": "このアプリで使うには、{{host}}の更新が必要です。",
+      "appTooOld": "{{host}}を使うには、agentesアプリを更新してください。",
+      "down": {
+        "line": "{{host}}から応答がありませんでした。",
+        "text": "停止しているか、ネットワークの外にある可能性があります。復旧すると自動でアプリが開きます。",
+        "tryNow": "今すぐ試す",
+        "switchServer": "サーバーを変更",
+        "retryIn_other": "{{count}}秒後に再試行"
+      }
+    },
+    "connect": {
+      "title": "このサーバーに接続しますか？",
+      "titleSignIn": "コンピューターのアカウントでログインしますか？",
+      "on": "サーバー: {{host}}",
+      "leave": "このスマートフォンで今のアカウントからログアウトします。",
+      "confirm": "接続",
+      "notNow": "あとで",
+      "checking": "サーバーを確認中…",
+      "notALink": "このリンクはagentes.chatのサーバーのものではありません。",
+      "tokenFailed": "コードの有効期限が切れたか、すでに使われています。メールアドレスでログインするか、コンピューターで新しいコードを表示してください。",
+      "signInSlow": "ログインに時間がかかっています。メールアドレスでログインするか、コンピューターで新しいコードを表示してください。"
+    },
+    "scan": {
+      "hint": "コンピューターに表示されたQRコードにかざしてください",
+      "typeAddress": "アドレスを入力",
+      "notOurs": "このQRコードはagentes.chatのサーバーのものではありません。",
+      "cameraTitle": "カメラを使う",
+      "cameraText": "QRコードの読み取りにだけ使います。",
+      "allow": "カメラを許可",
+      "settings": "設定を開く"
+    }
+  },
+  "org": {
+    "noneTitle": "まだワークスペースに参加していません",
+    "noneSubtitle": "チームの誰かに招待を頼むか、ウェブサイトでワークスペースを作成してください。",
+    "openSite": "ウェブサイトを開く",
+    "signOut": "ログアウト"
+  },
+  "account": {
+    "deleteFailed": "今はアカウントを削除できませんでした。もう一度お試しください。",
+    "deleted": "アカウントは{{date}}に完全に削除されます。それまでにログインすると復元できます。",
+    "signedOut": "ログアウトしました。"
+  },
+  "theme": {
+    "system": "スマートフォンと同じ",
+    "light": "ライト",
+    "dark": "ダーク"
+  },
+  "push": {
+    "channel": "アラート",
+    "channelDescription": "あなたの対応待ち、メンション、会話。",
+    "offer": {
+      "line": "{{name}}が終わったらお知らせしましょうか？",
+      "action": "通知する"
+    },
+    "ask": {
+      "title": "エージェントがあなたを必要としたら知らせます",
+      "text": "エージェントはあなたが別のことをしている間も働きます。OKが必要なとき、頼んだことが終わったとき、あなたを呼んだときにお知らせします。",
+      "on": "通知をオンにする",
+      "later": "あとで",
+      "done": "通知はオンです",
+      "failed": "通知をオンにできませんでした。あなた › 通知 から、もう一度お試しください。",
+      "someone": "エージェント",
+      "examples": "通知の例",
+      "now": "たった今",
+      "minutes": "{{n}}分",
+      "approval": {
+        "title": "{{name}}があなたのOKを待っています",
+        "body": "頼まれたことを進めてもいいですか？"
+      },
+      "finished": {
+        "title": "{{name}}が完了しました",
+        "body": "頼んだことの準備ができました。"
+      },
+      "mention": {
+        "title": "{{name}}があなたを呼んでいます",
+        "body": "手が空いたときに見てもらえますか？"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}、エージェント",
+    "agentWorking": "{{name}}、エージェント、作業中",
+    "agentPlain": "エージェント",
+    "person": "{{name}}",
+    "loading": "読み込み中",
+    "grabber": "下にドラッグして閉じる",
+    "closeSheet": "閉じる",
+    "send": "送信",
+    "attach": "添付など",
+    "hold": "長押しして確定",
+    "clearSearch": "検索をクリア"
+  },
+  "composer": {
+    "placeholder": "メッセージを入力",
+    "join": "進行中のタスクに追加",
+    "now": "止めて送信",
+    "choice": "エージェントの作業中に送る方法",
+    "holdToStop": "長押しで止めて送信"
+  },
+  "search": {
+    "placeholder": "検索"
+  },
+  "picker": {
+    "none": "「{{text}}」に一致するものはありません。"
+  }
+}

@@ -1,0 +1,467 @@
+/* The task manager's pieces (ADR 0128), on its page and in an agent's panel beside its DM: a task's mark, what it
+   uses now, its stop, the confirmations. */
+
+/* The mark before a task's title: the orbit, the waiting square, the queue's clock. */
+.tm-mark {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  color: var(--faint);
+}
+
+/* A program's logo at the chat's tile size (20px): a connector's mark, one of our icons, a brain's maker. */
+.tm-logo {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+.tm-logo > .connector-icon,
+.tm-logo > .tool-logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+/* An agent's apps in its row: overlapping, each on the row's color so the overlap reads. */
+.tm-logos {
+  display: inline-flex;
+  align-items: center;
+}
+.tm-logos > .tm-logo {
+  border-radius: 7px;
+  outline: 2px solid var(--tm-ground, var(--raised));
+}
+.tm-logos > .tm-logo + .tm-logo {
+  margin-left: -4px;
+}
+
+/* "Usando agora": the logo on the program's line (`.ac-iconline`, in the program's own size and line), the program,
+   what it does in it, each whole (a long command breaks where it must). */
+.tm-use {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.tm-use__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.tm-use__text b {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.tm-use__text small {
+  font-size: 12px;
+  color: var(--faint);
+}
+.tm-use--none {
+  color: var(--faint);
+}
+
+/* A wait's state: what holds the task and what comes next, wrapped whole, never cut. */
+.tm-state {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--faint);
+}
+.tm-state__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.tm-state__text b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.tm-state[data-wait] b {
+  color: var(--attention);
+}
+.tm-state__text small {
+  font-size: 12px;
+}
+
+/* Over rows waiting on the same limit: why, once, and Continuar agora for who may press it. */
+.tm-waitline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  /* The rows' sides, and a button's clear above and below it. */
+  padding: var(--action-clear) var(--space-3);
+  border-top: 1px solid var(--line);
+  background: var(--plate-soft);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink2);
+}
+.tm-waitline__text {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.tm-waitline__text > .ac-icon {
+  color: var(--faint);
+}
+
+.tm-agentpanel .tm-waitline {
+  border-top: 0;
+  border-radius: var(--radius-item);
+}
+
+/* "Parar": a row's button with the stop square; a danger tint only on hover, as the chat's own stop. */
+.tm-stop.ac-btn {
+  flex: none;
+  gap: 6px;
+}
+.tm-stop.ac-btn:hover:not(:disabled) {
+  color: var(--danger);
+}
+
+/* The reason a person may give: a field at the toolbar's height. */
+.tm-why.ac-input {
+  height: var(--control-h-sm);
+  padding: 0 var(--control-px-sm);
+  border-radius: var(--control-r-sm);
+  font-size: var(--control-fs-sm);
+}
+
+/* "Parar tudo de Dev": a card under its button, the agent's face, what happens, the reason, Cancelar and Parar. */
+.tm-confirm.ac-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  --menu-pad: var(--space-2);
+  width: min(420px, calc(100vw - 32px));
+  max-width: none;
+  padding: var(--menu-pad);
+}
+/* The buttons on the room (`.ac-popover`), in its corner; the face, the words and the reason further in. A MediaRow:
+   the face and the title on one line, what it does under them. */
+.tm-confirm__head {
+  padding: var(--popover-in) var(--popover-in) 0;
+}
+.tm-confirm > .tm-why.ac-input {
+  width: auto;
+  margin-inline: var(--popover-in);
+}
+.tm-confirm__head .tm-confirm__title {
+  font-size: 14.5px;
+  font-weight: 650;
+}
+.tm-confirm__text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.tm-confirm__acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* The pill in a DM's header ("3 tarefas · 1 espera você"): the header's button, the waiting count in amber. */
+.tm-pill.ac-btn {
+  gap: 6px;
+}
+.tm-pill__mark {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+.tm-pill__wait {
+  font-weight: 600;
+  color: var(--warn);
+}
+.tm-pill__chevron {
+  color: var(--muted);
+  transition: transform 0.15s var(--out);
+}
+.tm-pill[aria-expanded="true"] .tm-pill__chevron {
+  transform: rotate(180deg);
+}
+.tm-pill__count {
+  display: none;
+}
+/* The phone's one-line header (responsive.css): the counts alone, so the agent's name keeps its room. */
+@media (max-width: 760px) {
+  .tm-pill__words,
+  .tm-pill__chevron {
+    display: none;
+  }
+  .tm-pill__count {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  /* The waiting mark's box as wide as its 8px square: its 3px of air each side read as padding the number lacks. */
+  .tm-pill__mark:has(> .rq-wait),
+  .tm-pill .rq-wait {
+    width: 8px;
+  }
+}
+.tm-here.ac-chip {
+  flex: none;
+}
+
+/* "Parar todas" confirmed in one line (an agent's panel's foot): the question, the reason, Cancelar and Parar. */
+.tm-cfm {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 6px 6px 12px;
+}
+.tm-cfm__text {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  max-width: 52%;
+}
+.tm-cfm__text > :last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tm-cfm__text b {
+  font-weight: 650;
+  color: var(--ink);
+}
+.tm-cfm__acts {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.tm-cfm__acts > .tm-why {
+  flex: 1;
+  min-width: 0;
+}
+.tm-cfm__acts > .ac-btn {
+  flex: none;
+}
+@media (max-width: 760px) {
+  .tm-cfm {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .tm-cfm__text {
+    max-width: none;
+  }
+  .tm-cfm__text > :last-child {
+    white-space: normal;
+  }
+}
+
+/* "Dizer por quê": the reason's field and Mandar, side by side (the chat's stopped line, the task's panel). */
+.tm-saywhy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.tm-saywhy .tm-why {
+  flex: 1;
+  min-width: 0;
+}
+.tm-saywhy > .ac-btn {
+  flex: none;
+}
+
+/* A task's panel ("Ver passos"): the thread's panel (.thread-panel in threads.css), narrower; its body and foot. */
+@media (min-width: 861px) {
+  .tm-panel.thread-panel {
+    width: min(480px, calc(100vw - 20px));
+  }
+}
+.tm-panel__body {
+  --pane-x: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px var(--pane-x) 18px;
+}
+/* What it does now, and on what: one sentence that wraps whole, the orbit on its first line (`.ac-iconline`). */
+.tm-panel__now {
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.tm-panel__now b {
+  font-weight: 600;
+}
+.tm-panel__now small {
+  font-size: 13px;
+  color: var(--faint);
+}
+/* Stopped: a well pressed in, the line the conversation shows and, for who stopped it, the reason's field. */
+.tm-panel__stopped {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.tm-panel__stopped p {
+  margin: 0;
+}
+.tm-panel__stopped b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+/* Estado and Tempo side by side, Usando agora under them at the panel's width, so what it uses keeps the room to say it
+   whole; on a narrow phone one under another. */
+.tm-panel__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.tm-panel__facts:not(.tm-agentpanel__wells) > div:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+@media (max-width: 480px) {
+  .tm-panel__facts:not(.tm-agentpanel__wells) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.tm-panel__facts > div {
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+}
+.tm-panel__facts dt {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--faint);
+}
+.tm-panel__facts dd {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.tm-panel__none {
+  margin: 0;
+  font-size: 13px;
+  color: var(--faint);
+}
+.tm-panel__foot {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--line);
+}
+.tm-panel__foot > .tm-panel__stop {
+  margin-left: auto;
+}
+.tm-panel__note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+
+/* An agent's tasks beside its DM (the thread's panel): three wells, then a card per task. */
+.tm-agentpanel__wells {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tm-agentpanel__wells dd {
+  font-size: 17px;
+  font-weight: 650;
+}
+.tm-agentpanel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tm-taskcard.ac-card {
+  --card-pad: 0;
+  gap: 0;
+  overflow: hidden;
+}
+/* Everything on the title's first line (19px): the mark (14) under it by 2, the buttons (28) up by 4. */
+.tm-taskcard__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 10px 10px 14px;
+}
+.tm-taskcard__row > .tm-mark {
+  margin-top: 2px;
+}
+/* The task's words and its actions in an `.ac-actline` after its mark: actions that don't fit beside the words go
+   under them, from their edge. */
+.tm-taskcard__row > .ac-actline {
+  flex: 1 1 0%;
+}
+.tm-taskcard__row .ac-acts {
+  margin-top: -4px;
+}
+.tm-taskcard__label {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+.tm-taskcard__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+/* The title whole (never cut mid-sentence); the line under it quiet: its mark says the state. */
+.tm-taskcard__title b {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.tm-taskcard__label small {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.tm-taskcard__steps {
+  padding: 8px 10px 10px;
+  border-top: 1px solid var(--line);
+}
+.tm-panel__foot > .tm-cfm {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}

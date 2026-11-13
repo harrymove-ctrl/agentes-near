@@ -1,0 +1,95 @@
+/* The email a mail approval writes: its subject, who it goes from and to (each label above its value, never beside it),
+   the text (folded), the message it answers. */
+.email-letter {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-cut);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  overflow: hidden;
+  container-type: inline-size;
+}
+.email-letter__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.email-letter__row {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.email-letter__head dt {
+  font-size: 12px;
+  color: var(--faint);
+}
+/* The subject first, the whole width, in bold: it needs no label. */
+.email-letter__row:has(.email-letter__subject) {
+  order: -1;
+  flex-basis: 100%;
+}
+.email-letter__row:has(.email-letter__subject) dt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.email-letter__head dd {
+  margin: 0;
+  min-width: 0;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.email-letter__head b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.email-letter__muted {
+  color: var(--muted);
+}
+.email-letter__head .email-letter__subject {
+  color: var(--ink);
+  font-weight: 650;
+}
+.email-letter__body {
+  padding: 11px 14px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.email-letter__body[data-folded] {
+  max-height: 96px;
+  overflow: hidden;
+  mask-image: linear-gradient(#000 55%, transparent);
+}
+.email-letter__more {
+  align-self: flex-start;
+  margin: 0 14px 11px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.email-letter__original {
+  gap: 6px;
+  margin: 0;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+  background: var(--sunken);
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.email-letter__original b {
+  color: var(--ink2);
+  font-weight: 600;
+}

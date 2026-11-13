@@ -1,0 +1,159 @@
+{
+  "common": {
+    "back": "뒤로",
+    "cancel": "취소",
+    "close": "닫기",
+    "continue": "계속",
+    "done": "완료",
+    "retry": "다시 시도",
+    "loading": "불러오는 중",
+    "or": "또는"
+  },
+  "auth": {
+    "skyLabel": "에이전트가 있는 하늘",
+    "social": {
+      "failed": "지금은 로그인할 수 없어요. 다시 시도해 주세요.",
+      "unfinished": "로그인이 끝나지 않았어요. 다시 시도하거나 이메일로 로그인해 주세요."
+    },
+    "errors": {
+      "network": "연결되어 있지 않아요. 인터넷을 확인하고 다시 시도해 주세요.",
+      "generic": "문제가 생겼어요. 다시 시도해 주세요.",
+      "offlineRetry": "지금은 인터넷에 연결되어 있지 않아요. 연결되면 바로 이어서 진행할게요."
+    },
+    "flow": {
+      "email": "이메일 주소가 어떻게 되세요?",
+      "emailLead": "로그인하거나 계정을 만들 때 필요해요.",
+      "signUp": "반가워요. 팀에서는 어떻게 불리세요?"
+    },
+    "server": {
+      "line": "서버: {{host}} ·",
+      "change": "변경",
+      "title": "내 agentes.chat은 어디에 있나요?",
+      "subtitle": "팀이 브라우저에서 여는 주소예요.",
+      "label": "서버 주소",
+      "placeholder": "agentes.yourteam.ts.net",
+      "use": "이 서버 사용",
+      "checking": "확인하는 중…",
+      "scan": "QR 코드 스캔",
+      "backTo": "{{host}}(으)로 돌아가기",
+      "footChange": "변경",
+      "footChoose": "서버와 언어",
+      "footServer": "다른 서버",
+      "footLanguage": "언어",
+      "footTeam": "팀 서버를 사용하나요?",
+      "footTeamAction": "그 서버로 로그인",
+      "footOn": "로그인할 서버: {{host}}",
+      "footSwitch": "변경",
+      "now": "지금 {{host}}에 연결됨",
+      "invalid": "주소를 확인해 주세요. agentes.yourteam.ts.net 같은 형식이에요.",
+      "unreachable": "{{host}}에 연결할 수 없어요. 주소와 연결 상태를 확인하고 다시 시도해 주세요.",
+      "unreachableTailscale": "{{host}}에 연결할 수 없어요. Tailscale에 있는 서버예요. Tailscale 앱을 열고 연결한 뒤 다시 시도하세요. 이미 연결돼 있나요? 서버 컴퓨터가 잠자기 상태이거나 앱이 닫혀 있을 수 있어요.",
+      "certificate": "{{host}}의 인증서가 유효하지 않아요. 서버 관리자에게 문의해 주세요.",
+      "notAgentes": "{{host}}은(는) agentes.chat 서버가 아니에요. 주소를 확인해 주세요.",
+      "serverTooOld": "{{host}}을(를) 이 앱에서 쓰려면 서버 업데이트가 필요해요.",
+      "appTooOld": "{{host}}을(를) 쓰려면 agentes 앱을 업데이트해 주세요.",
+      "down": {
+        "line": "{{host}}이(가) 응답하지 않았어요.",
+        "text": "서버가 꺼져 있거나 네트워크 밖에 있을 수 있어요. 다시 켜지면 앱이 알아서 열려요.",
+        "tryNow": "지금 시도",
+        "switchServer": "서버 변경",
+        "retryIn_other": "{{count}}초 후 다시 시도"
+      }
+    },
+    "connect": {
+      "title": "이 서버에 연결할까요?",
+      "titleSignIn": "컴퓨터의 계정으로 로그인할까요?",
+      "on": "서버: {{host}}",
+      "leave": "이 휴대폰에서 지금 계정은 로그아웃돼요.",
+      "confirm": "연결",
+      "notNow": "나중에",
+      "checking": "서버를 확인하는 중…",
+      "notALink": "agentes.chat 서버의 링크가 아니에요.",
+      "tokenFailed": "코드가 만료되었거나 이미 사용되었어요. 이메일로 로그인하거나 컴퓨터에서 새 코드를 띄워 주세요.",
+      "signInSlow": "로그인이 평소보다 오래 걸리고 있어요. 이메일로 로그인하거나 컴퓨터에서 새 코드를 띄워 주세요."
+    },
+    "scan": {
+      "hint": "컴퓨터에 있는 QR 코드를 비춰 주세요",
+      "typeAddress": "주소 입력",
+      "notOurs": "agentes.chat 서버의 QR 코드가 아니에요.",
+      "cameraTitle": "카메라 사용",
+      "cameraText": "QR 코드를 읽을 때만 사용해요.",
+      "allow": "카메라 허용",
+      "settings": "설정 열기"
+    }
+  },
+  "org": {
+    "noneTitle": "아직 워크스페이스가 없어요",
+    "noneSubtitle": "팀원에게 초대를 요청하거나 웹사이트에서 워크스페이스를 만들어 주세요.",
+    "openSite": "웹사이트 열기",
+    "signOut": "로그아웃"
+  },
+  "account": {
+    "deleteFailed": "지금은 계정을 삭제할 수 없어요. 다시 시도해 주세요.",
+    "deleted": "계정은 {{date}}에 영구적으로 사라져요. 그 전에 로그인하면 복원할 수 있어요.",
+    "signedOut": "로그아웃했어요."
+  },
+  "theme": {
+    "system": "휴대폰 설정과 같게",
+    "light": "라이트",
+    "dark": "다크"
+  },
+  "push": {
+    "channel": "알림",
+    "channelDescription": "나를 기다리는 일, 멘션, 대화를 알려 드려요.",
+    "offer": {
+      "line": "{{name}}이(가) 끝나면 알려 드릴까요?",
+      "action": "알림 받기"
+    },
+    "ask": {
+      "title": "에이전트가 나를 찾을 때 알림 받기",
+      "text": "에이전트는 내가 다른 일을 하는 동안 일해요. 승인이 필요할 때, 요청한 일을 마쳤을 때, 나를 부를 때 알려 드릴게요.",
+      "on": "알림 켜기",
+      "later": "나중에",
+      "done": "알림이 켜졌어요",
+      "failed": "알림을 켜지 못했어요. 나 › 알림에서 다시 시도해 주세요.",
+      "someone": "에이전트",
+      "examples": "알림 예시",
+      "now": "지금",
+      "minutes": "{{n}}분",
+      "approval": {
+        "title": "{{name}}이(가) 승인을 기다려요",
+        "body": "요청하신 대로 진행해도 될까요?"
+      },
+      "finished": {
+        "title": "{{name}}이(가) 작업을 마쳤어요",
+        "body": "요청하신 일이 준비됐어요."
+      },
+      "mention": {
+        "title": "{{name}}이(가) 나를 불렀어요",
+        "body": "시간 날 때 한번 봐 주실래요?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, 에이전트",
+    "agentWorking": "{{name}}, 에이전트, 작업 중",
+    "agentPlain": "에이전트",
+    "person": "{{name}}",
+    "loading": "불러오는 중",
+    "grabber": "아래로 끌어서 닫기",
+    "closeSheet": "닫기",
+    "send": "보내기",
+    "attach": "첨부 및 더 보기",
+    "hold": "길게 눌러 확인",
+    "clearSearch": "검색어 지우기"
+  },
+  "composer": {
+    "placeholder": "메시지 입력",
+    "join": "진행 중인 작업에 추가",
+    "now": "멈추고 보내기",
+    "choice": "에이전트가 일하는 동안 보내는 방법",
+    "holdToStop": "길게 눌러 멈추고 보내기"
+  },
+  "search": {
+    "placeholder": "검색"
+  },
+  "picker": {
+    "none": "“{{text}}”에 맞는 항목이 없어요."
+  }
+}

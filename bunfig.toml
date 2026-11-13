@@ -1,0 +1,10 @@
+[test]
+# Browser DOM for the web app and design system tests, attached only while
+# those files run (see packages/ui/testing/dom.ts). The db preload raises the
+# default test timeout of a run's first test file (see there).
+preload = ["./packages/db/test/preload.ts", "./packages/ui/testing/preload.ts", "./packages/ui/testing/preload-done.ts"]
+
+[install]
+# Each package sees only its own dependencies. Bun picks this for workspaces only in lockfiles
+# made from Bun 1.3.2 on; ours is older, so without this line it would hoist everything.
+linker = "isolated"

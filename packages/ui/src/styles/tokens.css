@@ -1,0 +1,219 @@
+/* Copied from docs/design/design-system/tokens.css (a test keeps them in sync). Do not edit here. */
+/* agentes — design system 2026-10 (spec: docs/design/refresh-2026-10.md) */
+:root,
+[data-theme="light"] {
+  /* Light is near white: white work area, paper sidebar; gray only in fields' tracks and chosen states. */
+  --bg: #fbfbfa;
+  --raised: #ffffff;
+  --raised-2: #ffffff;
+  --sunken: #f3f3f0;
+  /* The app shell: the sidebar on the sky's paper (the faintest cool tint) and the work area beside it. */
+  --side: #f6f9fd;
+  --pane: #ffffff;
+  /* A sidebar row under the pointer, and the open one: one plate each, a step of ink into the paper. */
+  --side-hover: color-mix(in srgb, var(--ink) 5%, var(--side));
+  --side-chosen: color-mix(in srgb, var(--ink) 10%, var(--side));
+  --glass: rgba(255, 255, 255, 0.88);
+  --glass-solid: #fbfbf9;
+  --line: rgba(23, 23, 22, 0.07);
+  --line2: rgba(23, 23, 22, 0.12);
+  --line-strong: #82827d;
+  --ink: #151514;
+  --ink2: #2a2a28;
+  --muted: #5c5c58;
+  --faint: #6f6f6a;
+  --agent: #0063d1;
+  --agent2: #3d8bff;
+  --agent-soft: #e3eefd;
+  --on-agent: #ffffff;
+  --ok: #1f7a45;
+  --warn: #9a5b00;
+  --warn-soft: #fbeed5;
+  --on-warn: #ffffff;
+  --danger: #b42a20;
+  --info: #0a6f9e;
+  --plate: rgba(127, 127, 127, 0.1);
+  --plate-soft: rgba(127, 127, 127, 0.06);
+  --e1: 0 1px 1px rgba(23, 23, 22, 0.04), 0 2px 4px -1px rgba(23, 23, 22, 0.05), 0 0 0 1px var(--line);
+  --e2: 0 1px 1px rgba(23, 23, 22, 0.04), 0 6px 16px -4px rgba(23, 23, 22, 0.1), 0 0 0 1px var(--line);
+  --e3: 0 2px 4px rgba(23, 23, 22, 0.04), 0 24px 56px -16px rgba(23, 23, 22, 0.3), 0 0 0 1px var(--line2);
+  --top: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --scrim: rgba(10, 10, 10, 0.32);
+  /* Chosen: held down into the page like a pressed key (--chosen-shadow below). */
+  --chosen-bg: var(--sunken);
+  --chosen-press: inset 0 2px 5px rgba(0, 0, 0, 0.16), inset 0 1px 1.5px rgba(0, 0, 0, 0.12);
+}
+[data-theme="dark"] {
+  --bg: #0f0f0e;
+  --raised: #1c1c1b;
+  --raised-2: #242423;
+  --sunken: #0a0a09;
+  /* Three columns, two steps: both sidebars a step under the chat (Discord's split). */
+  --side: #0b0d11;
+  --pane: #181817;
+  --side-hover: color-mix(in srgb, var(--ink) 6%, var(--side));
+  --side-chosen: color-mix(in srgb, var(--ink) 14%, var(--side));
+  --glass: rgba(30, 30, 28, 0.86);
+  --glass-solid: #1e1e1c;
+  --line: rgba(255, 255, 255, 0.1);
+  --line2: rgba(255, 255, 255, 0.15);
+  --line-strong: #71716c;
+  --ink: #efefec;
+  --ink2: #d6d6d2;
+  --muted: #a3a39e;
+  --faint: #8f8f89;
+  --agent: #5aa8ff;
+  --agent2: #8cc3ff;
+  --agent-soft: #11253f;
+  --on-agent: #00203f;
+  --ok: #5fc48a;
+  --warn: #e0a84a;
+  --warn-soft: #33260e;
+  --on-warn: #2a1c00;
+  --danger: #f08a80;
+  --info: #5cc4ea;
+  --plate: rgba(127, 127, 127, 0.14);
+  --plate-soft: rgba(127, 127, 127, 0.08);
+  --e1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--line);
+  --e2: 0 8px 20px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--line);
+  --e3: 0 28px 64px -16px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--line2);
+  --top: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --scrim: rgba(0, 0, 0, 0.5);
+  /* A black press shows only on a face it can darken: dark's chosen face sits lighter than a card, as light as the
+     faint words on it allow (4.5:1), under light's shadow made deeper. */
+  --chosen-bg: #282827;
+  --chosen-press: inset 0 2px 5px rgba(0, 0, 0, 0.9), inset 0 1px 1.5px rgba(0, 0, 0, 0.7);
+}
+:root,
+[data-theme] {
+  /* Names from v1, kept so every component keeps working (they follow the theme). */
+  --surface: var(--bg);
+  --surface-raised: var(--raised);
+  --surface-sunken: var(--sunken);
+  --ink-muted: var(--muted);
+  --action: var(--ink);
+  --on-action: var(--bg);
+  --attention: var(--warn);
+  --on-attention: var(--on-warn);
+  --attention-soft: var(--warn-soft);
+  --success: var(--ink);
+  /* Keyboard focus: a gray ring a pixel off the control, as strong as a control's border (3:1). */
+  --focus-color: var(--line-strong);
+  --focus-ring: 0 0 0 1px var(--raised), 0 0 0 3px var(--focus-color);
+  /* The same ring drawn inside: for a row flush with a box that clips it (a list's rounded card, a scroller). Not
+     `inset var(--focus-ring)`: that insets only the first of its two shadows, and the ring itself stays outside. */
+  --focus-ring-inset: inset 0 0 0 2px var(--focus-color);
+  --overlay: var(--e3);
+  /* Chosen, pressed the same in both themes (each theme's --chosen-bg and --chosen-press): held down into the page
+     like a pressed key, inside a hairline (--chosen-press alone for a card that keeps its own outline). Never a thick
+     ring and never moved, so a row of options keeps its words on one line. */
+  --chosen-shadow: var(--chosen-press), inset 0 0 0 1px var(--line);
+  --chosen-lift: none;
+  --spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* A side panel's slide (the phone's sheet curve). */
+  --drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Durations: fast for presses, menus and exits, base for dialogs, toasts and arrivals, panel for a panel's slide. */
+  --dur-fast: 140ms;
+  --dur-base: 180ms;
+  --dur-panel: 240ms;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  /* A form's rhythm: fields sit `--form-gap` apart, and a label and help `--field-gap` from their control. */
+  --form-gap: var(--space-4);
+  --field-gap: var(--space-1);
+  /* Above and below a list row's content (a settings row, a role, a limit) and the card's foot, so every hairline
+     between them sits as far from it on each side: one line 36, with a 24 face 40, with a 32 control 48 (12 on touch,
+     in the kit). */
+  --row-py: var(--space-2);
+  /* The least a button with a plate stands from the edges of its row or card. */
+  --action-clear: 8px;
+  /* Between an icon and the words it leads (a button's, a pill's, a card's): measured from the glyph's box. */
+  --icon-gap: var(--space-2);
+  /* The same in a compact control (32px: toolbars, in-row actions), a step closer. */
+  --icon-gap-sm: 6px;
+  /* And in a full screen's main action (48px). */
+  --icon-gap-lg: 10px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-item: 10px;
+  --radius-md: 10px;
+  --radius-btn: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-section: 20px;
+  --radius-cut: 2px;
+  --radius-full: 999px;
+  --radius-agent: 30% 30% 30% 9%;
+  /*
+   * Concentric corners: a rounded thing near the edge of a rounded box has the box's radius less the room between
+   * them, `calc(outer - gap)` (or the box `calc(inner + gap)`), never the same radius as the box. Each pair names its
+   * radius and its gap as properties (`--menu-pad`, `--bar-r`/`--bar-pad`, `--seg-r`/`--seg-in`, `--palette-pad`).
+   */
+  /* The control ruler: everything you click or type in is one of three heights, radius
+     30% of the height. sm 32 = toolbars, list filters, in-row actions, composer; md 40 = forms, page and dialog
+     buttons, search, selects, sidebar items; lg 48 = only the main action of a full screen. Pills (radius-full)
+     are only for labels you don't press (status, counters, mentions). */
+  --control-h-sm: 32px;
+  --control-h-md: 40px;
+  --control-h-lg: 48px;
+  --control-r-sm: 10px;
+  --control-r-md: 12px;
+  --control-r-lg: 14px;
+  --control-px-sm: 12px;
+  --control-px-md: 14px;
+  --control-px-lg: 16px;
+  --control-fs-sm: 13px;
+  --control-fs-md: 14px;
+  --control-fs-lg: 15px;
+  --control-icon-sm: 16px;
+  --control-icon-md: 18px;
+  --control-icon-lg: 20px;
+  /* What a finger needs: a small control's plate stays 32 on touch, its target grows to this past it. */
+  --touch-target: 44px;
+  --font-sans: Onest, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, monospace;
+  /*
+   * Where a line's capitals sit, in x-heights (`ex` follows font-size-adjust): their middle --cap-mid above the line
+   * box's middle, their top --cap-top above it. Measured for Source Sans 3 (0.037ex, 0.716ex) and Onest (0.040ex,
+   * 0.711ex): a new font is measured again.
+   */
+  --cap-mid: 0.04ex;
+  --cap-top: 0.71ex;
+  /*
+   * What looks the same in both themes: a site is a light page, behind its frame and before it loads; our drawings
+   * of the Mac's own menus and switches keep its blue and white; an agent's screen keeps its dark ground.
+   * A site's letter, when it has no icon, is dark on its paper. An agent's frame in the conversation has white words
+   * on the agent's color and turns graphite while a person is in control.
+   */
+  --site-paper: #fff;
+  --site-blank: #fbfbfc;
+  --site-ink: #111;
+  --mac-accent: #2f7cf6;
+  --mac-accent-ink: #fff;
+  --screen-bg: #1f2128;
+  --frame-ink: #fff;
+  --frame-control-a: #3a3a3c;
+  --frame-control-b: #1c1c1e;
+  /* Ink and plates on a dark or agent-colored surface (an agent's frame, a graphite bar), the same in both themes. */
+  --on-dark: #fff;
+  --on-dark-soft: rgba(255, 255, 255, 0.85);
+  --on-dark-faint: rgba(255, 255, 255, 0.45);
+  --on-dark-plate: rgba(255, 255, 255, 0.16);
+  --on-dark-plate-strong: rgba(255, 255, 255, 0.26);
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14.5px;
+  --text-base: 15px;
+  --text-lg: 16px;
+  --text-h3: 17px;
+  --text-h2: 20px;
+  --text-h1: 28px;
+  --text-display: 32px;
+  --track-tight: -0.025em;
+  --track-tighter: -0.035em;
+}

@@ -1,0 +1,163 @@
+/*
+ * Configurações › Membros e convites (ADR 0068, 0085, 0090). Tokens only, so light and dark follow the theme.
+ */
+
+/* Here the faces are a step bigger and sit in the middle of their two lines, not on the name's line (layout.css). */
+.members-page .ac-list__row:has(> .ac-avatar:first-child + .list-col > :nth-child(2)) {
+  align-items: center;
+}
+.members-page .ac-list__row > .ac-avatar:first-child:has(+ .list-col > :nth-child(2)) {
+  translate: none;
+}
+/* The 12px the bigger face takes come off the words' basis, so a row breaks onto two lines at the width it did. */
+.members-page .ac-list__row > .ac-avatar:first-child + .list-col {
+  flex-basis: 188px;
+}
+
+/* A request, an invitation or a suggestion, a MediaRow: the face and who on one line, the actions at its end (under
+   everything where the list is under 480px), what it is and its state under them, a note in a well last. */
+.ac-list:has(> .members-row) {
+  container-type: inline-size;
+}
+.members-row__name {
+  overflow-wrap: anywhere;
+}
+.members-row__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px var(--space-3);
+  min-width: 0;
+}
+.members-row__sub {
+  overflow-wrap: anywhere;
+}
+.members-row[data-off] .members-row__name {
+  color: var(--muted);
+  font-weight: 500;
+}
+.members-row__state {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.members-row__state > .ac-icon {
+  flex: none;
+  color: var(--faint);
+}
+.members-row__state[data-tone="soon"],
+.members-row__state[data-tone="soon"] > .ac-icon {
+  color: var(--attention);
+}
+.members-row__state[data-tone="ok"],
+.members-row__state[data-tone="ok"] > .ac-icon {
+  color: var(--ok);
+}
+/* The buttons wrap among themselves only when even a line of their own is too narrow. */
+.members-row__acts {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+/* The role picker as wide as its words, beside the buttons, not the field-wide trigger it is in a form. */
+.members-row__acts .roles-picker.ac-btn {
+  width: auto;
+  max-width: 180px;
+}
+/* Ghost buttons in a row of their own keep their plates' rhythm (`.ac-acts`). */
+.members-row__acts.ac-acts {
+  gap: var(--space-2) calc(2 * var(--ghost-plate));
+}
+/* Why approving can't let them in at once: in the line beside the state. */
+.members-row__flag {
+  display: contents;
+}
+/* What the person wrote: last, as quoted, in a well at the row's width. */
+.members-row__note {
+  order: 2;
+  margin: 0 0 2px;
+  padding: 8px 12px;
+  border-radius: 12px 12px 12px 3px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+/* Nothing sent yet: the sentence and the way to invite, on one line. */
+.members-empty {
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+/* A person's roles (ADR 0085): the owner's chip, their roles' chips, a "+" to give or take them. */
+.members-roles {
+  flex: 0 1 280px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+/* A person: the name beside the face, when they were last here on the right, their roles under the name, on its edge. */
+/* A face line (`.ac-faceline`): the face at the row's top, the name's capitals on its top edge (`.ac-captop`), when they
+   were last here and the DM button on the name's line (`.ac-captail`) however the @handle and email wrap. */
+.ac-list__row.members-person {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0 var(--space-3);
+  /* Room above the risen name's line for the 32px button centred on it. */
+  padding-block: var(--row-py);
+}
+/* The name and the @handle and email are cells of the row: the line under the name runs under the end of the name's
+   line too, so its buttons never squeeze an address to a few letters a line on a phone. */
+.members-person > .list-col {
+  display: contents;
+}
+.members-person > :first-child {
+  grid-row: 1 / span 2;
+}
+.members-person__name {
+  grid-area: 1 / 2;
+  align-self: flex-start;
+  font-weight: 600;
+  text-align: start;
+}
+/* @handle, then the email, on one line that wraps between them. */
+.members-person__ids {
+  grid-area: 2 / 2 / auto / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+  overflow-wrap: anywhere;
+}
+/* When they were last here, then the DM button and the ⋯, 8 apart, on the name's line at the row's right. */
+.members-person__end {
+  grid-area: 1 / 3;
+  gap: var(--space-2);
+}
+.members-person__seen {
+  white-space: nowrap;
+}
+.members-person > .members-roles {
+  grid-column: 2 / -1;
+  justify-content: flex-start;
+  margin-block-start: 6px;
+}
+.members-person > .members-roles:empty {
+  display: none;
+}
+
+/* Remover do workspace: what goes with the person, one fact per line. */
+.members-remove__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink);
+  line-height: 1.45;
+}

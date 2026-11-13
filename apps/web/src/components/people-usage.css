@@ -1,0 +1,427 @@
+/* Usage per person (PeopleUsage.tsx): Orçamento e uso › Pessoas, the person drawer, Limites and Seu uso. */
+
+.ac-tabpanel:has(.pu-head),
+.ac-tabpanel:has(.pu-mine) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pu-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.pu-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+/* With its ⓘ, an `.ac-hintline`: the ⓘ after the last word, on that line's capitals. */
+.pu-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 26px;
+}
+.pu-h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.pu-head__acts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.pu-summary {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.pu-summary [data-tone="near"] {
+  color: var(--warn);
+  font-weight: 600;
+}
+.pu-summary [data-tone="at"] {
+  color: var(--danger);
+  font-weight: 600;
+}
+.pu-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* The table: a hairline per row, the person's face top-aligned with their name. */
+.pu-table-card {
+  padding: 0;
+  overflow-x: auto;
+}
+.pu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+.pu-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+.pu-table td {
+  padding: 10px 8px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--line);
+}
+.pu-table th:first-child,
+.pu-table td:first-child {
+  padding-left: 16px;
+}
+.pu-table th:last-child,
+.pu-table td:last-child {
+  padding-right: 16px;
+}
+.pu-table tr:last-child td {
+  border-bottom: 0;
+}
+.pu-row {
+  cursor: pointer;
+}
+.pu-row:hover td {
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+.pu-num {
+  text-align: right;
+}
+th.pu-num .pu-sort {
+  margin-left: auto;
+}
+.pu-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.pu-person {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+/* The face (24) beside the name's line (20) and the role's under it: on the name's capitals, as a face beside one
+   line sits (the kit's `.ac-iconline`). */
+.pu-person > .ac-avatar {
+  translate: 0 calc(10px - var(--cap-mid) - 50%);
+}
+.pu-person__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 20px;
+}
+.pu-person__name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pu-person__role {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pu-now {
+  color: var(--muted);
+  min-width: 160px;
+  max-width: 220px;
+}
+.pu-now--live {
+  color: var(--ink);
+  font-weight: 600;
+}
+.pu-now > .ac-iconline {
+  gap: 6px;
+}
+/* Cut out of the card's own face (the kit's `--stack-ring`): inside the card `--surface-raised` is a step up, a lighter
+   ring in dark. */
+.pu-faces .ac-avatar {
+  outline: 2px solid var(--stack-ring, var(--surface-raised));
+}
+
+/* A month's use against its limit: the words, then the bar; amber from 80%, red at it. */
+.pu-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+}
+.pu-meter__line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pu-meter__at {
+  color: var(--danger);
+  font-weight: 650;
+}
+.pu-meter[data-state="near"] {
+  --meter-fill: var(--warn);
+}
+.pu-meter[data-state="at"] {
+  --meter-fill: var(--danger);
+}
+
+.pu-live {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pu-live__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+}
+.pu-live__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--online, #2f8f4e);
+}
+.pu-live__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pu-live__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+}
+.pu-live__text {
+  min-width: 0;
+  line-height: 22px;
+}
+.pu-live__row > .ac-avatar {
+  margin-top: 1px;
+}
+
+/* The person's month, at the side: the dialog becomes a sheet on the right edge, the page dimmed behind it. */
+.ac-dialog.pu-drawer {
+  left: auto;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: none;
+  width: min(480px, 100%);
+  max-height: none;
+  height: 100dvh;
+  border-radius: 0;
+  animation: none;
+}
+.pu-drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 var(--dialog-pad) var(--dialog-pad);
+  overflow-y: auto;
+}
+.pu-limit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md, 12px);
+  background: var(--plate);
+}
+.pu-limit[data-state="near"] {
+  --meter-fill: var(--warn);
+}
+.pu-limit[data-state="at"] {
+  --meter-fill: var(--danger);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface-raised));
+}
+.pu-limit__head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pu-limit__line {
+  font-size: 14px;
+  color: var(--muted);
+}
+.pu-limit[data-state="at"] .pu-limit__line {
+  color: var(--danger);
+  font-weight: 600;
+}
+.pu-limit__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.pu-limit__asked {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+/* A small field of the ruler, as the small Save and Cancel beside it (as a task's reason field is). */
+.pu-amount.ac-input {
+  width: 110px;
+  height: var(--control-h-sm);
+  padding: 0 var(--control-px-sm);
+  border-radius: var(--control-r-sm);
+  font-size: var(--control-fs-sm);
+}
+.pu-days .ac-usage-days {
+  height: 110px;
+}
+.pu-axis {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0 8px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.pu-agents,
+.pu-recent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pu-agents li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* A MediaRow: the agent's face, what it did and its amount on one line, where under them. */
+.pu-recent__row > .ac-mediarow__body {
+  font-size: 13.5px;
+}
+.pu-recent__title .ac-icon--inline {
+  margin-right: 6px;
+}
+.pu-recent__amount {
+  white-space: nowrap;
+}
+/* One short line, as the other links led by an icon (.mail-howto__link). */
+.pu-audit {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+}
+
+/* Limites: settings rows, every select on one right edge, an amount's field before its select. */
+.pu-limits {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.pu-pick {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+.pu-pick__select {
+  width: 200px;
+}
+.pu-usd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+.pu-save {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--card-pad);
+}
+
+/* Seu uso. */
+.pu-mine {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pu-mine__line {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .pu-head {
+    flex-direction: column;
+  }
+  /* A control stays on its row's line while the words wrap, down to 14 characters a line (at 320 it goes under them,
+     on the rows' right edge); the lone Salvar fills the card. */
+  .pu-limits .settings-row > .ac-actrow__text {
+    flex-basis: 14ch;
+  }
+  .pu-limits .settings-row > .settings-row__end {
+    flex-basis: auto;
+    margin-left: auto;
+    padding-left: 0;
+  }
+  .pu-pick__select {
+    width: 176px;
+  }
+  .pu-save > .ac-btn {
+    flex: 1;
+  }
+}
+
+/* A request for more in the inbox: its two answers and the person's month. */
+/* Its answers and "see the month" are wider than a phone's inbox column: they wrap. Across, the kit's row of
+   actions spaces them (the two plated buttons 8 apart, the link 16 from them): a gap of its own would close that up. */
+.pu-asks {
+  flex-wrap: wrap;
+  row-gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.pu-asks__see {
+  font-size: 14px;
+  white-space: nowrap;
+}
+/* Right under a waiting row's card, as a change request's card is. */
+.nt-wr > .pu-asks {
+  margin-top: 0;
+}

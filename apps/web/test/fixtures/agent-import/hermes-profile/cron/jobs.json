@@ -1,0 +1,29 @@
+{
+  "jobs": [
+    {
+      "id": "a1b2c3",
+      "name": "Daily briefing",
+      "prompt": "Summarize the new papers on agent memory.",
+      "schedule": { "kind": "cron", "expr": "0 9 * * MON-FRI", "display": "0 9 * * MON-FRI" },
+      "skills": ["arxiv"],
+      "deliver": "telegram:-1001234567890",
+      "enabled": true
+    },
+    {
+      "id": "d4e5f6",
+      "name": "Nightly backup",
+      "prompt": "",
+      "script": "backup.sh",
+      "schedule": { "kind": "interval", "minutes": 1440, "display": "every 1440m" },
+      "enabled": true
+    },
+    {
+      "id": "g7h8i9",
+      "name": "Queue check",
+      "prompt": "Check the reading queue.",
+      "schedule": { "kind": "interval", "minutes": 45, "display": "every 45m" },
+      "enabled": false
+    }
+  ],
+  "updated_at": "2026-10-19T12:00:00+00:00"
+}

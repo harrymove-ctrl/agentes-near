@@ -1,0 +1,1 @@
+ALTER TABLE "mail_accounts" ADD COLUMN "off_actions" text[] DEFAULT '{}'::text[] NOT NULL;

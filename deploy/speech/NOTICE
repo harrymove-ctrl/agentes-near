@@ -1,0 +1,42 @@
+The speech image of agentes.chat (AGPL-3.0-only, the repository's LICENSE) holds these models, unchanged from the
+files models.txt names, each under its own license:
+
+Parakeet TDT 0.6B v3, speech to text, by NVIDIA
+  https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+  License: Creative Commons Attribution 4.0 International (CC BY 4.0),
+  https://creativecommons.org/licenses/by/4.0/
+  Changes by others: exported to ONNX, with int8 weights, by istupakov on Hugging Face,
+  https://huggingface.co/istupakov/parakeet-tdt-0.6b-v3-onnx (revision 8f23f0c03c8761650bdb5b40aaf3e40d2c15f1ce).
+  The files: encoder-model.int8.onnx, decoder_joint-model.int8.onnx, vocab.txt and config.json.
+
+Whisper tiny, the spoken language's guess, by OpenAI
+  https://github.com/openai/whisper
+  Exported to ONNX, with int8 weights, by the ONNX Community on Hugging Face,
+  https://huggingface.co/onnx-community/whisper-tiny (revision ff4177021cc41f7db950912b73ea4fdf7d01d8e7).
+  The files: onnx/encoder_model_int8.onnx, onnx/decoder_model_int8.onnx and added_tokens.json.
+  License: MIT, as follows.
+
+  MIT License
+
+  Copyright (c) 2022 OpenAI
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+The Python packages (requirements.txt) carry their licenses in their installed metadata, and the Debian packages
+(ffmpeg among them) in /usr/share/doc.

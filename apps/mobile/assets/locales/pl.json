@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "Aby wysyłać zdjęcia w rozmowach.",
+    "NSCameraUsageDescription": "Aby robić zdjęcia do rozmów i skanować kody QR.",
+    "NSPhotoLibraryAddUsageDescription": "Aby zapisywać zdjęcia z rozmów w aplikacji Zdjęcia."
+  }
+}

@@ -1,0 +1,2 @@
+ALTER TABLE "notifications" ADD COLUMN "done_by_user" boolean DEFAULT false NOT NULL;--> statement-breakpoint
+CREATE INDEX "notifications_done" ON "notifications" USING btree ("org_id","user_id","done_at") WHERE "notifications"."done_by_user" and "notifications"."done_at" is not null;

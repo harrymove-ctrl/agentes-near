@@ -1,0 +1,1706 @@
+/*
+ * Missions in the thread and on
+ * the Missões tab: the plan card, the pinned card with
+ * the plan strip, one row per session, the decision and review cards, the
+ * plan-change and computer lines, the files panel and the mission cards.
+ * Neutral surfaces (ink and gray); blue only for the agent (avatar, the
+ * running icon, the streaming cursor). Mono only for paths and branches.
+ */
+
+/* ── Shared ─────────────────────────────────────────────────────────────── */
+.mi-card {
+  position: relative;
+  max-width: var(--msg-card-w);
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  animation: mi-pop 0.3s var(--spring) both;
+}
+/* Its own room outside a message: in one, the conversation's rhythm sets it (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .mi-card {
+  margin-top: 10px;
+}
+@keyframes mi-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mi-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mi-cap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+}
+.mi-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.mi-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.mi-foot__grow {
+  flex: 1;
+}
+.mi-hint {
+  display: inline-flex;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.mi-hint code,
+.mi-mono {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink2);
+}
+.mi-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sunken);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--ink2);
+  white-space: nowrap;
+}
+/* Pills are labels; a pressable one is a compact control of the ruler. */
+button.mi-pill {
+  height: var(--control-h-sm);
+  padding: 0 var(--control-px-sm) 0 10px;
+  border-radius: var(--control-r-sm);
+  cursor: pointer;
+}
+/* A read-only value in a form row: a default field of the ruler. */
+.mi-pill--field {
+  height: var(--control-h-md);
+  padding: 0 var(--control-px-md);
+  border-radius: var(--control-r-md);
+}
+button.mi-pill:hover {
+  background: color-mix(in srgb, var(--ink) 10%, var(--sunken));
+}
+/* The people in a mission's header: their faces are cut out of the pill's ground, hovered or not; the page's ring drew
+   gray circles on the near-black pill in dark. */
+.mh__people {
+  --stack-ring: var(--sunken);
+}
+button.mh__people:hover {
+  --stack-ring: color-mix(in srgb, var(--ink) 10%, var(--sunken));
+}
+html:not([data-pointer]) button.mi-pill:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.mi-pill small {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.mi-pill--need {
+  background: var(--ink);
+  color: var(--bg);
+}
+button.mi-pill--need:hover {
+  background: var(--ink);
+  filter: brightness(1.12);
+}
+.mi-pill--need .ac-icon {
+  color: var(--bg);
+}
+.mi-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.mi-stamp {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--raised) 86%, transparent);
+  font-size: 15px;
+  font-weight: 650;
+  animation: mi-fade 0.2s var(--out) both;
+}
+.mi-ok {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.mi-decided {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mi-decided__t {
+  flex: 1;
+  min-width: 0;
+}
+.mi-decided__t b {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.mi-decided__t small {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.mi-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.mi-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.mi-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  flex: none;
+  border-radius: 1px;
+  background: var(--agent);
+  animation: mi-blink 1s steps(2, start) infinite;
+}
+@keyframes mi-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* ── Plan card ("Plano do Claude Code") ───────────────────────────────────── */
+.mi-plan {
+  max-width: 640px;
+  padding: 0;
+  overflow: hidden;
+}
+.mi-plan__head {
+  padding: 16px 16px 4px;
+}
+.mi-plan__head h3 {
+  font-family: var(--font-display);
+  font-weight: var(--font-display-weight, 300);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.mi-plan__head p {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.mi-plan__list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 10px 16px 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.mi-plan__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Proposed already investigated: the findings, the plan under a label, Ajustar / Começar, the note. */
+.mi-findings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 16px 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-finding {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink2);
+}
+.mi-finding > .ac-icon {
+  color: var(--faint);
+}
+.mi-finding__tx {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* The one decision left: the line that asks something of the person. */
+.mi-finding--decision {
+  margin-top: 2px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--sunken);
+  color: var(--ink);
+  font-weight: 500;
+}
+.mi-finding--decision > .ac-icon {
+  color: var(--ink2);
+}
+.mi-ref {
+  display: inline-block;
+  margin-left: 6px;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+.mi-ref code,
+code.mi-ref {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--sunken);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink2);
+}
+.mi-finding--decision .mi-ref code,
+.mi-finding--decision code.mi-ref {
+  background: var(--raised);
+}
+a.mi-ref:hover code {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.mi-findings__plan {
+  display: block;
+  margin: 14px 16px 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--faint);
+}
+.mi-findings__plan + .mi-plan__list {
+  margin-top: 8px;
+}
+.mi-findings__foot {
+  padding-bottom: 8px;
+}
+.mi-findings__note {
+  margin: 0 16px 14px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.mi-box {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.mi-box--on {
+  background: var(--ink);
+  box-shadow: none;
+  color: var(--bg);
+}
+.mi-plan__note {
+  margin: 8px 16px 0 40px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+/* No items and nobody drafting: the note sits on the card's own left edge. */
+.mi-plan__note--empty {
+  margin-left: 16px;
+}
+/* The plan while it is drafted: the agent's spinner and what it does, over ghost rows. */
+.mi-plan__drafting > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 16px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.mi-plan__list--ghost li .mi-box {
+  opacity: 0.6;
+}
+/* The plan's meta: one block, one left edge, one column of labels so the selects line up. */
+.mi-plan__metas {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px 12px;
+  margin: 14px 16px 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+/* Nothing to say there (one computer, online, no branch, no choices): no rule above nothing. */
+.mi-plan__metas:empty {
+  display: none;
+}
+.mi-plan__meta {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  justify-items: start;
+  align-items: center;
+  min-height: 28px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.mi-plan__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.mi-plan__label--wide {
+  grid-column: 1 / -1;
+}
+.mi-plan__label > .ac-icon {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--faint);
+}
+/* A small inline select (Select size="sm": the compact step of the ruler, like the card's buttons). */
+/* Never past its column: beside the label in a 360px thread or on a phone the column is under 160px. */
+.mi-plan__who {
+  width: auto;
+  min-width: min(160px, 100%);
+}
+.mi-plan__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+}
+.mi-created {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 640px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+}
+.mi-created .mi-ok {
+  width: 32px;
+  height: 32px;
+}
+
+/* ── The mission header (a mission's thread: the thread header is the mission's) ─
+   One grid: the lead (back, the agent), then an action line of the text column
+   (title, state and the line under them), the folded strip and the controls,
+   which go under a title that can't keep its line beside them. The strip and the
+   computer note sit under the text column, so every block starts on the title's
+   left edge. Part of the layout, above the messages (never floating over them). */
+.mh.channel__header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+.mh__row {
+  display: contents;
+}
+/* On the title's first line (its 24px), never the middle of a title that wraps: the buttons and the face centre on
+   that line's capitals, past the box. Reading back, the one row's middle. */
+.mh__lead {
+  grid-column: 1;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  translate: 0 calc(-1 * var(--title-cap-mid, var(--cap-mid)));
+}
+.mh[data-compact] .mh__lead {
+  align-self: center;
+}
+.mh__main {
+  grid-column: 2;
+  align-items: center;
+  column-gap: 12px;
+}
+.mh__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+/* The state after the title's words, under them when both don't fit, so a narrow header never cuts the title to a
+   letter. */
+.mh__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  min-width: 0;
+}
+.mh__title.channel__title {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* The line under the title never widens the action line: the title alone sets where the controls go. */
+.mh__meta {
+  contain: inline-size;
+}
+.mh__line > .ac-chip,
+.mh__exec {
+  flex: none;
+}
+/* Beside the title the executor chip has the state chip's height (22px), not a pill's. */
+/* "· mission/x a partir de main": the branch in the meta line, code at the line's size. */
+.mh__branch code {
+  font-size: 12px;
+}
+.mh__exec .mi-pill {
+  height: 22px;
+  padding: 0 8px 0 6px;
+  font-size: 12px;
+}
+.mh__mini {
+  display: none;
+}
+.mh__end {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mh__strip,
+.mh__note {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+/* The words and their icon (an `.ac-iconline`) sit in the middle of the owner's button beside them. */
+.mh__note {
+  font-size: 13px;
+  color: var(--ink2);
+}
+.mh__items {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-right: 4px;
+  font-size: 13px;
+  color: var(--ink2);
+}
+.mh__items b {
+  font-weight: 650;
+  white-space: nowrap;
+}
+.mh__sessions {
+  cursor: pointer;
+}
+.mh__sessions .ac-icon {
+  margin-right: -2px;
+}
+/* Reading back: one compact row (title, state, strip). */
+.mh[data-compact] {
+  row-gap: 0;
+}
+.mh[data-compact] .mh__meta,
+.mh[data-compact] .mh__exec,
+.mh[data-compact] .mh__strip,
+.mh[data-compact] .mh__note {
+  display: none;
+}
+.mh[data-compact] .mh__mini {
+  display: flex;
+}
+@media (max-width: 760px) {
+  .mh.channel__header {
+    padding: 8px 12px;
+  }
+  .mh__mini,
+  .mh[data-compact] .mh__mini,
+  .mh__exec,
+  .mh__files-label {
+    display: none;
+  }
+  .mh__strip {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Sessions: one row per session (status, title, one human line, time, PR) ─ */
+/* In the sessions dialog: the rows fill the dialog's reading width. */
+.mi-sessions.mi-sessions--flat {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-sessions--flat > li:first-child > .mi-session {
+  border-top: 0;
+}
+.mi-sessions {
+  max-width: 640px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.mi-sessions__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+}
+.mi-sessions__head:hover {
+  background: rgba(127, 127, 127, 0.06);
+}
+.mi-sessions__head b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-sessions__head .ac-icon {
+  flex: none;
+  transition: transform 0.2s var(--out);
+}
+.mi-sessions__head[aria-expanded="true"] > .ac-icon {
+  transform: rotate(90deg);
+}
+.mi-session {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 9px 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink2);
+}
+.mi-session:hover {
+  background: rgba(127, 127, 127, 0.05);
+}
+.mi-session__icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--sunken);
+  color: var(--ink2);
+}
+.mi-session__icon[data-state="done"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+/* Running: the agent's own pixel orbit, no ring around it. */
+.mi-session__icon[data-state="running"] {
+  background: transparent;
+}
+.mi-session__icon[data-state="failed"] {
+  color: var(--danger);
+}
+.mi-session__title {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mi-session__title b {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-weight: 600;
+}
+.mi-session__title b > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* "só leitura": a quiet note after the title, never a badge. */
+.mi-session__mode {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.mi-session__title b > .ac-icon {
+  flex: none;
+  color: var(--faint);
+  transition: transform 0.2s var(--out);
+}
+.mi-session__title[aria-expanded="true"] b > .ac-icon {
+  transform: rotate(90deg);
+}
+.mi-session__line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.mi-session__line > span:first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  animation: mi-fade 0.35s var(--out);
+}
+.mi-session__branch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--faint);
+}
+.mi-session__branch code {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--faint);
+}
+.mi-session__end {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 1px;
+}
+.mi-session__time {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--faint);
+}
+.mi-session__time[data-live] {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-pr {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sunken);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink2);
+  white-space: nowrap;
+  text-decoration: none;
+}
+a.mi-pr:hover {
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.mi-session__more {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0 14px 10px 44px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sunken);
+  animation: mi-fade 0.25s var(--out) both;
+}
+.mi-session__more h4 {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.mi-session__more h4 span {
+  font-weight: 500;
+  color: var(--faint);
+}
+.mi-session__files {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-session__files code {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink2);
+}
+.mi-session__none {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.mi-log {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: var(--raised);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink2);
+}
+.mi-log-wrap {
+  display: grid;
+  gap: 6px;
+}
+.mi-log-wrap .mi-log {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+/* ── Decision and review cards ───────────────────────────────────────────── */
+.mi-q h3 {
+  font-size: 16.5px;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+.mi-q p,
+.mi-q .folded-body {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.mi-opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.mi-why {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--sunken);
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.mi-why__k {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding-top: 1px;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  color: var(--faint);
+}
+.mi-opinions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.mi-opinions b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-note {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* ── Lines in the thread (automatic, not a voice) ────────────────────────── */
+/* One event pill (`EventPill`) in the messages' text column: its words wrap inside the frame, its actions ("Ver
+   plano", "Revogar") in it, what it opens (commands, a request's command) under it. */
+.mi-evt {
+  margin-inline: var(--thread-indent, calc(16px + var(--name-face) + var(--space-3))) 12px;
+  animation: mi-fade 0.35s var(--out) both;
+}
+/* A command allowed without a card: quiet, the command in mono. */
+.mi-evt--auto code,
+.mi-evt__list code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.mi-evt__list {
+  display: grid;
+  gap: 2px;
+  margin: 2px 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+.mi-evt b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-evt code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink2);
+}
+.mi-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--faint);
+}
+.mi-suggest {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ── Ephemeral cards (`/summary`, `/plan`): only you see them ─────────────── */
+.mi-ephemeral {
+  margin: 8px 12px 4px var(--thread-indent, calc(16px + var(--name-face) + var(--space-3)));
+  max-width: 640px;
+}
+.mi-ephemeral__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mi-ephemeral__head b {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 650;
+}
+.mi-ephemeral ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.mi-ephemeral li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mi-ephemeral li small {
+  font-size: 12px;
+  color: var(--faint);
+}
+.mi-ephemeral__foot {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+/* ── Files (the details dialog; a full-screen sheet on a phone) ───────────── */
+.mi-files .ac-details__body {
+  gap: 12px;
+}
+/* The tabs and the file's line make one block, one divider under it. Where the tabs scroll, they slide under the
+   dialog's edges (its room, `--bleed`). */
+.mi-files__tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--bleed));
+  padding-inline: var(--bleed);
+}
+.mi-files__tabs::-webkit-scrollbar {
+  display: none;
+}
+/* File names in mono, at the weight of any other segmented control (mono at 600 reads heavier). */
+.mi-files__tabs .ac-seg__item {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+.mi-files__tabs .ac-seg__item[data-on] {
+  color: var(--ink2);
+}
+.mi-files__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--faint);
+}
+.mi-files__meta > b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-files__edited {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.mi-files__body {
+  padding-top: 4px;
+}
+.mi-files__diff {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 16px;
+  animation: mi-fade 0.3s var(--out) both;
+}
+.mi-files__diff small {
+  font-size: 12px;
+  color: var(--faint);
+}
+.mi-files__foot {
+  flex: 1;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--faint);
+}
+.mi-md {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink2);
+}
+.mi-md__l {
+  margin: 0 -8px;
+  padding: 1px 8px;
+  border-radius: 6px;
+}
+.mi-md__l[data-fresh] {
+  animation: mi-fade 0.35s var(--out) both;
+}
+.mi-md__h1 {
+  margin: 2px -8px 6px;
+  font-family: var(--font-display);
+  font-weight: var(--font-display-weight, 300);
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.mi-md__h2 {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink);
+}
+.mi-md__li {
+  position: relative;
+  padding-left: 22px;
+}
+.mi-md__li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0.72em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--faint);
+}
+.mi-md__check {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-left: 8px;
+}
+.mi-md__check .mi-box {
+  width: 13px;
+  height: 13px;
+  transform: translateY(2px);
+}
+.mi-md__check[data-state="done"] {
+  color: var(--muted);
+}
+.mi-md__check[data-state="dropped"] > span:last-child {
+  color: var(--faint);
+  text-decoration: line-through;
+}
+.mi-md__check small,
+.mi-md__at {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  color: var(--faint);
+}
+.mi-md__quote {
+  margin-top: 6px;
+  color: var(--muted);
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.mi-md__p {
+  margin-top: 4px;
+}
+.mi-md__empty {
+  color: var(--faint);
+}
+
+/* ── Share and close dialogs ─────────────────────────────────────────────── */
+.mi-people {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 0;
+}
+.mi-person__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-person__name small {
+  font-weight: 500;
+  color: var(--faint);
+}
+.mi-optrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 14px;
+}
+.mi-optrow > div {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.mi-optrow small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.mi-notes {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--sunken);
+  font-size: 13px;
+  color: var(--ink2);
+}
+.mi-notes .ac-icon {
+  color: var(--faint);
+}
+.mi-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* ── Missões tab: mission cards ──────────────────────────────────────────── */
+.mi-mcs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mi-mc {
+  position: relative;
+  padding: 16px 16px 12px;
+  border-radius: 20px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  transition: box-shadow 0.2s var(--out);
+  animation: mi-fade 0.3s var(--out) both;
+}
+.mi-mc:hover {
+  box-shadow: var(--e2), var(--top);
+}
+/* A mission card's header: avatar | title over one meta line, on the title's left edge | chip and menu. */
+/* A MediaRow: the agent's face, the mission's title and its chip and menu on one line, what it runs on under them; in
+   a card under 480px the chip and menu go under, at the start. */
+.mi-head {
+  container-type: inline-size;
+}
+.mi-head__t h3 {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.mi-head__t h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+.mi-head__t h3 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--line2);
+  text-underline-offset: 3px;
+}
+.mi-head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 0;
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.mi-head__part {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+.mi-head__dot {
+  padding: 0 6px;
+  color: var(--faint);
+}
+/* The status and "…" centred on the title's first line (16px on a 1.3 line, with the title's rise), not hung from
+   its top. */
+.mi-head__r {
+  gap: 4px;
+  font-size: 16px;
+}
+/* A quiet text link (where the thread lives): muted, underlined only on hover. */
+.mi-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+.mi-quiet .ac-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--faint);
+}
+.mi-quiet:hover {
+  color: var(--ink2);
+  text-decoration: underline;
+  text-decoration-color: var(--line2);
+  text-underline-offset: 3px;
+}
+html:not([data-pointer]) .mi-quiet:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.mi-lnk {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 4px;
+  color: var(--ink2);
+}
+.mi-mc__strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--ink2);
+}
+.mi-mc__strip b {
+  font-weight: 650;
+  white-space: nowrap;
+}
+.mi-mc__pills {
+  padding-top: 12px;
+}
+.mi-mc__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 480px) {
+  /* Narrow: the chip and menu go under the title, at the row's start, spread across it. */
+  .mi-head__r {
+    justify-self: stretch;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 760px) {
+  .mi-card {
+    padding: 14px;
+  }
+  /* The plan card keeps its own insets: every block on one 14px left edge. */
+  .mi-card.mi-plan {
+    padding: 0;
+  }
+  .mi-plan__head {
+    padding: 14px 14px 4px;
+  }
+  .mi-plan__list,
+  .mi-plan__metas {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+  .mi-plan__note {
+    margin-left: 38px;
+    margin-right: 14px;
+  }
+  .mi-plan__note--empty {
+    margin-left: 14px;
+  }
+  .mi-plan__drafting > p {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+  .mi-plan__foot {
+    padding: 14px;
+  }
+  .mi-opts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mi-why {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .mi-session__more {
+    margin-left: 14px;
+  }
+  .mi-session__branch {
+    display: none;
+  }
+  .mi-evt,
+  .mi-ephemeral {
+    margin-left: 12px;
+  }
+  .mi-grid2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mi-card,
+  .mi-evt,
+  .mi-files__diff,
+  .mi-mc,
+  .mi-md__l[data-fresh],
+  .mi-session__line > span:first-child,
+  .mi-session__more,
+  .mi-stamp {
+    animation: none;
+  }
+  .mi-cursor {
+    animation: none;
+  }
+}
+
+/* ── Requests to join ─────────────────────────────────────────────────────── */
+.mi-join {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mi-person__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* ── Agent picker of "Nova missão" ────────────────────────────────────────── */
+.mi-agent-empty {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+/* Agents that can't run a mission yet (mine): why, and where to connect a computer. */
+.mi-blocked {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--sunken);
+  list-style: none;
+  font-size: 13px;
+  color: var(--ink2);
+}
+/* An agent that can't take the mission, a MediaRow (the kit's `.ac-mediarow`): its face and name on one line with
+   Conectar at its end, why under them. */
+.mi-blocked__text {
+  color: var(--muted);
+}
+.mi-blocked .mi-lnk {
+  flex: none;
+}
+
+/* ── The mission's link card, in the conversation where it was asked ─────── */
+.mi-linkcard {
+  max-width: var(--msg-card-w);
+  padding: 14px 16px;
+}
+.mi-linkcard__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-left: 44px;
+}
+@media (max-width: 480px) {
+  .mi-linkcard__foot {
+    padding-left: 0;
+  }
+}
+
+/* ── Command approvals (MissionCommandCard): the executor asks to run a command ── */
+.mi-cmd {
+  max-width: var(--msg-card-w);
+}
+.mi-cmd__line {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sunken);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.mi-cmd .mi-foot {
+  margin-top: 12px;
+}
+.mi-cmd > .mi-hint {
+  margin-top: 10px;
+}
+/* A task's end notice: its refused commands as one line ("4 comandos bloqueados · Ver"). */
+.mi-cmd-blocked {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  color: var(--ink2);
+}
+.mi-cmd-blocked > .ac-icon {
+  flex: none;
+  color: var(--faint);
+}
+/* In the dialog: one row per command, the checkbox on the command's first line. */
+.mi-cmd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-cmd-item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+/* The 18px checkbox centered on the command's first line (6px padding + 18px line). */
+.mi-cmd-item > .ac-check {
+  margin-top: 6px;
+}
+.mi-cmd-item__t {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.mi-cmd-item__code {
+  display: -webkit-box;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--sunken);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.mi-cmd-item__code[data-all] {
+  display: block;
+}
+/* As a dialog's footer note: beside the buttons while it fits on one line, on a line of its own above them when not. */
+.mi-cmd-why {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+/* Who programs: Claude Code's / Codex's mark or the agent's small avatar, then "… no mac". */
+.mi-exec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.mi-exec > .ac-avatar {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* A mission's card in place of its thread's start marker (threads proposed before the link card). */
+.mi-linkrow {
+  margin-inline: var(--thread-indent, calc(16px + var(--name-face) + var(--space-3))) 12px;
+}
+
+/* ── Delivery card: the mission's end (like an approval) ─────────────────── */
+.mi-delivery .artifact-cards {
+  margin-top: 12px;
+}
+.mi-delivery__check {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.mi-delivery__check h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.mi-delivery__check h4 span {
+  margin-left: auto;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+}
+.mi-delivery__check ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mi-delivery__check li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 14px;
+}
+.mi-delivery__check li label {
+  cursor: pointer;
+}
+.mi-delivery__check li[data-done] label {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line2);
+}
+.mi-delivery__by {
+  display: inline-flex;
+  gap: 2px;
+}
+.mi-delivery__wiki {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--ink2);
+  cursor: pointer;
+}
+/* "Tudo pronto" without a delivery from the executor: the same card, smaller. */
+.mi-delivery--auto {
+  padding: 12px 16px;
+}
+.mi-delivery--auto .mi-q h3 {
+  font-size: 15px;
+}
+@media (max-width: 640px) {
+  .mi-delivery__wiki {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ---------- Configurações da missão (MissionSettings.tsx) ---------- */
+.mi-cfg__sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.mi-cfg__body {
+  padding-bottom: 8px;
+}
+.mi-cfg__body .ac-setsec > .ac-field,
+.mi-cfg__computer {
+  margin-top: var(--form-gap);
+}
+.mi-cfg__foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+/* An `.ac-iconline`: words that wrap on a phone keep the check on their first line. */
+.mi-cfg__saved {
+  flex: 1;
+  min-width: 0;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--faint);
+}
+.mi-cfg__saved[data-saved] {
+  animation: ac-fade-up 0.3s var(--out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mi-cfg__saved[data-saved] {
+    animation: none;
+  }
+}
+
+/* An agent's folder request on a computer without the app: the exact command, full width under the pill. */
+.mi-evt__command {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  gap: 4px;
+}
+/* The same request on this Mac: the button that shows it, under the pill like the command. */
+.mi-evt__act {
+  display: flex;
+}
+
+/* "Não consegui preparar o projeto" (ADR 0044): a neutral mission card; the error's end in the command block. */
+.mi-setup__title {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.mi-setup__error {
+  max-height: 200px;
+  font-size: 12px;
+}
+.mi-setup__now {
+  margin: 12px 0 0;
+}

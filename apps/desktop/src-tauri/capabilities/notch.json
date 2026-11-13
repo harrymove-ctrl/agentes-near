@@ -1,0 +1,14 @@
+{
+  "identifier": "notch",
+  "description": "The notch (off by default): live state of the agents on this Mac, its own size and place.",
+  "windows": ["notch"],
+  "permissions": [
+    "core:default",
+    "allow-runners-list",
+    "allow-runner-send",
+    "allow-open-external",
+    "allow-show-window",
+    "allow-notch-info",
+    "allow-notch-place"
+  ]
+}

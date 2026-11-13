@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>agentes.chat</title>
+    <!-- The sky's deepest tone before anything else paints (cover.rs paints the same behind it). -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="cover" data-tauri-drag-region>
+      <canvas class="cover__sky" aria-hidden="true"></canvas>
+      <div class="cover__in">
+        <canvas class="cover__agent" aria-hidden="true"></canvas>
+        <p class="cover__word" aria-label="agentes.chat">agentes<span>.chat</span></p>
+        <p class="cover__line" role="status" aria-live="polite"></p>
+        <p class="cover__time" aria-hidden="true"></p>
+        <div class="cover__acts"></div>
+      </div>
+    </main>
+    <script type="module" src="/src/cover/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "show_activity" boolean DEFAULT false NOT NULL;

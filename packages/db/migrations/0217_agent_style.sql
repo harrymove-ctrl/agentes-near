@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "agent_style" text;

@@ -1,0 +1,2 @@
+- The car is due for service in November.
+- The grocery budget is 600 a month.

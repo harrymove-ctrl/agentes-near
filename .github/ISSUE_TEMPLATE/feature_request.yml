@@ -1,0 +1,18 @@
+name: Feature request
+description: Something agentes.chat should do
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation where you needed this, not just the feature itself.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: What should happen? If other tools do this well, name them.
+    validations:
+      required: true

@@ -1,0 +1,200 @@
+/*
+ * agentes for Mac (ADR 0036): the site in the app's window. `html[data-desktop]` is set
+ * by main.tsx when the app loaded it. The window has no title bar of its own: its three buttons float over
+ * the top-left corner (main_window.rs puts them in the middle of these 48px).
+ */
+:root {
+  /*
+   * The app sets --app-zoom with ⌘+/⌘− (main_window.rs `fit_page`): the bar stays 48pt and the room for the
+   * window's buttons stays theirs, which don't zoom. 48: the ⌘K field (32) with 8 over it and 8 under it.
+   */
+  --titlebar-h: calc(48px / var(--app-zoom, 1));
+  /* The window's close, minimize and zoom buttons. */
+  --titlebar-lights: calc(78px / var(--app-zoom, 1));
+}
+/* Full screen: the buttons hide, so does their room. Windows and Linux keep the system's own title bar. */
+html[data-fullscreen],
+html[data-desktop="windows"],
+html[data-desktop="linux"] {
+  --titlebar-lights: 12px;
+}
+
+.titlebar {
+  position: relative;
+  isolation: isolate;
+  /* Its width, for the search field's centring (below). */
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--titlebar-h);
+  padding: 0 12px 0 var(--titlebar-lights);
+  background: var(--side);
+  border-bottom: 1px solid var(--line);
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* With the work as a sheet on the sidebar's paper (layout.css `.shell__work`), the bar and that paper are one
+   surface: no hairline under the bar. A narrow window keeps it, its work being flat under the bar. The bar is the
+   sheet's room on top, so the sheet's own 8px there goes: the ⌘K field stands 8px under the window's edge and 8px
+   over the sheet, as far from both. */
+@media (min-width: 761px) {
+  html[data-desktop] .titlebar {
+    border-bottom: 0;
+  }
+  html[data-desktop] .shell__work {
+    padding-top: 0;
+  }
+}
+/* The workspace's sky over the sidebar's width, its hairline included: one sky with the header below. */
+.workspace-sky--bar {
+  top: 0;
+  left: 0;
+  bottom: -1px;
+  width: 272px;
+}
+/* Over the icon rail (68px, its hairline left free). */
+.workspace-sky--bar.workspace-sky--rail {
+  width: 67px;
+}
+.titlebar__nav {
+  display: flex;
+  gap: var(--space-2);
+}
+/*
+ * The sidebar's ⌘K field (.sidebar__jump): a small field of the ruler (32, r10), centred in the bar. Centred on the
+ * window, not on what's left after the buttons: it moves back by half the room the window's buttons and the nav take
+ * (`--titlebar-nav`: three 32px buttons and their two 8px gaps, two where a tablet has no sidebar button), but never
+ * past the free room on its left, so in a narrow window it stops beside the nav instead of sliding over it.
+ */
+.titlebar__search {
+  --titlebar-nav: calc(2 * var(--control-h-sm) + var(--space-2));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 460px;
+  min-width: 0;
+  height: var(--control-h-sm);
+  margin: 0 auto;
+  --titlebar-half: calc((var(--titlebar-lights) + var(--titlebar-nav)) / 2);
+  --titlebar-room: max(0px, (100cqw - var(--titlebar-nav) - 12px - 460px) / 2);
+  transform: translateX(calc(-1 * min(var(--titlebar-half), var(--titlebar-room))));
+  padding: 0 8px 0 10px;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: var(--field-bg);
+  box-shadow: inset 0 0 0 1px var(--field-line);
+  font: inherit;
+  font-size: var(--control-fs-sm);
+  line-height: normal;
+  color: var(--faint);
+  cursor: pointer;
+}
+.titlebar:has(> .titlebar__nav > :nth-child(3)) .titlebar__search {
+  --titlebar-nav: calc(3 * var(--control-h-sm) + 2 * var(--space-2));
+}
+.titlebar__search > .ac-icon {
+  width: var(--control-icon-sm);
+  height: var(--control-icon-sm);
+}
+.titlebar__search-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.titlebar__search .ac-kbd {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+.titlebar__search:hover {
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  color: var(--muted);
+}
+html:not([data-pointer]) .titlebar__search:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.titlebar-strip {
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--titlebar-h);
+  z-index: 50;
+}
+/* No strip where the page doesn't drag the window: a full-screen window doesn't move, and Windows and Linux move it by
+   the system's own title bar. There it would only take the clicks meant for what is under it (the onboarding's Back,
+   its step bar). */
+html:is([data-fullscreen], [data-desktop="windows"], [data-desktop="linux"]) .titlebar-strip {
+  display: none;
+}
+
+/* The workspace sits under the bar; ⌘K and the sidebar toggle live in the bar, so the sidebar's row goes, and in a
+   personal workspace (ADR 0159) its Go to… row and the collapse beside the person. */
+html[data-desktop] .shell {
+  height: calc(100vh - var(--titlebar-h));
+  /* biome-ignore lint/suspicious/noDuplicateProperties: dvh with a vh fallback for older browsers */
+  height: calc(100dvh - var(--titlebar-h));
+}
+html[data-desktop] :is(.sidebar__jump-row, .sidebar__head-collapse) {
+  display: none;
+}
+/* Sign-in: the logo clears the window's buttons. */
+html[data-desktop] .auth__logo {
+  top: calc(var(--titlebar-h) + 16px);
+}
+/* Onboarding and a new agent: the rail's logo starts under the Mac's buttons (Windows and Linux keep the
+   system's title bar above the page). */
+html[data-desktop="mac"]:not([data-fullscreen]) .onb__rail {
+  padding-top: calc(var(--titlebar-h) + 8px);
+}
+/* The onboarding's step stays on the wordmark's line, 16px under the rail's padding (onboarding.css). A window
+   narrow enough for the step bar keeps the phone's: the bar on top clears the buttons. */
+@media (min-width: 761px) {
+  html[data-desktop="mac"]:not([data-fullscreen]) .onb__body {
+    padding-top: calc(var(--titlebar-h) + 8px + 16px);
+  }
+}
+
+/* The sidebar's drawer (a window zoomed in with ⌘+ narrows to it) hangs from the window's top-left corner, over the
+   title bar, and the window's buttons stay drawn on top of it: it starts under them, as the onboarding's rail does,
+   instead of the workspace card sitting behind them. */
+@media (max-width: 760px) {
+  html[data-desktop="mac"]:not([data-fullscreen]) .shell .sidebar {
+    padding-top: calc(var(--titlebar-h) + 8px);
+  }
+}
+
+/* The agent's computer at full size fills the window, title bar included, with the window's buttons drawn over its
+   head. Unless the page really went full screen (the engine's, or the system's), it fills the room under the bar,
+   as the computer's window already centres in it. */
+html[data-desktop="mac"]:not([data-fullscreen], :fullscreen) .ac-dialog.cmp-dialog.is-full {
+  top: var(--titlebar-h);
+  height: auto;
+}
+
+/*
+ * An app, not a page: the interface's own words don't select (messages, pages and
+ * fields still do), buttons keep the Mac's arrow (links keep the hand), nothing of the interface drags out
+ * as a picture of the page, and scrolling past the end doesn't bounce the whole window.
+ */
+html[data-desktop],
+html[data-desktop] body {
+  overscroll-behavior: none;
+}
+html[data-desktop] :is(.sidebar, .titlebar, nav, button, [role="button"], [role="tab"], [role="menuitem"], label) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+html[data-desktop] :is(button, [role="button"], [role="tab"], [role="menuitem"], summary) {
+  cursor: default;
+}
+/* The rows that drag to reorder stay out: `draggable` is only a style hint (-webkit-user-drag: element) that this
+   rule would beat, and the web view would never start their drag. */
+html[data-desktop]
+:is(.sidebar img, .sidebar a:not([draggable="true"]), .titlebar, svg, button:not([draggable="true"])) {
+  -webkit-user-drag: none;
+}

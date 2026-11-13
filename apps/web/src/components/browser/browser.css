@@ -1,0 +1,1905 @@
+/* The agent browser (ADR 0040). */
+
+/* ---------- agent page and computer page ---------- */
+/* A whole-pixel line, so its icon lands on the capitals' middle (a fractional one rounds its baseline off by a pixel). */
+.brw-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--plate-soft);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+.brw-note b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.brw-note > .ac-icon,
+.brw-note__text > .ac-icon {
+  color: var(--ink2);
+}
+/* Words and a button: the words' block centres on the button, its icon on the words' first line. */
+.brw-note--act {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.brw-note__text {
+  flex: 1 1 200px;
+  gap: 10px;
+}
+.brw-note--off {
+  opacity: 0.55;
+}
+.brw-sites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 0 0 30px;
+}
+.brw-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--control-h-sm);
+  padding: 0 6px 0 10px;
+  border-radius: var(--control-r-sm);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13px;
+  font-weight: 550;
+}
+.brw-site > .ac-icon {
+  color: var(--muted);
+}
+.brw-site button {
+  all: unset;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: var(--faint);
+}
+.brw-site button:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .brw-site button:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 1px;
+}
+.brw-sites__add {
+  width: 220px;
+}
+.brw-sites__error {
+  flex-basis: 100%;
+  font-size: 12.5px;
+  color: var(--danger);
+}
+.brw-off {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.brw-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.brw-grow {
+  flex: 1;
+}
+.brw-code {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--control-h-md);
+  margin-top: 8px;
+  padding: 0 6px 0 12px;
+  border-radius: var(--control-r-md);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.brw-code code {
+  flex: 1;
+  min-width: 0;
+  font: 400 12px / 1 var(--font-mono);
+  color: var(--ink2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.brw-gh {
+  margin: 16px 0 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.brw-uses {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+.brw-use {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+.brw-use__card {
+  flex-basis: 100%;
+  min-width: 0;
+}
+.brw-use__card .brw-ac {
+  margin-top: 0;
+  max-width: none;
+}
+.brw-uses--first .brw-use:first-child {
+  border-top: 0;
+}
+.brw-use__t {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.brw-use__t b {
+  font-weight: 600;
+}
+.brw-use__t small {
+  color: var(--muted);
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.brw-use__acts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.brw-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--plate-soft);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13px;
+  flex-basis: 100%;
+  margin-left: 52px;
+}
+
+/* ---------- the request card in the chat (approval family) ---------- */
+.brw-rq {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 4px 14px;
+  padding: 16px 16px 18px;
+  border-radius: 20px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+  max-width: var(--msg-card-w);
+  box-sizing: border-box;
+}
+.brw-rq__face {
+  grid-row: 1 / span 2;
+  padding-top: 2px;
+}
+.brw-rq__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.brw-rq__meta b {
+  color: var(--ink2);
+  font-weight: 600;
+}
+.brw-rq__title {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.brw-rq__body {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+.brw-exact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--sunken);
+}
+.brw-exact__ic {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--raised);
+  box-shadow: var(--e1);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.brw-exact__t {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.brw-exact__t b {
+  font-size: 13.5px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.brw-exact__t small {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.brw-rq__acts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.brw-rq__res {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.brw-rq__res > .ac-icon {
+  color: var(--muted);
+}
+.brw-rq__res--ok > .ac-icon {
+  color: var(--ok);
+}
+/* The agent's own words beside the bar: a word longer than the card breaks instead of running past it. */
+.brw-rq__why {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  overflow-wrap: anywhere;
+}
+.brw-rq__why::before {
+  content: "";
+  width: 3px;
+  border-radius: 3px;
+  background: var(--line2);
+  flex: none;
+}
+.brw-rq--settled {
+  box-shadow: var(--e1);
+}
+.brw-rq--settled .brw-rq__title {
+  color: var(--ink2);
+}
+.brw-fuse {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--sunken);
+  overflow: hidden;
+}
+.brw-fuse > i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--agent-color, var(--ok));
+  transition: width 1s linear;
+}
+
+.brw-mark {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 0 4px rgba(20, 20, 20, 0.55);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: brw-tap 1.8s ease-out 1;
+}
+@keyframes brw-tap {
+  from {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0;
+  }
+}
+/* Its padding keeps the box's ring and shadow inside the card, which clips them at its edge on a narrow screen. */
+.brw-dim {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(2px);
+  z-index: 5;
+}
+.brw-dim__box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: var(--glass);
+  box-shadow: var(--e2);
+  font-weight: 600;
+  font-size: 14px;
+  max-width: 420px;
+  text-align: center;
+}
+/*
+ * The agent's sky in place of the frost (a screen opening, a closed browser): it paints the whole stage, inside the
+ * stage's corners, with the card on it. Here, not with the computer window, so a card in a conversation has it too.
+ */
+.brw-dim--sky {
+  overflow: hidden;
+}
+.cmp-sky {
+  position: absolute;
+  inset: 0;
+}
+.cmp-sky canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.brw-dim--sky .brw-dim__box {
+  position: relative;
+}
+.brw-typer {
+  flex: 1 1 320px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--control-h-lg);
+  padding: 0 6px 0 14px;
+  border-radius: var(--control-r-lg);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+.brw-typer:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.brw-typer input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  line-height: normal;
+  color: var(--ink);
+}
+.brw-typer input::placeholder {
+  color: var(--faint);
+}
+.brw-typer__to {
+  font-size: 12.5px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.brw-secure {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--control-r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--muted);
+}
+.brw-secure[aria-pressed="true"] {
+  background: var(--sunken);
+  color: var(--ink);
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px var(--line);
+}
+html:not([data-pointer]) .brw-secure:focus-visible,
+html:not([data-pointer]) .brw-key:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+.brw-keys {
+  display: flex;
+  gap: 6px;
+}
+.brw-key {
+  all: unset;
+  cursor: pointer;
+  height: var(--control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--control-r-sm);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  display: inline-flex;
+  align-items: center;
+}
+.brw-key:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+.brw-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.brw-log {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  max-height: 260px;
+  overflow: auto;
+}
+.brw-log li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink2);
+}
+.brw-log li:first-child {
+  border-top: 0;
+}
+.brw-log li > .ac-icon {
+  color: var(--muted);
+}
+.brw-log li small {
+  color: var(--faint);
+  font-size: 12px;
+}
+.brw-log li.is-now {
+  color: var(--ink);
+  font-weight: 600;
+}
+.brw-log li.is-now > .ac-icon {
+  color: var(--ink);
+}
+
+/* ---------- the agent's browser in its card ---------- */
+.brw-ac {
+  position: relative;
+  max-width: var(--msg-card-w);
+  border-radius: 18px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+  animation: brw-grow-in 0.24s var(--out);
+}
+/* Its own room outside a message: in one, the conversation's rhythm sets it (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .brw-ac {
+  margin-top: 6px;
+}
+.brw-ac__hint {
+  color: var(--faint);
+  font-size: 12px;
+}
+@keyframes brw-grow-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.brw-ac__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 8px 7px 9px;
+}
+.brw-ac.is-open .brw-ac__head {
+  border-bottom: 1px solid var(--line);
+}
+/* In control: one left edge; the actions line up with the request's first line. */
+.brw-ac.is-control .brw-ac__head {
+  align-items: flex-start;
+  padding: 12px 10px 10px 14px;
+}
+.brw-ac.is-control .brw-ac__head .brw-ac__acts {
+  margin-top: -2px;
+}
+.brw-ac__tt {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+}
+html:not([data-pointer]) .brw-ac__tt:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+.brw-ac__tx {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.3;
+}
+.brw-ac__tx b {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-ac__tx b.is-ask {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.brw-ac__avatar {
+  flex: none;
+}
+.brw-typer__to.is-marked {
+  color: var(--ink2);
+}
+.brw-ac__path {
+  color: var(--faint);
+  font-weight: 500;
+}
+.brw-ac__tx small {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.brw-ac__tx small span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* An agent's long name wraps its line (`.ac-who`): the spinner stays on the first line's capitals' middle, as an
+   `.ac-iconline` lead does. */
+.brw-ac__tx small > .ac-pixspin,
+.brw-mf__now > .ac-pixspin {
+  /* Browsers without the lh unit: the page's 22px line. */
+  translate: 0 calc(11px - var(--cap-mid) - 50%);
+}
+@supports (top: 1lh) {
+  .brw-ac__tx small > .ac-pixspin,
+  .brw-mf__now > .ac-pixspin {
+    translate: 0 calc(0.5lh - var(--cap-mid) - 50%);
+  }
+}
+.brw-ac__acts {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+.brw-ac__acts .ac-btn--icon:not(.ac-btn--ghost) {
+  background: var(--raised);
+}
+.brw-ac__chev .ac-icon {
+  transition: transform 0.22s var(--spring, ease);
+}
+.brw-ac.is-open .brw-ac__chev .ac-icon {
+  transform: rotate(180deg);
+}
+.brw-ac__stop {
+  color: var(--danger);
+}
+.brw-stile {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: var(--ink2);
+  font-size: 9.5px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+.brw-stile--lg {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow:
+    inset 0 0 0 1px var(--line2),
+    var(--top);
+}
+.brw-ac__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+.brw-ac__body--split {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+}
+.brw-ac__stage {
+  position: relative;
+  background: var(--sunken);
+  padding: 10px;
+  min-width: 0;
+}
+.brw-ac__body--split .brw-ac__stage {
+  border-right: 1px solid var(--line);
+}
+.brw-ac__page {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--e2);
+  background: var(--site-paper);
+  outline: none;
+}
+/* A fixed shape: frames arriving never change the card's height, so the conversation never jumps. */
+.brw-ac__page {
+  aspect-ratio: 16 / 10;
+  max-height: 440px;
+  width: 100%;
+  margin: 0 auto;
+}
+.brw-ac__page img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* A page the agent shows at a phone's (or another) size: centred on the stage, the bands around it the stage's. Its
+   label sits in the left band, off the page's bottom bar a person in control may need to tap. */
+.brw-ac__page.is-emulated {
+  background: transparent;
+  box-shadow: none;
+}
+.brw-emu {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--ink2);
+  background: var(--raised);
+  box-shadow: var(--e2);
+}
+.brw-emu:not(:has(button)) {
+  padding-right: 10px;
+}
+.brw-ac__page.is-capturing {
+  overscroll-behavior: contain;
+}
+.brw-ac__capture {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink2);
+  background: var(--raised);
+  box-shadow: var(--e2);
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* In control the pointer on the page is the page's: a finger drags or scrolls it, never the conversation, and a
+   drag past its edge selects nothing around it. */
+.brw-ac__page.is-control {
+  touch-action: none;
+  user-select: none;
+}
+.brw-ac__page.is-control img {
+  cursor: pointer;
+}
+html:not([data-pointer]) .brw-ac__page.is-control:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+/* The field the person's paste keys land in for a moment (`pasteRef`): there, never seen. */
+.brw-paste {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  resize: none;
+  pointer-events: none;
+}
+/* Before the first frame: a page-shaped placeholder (a site is a light page in both themes). */
+.brw-ac__page--blank {
+  background: var(--site-blank);
+}
+.brw-skel {
+  position: absolute;
+  inset: 0;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.brw-skel i {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(20, 22, 30, 0.07);
+  animation: brw-pulse 1.4s ease-in-out infinite;
+}
+.brw-skel .brw-skel__field {
+  width: 62%;
+  height: 36px;
+  border-radius: 8px;
+}
+@keyframes brw-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+.brw-ac__stage .brw-dim {
+  border-radius: 0;
+}
+/* The sky keeps the stage's corners (the computer window rounds them). */
+.brw-ac__stage > .brw-dim--sky {
+  border-radius: inherit;
+}
+.brw-dim__box {
+  flex-direction: column;
+}
+.brw-dim__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brw-dim__box small {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+/*
+ * Over a picture the person should still see, dimmed and not frosted: a switch between watching and control, or the
+ * question a click or a key while watching asks (`useAskControl`).
+ */
+.brw-ac__stage > .brw-dim.is-clear {
+  background: color-mix(in srgb, var(--bg) 30%, transparent);
+  backdrop-filter: none;
+  animation: brw-dim-in 150ms ease-out;
+}
+@keyframes brw-dim-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brw-ac__stage > .brw-dim.is-clear {
+    animation: none;
+  }
+}
+/* The question's buttons: take control, and Cancelar under it, stacked 4 apart. */
+.brw-dim__acts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+/* Watching, the stage takes the keys a click gives it: the keyboard's own ring only. */
+.brw-ac__stage[tabindex] {
+  outline: none;
+}
+html:not([data-pointer]) .brw-ac__stage[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+.brw-ac .brw-log {
+  max-height: none;
+}
+.brw-ac__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+}
+.brw-ac__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.brw-ac__foot .brw-typer {
+  height: var(--control-h-md);
+  border-radius: var(--control-r-md);
+}
+.brw-ac__foot .brw-typer input {
+  font-size: 14px;
+}
+.brw-ac__foot .brw-typer .brw-secure {
+  height: 28px;
+}
+.brw-ac__fail b {
+  font-size: 14px;
+  font-weight: 650;
+}
+/* Handing back: "Deixar um recado" beside the row's title, quieter than its buttons. */
+.brw-ac__add {
+  font-size: 13px;
+}
+/* The note takes the title's place, and a line of its own where the row is narrow: the buttons stay together, on the right. */
+.brw-ac__ways {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: auto;
+}
+.brw-ac__back .brw-ac__note {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+/*
+ * A note to the agent (handing back, or why it couldn't be done): one line in the middle of its field that grows as it
+ * wraps, up to four lines (10 + 4 × 22 + 10, and the border), with no grip.
+ */
+.brw-ac__note.ac-input {
+  max-height: 110px;
+  resize: none;
+}
+/* Typing: one quiet field like the composer. */
+.brw-type {
+  position: relative;
+  padding: 8px 10px 10px;
+}
+.brw-tfield {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--control-h-lg);
+  padding: 0 6px 0 12px;
+  border-radius: var(--control-r-lg);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+/* Its buttons 8 apart, as buttons side by side are everywhere; the words keep the field's own gap to them. */
+.brw-tfield > .ac-btn + .ac-btn {
+  margin-inline-start: 4px;
+}
+.brw-tfield:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.brw-tfield input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--ink);
+}
+.brw-tfield input::placeholder {
+  color: var(--faint);
+}
+.brw-tfield__to {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  max-width: 40%;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-tfield__to.is-marked {
+  color: var(--ink2);
+}
+.brw-tfield__tool[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--sunken);
+}
+.brw-keycaps {
+  position: absolute;
+  right: 50px;
+  bottom: calc(100% - 4px);
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: var(--e3);
+  z-index: 1;
+}
+.brw-kc {
+  all: unset;
+  cursor: pointer;
+  min-width: 30px;
+  height: 28px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--sunken);
+  box-shadow: inset 0 -1px 0 var(--line2);
+}
+.brw-kc:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .brw-kc:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .brw-rq {
+    grid-template-columns: 36px minmax(0, 1fr);
+    padding: 14px 14px 16px;
+  }
+  .brw-rq__body {
+    grid-column: 1 / -1;
+  }
+  .brw-ac__body--split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .brw-ac__body--split .brw-ac__stage {
+    border-right: 0;
+  }
+  .brw-ac .brw-log {
+    display: none;
+  }
+  .brw-ac__hint {
+    display: none;
+  }
+  .brw-confirm {
+    margin-left: 0;
+  }
+}
+
+/* The three clicks on the computer that turn its browser on, drawn small, one lit
+   after the other; the page updates by itself when the computer says so. */
+.brw-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-cut);
+  background: var(--card-well, var(--surface-sunken));
+  box-shadow: var(--card-well-shadow, inset 0 0 0 1px var(--line));
+}
+.brw-steps__head {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink2);
+}
+/* The title takes the row's room, so Esperando ends it, or starts the next line on the title's edge when both don't
+   fit. */
+.brw-steps__headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  flex: 1;
+  min-width: 0;
+}
+.brw-steps__headline > b {
+  flex: 1 1 auto;
+  font-weight: 650;
+}
+.brw-steps__wait {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--faint);
+  font-size: 12px;
+  font-weight: 600;
+}
+.brw-steps__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.brw-step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.brw-step p {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  color: var(--ink2);
+  font-size: 13px;
+}
+.brw-step p i {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 650;
+}
+.brw-step__shot {
+  position: relative;
+  height: 110px;
+  overflow: hidden;
+  border-radius: 12px 12px 12px 3px;
+  background: var(--surface-raised);
+  box-shadow: var(--e1);
+  color: var(--ink2);
+  font-size: 11px;
+  animation: brw-step-lit 4.2s infinite;
+}
+.brw-step:nth-child(2) .brw-step__shot {
+  animation-delay: 1.4s;
+}
+.brw-step:nth-child(3) .brw-step__shot {
+  animation-delay: 2.8s;
+}
+@keyframes brw-step-lit {
+  0%,
+  33% {
+    box-shadow:
+      0 0 0 2px var(--accent, var(--mac-accent)),
+      var(--e1);
+  }
+  34%,
+  100% {
+    box-shadow: var(--e1);
+  }
+}
+.brw-mbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  height: 24px;
+  padding: 0 10px;
+  background: color-mix(in srgb, var(--ink) 6%, var(--surface-raised));
+  color: var(--muted);
+  font-size: 10.5px;
+}
+.brw-mbar > span:not(.brw-mbar__me) {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.brw-mbar__me {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 18px;
+  border-radius: 5px;
+}
+.brw-mbar__me[data-hit] {
+  background: color-mix(in srgb, var(--mac-accent) 25%, transparent);
+  box-shadow: 0 0 0 1.5px var(--mac-accent);
+}
+.brw-mmenu {
+  position: absolute;
+  top: 28px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 128px;
+  padding: 4px;
+  border-radius: 8px;
+  background: var(--surface-raised);
+  box-shadow: var(--e2);
+}
+.brw-mmenu span {
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.brw-mmenu span[data-hl] {
+  background: var(--mac-accent);
+  color: var(--mac-accent-ink);
+}
+.brw-mmenu hr {
+  width: auto;
+  height: 1px;
+  margin: 3px 4px;
+  border: 0;
+  background: var(--line);
+}
+.brw-mwin {
+  position: absolute;
+  inset: 10px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--surface-raised);
+  box-shadow: var(--e2);
+}
+.brw-mwin__bar {
+  height: 18px;
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--ink) 5%, var(--surface-raised));
+  color: var(--muted);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+.brw-mwin__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-top: 1px solid var(--line);
+}
+.brw-mwin__row[data-hl] {
+  background: color-mix(in srgb, var(--mac-accent) 10%, transparent);
+  font-weight: 600;
+}
+.brw-mwin__row i {
+  position: relative;
+  width: 22px;
+  height: 13px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.brw-mwin__row i::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--mac-accent-ink);
+}
+.brw-mwin__row i[data-on] {
+  background: var(--success);
+}
+.brw-mwin__row i[data-on]::after {
+  transform: translateX(9px);
+}
+.brw-mwin__row i[data-flip] {
+  animation: brw-flip 3s infinite;
+}
+.brw-mwin__row i[data-flip]::after {
+  animation: brw-flip-knob 3s infinite;
+}
+@keyframes brw-flip {
+  0%,
+  40% {
+    background: color-mix(in srgb, var(--ink) 18%, transparent);
+  }
+  55%,
+  100% {
+    background: var(--success);
+  }
+}
+@keyframes brw-flip-knob {
+  0%,
+  40% {
+    transform: none;
+  }
+  55%,
+  100% {
+    transform: translateX(9px);
+  }
+}
+.brw-steps__done {
+  gap: 6px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+@media (max-width: 760px) {
+  .brw-steps__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* The agent's Work tab in the panel beside its DM: three steps across 420px would be three slivers. */
+@container agp-side (max-width: 760px) {
+  .brw-steps__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brw-step__shot,
+  .brw-mwin__row i[data-flip],
+  .brw-mwin__row i[data-flip]::after,
+  .brw-skel i {
+    animation: none;
+  }
+}
+
+/* ---------- after the run: where it browsed ---------- */
+.brw-trail,
+.brw-ac.brw-trail.is-open {
+  max-width: var(--msg-card-w);
+}
+.brw-trail__shot {
+  display: flex;
+  flex-direction: column;
+  background: var(--sunken);
+}
+.brw-trail__bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 13px;
+  padding: 0 6px;
+  background: color-mix(in srgb, var(--raised) 70%, var(--sunken));
+  border-bottom: 1px solid var(--line);
+}
+.brw-trail__bar i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--line2);
+}
+.brw-trail__bar span {
+  flex: 1;
+  min-width: 0;
+  height: 7px;
+  margin-left: 4px;
+  border-radius: 4px;
+  background: var(--plate);
+}
+.brw-trail__shot .ac-page-silhouette {
+  flex: 1;
+  min-height: 0;
+}
+.brw-ac.brw-trail .brw-trail__log {
+  max-height: none;
+  padding: 6px 14px 10px;
+  border-top: 1px solid var(--line);
+}
+.brw-trail__log > li.brw-trail__page {
+  display: block;
+  padding: 4px 0 0;
+  border-top: 0;
+}
+.brw-trail__site {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.brw-trail__site > span {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-trail__site > .ac-icon {
+  color: var(--muted);
+}
+.brw-trail__ext {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--faint);
+  flex: none;
+}
+.brw-trail__ext:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .brw-trail__ext:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 1px;
+}
+.brw-trail__page ol {
+  margin: 0;
+  padding: 0 0 0 22px;
+}
+.brw-trail__page ol li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 28px;
+  padding: 0;
+  border-top: 0;
+  color: var(--muted);
+}
+.brw-trail__page ol li > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-trail__page ol li small {
+  color: var(--faint);
+  font-size: 12px;
+}
+.brw-trail__page ol li.is-failed,
+.brw-trail__page ol li.is-failed > .ac-icon {
+  color: var(--danger);
+}
+/* The steps as pixel columns in the header, one column marking each line. */
+.brw-ac__tx small.brw-trail__sum {
+  gap: 8px;
+}
+.brw-trail__sum .ac-run-strip {
+  flex: none;
+}
+.brw-trail .brw-ac__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.brw-trail__site > small {
+  color: var(--faint);
+  font-size: 12px;
+  font-weight: 400;
+  flex: none;
+}
+.brw-trail__mark {
+  justify-self: center;
+}
+.brw-trail__times {
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--ink2);
+  background: var(--plate);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The DM header's "Computador": a dot while the agent works on its computer, amber while a request waits. */
+.brw-dm.ac-btn {
+  position: relative;
+}
+.brw-dm[data-state]::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 2px var(--raised);
+}
+.brw-dm[data-state="waiting"]::after {
+  background: var(--warn);
+}
+@media (max-width: 640px) {
+  .brw-dm .brw-dm__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  /* Its words gone to screen readers, the button is its icon in a 32 square. */
+  .brw-dm.ac-btn {
+    padding-inline: calc((var(--control-h-sm) - var(--control-icon-sm)) / 2);
+  }
+}
+
+.brw-dim__row > .ac-icon {
+  color: var(--muted);
+}
+.brw-ac__tt.is-static {
+  cursor: default;
+}
+
+/* The address bar: under the card's head, like a browser's own; its arrows and reload before the field. */
+.brw-go {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.brw-go__nav {
+  display: flex;
+  gap: var(--space-2);
+}
+/* Watching: the address alone, quiet. */
+.brw-go.is-read .brw-go__field {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.brw-go__field {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: var(--control-h-sm);
+  padding: 0 10px;
+  border-radius: var(--control-r-sm);
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--muted);
+}
+.brw-go__field:focus-within {
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.brw-go__field:has(input[aria-invalid="true"]) {
+  box-shadow: inset 0 0 0 1.5px var(--danger);
+}
+.brw-go__field input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  line-height: normal;
+  color: var(--ink);
+}
+.brw-go__field input:disabled {
+  color: var(--muted);
+  -webkit-text-fill-color: currentColor;
+  opacity: 1;
+  cursor: not-allowed;
+}
+.brw-go__field input::placeholder {
+  color: var(--faint);
+}
+.brw-go__error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--danger);
+  font-size: 12.5px;
+}
+
+/* Full screen (the browser's own, or the card filling the window): the page takes all the room left. */
+.brw-ac.is-full {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  animation: none;
+}
+.brw-ac.is-full > * {
+  flex: none;
+}
+.brw-ac.is-full > .brw-ac__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+.brw-ac.is-full .brw-ac__page {
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+}
+.brw-ac.is-full .brw-log {
+  min-height: 0;
+}
+
+/* ---------- in the conversation: the page in a frame of the agent's color ---------- */
+/* The page always in view; the frame's top says where it is and what it does now (its steps on hover);
+   Assumir, Parar and full screen show over the page on hover. In control, the frame turns graphite. */
+.brw-ac.brw-mf {
+  max-width: 640px;
+  padding: 0 5px 5px;
+  border-radius: 18px 18px 18px 6px;
+  overflow: visible;
+  box-shadow: none;
+  background: linear-gradient(135deg, var(--mf-a), var(--mf-b));
+  background-size: 200% 200%;
+}
+.brw-ac.brw-mf.is-working {
+  animation:
+    brw-grow-in 0.24s var(--out),
+    brw-mf-sheen 6s ease-in-out infinite;
+}
+@keyframes brw-mf-sheen {
+  50% {
+    background-position: 100% 100%;
+  }
+}
+.brw-ac.brw-mf.is-control {
+  background: linear-gradient(135deg, var(--frame-control-a), var(--frame-control-b));
+}
+.brw-mf__top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 4px 6px 4px 8px;
+  color: var(--frame-ink);
+  font-size: 13px;
+}
+.brw-mf__site {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.brw-mf__site b {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-mf__site .brw-ac__path {
+  color: rgba(255, 255, 255, 0.72);
+}
+/* A site's icon (or its letter): one 18px tile, centered on the line by its box, not by the glyph. */
+.brw-site-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--site-paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.brw-site-icon img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+.brw-site-icon--letter {
+  color: var(--site-ink);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.brw-mf__top .ac-pixspin {
+  filter: brightness(0) invert(1);
+}
+.brw-mf__now {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  max-width: 55%;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  outline: none;
+}
+.brw-mf__now > span:not(.brw-mf__hist) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* The frame's own ink on the agent's color, where gray wouldn't show. */
+html:not([data-pointer]) .brw-mf__now:focus-visible {
+  box-shadow: 0 0 0 2px var(--frame-ink);
+}
+.brw-mf__acts {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+/* The page and what goes under it, inside the frame. */
+.brw-mf > :not(.brw-mf__top) {
+  background: var(--raised);
+}
+.brw-mf > .brw-mf__top + * {
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  overflow: hidden;
+}
+/* Concentric with the frame (its radius minus the 5px inset): round bottom right, the cut corner bottom left. */
+.brw-mf > :last-child:not(.brw-mf__top) {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 13px;
+  overflow: hidden;
+}
+.brw-mf .brw-ac__stage {
+  padding: 0;
+  background: none;
+}
+.brw-mf .brw-ac__page {
+  border-radius: 0;
+  box-shadow: none;
+  max-height: none;
+}
+/* Its steps, newest first, on hover (or focus) of what it does now. */
+.brw-mf__hist {
+  position: absolute;
+  top: 100%;
+  right: -6px;
+  z-index: 20;
+  padding-top: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px) scale(0.98);
+  transform-origin: top right;
+  transition:
+    opacity 0.18s,
+    transform 0.25s var(--spring, ease),
+    visibility 0s 0.18s;
+}
+.brw-mf__now:hover .brw-mf__hist,
+html:not([data-pointer]) .brw-mf__now:focus-visible .brw-mf__hist {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.18s 0.12s,
+    transform 0.3s var(--spring, ease) 0.12s,
+    visibility 0s 0.12s;
+}
+.brw-mf__hist ol {
+  width: 300px;
+  max-height: 240px;
+  overflow: auto;
+  margin: 0;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--glass, var(--raised));
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: var(--e3, var(--e2));
+  color: var(--ink2);
+}
+.brw-mf__hist li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: start;
+  padding: 6px 8px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: normal;
+}
+.brw-mf__hist li > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-mf__hist li.is-now {
+  background: var(--plate);
+  color: var(--ink);
+  font-weight: 500;
+}
+.brw-mf__hist li.is-now > span {
+  white-space: normal;
+}
+.brw-mf__hist li small {
+  color: var(--faint);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+.brw-mf__hist .ac-pixspin {
+  filter: none;
+}
+/* The toolbar over the page, held open (the stop question, or focus inside it), wins the corner over the steps. */
+.brw-mf:has(.brw-mf__over.is-pinned, .brw-mf__over:focus-within) .brw-mf__hist {
+  opacity: 0;
+  visibility: hidden;
+}
+/* "Parar a Ada?": its words start where a small button's label would, never on the toolbar's edge. */
+.brw-stopask {
+  padding-left: var(--space-3);
+  white-space: nowrap;
+}
+/* Assumir, Parar and full screen, over the page on hover of the page only: the head's steps chip opens its own list
+   there, and the two must never open together. */
+.brw-mf__over {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--glass, var(--raised));
+  backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: var(--e2);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s var(--out);
+}
+.brw-mf .brw-ac__stage:hover .brw-mf__over,
+.brw-mf__over:focus-within,
+.brw-mf__over.is-pinned {
+  opacity: 1;
+  transform: none;
+}
+@media (hover: none) {
+  .brw-mf__over {
+    opacity: 1;
+    transform: none;
+  }
+  /* A tap on the steps chip opens its list in place of the always-shown toolbar, unless the stop question holds it. */
+  .brw-mf:has(.brw-mf__now:hover > .brw-mf__hist) .brw-mf__over:not(.is-pinned) {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brw-ac,
+  .brw-ac.brw-mf.is-working {
+    animation: none;
+  }
+}
+
+/* After the run: the frame closed into its top, a light band of the agent's color that opens to the steps. */
+/* The same size as the tools block under it ("Ver o que ele fez": .ac-tools), so the two bars line up. */
+.brw-ac.brw-trail.brw-mf-end,
+.brw-ac.brw-trail.brw-mf-end.is-open {
+  max-width: var(--msg-card-w);
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: color-mix(in srgb, var(--mf-a) 14%, var(--raised));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--mf-a) 25%, transparent);
+}
+.brw-mf-end__row {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px 0 12px;
+  font-size: 13px;
+  color: var(--ink2);
+}
+html:not([data-pointer]) .brw-mf-end__row:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: -2px;
+  border-radius: inherit;
+}
+.brw-mf-end__row > b {
+  font-weight: 600;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brw-mf-end__row > .ac-run-strip {
+  flex: none;
+  align-self: center;
+}
+.brw-mf-end__sum {
+  flex: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.brw-mf-end__chev {
+  flex: none;
+  color: var(--faint);
+  transition: transform 0.22s var(--spring, ease);
+}
+.brw-mf-end.is-open .brw-mf-end__chev {
+  transform: rotate(180deg);
+}
+.brw-mf-end__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px 8px 39px;
+}
+.brw-ac.brw-mf-end .brw-mf-end__log {
+  margin: 0 5px 5px;
+  border-top: 0;
+  border-radius: calc(var(--radius-item) - 5px) calc(var(--radius-item) - 5px) calc(var(--radius-item) - 5px) 2px;
+  background: var(--raised);
+}
+
+/* Waiting for a shared profile (ADR 0110): two short lines that don't wrap, each with its agent's face. */
+.brw-dim__lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.brw-dim__l1,
+.brw-dim__lines > small {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.brw-dim__lines > small .ac-who > b {
+  color: var(--ink2);
+  font-weight: 600;
+}
+.cmp-status.is-done .ac-who > b {
+  font-weight: 600;
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN "payer_user_id" text;

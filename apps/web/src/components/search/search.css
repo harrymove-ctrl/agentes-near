@@ -1,0 +1,355 @@
+/* The search box with filter chips (SearchBox.tsx): the search field's look, growing to wrap its chips. */
+.search-box {
+  display: block;
+  position: relative;
+}
+.search-box__field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--control-h-md);
+  box-sizing: border-box;
+  padding: 5px 12px 5px 36px;
+  position: relative;
+  border-radius: var(--control-r-md);
+  background: var(--field-bg);
+  box-shadow: inset 0 0 0 1px var(--field-line);
+  color: var(--ink);
+  cursor: text;
+}
+.search-box__field:focus-within {
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1px var(--field-line),
+    var(--field-ring);
+}
+.search-box__icon {
+  position: absolute;
+  left: 12px;
+  top: calc(var(--control-h-md) / 2);
+  transform: translateY(-50%);
+  color: var(--faint);
+  pointer-events: none;
+}
+.search-box__input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1;
+  min-width: 120px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.search-box__input:focus {
+  outline: none;
+}
+/* Our × clears the field and its filters: the engines' own × (WebKit's, Blink's) would sit beside it at the end. */
+.search-box__input::-webkit-search-cancel-button {
+  display: none;
+}
+.search-box__input::placeholder {
+  color: var(--faint);
+}
+.search-box__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+}
+.search-box__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-box__clear {
+  all: unset;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-muted);
+}
+.search-box__clear:hover {
+  color: var(--ink);
+}
+.search-box__date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 6px var(--menu-item-px);
+}
+.search-box__none {
+  margin: 0;
+  padding: 6px var(--menu-item-px);
+}
+
+/* Results: count, filters and sort on one line; each channel's hits under its name. */
+.search-results__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.search-results__bar > :first-child {
+  margin-right: auto;
+}
+/* With a face, also an .ac-iconline: the face on the first line's capitals (who and when), the text under it. */
+.search-hit {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.search-hit:not(.ac-mediarow) {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.search-hit__who {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* ── The channel header's mini menu (SearchBox `compact`, Discord's): filters with their mark and an example, then
+ * recent searches as their chips; after `de:`, who, agents and people apart. ── */
+.search-menu.search-box__menu {
+  left: auto;
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 24px);
+  max-height: min(520px, 70vh);
+  padding: 6px;
+}
+.search-menu .ac-menu__heading {
+  padding: 8px 10px 4px;
+}
+.search-menu__filter {
+  align-items: center;
+  gap: 12px;
+}
+.search-menu__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  color: var(--muted);
+}
+.search-menu__at {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+.search-menu__filter .ac-menu__label {
+  display: flex;
+  flex-direction: column;
+}
+.search-menu__filter .ac-menu__desc b {
+  font-weight: 650;
+  color: var(--ink2);
+}
+.search-menu__trash.search-box__clear {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin: -6px -6px -6px 0;
+  border-radius: var(--control-r-sm);
+  color: var(--faint);
+}
+.search-menu__recent {
+  gap: 12px;
+}
+.search-menu__recent > .ac-icon {
+  color: var(--faint);
+}
+.search-menu__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.search-menu__chip .ac-token__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.search-menu__chip b {
+  font-weight: 650;
+}
+.search-menu__chip .ac-avatar {
+  width: 16px;
+  height: 16px;
+}
+.search-menu__text {
+  font-size: 14px;
+  color: var(--ink2);
+}
+.search-from__who {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.search-from__name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.search-from__handle {
+  color: var(--faint);
+  font-size: 13px;
+}
+.search-box__x {
+  all: unset;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  border-radius: 6px;
+  color: var(--faint);
+  cursor: pointer;
+}
+.search-box__x:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .search-box__x:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* ── The header search's results, in the conversation's side pane (SearchResultsPanel.tsx) ── */
+[data-theme="light"] {
+  /* A search hit: its own cool tint and underline, never the tan of a mention of you. */
+  --search-hit: color-mix(in srgb, var(--info) 16%, transparent);
+  --search-hit-line: color-mix(in srgb, var(--info) 60%, transparent);
+}
+[data-theme="dark"] {
+  --search-hit: color-mix(in srgb, var(--info) 22%, transparent);
+  --search-hit-line: color-mix(in srgb, var(--info) 70%, transparent);
+}
+.search-panel__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 14px 18px 24px;
+}
+.search-panel__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.search-panel__where {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0 4px;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink);
+}
+.search-panel__where > .ac-icon {
+  flex: none;
+  color: var(--faint);
+}
+.search-panel__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-panel__cat {
+  flex: none;
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--faint);
+}
+/* "Ir para" has its own column: however long the words, they stop before it. */
+.search-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+  box-shadow: var(--e1);
+  padding: 4px 0;
+}
+.search-result .ac-msg {
+  --msg-inline: 12px;
+}
+.search-result__jump.ac-btn {
+  margin: 4px 8px 4px 0;
+  opacity: 0;
+}
+.search-result:is(:hover, :focus-within) {
+  box-shadow: var(--e2);
+}
+.search-result:is(:hover, :focus-within) .search-result__jump {
+  opacity: 1;
+}
+/* Touch has no hover: "Ir para" always shows. */
+@media (hover: none) {
+  .search-result__jump.ac-btn {
+    opacity: 1;
+  }
+}
+/* On a phone "Ir para" goes under the message, from its words' edge (past the face), never a column beside them. */
+@media (max-width: 640px) {
+  .search-result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .search-result__jump.ac-btn {
+    justify-self: start;
+    margin: 0 12px 8px calc(12px + 36px + var(--space-3));
+  }
+}
+.search-hit__mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--search-hit);
+  box-shadow: inset 0 -2px 0 var(--search-hit-line);
+  color: inherit;
+}
+/* Narrow beside the conversation: the count keeps its line with the ×, the filters and the sort go under it. */
+@media (min-width: 761px) {
+  @container thread-dock (max-width: 479px) {
+    .search-panel__head > .thread-head__who {
+      align-self: center;
+    }
+    .search-panel__head > .thread-head__text {
+      flex: 1 1 calc(100% - 64px);
+    }
+    .search-panel__head > :last-child {
+      order: 1;
+    }
+    .search-panel__filters,
+    .search-panel__head > :nth-last-child(2) {
+      order: 2;
+    }
+    /* Its line is what was searched, not the channel a thread's narrow head drops. */
+    .search-panel__head .thread-head__meta > .thread-head__where {
+      display: block;
+    }
+  }
+}
+@media (max-width: 760px) {
+  .search-panel__words {
+    display: none;
+  }
+  .search-panel__list {
+    padding: 12px 12px 24px;
+  }
+}

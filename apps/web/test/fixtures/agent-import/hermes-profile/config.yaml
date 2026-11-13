@@ -1,0 +1,13 @@
+# Hermes profile config, written for the agent import tests.
+model:
+  default: "anthropic/claude-opus-5.5"
+  provider: anthropic
+  api_key: hermes-fixture-not-a-real-key
+mcp_servers:
+  papers:
+    url: https://mcp.papers.example/sse?session=fixture
+    headers:
+      Authorization: Bearer hermes-fixture-not-a-real-token
+  github:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]

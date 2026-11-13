@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN "limit_members_max" integer;

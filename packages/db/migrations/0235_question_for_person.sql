@@ -1,0 +1,1 @@
+ALTER TABLE "agent_questions" ADD COLUMN "requested_for_user_id" text;

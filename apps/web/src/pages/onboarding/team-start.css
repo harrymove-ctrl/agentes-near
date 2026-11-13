@@ -1,0 +1,59 @@
+/*
+ * How a team with no agents yet starts (ADR 0162, amended 2026-11-11): "Start with a ready-made team" or "Start from
+ * scratch", the question's own radio cards one under the other, each with who comes in it under its words.
+ */
+.onb-start {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.onb-start .ac-option__text {
+  flex: 1;
+}
+/* Who comes: their faces, then their names on one line (the faces as tall as the line, so neither leads the other). */
+.onb-start__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  margin-top: var(--space-2);
+}
+.onb-start__faces {
+  display: flex;
+  flex: none;
+  gap: var(--space-1);
+}
+.onb-start__names {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  color: var(--ink2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* A place for an agent still to be made, the size of a face: the preview's "Your team shows up here", dashed. */
+.onb-start__seat {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px dashed var(--line2);
+  border-radius: 30%;
+  color: var(--faint);
+}
+.onb-start__seat > .ac-icon {
+  opacity: 0;
+  transition: opacity 0.2s var(--out);
+}
+/* Picked, its plus shows: the agents to come are made there. */
+.ac-option[data-state="checked"] .onb-start__seat {
+  border-color: var(--line-strong);
+}
+.ac-option[data-state="checked"] .onb-start__seat > .ac-icon {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .onb-start__seat > .ac-icon {
+    transition: none;
+  }
+}

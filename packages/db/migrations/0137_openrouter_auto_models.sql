@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ADD COLUMN "auto_models" jsonb DEFAULT '{}'::jsonb NOT NULL;

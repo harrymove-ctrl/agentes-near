@@ -1,0 +1,407 @@
+{
+  "screen": [1280, 900],
+  "windows": [
+    {
+      "xid": 18874401,
+      "override": false,
+      "class": ["xfdesktop", "Xfdesktop"],
+      "pid": 8974,
+      "types": ["desktop"],
+      "stack": 0,
+      "active": false,
+      "title": "Desktop",
+      "box": [0, 0, 1280, 900]
+    },
+    {
+      "xid": 31457283,
+      "override": false,
+      "class": ["xfce4-terminal", "Xfce4-terminal"],
+      "pid": 9144,
+      "types": ["normal"],
+      "stack": 1,
+      "active": false,
+      "title": "Terminal - agent@desktop: ~",
+      "box": [228, 158, 823, 524]
+    },
+    {
+      "xid": 14680071,
+      "override": false,
+      "class": ["Thunar", "Thunar"],
+      "pid": 8968,
+      "types": ["normal"],
+      "stack": 2,
+      "active": false,
+      "title": "agent - Thunar",
+      "box": [318, 162, 644, 516]
+    },
+    {
+      "xid": 20971523,
+      "override": false,
+      "class": ["chromium-browser (/home/agent/.agentes/browser)", "Chromium-browser"],
+      "pid": 8997,
+      "types": ["normal"],
+      "stack": 3,
+      "active": true,
+      "title": "Wikipedia - Google Chrome for Testing",
+      "box": [0, 0, 1280, 840]
+    },
+    {
+      "xid": 16777219,
+      "override": false,
+      "class": ["xfce4-panel", "Xfce4-panel"],
+      "pid": 8963,
+      "types": ["dock"],
+      "stack": 4,
+      "active": false,
+      "title": "xfce4-panel",
+      "box": [497, 844, 286, 50]
+    },
+    {
+      "xid": 16783334,
+      "override": true,
+      "class": ["xfce4-panel", "Xfce4-panel"],
+      "pid": 8963,
+      "types": ["popup_menu"],
+      "stack": 5,
+      "active": false,
+      "title": "xfce4-panel",
+      "box": [481, 663, 218, 200]
+    }
+  ],
+  "apps": [
+    {
+      "bus": ":1.4",
+      "pid": 8963,
+      "name": "xfce4-panel",
+      "nodes": [
+        {
+          "path": "/org/a11y/atspi/accessible/10",
+          "parent": "/org/a11y/atspi/accessible/6",
+          "index": 0,
+          "children": 2,
+          "role": "filler",
+          "name": "",
+          "states": [1124090112, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [638, 845, 144, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/26",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": 2,
+          "children": 0,
+          "role": "separator",
+          "name": "",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 741, 172, 7]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/7",
+          "parent": "/org/a11y/atspi/accessible/2",
+          "index": 0,
+          "children": 0,
+          "role": "toggle button",
+          "name": "Applications",
+          "states": [1124081936, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [498, 845, 36, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/16",
+          "parent": "/org/a11y/atspi/accessible/8",
+          "index": 0,
+          "children": 0,
+          "role": "button",
+          "name": "Files",
+          "states": [1124081920, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [542, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/4",
+          "parent": "/org/a11y/atspi/accessible/1",
+          "index": 2,
+          "children": 1,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [542, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/8",
+          "parent": "/org/a11y/atspi/accessible/4",
+          "index": 0,
+          "children": 2,
+          "role": "filler",
+          "name": "",
+          "states": [1124090112, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [542, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/13",
+          "parent": "/org/a11y/atspi/accessible/12",
+          "index": 0,
+          "children": 0,
+          "role": "toggle button",
+          "name": "Wikipedia - Google Chrome for Testing",
+          "states": [1124081936, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [638, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/15",
+          "parent": "/org/a11y/atspi/accessible/12",
+          "index": 2,
+          "children": 0,
+          "role": "toggle button",
+          "name": "agent - Thunar",
+          "states": [1124081920, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [734, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/6",
+          "parent": "/org/a11y/atspi/accessible/1",
+          "index": 4,
+          "children": 1,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [638, 845, 144, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/17",
+          "parent": "/org/a11y/atspi/accessible/root",
+          "index": 0,
+          "children": 1,
+          "role": "frame",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [497, 844, 286, 50]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/18",
+          "parent": "/org/a11y/atspi/accessible/9",
+          "index": 0,
+          "children": 0,
+          "role": "button",
+          "name": "Terminal",
+          "states": [1124081920, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [590, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/root",
+          "parent": null,
+          "index": -1,
+          "children": 2,
+          "role": "application",
+          "name": "xfce4-panel",
+          "states": [0, 0],
+          "ifaces": ["Accessible", "Application", "Collection"]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/3",
+          "parent": "/org/a11y/atspi/accessible/1",
+          "index": 1,
+          "children": 0,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [534, 845, 8, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/22",
+          "parent": "/org/a11y/atspi/accessible/root",
+          "index": 1,
+          "children": 1,
+          "role": "window",
+          "name": "",
+          "states": [1124073730, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [481, 663, 218, 200]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/12",
+          "parent": "/org/a11y/atspi/accessible/10",
+          "index": 1,
+          "children": 3,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [638, 845, 144, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/2",
+          "parent": "/org/a11y/atspi/accessible/1",
+          "index": 0,
+          "children": 1,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [498, 845, 36, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/1",
+          "parent": "/org/a11y/atspi/accessible/17",
+          "index": 0,
+          "children": 5,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [498, 845, 284, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/23",
+          "parent": "/org/a11y/atspi/accessible/22",
+          "index": 0,
+          "children": -1,
+          "role": "menu",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Selection", "Collection"],
+          "box": [498, 679, 184, 166]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/25",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": -1,
+          "children": 0,
+          "role": "menu item",
+          "name": "File Manager",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 713, 172, 28]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/19",
+          "parent": "/org/a11y/atspi/accessible/8",
+          "index": 1,
+          "children": 0,
+          "role": "toggle button",
+          "name": "Open launcher menu",
+          "states": [16777472, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/24",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": -1,
+          "children": 0,
+          "role": "menu item",
+          "name": "Terminal Emulator",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 685, 172, 28]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/28",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": 4,
+          "children": 0,
+          "role": "separator",
+          "name": "",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 776, 172, 7]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/30",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": 6,
+          "children": -1,
+          "role": "menu",
+          "name": "System",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 811, 172, 28]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/20",
+          "parent": "/org/a11y/atspi/accessible/9",
+          "index": 1,
+          "children": 0,
+          "role": "toggle button",
+          "name": "Open launcher menu",
+          "states": [16777472, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/5",
+          "parent": "/org/a11y/atspi/accessible/1",
+          "index": 3,
+          "children": 1,
+          "role": "panel",
+          "name": "",
+          "states": [1124073728, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [590, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/11",
+          "parent": "/org/a11y/atspi/accessible/10",
+          "index": 0,
+          "children": 0,
+          "role": "filler",
+          "name": "",
+          "states": [16793856, 0],
+          "ifaces": ["Accessible", "Component", "Collection"]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/14",
+          "parent": "/org/a11y/atspi/accessible/12",
+          "index": 1,
+          "children": 0,
+          "role": "toggle button",
+          "name": "Terminal - agent@desktop: ~",
+          "states": [1124081920, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Image", "Collection"],
+          "box": [686, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/9",
+          "parent": "/org/a11y/atspi/accessible/5",
+          "index": 0,
+          "children": 2,
+          "role": "filler",
+          "name": "",
+          "states": [1124090112, 0],
+          "ifaces": ["Accessible", "Component", "Collection"],
+          "box": [590, 845, 48, 48]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/29",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": 5,
+          "children": -1,
+          "role": "menu",
+          "name": "Accessories",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 783, 172, 28]
+        },
+        {
+          "path": "/org/a11y/atspi/accessible/27",
+          "parent": "/org/a11y/atspi/accessible/23",
+          "index": 3,
+          "children": -1,
+          "role": "menu",
+          "name": "Settings",
+          "states": [1128268032, 0],
+          "ifaces": ["Accessible", "Action", "Component", "Selection", "Collection"],
+          "box": [504, 748, 172, 28]
+        }
+      ]
+    }
+  ],
+  "ms": 494
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "blobs" ALTER COLUMN "org_id" DROP NOT NULL;

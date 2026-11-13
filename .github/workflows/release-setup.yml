@@ -1,0 +1,87 @@
+name: Release setup
+
+# Publishes packages/setup (@agenteschat/setup, the self-host setup) to npm through Trusted Publishing
+# (OIDC), only from a `setup-v<version>` tag that matches packages/setup/package.json. No token is stored.
+#
+# npmjs.com, package @agenteschat/setup → Settings → Trusted Publisher → GitHub Actions:
+#   Organization or user: agentes-chat
+#   Repository:           agentes-chat
+#   Workflow filename:    release-setup.yml
+#   Environment name:     npm
+# The repository's `npm` environment should allow deployments from `setup-v*` tags only. npm only lets a
+# Trusted Publisher be set on a package that already exists, so a maintainer publishes the first version
+# from a laptop (`npm publish` in packages/setup).
+#
+# Two jobs: build installs the monorepo, tests and packs the tarball without an OIDC token, so no
+# dependency's install script can publish; publish holds the token and only runs `npm publish` on that
+# tarball, with no install and no lifecycle scripts.
+on:
+  push:
+    tags: ["setup-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # A tag publishes exactly the version packages/setup declares; a tag that disagrees is refused.
+      - name: Tag must match the package version
+        run: test "setup-v$(jq -r .version packages/setup/package.json)" = "$GITHUB_REF_NAME"
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - run: bun install --frozen-lockfile
+      - run: bun test packages/setup
+      - run: bun run --filter '@agenteschat/setup' typecheck
+      # The bundle as npx runs it (Node) and as install.sh runs it (bun x --bun), in a directory of its
+      # own, touching nothing.
+      - name: Build, then run the bundle under Node and Bun
+        run: |
+          bun run --filter '@agenteschat/setup' build
+          node packages/setup/dist/index.js --help
+          bun packages/setup/dist/index.js --help
+          cd "$(mktemp -d)"
+          node "$GITHUB_WORKSPACE/packages/setup/dist/index.js" --dry-run --json | jq -e '.ok and .dryRun'
+          bun "$GITHUB_WORKSPACE/packages/setup/dist/index.js" --dry-run --json | jq -e '.ok and .dryRun'
+      # The bundle just tested, as is: no prepublishOnly rebuild.
+      - name: Pack
+        working-directory: packages/setup
+        run: |
+          mkdir -p "$RUNNER_TEMP/pack"
+          npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP/pack"
+          tar -tzf "$RUNNER_TEMP"/pack/*.tgz
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: setup-tarball
+          path: ${{ runner.temp }}/pack/*.tgz
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    # A GitHub-hosted runner: npm's Trusted Publishing accepts no other kind.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write # OIDC for npm Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: setup-tarball
+          path: ${{ runner.temp }}/pack
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      # npm ≥ 11.5.1 exchanges the OIDC token itself.
+      - run: npm install -g npm@11.8.0
+      - run: npm publish --ignore-scripts "$RUNNER_TEMP"/pack/*.tgz

@@ -1,0 +1,36 @@
+{
+  "detector": {
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "source sans 3",
+        "reason": "agentes.chat product font, never replace it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "jetbrains mono",
+        "reason": "agentes.chat product font, never replace it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "onest",
+        "reason": "agentes.chat product font, never replace it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "martian mono",
+        "reason": "agentes.chat product font, never replace it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "funnel display",
+        "reason": "agentes.chat product font, never replace it"
+      },
+      {
+        "rule": "overused-font",
+        "value": "doto",
+        "reason": "agentes.chat product font, never replace it"
+      }
+    ]
+  }
+}

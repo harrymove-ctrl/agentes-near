@@ -1,0 +1,371 @@
+/*
+ * The island (ADR 0071 §9): a dark pill at the top, centered on the window (not the work area beside the sidebar,
+ * open or collapsed), in both themes (the dark tokens inside it, `data-theme="dark"`). The face sits 8px from the
+ * top, the bottom and the left, concentric with the pill's curve.
+ */
+.ni-wrap {
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: var(--z-toast);
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+.ni {
+  /* Its own ground, also the ring that cuts the small faces out of each other. */
+  --ni-bg: #141413;
+  pointer-events: auto;
+  max-width: min(560px, 100%);
+  background: var(--ni-bg);
+  color: var(--ink);
+  border-radius: 24px;
+  box-shadow:
+    0 18px 40px -14px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  animation: ni-in 0.55s cubic-bezier(0.3, 1.25, 0.4, 1) both;
+}
+:root[data-theme="dark"] .ni {
+  --ni-bg: #000;
+  box-shadow:
+    0 18px 40px -14px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+/* It grows out of a circle the size of the face, and folds back into it. */
+@keyframes ni-in {
+  from {
+    clip-path: inset(0 calc(50% - 24px) round 24px);
+    opacity: 0.4;
+  }
+  to {
+    clip-path: inset(0 0 round 24px);
+    opacity: 1;
+  }
+}
+.ni--leaving {
+  animation: ni-out 0.34s cubic-bezier(0.4, 0, 0.6, 1) both;
+  pointer-events: none;
+}
+@keyframes ni-out {
+  to {
+    clip-path: inset(0 calc(50% - 24px) round 24px);
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Closed: one line. */
+.ni__pill {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  max-width: 100%;
+  padding: 0 18px 0 8px;
+  white-space: nowrap;
+  border-radius: inherit;
+}
+/* Closed: the pill, then "Ver" at its end (a button of its own beside it, never inside it). */
+.ni__bar {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+.ni__bar > .ni__pill {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.ni__bar:has(.ni__see) > .ni__pill {
+  padding-right: 12px;
+}
+.ni__see.ac-btn {
+  flex: none;
+  margin-right: 8px;
+  border: 0;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+  font-weight: 650;
+  animation: ni-fade 0.3s 0.18s both;
+}
+.ni__see.ac-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+html:not([data-pointer]) .ni__pill:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.ni__pill > *:not(.ni__line) {
+  animation: ni-fade 0.3s 0.18s both;
+}
+@keyframes ni-fade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+.ni .ni__face {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+/* A person's face is round, concentric with the pill; an agent keeps its own shape. */
+.ni__pill > .ni__face:not(.ac-avatar--agent) {
+  border-radius: 50%;
+}
+.ni__head {
+  flex: none;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.ni__head b {
+  color: var(--ink);
+  font-weight: 650;
+}
+.ni__line {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+/* The others: their small faces and "+N" as one stack, each cut out of the next by the island's own ground (the dark
+   theme's is black: a fixed ring drew gray circles there). */
+.ni__faces {
+  display: flex;
+  flex: none;
+  margin-left: 6px;
+}
+.ni .ni__mini {
+  width: 22px;
+  height: 22px;
+  margin-left: -6px;
+  box-shadow: 0 0 0 2px var(--ni-bg);
+}
+/* A notice with no face of its own (the workspace telling) keeps its glyph small inside the 22px circle. */
+.ni__mini.ni__sys .ac-icon {
+  width: 12px;
+  height: 12px;
+}
+.ni__faces + .ni__count {
+  margin-left: -16px;
+  box-shadow: 0 0 0 2px var(--ni-bg);
+}
+.ni__count {
+  flex: none;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #2a2a28;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.ni__sys,
+.ni .nt-sys {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+}
+
+/* Small: only the requests waiting on me are left, shrunk. */
+.ni--small {
+  border-radius: 20px;
+}
+.ni--small .ni__pill {
+  height: 40px;
+  padding: 0 14px 0 6px;
+  gap: 10px;
+}
+.ni--small .ni__face {
+  width: 28px;
+  height: 28px;
+}
+.ni--small .ni__head {
+  max-width: none;
+}
+
+/* Open: each notice whole, with its answer. */
+.ni--open {
+  width: 440px;
+  border-radius: 26px;
+}
+.ni__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  max-height: min(70vh, 560px);
+  overflow: auto;
+}
+/* A media row (`.ac-mediarow`): the face and the headline on one line, the notice and its answer under them. */
+.ni__item {
+  position: relative;
+  padding: 12px 12px 14px;
+  animation: ni-fade 0.3s both;
+}
+.ni__item + .ni__item {
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+/* Room for the × beside the headline's line. */
+.ni__title {
+  padding-right: 26px;
+  color: var(--ink-muted);
+}
+.ni__title b {
+  color: var(--ink);
+  font-weight: 650;
+}
+.ni__text {
+  display: -webkit-box;
+  font-size: 14px;
+  line-height: 1.42;
+  color: var(--ink2);
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ni__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+/* Only buttons (no answers to pick): they end the notice at its right edge, where the × above ends. */
+.ni__acts:not(:has(.ni__choice)) {
+  justify-content: flex-end;
+}
+/* Choices can be whole sentences: each grows with its text and wraps inside the card. They are buttons, so the
+   ruler's small corner (30% of 32), not a pill. */
+.ni__choice {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: var(--control-h-sm);
+  padding: 6px 14px;
+  border-radius: var(--control-r-sm);
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: normal;
+  text-align: left;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.ni__choice:hover {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+html:not([data-pointer]) .ni__choice:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.ni__choice:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ni__reply {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 12px;
+  border-radius: 14px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+}
+.ni__reply:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.ni__reply input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+.ni__reply input::placeholder {
+  color: var(--faint);
+}
+.ni__done {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--ok);
+}
+.ni__failed {
+  margin: 0;
+  font-size: 13px;
+  color: var(--danger);
+}
+/* Why it takes no answer (the workspace is being deleted), where the answer would go. */
+.ni__readonly {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.42;
+  color: var(--ink2);
+}
+.ni__x {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+.ni__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 18px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+.ni__all {
+  color: var(--ink2);
+  font-weight: 600;
+  text-decoration: none;
+}
+.ni__all:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+.ni__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 720px) {
+  .ni--open {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ni,
+  .ni--leaving,
+  .ni__pill > *,
+  .ni__pill > *:not(.ni__line),
+  .ni__see.ac-btn,
+  .ni__item {
+    animation: none;
+  }
+}

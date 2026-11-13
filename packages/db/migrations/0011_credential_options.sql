@@ -1,0 +1,1 @@
+ALTER TABLE "provider_credentials" ADD COLUMN "options" jsonb DEFAULT '{}'::jsonb NOT NULL;

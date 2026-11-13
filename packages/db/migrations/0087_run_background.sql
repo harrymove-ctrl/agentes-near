@@ -1,0 +1,1 @@
+ALTER TABLE "agent_runs" ADD COLUMN "background" boolean DEFAULT false NOT NULL;

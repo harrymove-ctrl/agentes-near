@@ -1,0 +1,7 @@
+/* cascadeorder's self-test, with fixture-a.css. */
+.bad-cascadeorder {
+  padding-left: 8px;
+}
+.good-cascadeorder {
+  padding-left: 8px;
+}

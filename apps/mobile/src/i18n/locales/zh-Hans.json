@@ -1,0 +1,159 @@
+{
+  "common": {
+    "back": "返回",
+    "cancel": "取消",
+    "close": "关闭",
+    "continue": "继续",
+    "done": "完成",
+    "retry": "重试",
+    "loading": "正在加载",
+    "or": "或"
+  },
+  "auth": {
+    "skyLabel": "有智能体的天空",
+    "social": {
+      "failed": "暂时无法登录，请重试。",
+      "unfinished": "登录没有完成。请重试，或使用邮箱登录。"
+    },
+    "errors": {
+      "network": "没有网络连接。请检查网络后重试。",
+      "generic": "出了点问题，请重试。",
+      "offlineRetry": "现在没有网络。网络恢复后我会马上继续。"
+    },
+    "flow": {
+      "email": "你的邮箱是什么？",
+      "emailLead": "用于登录或创建账号。",
+      "signUp": "很高兴认识你。团队怎么称呼你？"
+    },
+    "server": {
+      "line": "服务器：{{host}} ·",
+      "change": "更改",
+      "title": "你的 agentes.chat 在哪里？",
+      "subtitle": "你的团队在浏览器中打开的地址。",
+      "label": "服务器地址",
+      "placeholder": "agentes.yourteam.ts.net",
+      "use": "使用此服务器",
+      "checking": "正在检查…",
+      "scan": "扫描二维码",
+      "backTo": "返回 {{host}}",
+      "footChange": "更改",
+      "footChoose": "服务器和语言",
+      "footServer": "其他服务器",
+      "footLanguage": "语言",
+      "footTeam": "使用你团队的服务器？",
+      "footTeamAction": "通过它登录",
+      "footOn": "登录到 {{host}}",
+      "footSwitch": "更改",
+      "now": "当前在 {{host}}",
+      "invalid": "请检查地址，格式类似 agentes.yourteam.ts.net。",
+      "unreachable": "无法连接到 {{host}}。请检查地址和网络连接后重试。",
+      "unreachableTailscale": "无法连接 {{host}}。它在 Tailscale 上：打开 Tailscale 应用，连接后再试一次。已经连接了？服务器所在的电脑可能在睡眠，或者应用已关闭。",
+      "certificate": "{{host}} 的证书无效。请联系服务器的管理者。",
+      "notAgentes": "{{host}} 不是 agentes.chat 服务器。请检查地址。",
+      "serverTooOld": "{{host}} 需要更新才能配合此应用使用。",
+      "appTooOld": "请更新 agentes 应用以使用 {{host}}。",
+      "down": {
+        "line": "{{host}} 没有响应。",
+        "text": "它可能已停机，或不在你的网络中。恢复后应用会自动打开。",
+        "tryNow": "立即重试",
+        "switchServer": "更换服务器",
+        "retryIn_other": "{{count}} 秒后重试"
+      }
+    },
+    "connect": {
+      "title": "连接到此服务器？",
+      "titleSignIn": "使用电脑上的账号登录？",
+      "on": "服务器：{{host}}",
+      "leave": "你将在这台手机上退出当前账号。",
+      "confirm": "连接",
+      "notNow": "以后再说",
+      "checking": "正在检查服务器…",
+      "notALink": "此链接不是来自 agentes.chat 服务器。",
+      "tokenFailed": "验证码已过期或已被使用。请用邮箱登录，或在电脑上显示新的验证码。",
+      "signInSlow": "登录时间比预期长。请用邮箱登录，或在电脑上显示新的验证码。"
+    },
+    "scan": {
+      "hint": "对准电脑上的二维码",
+      "typeAddress": "输入地址",
+      "notOurs": "此二维码不是来自 agentes.chat 服务器。",
+      "cameraTitle": "使用相机",
+      "cameraText": "仅用于读取二维码。",
+      "allow": "允许使用相机",
+      "settings": "打开设置"
+    }
+  },
+  "org": {
+    "noneTitle": "你还没有加入工作区",
+    "noneSubtitle": "请团队成员邀请你，或在网站上创建工作区。",
+    "openSite": "打开网站",
+    "signOut": "退出登录"
+  },
+  "account": {
+    "deleteFailed": "暂时无法删除你的账号，请重试。",
+    "deleted": "你的账号将于 {{date}} 永久消失。在此之前登录即可恢复。",
+    "signedOut": "你已退出登录。"
+  },
+  "theme": {
+    "system": "跟随手机",
+    "light": "浅色",
+    "dark": "深色"
+  },
+  "push": {
+    "channel": "提醒",
+    "channelDescription": "等你处理的事、提及和对话。",
+    "offer": {
+      "line": "想在 {{name}} 完成时收到通知吗？",
+      "action": "通知我"
+    },
+    "ask": {
+      "title": "智能体需要你时，第一时间知道",
+      "text": "你忙别的事时，它们照常工作。需要你确认、完成你交代的事或叫你时，我们会通知你。",
+      "on": "开启通知",
+      "later": "以后再说",
+      "done": "通知已开启",
+      "failed": "无法开启通知。请稍后在“我 › 通知”中重试。",
+      "someone": "一个智能体",
+      "examples": "通知示例",
+      "now": "刚刚",
+      "minutes": "{{n}} 分钟",
+      "approval": {
+        "title": "{{name}} 需要你确认",
+        "body": "可以按你说的继续吗？"
+      },
+      "finished": {
+        "title": "{{name}} 已完成",
+        "body": "你要的东西准备好了。"
+      },
+      "mention": {
+        "title": "{{name}} 叫你",
+        "body": "有空的时候能看一下吗？"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}，智能体",
+    "agentWorking": "{{name}}，智能体，工作中",
+    "agentPlain": "智能体",
+    "person": "{{name}}",
+    "loading": "正在加载",
+    "grabber": "向下拖动以关闭",
+    "closeSheet": "关闭",
+    "send": "发送",
+    "attach": "附件及更多",
+    "hold": "长按以确认",
+    "clearSearch": "清除搜索"
+  },
+  "composer": {
+    "placeholder": "输入消息",
+    "join": "补充到进行中的任务",
+    "now": "停止并发送",
+    "choice": "智能体工作时如何发送",
+    "holdToStop": "长按以停止并发送"
+  },
+  "search": {
+    "placeholder": "搜索"
+  },
+  "picker": {
+    "none": "没有与“{{text}}”匹配的内容。"
+  }
+}

@@ -1,0 +1,1026 @@
+/*
+ * What a person meets right after the onboarding (ADR 0160): the beta notice, Connect an AI with the team on its
+ * stage, and the feedback form. One pixel sky for the three, with the workspace's own agents on it.
+ */
+
+/* ---------- the team on its sky ---------- */
+.team-scene {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  /* Before the first frame, and without a canvas: the night's own blue. */
+  background: #0b1330;
+}
+.team-scene > .ac-sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.team-scene__row {
+  position: absolute;
+  inset: auto 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.team-scene--tall .team-scene__row {
+  flex-direction: column-reverse;
+  gap: 16px;
+}
+.team-scene__cast {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+.team-scene__agent {
+  display: block;
+  flex: none;
+}
+.team-scene .team-scene__agent .ac-avatar {
+  width: 42px;
+  height: 42px;
+}
+.team-scene .team-scene__agent[data-lead] .ac-avatar {
+  width: 56px;
+  height: 56px;
+}
+.team-scene--tall .team-scene__agent .ac-avatar {
+  width: 52px;
+  height: 52px;
+}
+.team-scene--tall .team-scene__agent[data-lead] .ac-avatar {
+  width: 72px;
+  height: 72px;
+}
+/* Up: each one hops once, one after the other. */
+.team-scene__cast[data-awake] .team-scene__agent {
+  animation: team-hop 0.52s var(--spring) both;
+  animation-delay: calc(var(--i) * 0.12s + var(--wake, 0s));
+}
+@keyframes team-hop {
+  40% {
+    transform: translateY(-14px);
+  }
+}
+/* A plan's mark on the sky, and the pixels between it and the team: still, walking while it connects, lit once done. */
+.team-scene__mark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border-radius: var(--radius-agent);
+  background: #fff;
+  color: #151514;
+  box-shadow:
+    0 0 0 1px #0000001a,
+    0 6px 18px -6px #00000059;
+  animation: arrival-in 0.3s var(--out) both;
+}
+.team-scene__mark .ac-brand {
+  background: none;
+  box-shadow: none;
+}
+.team-scene__trail {
+  display: flex;
+  gap: 5px;
+}
+.team-scene--tall .team-scene__trail {
+  flex-direction: column-reverse;
+}
+.team-scene__trail i {
+  width: 6px;
+  height: 6px;
+  background: #ffffff40;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .team-scene__trail[data-state="walk"] i {
+    animation: team-walk 1.1s steps(1) infinite;
+    animation-delay: calc(var(--n) * 0.14s);
+  }
+}
+.team-scene__trail[data-state="done"] i {
+  background: #fff;
+}
+@keyframes team-walk {
+  0% {
+    background: #fff;
+  }
+  14% {
+    background: #ffffff99;
+  }
+  28%,
+  100% {
+    background: #ffffff40;
+  }
+}
+
+/* ---------- the dialogs ---------- */
+.ac-dialog.arrival {
+  overflow: hidden;
+}
+@keyframes arrival-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.arrival-hero {
+  position: relative;
+  flex: none;
+  height: 172px;
+}
+/* On the sky: white, whatever the theme. */
+.arrival-hero__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  color: #fff;
+}
+.arrival-hero__close:hover {
+  background: #ffffff2e;
+  color: #fff;
+}
+.arrival-lede {
+  padding: 20px var(--dialog-pad) 8px;
+}
+.arrival-lede__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.arrival-lede__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 22px;
+  text-wrap: pretty;
+}
+.arrival .ac-dialog__foot-note {
+  line-height: 18px;
+}
+.arrival .ac-dialog__foot-note .ac-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--faint);
+}
+
+/* ---------- the beta notice ---------- */
+/* The word in the dot font: an occasion of its own, like a big number. */
+.arrival-beta__word {
+  position: absolute;
+  inset: 20px 0 auto;
+  font-family: var(--font-dot);
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  text-align: center;
+  color: #fff;
+  pointer-events: none;
+}
+.arrival-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 6px 0 4px;
+  list-style: none;
+}
+/* An `.ac-iconline`: the icon on the title's line, never centered against the two lines. */
+.arrival-points li {
+  gap: 12px;
+}
+.arrival-points .ac-icon {
+  color: var(--muted);
+}
+.arrival-points b {
+  display: block;
+  font-weight: 600;
+}
+.arrival-points span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+  text-wrap: pretty;
+}
+
+/* ---------- Connect an AI, with the team on its stage ---------- */
+.ac-dialog.arrival-connect {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 548px;
+}
+.arrival-stage {
+  position: relative;
+  min-height: 0;
+}
+.arrival-stage__cap {
+  position: absolute;
+  inset: 22px 22px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #fff;
+  pointer-events: none;
+}
+.arrival-stage__cap b {
+  font-size: 19px;
+  font-weight: 650;
+  line-height: 25px;
+  text-wrap: balance;
+}
+.arrival-stage__cap span {
+  font-size: 14px;
+  line-height: 20px;
+  opacity: 0.86;
+  text-wrap: pretty;
+}
+.arrival-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+.arrival-main > .ac-dialog__body {
+  flex: 1 1 auto;
+}
+.arrival-main__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap);
+}
+.arrival-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* From a conversation (ADR 0160, addendum): every screen is the sky with who wakes, the title, one thing in the middle
+   (the accounts, the choices, or one instruction) and a footer that is always the same: a note on one line at its
+   start, the secondary action and the main one at its end, as tall as each other. */
+.arrival-chat .arrival-hero {
+  height: 132px;
+}
+.arrival-lede--row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding-bottom: 12px;
+}
+/* The arrow on the title's line: the small button is taller than the title's 28px line, so it is pulled over it. */
+.arrival-lede--row > .ac-btn {
+  flex: none;
+  margin-block: calc((28px - var(--control-h-sm)) / 2);
+  margin-inline-start: -8px;
+}
+.arrival-lede--row .arrival-lede__title {
+  margin-bottom: 0;
+}
+.arrival-main__pick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arrival-opts__label {
+  margin: 8px 2px 0;
+  color: var(--ink-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.arrival-opts__label:first-child {
+  margin-top: 0;
+}
+
+/* The footer: buttons of one height; its note never wraps (a longer thing belongs under the instruction). */
+.arrival-chat .ac-dialog__foot {
+  flex-wrap: nowrap;
+}
+.arrival-chat .ac-dialog__foot .ac-btn {
+  height: 40px;
+}
+.arrival-chat .ac-dialog__foot-note {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.arrival-chat .ac-dialog__foot-note .ac-iconline > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.arrival-chat .ac-dialog__foot-acts {
+  flex-wrap: nowrap;
+}
+/* On a phone the dialog is a sheet with buttons as wide as it: the note takes the line over them, whole. */
+@media (max-width: 640px) {
+  .arrival-chat .ac-dialog__foot {
+    flex-wrap: wrap;
+  }
+  .arrival-chat .ac-dialog__foot-note {
+    flex-basis: 100%;
+    white-space: normal;
+  }
+}
+/* A plan's own actions in the dialog's footer: gone while the plan has none to offer. */
+.arrival-chat__acts:empty {
+  display: none;
+}
+/* With no footer under it, the body keeps the dialog's own edge at its foot. */
+.arrival-chat > .ac-dialog__body:last-child,
+.arrival-chat > .ac-dialog__body:has(+ .arrival-chat__acts:empty) {
+  padding-bottom: var(--dialog-pad);
+}
+
+/* Whom it is for: two cards side by side, the faces over the name. */
+.arrival-for {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.arrival-for .ac-option {
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.arrival-for .ac-option__text {
+  min-width: 0;
+}
+.arrival-for .ac-option__desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* For the whole team (ADR 0160, addendum): one line says for whom (their faces, how many, the way to pick), then the
+   AIs as the list. Past four agents the sky says how many more. */
+.team-scene__more {
+  flex: none;
+  align-self: center;
+  margin-inline-start: -4px;
+  color: #fff;
+  font-family: var(--font-dot);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+.arrival-forline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 6px;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+.arrival-forline > b {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.arrival-forline__pick {
+  flex: none;
+  margin-inline-start: auto;
+  font-size: 13.5px;
+}
+/* A plan that asks for one login per agent there: said at its card's end, quietly. */
+.arrival-opts__tag--quiet {
+  color: var(--ink-muted);
+}
+/* Whom of them: one row each, a long name whole (it wraps, never cut; ADR 0160 addendum) with the box and the face on
+   its first line, the list scrolling inside the dialog and fading at its foot, as every account's does. */
+.arrival-picks {
+  display: flex;
+  flex-direction: column;
+  max-height: 296px;
+  overflow-y: auto;
+  margin: 0 -6px;
+  padding: 0 6px 18px;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent), var(--scroll-strip);
+  mask-image: linear-gradient(#000 calc(100% - 28px), transparent), var(--scroll-strip);
+}
+.arrival-pick {
+  display: grid;
+  grid-template-columns: 18px 24px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  min-height: 44px;
+  padding: 10px 2px;
+  font-size: 15px;
+  line-height: 24px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+.arrival-pick:first-child {
+  border-top: 0;
+}
+/* The box on the name's first line (`.ac-iconline` centres it on the row's 24px line): none of the kit's own nudge, and
+   that line as its own, which the centring measures. */
+.arrival-pick > .ac-check {
+  margin: 0;
+  line-height: inherit;
+}
+.arrival-pick__name {
+  overflow-wrap: anywhere;
+}
+/* One instruction at a time (one login per agent in turn, and who woke): how far along, what to do, the help under
+   it, then every agent's face in order. Left on the title's edge. */
+.ai-turn,
+.ai-turn__words {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.ai-turn {
+  padding: 4px 0 10px;
+}
+.ai-turn__count {
+  color: var(--ink-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.ai-turn__title {
+  margin: 0;
+  max-width: 440px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+  text-wrap: pretty;
+}
+.ai-turn__help {
+  max-width: 440px;
+  color: var(--ink-muted);
+  font-size: 14.5px;
+  line-height: 21px;
+  text-wrap: pretty;
+}
+.ai-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ai-strip__face {
+  position: relative;
+  display: inline-flex;
+  border-radius: var(--radius-agent);
+}
+.ai-strip__face[data-state="next"] {
+  opacity: 0.38;
+}
+.ai-strip__face[data-state="now"] > .ac-avatar {
+  box-shadow:
+    0 0 0 2px var(--raised),
+    0 0 0 4px var(--ink);
+}
+.ai-strip__badge {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--raised);
+  box-shadow: 0 0 0 2px var(--raised);
+}
+.ai-strip__badge .ac-icon {
+  width: 10px;
+  height: 10px;
+}
+.ai-strip__face[data-state="failed"] .ai-strip__badge {
+  background: var(--attention);
+  color: #fff;
+}
+/* Whom they answer, over a hairline under who woke: the icon on the first line, the way to change it in the words. */
+.ai-aud {
+  align-self: stretch;
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+.ai-aud > .ac-icon {
+  color: var(--faint);
+}
+/* The words, the way to change them and the ⓘ in one flow of text: the ⓘ sits on the words' capitals (the kit's
+   inline hint), wherever the line wraps. */
+.ai-aud__text {
+  flex: 1;
+  min-width: 0;
+}
+.agp-addacct__starting {
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+/* What is already connected. A row: the radio, the mark, the name and how full the plan is on one line; who else
+   thinks with it and its state in words under the name. */
+.arrival-have {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arrival-have__row {
+  display: grid;
+  grid-template-columns: 18px 20px minmax(0, 1fr) auto;
+  column-gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border-radius: 16px 16px 16px 6px;
+  background: var(--surface-raised);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+}
+.arrival-have__row[data-state="checked"] {
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.arrival-have__row[data-disabled] {
+  opacity: 0.55;
+  cursor: default;
+}
+.arrival-have__row > .ac-radio {
+  margin-top: 1px;
+}
+.arrival-have__row > .ac-brand,
+.arrival-have__mark {
+  width: 20px;
+  height: 20px;
+}
+.arrival-have__mark {
+  padding: 2px;
+  box-sizing: border-box;
+  color: var(--ink);
+}
+.arrival-have__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.arrival-have__title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+.arrival-have__line {
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+/* The state is the words; the colour only follows them. */
+.arrival-have__line[data-plan="almost"] {
+  color: var(--attention);
+}
+/* The bar and its number share the title's line, so a row with no second line is still one line tall. */
+.arrival-have__room {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  line-height: 20px;
+}
+.arrival-have__pct {
+  min-width: 34px;
+  text-align: end;
+}
+.arrival-have__room[data-plan="almost"] .arrival-have__pct {
+  color: var(--attention);
+}
+.arrival-have__meter {
+  display: block;
+  width: 64px;
+  height: 6px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  overflow: hidden;
+}
+.arrival-have__meter i {
+  display: block;
+  width: var(--used);
+  height: 100%;
+  border-radius: 3px;
+  background: var(--ink-muted);
+}
+.arrival-have__room[data-plan="almost"] .arrival-have__meter i {
+  background: var(--attention);
+}
+.arrival-have__room[data-plan="limited"] .arrival-have__meter i {
+  background: var(--faint);
+}
+/* A way on from the list: every account, or another AI. */
+.arrival-have__link {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) 16px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 0;
+  background: none;
+  color: var(--ink2, var(--ink));
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+.arrival-have__link:hover {
+  color: var(--ink);
+}
+.arrival-have__link > .ac-icon:last-child {
+  color: var(--faint);
+}
+.arrival-have__link--other {
+  margin-top: 0;
+  border-top: 1px solid var(--line);
+}
+html:not([data-pointer]) .arrival-have__link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* Every account: the search stays, the list scrolls inside the dialog and fades at its foot. */
+.arrival-have__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: var(--surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--faint);
+}
+.arrival-have__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+}
+.arrival-have__search:focus-within {
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.arrival-have__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 304px;
+  overflow-y: auto;
+  margin: 0 -6px;
+  padding: 2px 6px 18px;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent), var(--scroll-strip);
+  mask-image: linear-gradient(#000 calc(100% - 28px), transparent), var(--scroll-strip);
+}
+.arrival-have__none {
+  margin: 12px 2px;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+/* A plan's or a key's panel is the dialog's own content here, not a card inside it: no face, no edge; its words start
+   on the title's edge, with no icon leading a line of them. */
+.arrival-chat .ai-panel {
+  --card-pad: 0px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.arrival-chat .ai-panel > .ac-card__foot {
+  padding-block: 12px 0;
+}
+/* With no card's padding round it, a note keeps its own line: trimmed to its capitals (layout.css) it would stand past
+   the panel, and the dialog's body would scroll by that much. */
+.arrival-chat .ai-panel--plan > .ac-setnote {
+  margin-block: 0;
+}
+.arrival-chat .ai-panel .setup-line.ac-iconline > .ac-icon:first-child {
+  display: none;
+}
+/* One instruction at a time: the step's title is what to do, its line under it the help. */
+.arrival-chat .agp-addacct__text b {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+}
+/*
+ * A tile beside a title and its one line: the two lines as a block on the tile's middle, and what ends the card (the
+ * chevron, "No subscription") on the same middle, so the three share one centre. Each card holds only these, never a
+ * list ("Another plan" opens into cards of their own).
+ */
+.arrival-opts .ac-option {
+  align-items: center;
+  width: 100%;
+}
+.arrival-opts .ac-option > .ac-option__text {
+  flex: 1;
+}
+/* One line under each title, so every card is the same height: a long list of plans ends in an ellipsis. */
+.arrival-opts .ac-option__text {
+  min-width: 0;
+}
+.arrival-opts .ac-option__desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* What ends a card stays on its middle, beside both lines. */
+.arrival-opts__end {
+  flex: none;
+  align-self: center;
+  color: var(--faint);
+}
+.arrival-opts__tag {
+  flex: none;
+  align-self: center;
+  color: var(--ok);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.arrival-opts__tile {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  box-sizing: border-box;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--raised);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--top);
+}
+/* Four marks in one tile: the other plans. */
+.arrival-opts__tile--four {
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  padding: 8px;
+}
+@media (max-width: 760px) {
+  .ac-dialog.arrival-connect {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 150px minmax(0, 1fr);
+    min-height: 0;
+  }
+  .arrival-stage__cap {
+    display: none;
+  }
+  .arrival-connect .team-scene--tall .team-scene__row {
+    flex-direction: row;
+  }
+  .arrival-connect .team-scene--tall .team-scene__trail {
+    flex-direction: row;
+  }
+  .arrival-connect .team-scene--tall .team-scene__agent .ac-avatar {
+    width: 42px;
+    height: 42px;
+  }
+  .arrival-connect .team-scene--tall .team-scene__agent[data-lead] .ac-avatar {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* ---------- feedback ---------- */
+.arrival-feedback .arrival-hero {
+  height: 132px;
+}
+.arrival-feedback .team-scene__row {
+  bottom: 14px;
+  gap: 10px;
+  align-items: flex-end;
+}
+.arrival-feedback .team-scene__agent .ac-avatar,
+.arrival-feedback .team-scene__agent[data-lead] .ac-avatar {
+  width: 64px;
+  height: 64px;
+}
+.arrival-envelope {
+  flex: none;
+  width: 44px;
+  height: 32px;
+  margin-bottom: 6px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 0 #0000001f);
+  animation: arrival-bob 2.4s ease-in-out infinite;
+}
+@keyframes arrival-bob {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+/* Sent: it flies off from where it stood. */
+.arrival-envelope[data-sent] {
+  position: absolute;
+  bottom: 20px;
+  left: calc(50% + 42px);
+  margin: 0;
+  animation: arrival-fly 1s cubic-bezier(0.4, 0, 0.7, 0.4) both;
+}
+@keyframes arrival-fly {
+  to {
+    opacity: 0;
+    transform: translate(190px, -120px) rotate(-14deg) scale(0.7);
+  }
+}
+.arrival-feedback__text {
+  min-height: 112px;
+  resize: vertical;
+}
+
+/* What the feedback is about: its name, then its words behind a rule, as a quote. No box inside the dialog. */
+.arrival-about {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.arrival-about__title {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.arrival-about__text {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 100%;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--line2);
+  color: var(--ink2);
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+.arrival-about__drop {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-color: var(--line2);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.arrival-about__drop:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+/* The files added: a small picture, the name, the size, and the way to take each out. Rows, no tiles. */
+.arrival-files {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.arrival-files li {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 0;
+}
+.arrival-files li + li {
+  border-top: 1px solid var(--line);
+}
+.arrival-files__thumb {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.arrival-files__name {
+  overflow: hidden;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.arrival-files__size {
+  display: inline-flex;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+/* The button over its line of limits, both on the form's left edge: the button's own padding is taken back, so its
+   icon starts where the field and the words under it do. */
+.arrival-feedback__attach {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+}
+.arrival-feedback__attach > .ac-btn {
+  margin-left: -12px;
+}
+.arrival-feedback__limits {
+  color: var(--faint);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* The way to the feedback form: a quiet row at the sidebar's bottom, over its foot when it has one. */
+.sidebar__feedback {
+  flex: none;
+  margin-top: auto;
+}
+.sidebar__feedback + .sidebar__foot {
+  margin-top: 0;
+}
+.sidebar__feedback > .sidebar__item {
+  color: var(--muted);
+}
+.sidebar__feedback > .sidebar__item > .ac-icon {
+  color: inherit;
+}
+.sidebar__feedback .ac-chip {
+  margin-left: auto;
+}
+
+/* A screen that changes slides in from the side it comes from (deeper ones from the end), its title with it; who is
+   signing in now moves along the faces, and a check or a mark pops onto a face as it lands. */
+@media (prefers-reduced-motion: no-preference) {
+  .arrival-swap[data-dir="fwd"] {
+    animation: arrival-swap-fwd 0.26s var(--out) both;
+  }
+  .arrival-swap[data-dir="back"] {
+    animation: arrival-swap-back 0.26s var(--out) both;
+  }
+  .ai-strip__face {
+    transition:
+      opacity 0.3s var(--out),
+      box-shadow 0.3s var(--out);
+  }
+  .ai-strip__badge {
+    animation: ai-badge-in 0.34s var(--spring) both;
+  }
+  .team-scene__more {
+    animation: arrival-in 0.3s var(--out) both;
+  }
+}
+@keyframes arrival-swap-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+@keyframes arrival-swap-back {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+@keyframes ai-badge-in {
+  from {
+    transform: scale(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-scene__cast[data-awake] .team-scene__agent,
+  .team-scene__trail i,
+  .team-scene__mark,
+  .arrival-envelope {
+    animation: none;
+  }
+  .arrival-envelope[data-sent] {
+    display: none;
+  }
+}

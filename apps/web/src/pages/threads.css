@@ -1,0 +1,314 @@
+/*
+ * Threads: header, tabs, search and filters, one row per
+ * thread in aligned columns (stacked cards on a phone, by container query),
+ * the floating selection bar (Drive's) and the details panel (Rotinas').
+ * Neutral selection (ink and gray); brand blue only on agents' avatars.
+ */
+.threads {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+.threads__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  container: threads / inline-size;
+}
+
+/* Out over the page's side room: where the tabs scroll, they slide under the work area's edges. */
+.threads-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(-1 * var(--page-x));
+  padding: 2px var(--page-x);
+}
+.threads-tabs::-webkit-scrollbar {
+  display: none;
+}
+/* One toolbar: search, filter menus and toggles share a height (36), the pill radius and the field look. */
+.threads-note {
+  flex-wrap: wrap;
+  margin: -4px 4px 0;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.threads-note b {
+  color: var(--ink2);
+  font-weight: 600;
+}
+.threads-more {
+  align-self: center;
+}
+
+/* ── Rows ────────────────────────────────────────────────────────────────
+ * Grouped by channel; one line each: who carries it, title + last line, then
+ * fixed columns (tag right-aligned, people, time) so they line up row to row.
+ */
+.threads-group__chev {
+  transition: transform 0.15s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .threads-group__chev {
+    transition: none;
+  }
+}
+.threads-group__head [aria-expanded="false"] .threads-group__chev {
+  transform: rotate(-90deg);
+}
+.thread-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: var(--row-py) 16px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.thread-row:first-child {
+  border-top: 0;
+}
+/* The faces in a row are ringed in the row's own ground (`--stack-ring`), which follows its plate: the page's ring
+   drew a lighter circle around them on the darker open row in dark. */
+.thread-row {
+  --stack-ring: var(--raised);
+}
+.thread-row:hover {
+  --stack-ring: color-mix(in srgb, var(--sunken) 45%, var(--raised));
+  background: var(--stack-ring);
+}
+.thread-row.is-open {
+  --stack-ring: color-mix(in srgb, var(--sunken) 80%, var(--raised));
+  background: var(--stack-ring);
+}
+.thread-row.is-picked {
+  --stack-ring: color-mix(in srgb, var(--ink) 4%, var(--raised));
+  background: var(--stack-ring);
+}
+.thread-row__lead {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+}
+.thread-row__face {
+  display: grid;
+  place-items: center;
+  transition: opacity 0.12s;
+}
+.thread-row__check {
+  position: absolute;
+  inset: 5px;
+  opacity: 0;
+}
+.thread-row:hover .thread-row__check,
+.thread-row__check:focus-visible,
+.thread-row.is-picked .thread-row__check,
+.threads-groups[data-selecting] .thread-row__check {
+  opacity: 1;
+}
+.thread-row:hover .thread-row__face,
+.thread-row:has(.thread-row__check:focus-visible) .thread-row__face,
+.thread-row.is-picked .thread-row__face,
+.threads-groups[data-selecting] .thread-row__face {
+  opacity: 0;
+}
+.thread-row__title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.thread-row__name {
+  flex: none;
+  max-width: 55%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.thread-row[data-dim] .thread-row__name {
+  color: var(--muted);
+  font-weight: 500;
+}
+html:not([data-pointer]) .thread-row__name:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+.thread-row__last {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+.thread-row__last b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.thread-row__end {
+  position: relative;
+  display: grid;
+  grid-template-columns: 168px 76px 64px;
+  align-items: center;
+  gap: 12px;
+}
+.thread-row__state {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+/* A button, not a label: a small control of the ruler (32, r10), not a pill. */
+.thread-row__resolved {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--control-h-sm);
+  padding: 0 var(--control-px-sm);
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+  cursor: pointer;
+}
+.thread-row__resolved:hover {
+  background: var(--sunken);
+  color: var(--ink);
+}
+html:not([data-pointer]) .thread-row__resolved:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.thread-row__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.thread-row__more {
+  font-size: 12px;
+  color: var(--faint);
+}
+.thread-row__ago {
+  justify-self: end;
+  font-size: 12.5px;
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* Hover actions sit over the time column (right-aligned), so nothing shifts. */
+.thread-row__actions {
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  gap: var(--space-2);
+  padding-left: 6px;
+  background: color-mix(in srgb, var(--sunken) 45%, var(--raised));
+}
+.thread-row.is-open .thread-row__actions {
+  background: color-mix(in srgb, var(--sunken) 80%, var(--raised));
+}
+.thread-row:hover .thread-row__actions,
+.thread-row:focus-within .thread-row__actions,
+.thread-row__actions:has([aria-expanded="true"]) {
+  display: flex;
+}
+.thread-row:hover .thread-row__ago,
+.thread-row:focus-within .thread-row__ago {
+  visibility: hidden;
+}
+@media (hover: none) {
+  .thread-row__actions {
+    display: flex;
+  }
+  /* No hover on touch: the checkbox a tap on the face reaches shows in its place. */
+  .thread-row__check {
+    opacity: 1;
+  }
+  .thread-row__face {
+    opacity: 0;
+  }
+  .thread-row__quick {
+    display: none;
+  }
+  .thread-row .thread-row__ago {
+    visibility: hidden;
+  }
+}
+
+/* Narrower: the last line drops under the title, then the people column goes. */
+@container threads (max-width: 1000px) {
+  /* Two lines beside the 28px face: a face line. The face on the row's top, the name's capitals on its top edge (the
+     kit's `.ac-captop` rise on the name's 20px line), and the state and time centred on the name's line (whose middle
+     the rise puts at the capitals' top), not on the row's. 3px more on top keeps a 32px "Resolved" inside the row. */
+  .thread-row {
+    align-items: start;
+    padding-top: 11px;
+  }
+  .thread-row__title {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+  .thread-row__name {
+    max-width: 100%;
+    line-height: 20px;
+    margin-top: calc(var(--cap-top) - 10px);
+  }
+  .thread-row__end {
+    grid-template-columns: 168px 64px;
+    translate: 0 calc(var(--cap-top) - 50%);
+  }
+  .thread-row__who {
+    display: none;
+  }
+}
+@container threads (max-width: 640px) {
+  .thread-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: start;
+    padding: 10px 12px;
+  }
+  /* Under the words now, on a line of its own. */
+  .thread-row__end {
+    grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    translate: none;
+  }
+  .thread-row__state {
+    justify-content: flex-start;
+  }
+  .thread-row__state:empty {
+    display: none;
+  }
+  .thread-row__actions {
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,10 @@
+/* cascadeorder's self-test: linked after the app's CSS in frame.html and before it in frame-rev.html (check.ts). An
+   unlayered tie with fixture-b.css changes with the order; a rule in the app's layer always loses to it. */
+.bad-cascadeorder {
+  padding-left: 4px;
+}
+@layer base {
+  .good-cascadeorder {
+    padding-left: 4px;
+  }
+}

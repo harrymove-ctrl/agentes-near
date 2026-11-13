@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Acme · Dashboard</title>
+<style>
+body{font-family:-apple-system,Helvetica,sans-serif;margin:0;color:#222}
+header{padding:12px 16px;border-bottom:1px solid #ddd;position:relative}
+nav a{margin-right:14px}
+#gear{position:absolute;right:16px;top:6px;width:38px;height:38px;border:1px solid #ccc;border-radius:8px;background:#fff;padding:7px}
+main{max-width:720px;margin:28px auto;padding:0 16px}
+table{border-collapse:collapse;width:100%;margin:12px 0 20px}
+td,th{border-bottom:1px solid #eee;padding:8px;text-align:left}
+</style></head>
+<body>
+<header>
+  <nav><a href="/dashboard.html">Acme</a> <a href="/orders.html">Orders</a> <a href="/dashboard.html">Invoices</a></nav>
+  <button id="gear"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#333" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+</header>
+<main>
+  <h1>Dashboard</h1>
+  <p>Welcome back, Ana. You have 150 invoices this quarter.</p>
+  <button id="export">Export</button> <span id="status" role="status"></span>
+  <table>
+    <caption>Invoices</caption>
+    <thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr><td>Invoice 1000</td><td>Customer A0</td><td>R$ 10,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1001</td><td>Customer B1</td><td>R$ 47,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1002</td><td>Customer C2</td><td>R$ 84,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1003</td><td>Customer D3</td><td>R$ 121,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1004</td><td>Customer E4</td><td>R$ 158,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1005</td><td>Customer F5</td><td>R$ 195,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1006</td><td>Customer G6</td><td>R$ 232,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1007</td><td>Customer H7</td><td>R$ 269,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1008</td><td>Customer I8</td><td>R$ 306,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1009</td><td>Customer J9</td><td>R$ 343,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1010</td><td>Customer K10</td><td>R$ 380,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1011</td><td>Customer L11</td><td>R$ 417,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1012</td><td>Customer M12</td><td>R$ 454,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1013</td><td>Customer N13</td><td>R$ 491,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1014</td><td>Customer O14</td><td>R$ 528,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1015</td><td>Customer P15</td><td>R$ 565,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1016</td><td>Customer Q16</td><td>R$ 602,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1017</td><td>Customer R17</td><td>R$ 639,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1018</td><td>Customer S18</td><td>R$ 676,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1019</td><td>Customer T19</td><td>R$ 713,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1020</td><td>Customer U20</td><td>R$ 750,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1021</td><td>Customer V21</td><td>R$ 787,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1022</td><td>Customer W22</td><td>R$ 824,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1023</td><td>Customer X23</td><td>R$ 861,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1024</td><td>Customer Y24</td><td>R$ 898,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1025</td><td>Customer Z25</td><td>R$ 35,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1026</td><td>Customer A26</td><td>R$ 72,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1027</td><td>Customer B27</td><td>R$ 109,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1028</td><td>Customer C28</td><td>R$ 146,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1029</td><td>Customer D29</td><td>R$ 183,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1030</td><td>Customer E30</td><td>R$ 220,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1031</td><td>Customer F31</td><td>R$ 257,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1032</td><td>Customer G32</td><td>R$ 294,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1033</td><td>Customer H33</td><td>R$ 331,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1034</td><td>Customer I34</td><td>R$ 368,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1035</td><td>Customer J35</td><td>R$ 405,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1036</td><td>Customer K36</td><td>R$ 442,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1037</td><td>Customer L37</td><td>R$ 479,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1038</td><td>Customer M38</td><td>R$ 516,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1039</td><td>Customer N39</td><td>R$ 553,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1040</td><td>Customer O40</td><td>R$ 590,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1041</td><td>Customer P41</td><td>R$ 627,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1042</td><td>Customer Q42</td><td>R$ 664,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1043</td><td>Customer R43</td><td>R$ 701,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1044</td><td>Customer S44</td><td>R$ 738,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1045</td><td>Customer T45</td><td>R$ 775,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1046</td><td>Customer U46</td><td>R$ 812,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1047</td><td>Customer V47</td><td>R$ 849,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1048</td><td>Customer W48</td><td>R$ 886,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1049</td><td>Customer X49</td><td>R$ 23,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1050</td><td>Customer Y50</td><td>R$ 60,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1051</td><td>Customer Z51</td><td>R$ 97,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1052</td><td>Customer A52</td><td>R$ 134,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1053</td><td>Customer B53</td><td>R$ 171,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1054</td><td>Customer C54</td><td>R$ 208,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1055</td><td>Customer D55</td><td>R$ 245,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1056</td><td>Customer E56</td><td>R$ 282,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1057</td><td>Customer F57</td><td>R$ 319,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1058</td><td>Customer G58</td><td>R$ 356,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1059</td><td>Customer H59</td><td>R$ 393,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1060</td><td>Customer I60</td><td>R$ 430,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1061</td><td>Customer J61</td><td>R$ 467,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1062</td><td>Customer K62</td><td>R$ 504,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1063</td><td>Customer L63</td><td>R$ 541,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1064</td><td>Customer M64</td><td>R$ 578,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1065</td><td>Customer N65</td><td>R$ 615,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1066</td><td>Customer O66</td><td>R$ 652,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1067</td><td>Customer P67</td><td>R$ 689,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1068</td><td>Customer Q68</td><td>R$ 726,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1069</td><td>Customer R69</td><td>R$ 763,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1070</td><td>Customer S70</td><td>R$ 800,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1071</td><td>Customer T71</td><td>R$ 837,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1072</td><td>Customer U72</td><td>R$ 874,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1073</td><td>Customer V73</td><td>R$ 11,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1074</td><td>Customer W74</td><td>R$ 48,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1075</td><td>Customer X75</td><td>R$ 85,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1076</td><td>Customer Y76</td><td>R$ 122,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1077</td><td>Customer Z77</td><td>R$ 159,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1078</td><td>Customer A78</td><td>R$ 196,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1079</td><td>Customer B79</td><td>R$ 233,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1080</td><td>Customer C80</td><td>R$ 270,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1081</td><td>Customer D81</td><td>R$ 307,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1082</td><td>Customer E82</td><td>R$ 344,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1083</td><td>Customer F83</td><td>R$ 381,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1084</td><td>Customer G84</td><td>R$ 418,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1085</td><td>Customer H85</td><td>R$ 455,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1086</td><td>Customer I86</td><td>R$ 492,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1087</td><td>Customer J87</td><td>R$ 529,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1088</td><td>Customer K88</td><td>R$ 566,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1089</td><td>Customer L89</td><td>R$ 603,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1090</td><td>Customer M90</td><td>R$ 640,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1091</td><td>Customer N91</td><td>R$ 677,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1092</td><td>Customer O92</td><td>R$ 714,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1093</td><td>Customer P93</td><td>R$ 751,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1094</td><td>Customer Q94</td><td>R$ 788,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1095</td><td>Customer R95</td><td>R$ 825,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1096</td><td>Customer S96</td><td>R$ 862,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1097</td><td>Customer T97</td><td>R$ 899,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1098</td><td>Customer U98</td><td>R$ 36,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1099</td><td>Customer V99</td><td>R$ 73,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1100</td><td>Customer W100</td><td>R$ 110,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1101</td><td>Customer X101</td><td>R$ 147,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1102</td><td>Customer Y102</td><td>R$ 184,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1103</td><td>Customer Z103</td><td>R$ 221,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1104</td><td>Customer A104</td><td>R$ 258,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1105</td><td>Customer B105</td><td>R$ 295,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1106</td><td>Customer C106</td><td>R$ 332,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1107</td><td>Customer D107</td><td>R$ 369,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1108</td><td>Customer E108</td><td>R$ 406,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1109</td><td>Customer F109</td><td>R$ 443,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1110</td><td>Customer G110</td><td>R$ 480,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1111</td><td>Customer H111</td><td>R$ 517,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1112</td><td>Customer I112</td><td>R$ 554,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1113</td><td>Customer J113</td><td>R$ 591,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1114</td><td>Customer K114</td><td>R$ 628,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1115</td><td>Customer L115</td><td>R$ 665,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1116</td><td>Customer M116</td><td>R$ 702,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1117</td><td>Customer N117</td><td>R$ 739,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1118</td><td>Customer O118</td><td>R$ 776,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1119</td><td>Customer P119</td><td>R$ 813,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1120</td><td>Customer Q120</td><td>R$ 850,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1121</td><td>Customer R121</td><td>R$ 887,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1122</td><td>Customer S122</td><td>R$ 24,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1123</td><td>Customer T123</td><td>R$ 61,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1124</td><td>Customer U124</td><td>R$ 98,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1125</td><td>Customer V125</td><td>R$ 135,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1126</td><td>Customer W126</td><td>R$ 172,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1127</td><td>Customer X127</td><td>R$ 209,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1128</td><td>Customer Y128</td><td>R$ 246,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1129</td><td>Customer Z129</td><td>R$ 283,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1130</td><td>Customer A130</td><td>R$ 320,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1131</td><td>Customer B131</td><td>R$ 357,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1132</td><td>Customer C132</td><td>R$ 394,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1133</td><td>Customer D133</td><td>R$ 431,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1134</td><td>Customer E134</td><td>R$ 468,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1135</td><td>Customer F135</td><td>R$ 505,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1136</td><td>Customer G136</td><td>R$ 542,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1137</td><td>Customer H137</td><td>R$ 579,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1138</td><td>Customer I138</td><td>R$ 616,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1139</td><td>Customer J139</td><td>R$ 653,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1140</td><td>Customer K140</td><td>R$ 690,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1141</td><td>Customer L141</td><td>R$ 727,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1142</td><td>Customer M142</td><td>R$ 764,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1143</td><td>Customer N143</td><td>R$ 801,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1144</td><td>Customer O144</td><td>R$ 838,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1145</td><td>Customer P145</td><td>R$ 875,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1146</td><td>Customer Q146</td><td>R$ 12,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1147</td><td>Customer R147</td><td>R$ 49,00</td><td>paid</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1148</td><td>Customer S148</td><td>R$ 86,00</td><td>open</td><td><button>Edit</button> <button>Delete</button></td></tr>
+      <tr><td>Invoice 1149</td><td>Customer T149</td><td>R$ 123,00</td><td>late</td><td><button>Edit</button> <button>Delete</button></td></tr>
+    </tbody>
+  </table>
+  <section aria-label="Activity"><h2>Activity</h2><ul>
+    <li>Activity 0: invoice 1000 was viewed by a teammate 0 hours ago.</li>
+    <li>Activity 1: invoice 1007 was sent by a teammate 1 hours ago.</li>
+    <li>Activity 2: invoice 1014 was paid by a teammate 2 hours ago.</li>
+    <li>Activity 3: invoice 1021 was reminded by a teammate 3 hours ago.</li>
+    <li>Activity 4: invoice 1028 was viewed by a teammate 4 hours ago.</li>
+    <li>Activity 5: invoice 1035 was sent by a teammate 5 hours ago.</li>
+    <li>Activity 6: invoice 1042 was paid by a teammate 6 hours ago.</li>
+    <li>Activity 7: invoice 1049 was reminded by a teammate 7 hours ago.</li>
+    <li>Activity 8: invoice 1056 was viewed by a teammate 8 hours ago.</li>
+    <li>Activity 9: invoice 1063 was sent by a teammate 0 hours ago.</li>
+    <li>Activity 10: invoice 1070 was paid by a teammate 1 hours ago.</li>
+    <li>Activity 11: invoice 1077 was reminded by a teammate 2 hours ago.</li>
+    <li>Activity 12: invoice 1084 was viewed by a teammate 3 hours ago.</li>
+    <li>Activity 13: invoice 1091 was sent by a teammate 4 hours ago.</li>
+    <li>Activity 14: invoice 1098 was paid by a teammate 5 hours ago.</li>
+    <li>Activity 15: invoice 1105 was reminded by a teammate 6 hours ago.</li>
+    <li>Activity 16: invoice 1112 was viewed by a teammate 7 hours ago.</li>
+    <li>Activity 17: invoice 1119 was sent by a teammate 8 hours ago.</li>
+    <li>Activity 18: invoice 1126 was paid by a teammate 0 hours ago.</li>
+    <li>Activity 19: invoice 1133 was reminded by a teammate 1 hours ago.</li>
+    <li>Activity 20: invoice 1140 was viewed by a teammate 2 hours ago.</li>
+    <li>Activity 21: invoice 1147 was sent by a teammate 3 hours ago.</li>
+    <li>Activity 22: invoice 1004 was paid by a teammate 4 hours ago.</li>
+    <li>Activity 23: invoice 1011 was reminded by a teammate 5 hours ago.</li>
+    <li>Activity 24: invoice 1018 was viewed by a teammate 6 hours ago.</li>
+    <li>Activity 25: invoice 1025 was sent by a teammate 7 hours ago.</li>
+    <li>Activity 26: invoice 1032 was paid by a teammate 8 hours ago.</li>
+    <li>Activity 27: invoice 1039 was reminded by a teammate 0 hours ago.</li>
+    <li>Activity 28: invoice 1046 was viewed by a teammate 1 hours ago.</li>
+    <li>Activity 29: invoice 1053 was sent by a teammate 2 hours ago.</li>
+    <li>Activity 30: invoice 1060 was paid by a teammate 3 hours ago.</li>
+    <li>Activity 31: invoice 1067 was reminded by a teammate 4 hours ago.</li>
+    <li>Activity 32: invoice 1074 was viewed by a teammate 5 hours ago.</li>
+    <li>Activity 33: invoice 1081 was sent by a teammate 6 hours ago.</li>
+    <li>Activity 34: invoice 1088 was paid by a teammate 7 hours ago.</li>
+    <li>Activity 35: invoice 1095 was reminded by a teammate 8 hours ago.</li>
+    <li>Activity 36: invoice 1102 was viewed by a teammate 0 hours ago.</li>
+    <li>Activity 37: invoice 1109 was sent by a teammate 1 hours ago.</li>
+    <li>Activity 38: invoice 1116 was paid by a teammate 2 hours ago.</li>
+    <li>Activity 39: invoice 1123 was reminded by a teammate 3 hours ago.</li>
+    <li>Activity 40: invoice 1130 was viewed by a teammate 4 hours ago.</li>
+    <li>Activity 41: invoice 1137 was sent by a teammate 5 hours ago.</li>
+    <li>Activity 42: invoice 1144 was paid by a teammate 6 hours ago.</li>
+    <li>Activity 43: invoice 1001 was reminded by a teammate 7 hours ago.</li>
+    <li>Activity 44: invoice 1008 was viewed by a teammate 8 hours ago.</li>
+    <li>Activity 45: invoice 1015 was sent by a teammate 0 hours ago.</li>
+    <li>Activity 46: invoice 1022 was paid by a teammate 1 hours ago.</li>
+    <li>Activity 47: invoice 1029 was reminded by a teammate 2 hours ago.</li>
+    <li>Activity 48: invoice 1036 was viewed by a teammate 3 hours ago.</li>
+    <li>Activity 49: invoice 1043 was sent by a teammate 4 hours ago.</li>
+    <li>Activity 50: invoice 1050 was paid by a teammate 5 hours ago.</li>
+    <li>Activity 51: invoice 1057 was reminded by a teammate 6 hours ago.</li>
+    <li>Activity 52: invoice 1064 was viewed by a teammate 7 hours ago.</li>
+    <li>Activity 53: invoice 1071 was sent by a teammate 8 hours ago.</li>
+    <li>Activity 54: invoice 1078 was paid by a teammate 0 hours ago.</li>
+    <li>Activity 55: invoice 1085 was reminded by a teammate 1 hours ago.</li>
+    <li>Activity 56: invoice 1092 was viewed by a teammate 2 hours ago.</li>
+    <li>Activity 57: invoice 1099 was sent by a teammate 3 hours ago.</li>
+    <li>Activity 58: invoice 1106 was paid by a teammate 4 hours ago.</li>
+    <li>Activity 59: invoice 1113 was reminded by a teammate 5 hours ago.</li>
+    <li>Activity 60: invoice 1120 was viewed by a teammate 6 hours ago.</li>
+    <li>Activity 61: invoice 1127 was sent by a teammate 7 hours ago.</li>
+    <li>Activity 62: invoice 1134 was paid by a teammate 8 hours ago.</li>
+    <li>Activity 63: invoice 1141 was reminded by a teammate 0 hours ago.</li>
+    <li>Activity 64: invoice 1148 was viewed by a teammate 1 hours ago.</li>
+    <li>Activity 65: invoice 1005 was sent by a teammate 2 hours ago.</li>
+    <li>Activity 66: invoice 1012 was paid by a teammate 3 hours ago.</li>
+    <li>Activity 67: invoice 1019 was reminded by a teammate 4 hours ago.</li>
+    <li>Activity 68: invoice 1026 was viewed by a teammate 5 hours ago.</li>
+    <li>Activity 69: invoice 1033 was sent by a teammate 6 hours ago.</li>
+    <li>Activity 70: invoice 1040 was paid by a teammate 7 hours ago.</li>
+    <li>Activity 71: invoice 1047 was reminded by a teammate 8 hours ago.</li>
+    <li>Activity 72: invoice 1054 was viewed by a teammate 0 hours ago.</li>
+    <li>Activity 73: invoice 1061 was sent by a teammate 1 hours ago.</li>
+    <li>Activity 74: invoice 1068 was paid by a teammate 2 hours ago.</li>
+    <li>Activity 75: invoice 1075 was reminded by a teammate 3 hours ago.</li>
+    <li>Activity 76: invoice 1082 was viewed by a teammate 4 hours ago.</li>
+    <li>Activity 77: invoice 1089 was sent by a teammate 5 hours ago.</li>
+    <li>Activity 78: invoice 1096 was paid by a teammate 6 hours ago.</li>
+    <li>Activity 79: invoice 1103 was reminded by a teammate 7 hours ago.</li>
+    <li>Activity 80: invoice 1110 was viewed by a teammate 8 hours ago.</li>
+    <li>Activity 81: invoice 1117 was sent by a teammate 0 hours ago.</li>
+    <li>Activity 82: invoice 1124 was paid by a teammate 1 hours ago.</li>
+    <li>Activity 83: invoice 1131 was reminded by a teammate 2 hours ago.</li>
+    <li>Activity 84: invoice 1138 was viewed by a teammate 3 hours ago.</li>
+    <li>Activity 85: invoice 1145 was sent by a teammate 4 hours ago.</li>
+    <li>Activity 86: invoice 1002 was paid by a teammate 5 hours ago.</li>
+    <li>Activity 87: invoice 1009 was reminded by a teammate 6 hours ago.</li>
+    <li>Activity 88: invoice 1016 was viewed by a teammate 7 hours ago.</li>
+    <li>Activity 89: invoice 1023 was sent by a teammate 8 hours ago.</li>
+    <li>Activity 90: invoice 1030 was paid by a teammate 0 hours ago.</li>
+    <li>Activity 91: invoice 1037 was reminded by a teammate 1 hours ago.</li>
+    <li>Activity 92: invoice 1044 was viewed by a teammate 2 hours ago.</li>
+    <li>Activity 93: invoice 1051 was sent by a teammate 3 hours ago.</li>
+    <li>Activity 94: invoice 1058 was paid by a teammate 4 hours ago.</li>
+    <li>Activity 95: invoice 1065 was reminded by a teammate 5 hours ago.</li>
+    <li>Activity 96: invoice 1072 was viewed by a teammate 6 hours ago.</li>
+    <li>Activity 97: invoice 1079 was sent by a teammate 7 hours ago.</li>
+    <li>Activity 98: invoice 1086 was paid by a teammate 8 hours ago.</li>
+    <li>Activity 99: invoice 1093 was reminded by a teammate 0 hours ago.</li>
+  </ul></section>
+</main>
+<script>
+document.getElementById("export").onclick = () => {
+  const s = document.getElementById("status");
+  s.textContent = "Preparing the export…";
+  setTimeout(() => { s.textContent = "Export ready: invoices.csv"; }, 2500);
+};
+document.getElementById("gear").onclick = () => { location.href = "/settings-form.html"; };
+</script>
+</body></html>

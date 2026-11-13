@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "Um Bilder in deinen Unterhaltungen zu senden.",
+    "NSCameraUsageDescription": "Um Fotos für deine Unterhaltungen aufzunehmen und QR-Codes zu scannen.",
+    "NSPhotoLibraryAddUsageDescription": "Um Bilder aus deinen Unterhaltungen in Fotos zu sichern."
+  }
+}

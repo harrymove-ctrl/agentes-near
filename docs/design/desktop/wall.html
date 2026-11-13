@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Desktop wallpaper</title>
+<!-- The agents' desktop wallpaper (1280×900), drawn by out/wall.js: render.sh screenshots this page. -->
+<style>
+@font-face {
+  font-family: "Funnel Display";
+  font-weight: 300 800;
+  src: url("../../../apps/web/src/fonts/funnel-display-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Doto";
+  font-weight: 100 900;
+  src: url("../../../apps/web/src/fonts/doto-latin.woff2") format("woff2");
+}
+html, body { margin: 0; overflow: hidden; background: #000; }
+.wall { position: relative; width: 1280px; height: 900px; overflow: hidden; }
+.wall > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+/* The expanded logo as the app draws it (packages/ui Logo, components.css .ac-logo), ".chat" with heavier dots (wall.ts). */
+.logo {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.16em;
+  font-family: "Funnel Display";
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.logo svg { width: 1.25em; height: 1.25em; flex: none; }
+.logo svg image { image-rendering: pixelated; }
+.logo .word { display: inline-flex; align-items: baseline; }
+.logo .chat {
+  font-family: "Doto";
+  font-variation-settings: "ROND" 100;
+  font-size: 0.62em;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin-left: 0.08em;
+}
+</style>
+</head>
+<body>
+<div class="wall"><canvas></canvas></div>
+<script src="out/wall.js"></script>
+</body>
+</html>

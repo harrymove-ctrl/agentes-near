@@ -1,0 +1,1 @@
+ALTER TABLE "machine_provisioning" DROP COLUMN "eta_seconds";

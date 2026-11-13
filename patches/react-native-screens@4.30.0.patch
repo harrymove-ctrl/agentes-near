@@ -1,0 +1,14 @@
+diff --git a/android/src/main/java/com/swmansion/rnscreens/bottomsheet/DimmingViewManager.kt b/android/src/main/java/com/swmansion/rnscreens/bottomsheet/DimmingViewManager.kt
+index 885c2b0..edbf92f 100644
+--- a/android/src/main/java/com/swmansion/rnscreens/bottomsheet/DimmingViewManager.kt
++++ b/android/src/main/java/com/swmansion/rnscreens/bottomsheet/DimmingViewManager.kt
+@@ -17,7 +17,8 @@ class DimmingViewManager(
+     screen: Screen,
+ ) {
+     internal val dimmingView: DimmingView = createDimmingView(screen)
+-    internal val maxAlpha: Float = 0.3f
++    // agentes: a darker scrim than the library's 0.3, so a sheet stands apart from the screen behind it (dark theme).
++    internal val maxAlpha: Float = 0.45f
+     private var dimmingViewCallback: BottomSheetCallback? = null
+ 
+     /**

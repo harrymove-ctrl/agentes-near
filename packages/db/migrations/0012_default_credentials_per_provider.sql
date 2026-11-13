@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ADD COLUMN "default_credential_ids" jsonb DEFAULT '{}'::jsonb NOT NULL;

@@ -1,0 +1,160 @@
+{
+  "common": {
+    "back": "Terug",
+    "cancel": "Annuleren",
+    "close": "Sluiten",
+    "continue": "Doorgaan",
+    "done": "Klaar",
+    "retry": "Opnieuw proberen",
+    "loading": "Laden",
+    "or": "of"
+  },
+  "auth": {
+    "skyLabel": "Lucht met agents",
+    "social": {
+      "failed": "Inloggen lukt nu niet. Probeer het opnieuw.",
+      "unfinished": "Inloggen is niet afgerond. Probeer het opnieuw of gebruik je e-mail."
+    },
+    "errors": {
+      "network": "Geen verbinding. Controleer je internet en probeer het opnieuw.",
+      "generic": "Er ging iets mis. Probeer het opnieuw.",
+      "offlineRetry": "Nu geen internet. Ik ga verder zodra het terug is."
+    },
+    "flow": {
+      "email": "Wat is je e-mail?",
+      "emailLead": "Om in te loggen of je account aan te maken.",
+      "signUp": "Leuk je te ontmoeten. Hoe noemt het team je?"
+    },
+    "server": {
+      "line": "Server: {{host}} ·",
+      "change": "Wijzigen",
+      "title": "Waar staat je agentes.chat?",
+      "subtitle": "Het adres dat je team in de browser opent.",
+      "label": "Serveradres",
+      "placeholder": "agentes.jouwteam.ts.net",
+      "use": "Deze server gebruiken",
+      "checking": "Controleren…",
+      "scan": "QR-code scannen",
+      "backTo": "Terug naar {{host}}",
+      "footChange": "Wijzigen",
+      "footChoose": "Server en taal",
+      "footServer": "Een andere server",
+      "footLanguage": "Taal",
+      "footTeam": "Gebruik je de server van je team?",
+      "footTeamAction": "Daarmee inloggen",
+      "footOn": "Inloggen op {{host}}",
+      "footSwitch": "Wijzigen",
+      "now": "Nu op {{host}}",
+      "invalid": "Controleer het adres, iets als agentes.jouwteam.ts.net.",
+      "unreachable": "We kunnen {{host}} niet bereiken. Controleer het adres en je verbinding en probeer het opnieuw.",
+      "unreachableTailscale": "We kunnen {{host}} niet bereiken. Hij staat op Tailscale: open de Tailscale-app, maak verbinding en probeer het opnieuw. Al verbonden? De computer van de server slaapt misschien, of de app is gesloten.",
+      "certificate": "Het certificaat van {{host}} is niet geldig. Neem contact op met wie de server beheert.",
+      "notAgentes": "{{host}} is geen agentes.chat-server. Controleer het adres.",
+      "serverTooOld": "{{host}} heeft een update nodig om met deze app te werken.",
+      "appTooOld": "Werk de agentes-app bij om {{host}} te gebruiken.",
+      "down": {
+        "line": "{{host}} reageerde niet.",
+        "text": "Misschien is hij offline of buiten je netwerk. De app opent vanzelf zodra hij terug is.",
+        "tryNow": "Nu proberen",
+        "switchServer": "Server wijzigen",
+        "retryIn_one": "nieuwe poging over {{count}} s",
+        "retryIn_other": "nieuwe poging over {{count}} s"
+      }
+    },
+    "connect": {
+      "title": "Verbinden met deze server?",
+      "titleSignIn": "Inloggen met het account van de computer?",
+      "on": "Server: {{host}}",
+      "leave": "Je wordt op deze telefoon uitgelogd uit het huidige account.",
+      "confirm": "Verbinden",
+      "notNow": "Niet nu",
+      "checking": "Server controleren…",
+      "notALink": "Deze link komt niet van een agentes.chat-server.",
+      "tokenFailed": "De code is verlopen of al gebruikt. Log in met je e-mail of toon een nieuwe code op de computer.",
+      "signInSlow": "Inloggen duurt langer dan zou moeten. Log in met je e-mail of toon een nieuwe code op de computer."
+    },
+    "scan": {
+      "hint": "Richt op de QR-code op de computer",
+      "typeAddress": "Adres typen",
+      "notOurs": "Deze QR-code komt niet van een agentes.chat-server.",
+      "cameraTitle": "De camera gebruiken",
+      "cameraText": "Hij wordt alleen gebruikt om de QR-code te lezen.",
+      "allow": "Camera toestaan",
+      "settings": "Instellingen openen"
+    }
+  },
+  "org": {
+    "noneTitle": "Je zit nog niet in een werkruimte",
+    "noneSubtitle": "Vraag iemand van je team om een uitnodiging, of maak de werkruimte aan op de website.",
+    "openSite": "De website openen",
+    "signOut": "Uitloggen"
+  },
+  "account": {
+    "deleteFailed": "Je account kan nu niet worden verwijderd. Probeer het opnieuw.",
+    "deleted": "Je account verdwijnt op {{date}} definitief. Log daarvoor in om het te herstellen.",
+    "signedOut": "Je bent uitgelogd."
+  },
+  "theme": {
+    "system": "Zelfde als de telefoon",
+    "light": "Licht",
+    "dark": "Donker"
+  },
+  "push": {
+    "channel": "Meldingen",
+    "channelDescription": "Wat op je wacht, vermeldingen en gesprekken.",
+    "offer": {
+      "line": "Wil je weten wanneer {{name}} klaar is?",
+      "action": "Laat het me weten"
+    },
+    "ask": {
+      "title": "Weet wanneer een agent je nodig heeft",
+      "text": "Ze werken terwijl jij iets anders doet. We laten het je weten als ze je akkoord nodig hebben, klaar zijn met wat je vroeg of je roepen.",
+      "on": "Meldingen aanzetten",
+      "later": "Niet nu",
+      "done": "Meldingen staan aan",
+      "failed": "Meldingen aanzetten lukte niet. Probeer het opnieuw via Jij › Meldingen.",
+      "someone": "Een agent",
+      "examples": "Voorbeelden van meldingen",
+      "now": "nu",
+      "minutes": "{{n}} min",
+      "approval": {
+        "title": "{{name}} heeft je akkoord nodig",
+        "body": "Mag ik doorgaan met wat je vroeg?"
+      },
+      "finished": {
+        "title": "{{name}} is klaar",
+        "body": "Wat je vroeg is klaar."
+      },
+      "mention": {
+        "title": "{{name}} riep je",
+        "body": "Kun je even kijken als je een minuutje hebt?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, agent",
+    "agentWorking": "{{name}}, agent, aan het werk",
+    "agentPlain": "Agent",
+    "person": "{{name}}",
+    "loading": "Laden",
+    "grabber": "Sleep omlaag om te sluiten",
+    "closeSheet": "Sluiten",
+    "send": "Versturen",
+    "attach": "Bijvoegen en meer",
+    "hold": "Ingedrukt houden om te bevestigen",
+    "clearSearch": "Zoekopdracht wissen"
+  },
+  "composer": {
+    "placeholder": "Schrijf een bericht",
+    "join": "Toevoegen aan de lopende taak",
+    "now": "Stoppen en versturen",
+    "choice": "Hoe versturen terwijl de agent werkt",
+    "holdToStop": "Ingedrukt houden om te stoppen en te versturen"
+  },
+  "search": {
+    "placeholder": "Zoeken"
+  },
+  "picker": {
+    "none": "Niets komt overeen met “{{text}}”."
+  }
+}

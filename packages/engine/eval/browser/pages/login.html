@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Acme · Sign in</title>
+<style>
+body{font-family:-apple-system,Helvetica,sans-serif;margin:0;color:#222}
+header{padding:12px 16px;border-bottom:1px solid #ddd}
+main{max-width:420px;margin:40px auto;padding:0 16px}
+label{display:block;margin-top:14px}
+input{display:block;width:100%;padding:8px;margin-top:4px;box-sizing:border-box}
+button{margin-top:18px;padding:10px 18px}
+#consent{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+#consent .box{background:#fff;padding:16px 20px;margin:0 0 24px;max-width:560px;border-radius:8px}
+</style></head>
+<body>
+<header><a href="/login.html">Acme</a></header>
+<main>
+  <h1>Sign in</h1>
+  <form id="f">
+    <label>Email <input id="email" name="email" type="email" autocomplete="username"></label>
+    <label>Password <input id="password" name="password" type="password" autocomplete="current-password"></label>
+    <button type="submit">Sign in</button>
+  </form>
+  <p><a href="/forgot.html">Forgot password?</a> · <a href="/signup.html">Create account</a></p>
+  <p id="err" role="alert" hidden>Wrong email or password</p>
+</main>
+<div id="consent" role="dialog" aria-label="Cookies">
+  <div class="box">
+    <p>We use cookies to improve the site. Optional cookies help us measure visits.</p>
+    <button id="accept">Accept all</button>
+    <button id="reject">Reject optional</button>
+  </div>
+</div>
+<script>
+for (const id of ["accept", "reject"]) document.getElementById(id).onclick = () => document.getElementById("consent").remove();
+document.getElementById("f").onsubmit = (e) => {
+  e.preventDefault();
+  const ok = document.getElementById("email").value === "ana@acme.example" && document.getElementById("password").value === "test-1234";
+  setTimeout(() => { if (ok) location.href = "/dashboard.html"; else document.getElementById("err").hidden = false; }, 300);
+};
+</script>
+</body></html>

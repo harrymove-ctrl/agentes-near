@@ -1,0 +1,263 @@
+/* A channel's header (ChannelHeader.tsx): the name, then icon buttons of one size and the search field. */
+.channel__header:has(.channel__head-text) {
+  flex-wrap: nowrap;
+  min-height: 56px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+/* A channel's or a DM's name and the header's glyphs (`.channel__acts`) are an action line: the glyphs share the
+   name's row while the name keeps one line there, else they go under it as one group. Glyphs beside a name and its
+   line centre on them. */
+.channel__line {
+  flex: 1 1 0%;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+/* The name, and the topic beside it only when it fits whole on the name's row. The name alone sets where the glyphs
+   go: the topic never widens the line (`contain`), it takes the room the name leaves, and words that don't fit there
+   wrap under the empty first item, to a second line its box hides. */
+.channel__head-text {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 12px;
+}
+.channel__head-text .channel__title {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding-block: 3px;
+}
+.channel__head-text .channel__title > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* On the capitals of the name's first line (24px), as an `.ac-iconline` lead: a name that wraps keeps its # there. */
+.channel__title-hash.ac-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--faint);
+  translate: 0 calc(12px - var(--cap-mid) - 50%);
+}
+.channel__head-text .channel__topic {
+  flex: 1 1 0%;
+  min-width: 0;
+  contain: inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  height: 30px;
+  overflow: hidden;
+}
+.channel__head-text .channel__topic::before {
+  content: "";
+  height: 30px;
+}
+.channel__head-text .channel__topic > span {
+  flex: none;
+  line-height: 30px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+/* The header's glyphs: 32 boxes 8 apart at every width, the last one's ink on the header's padding line. */
+.channel__acts {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+/* No plate on hover, pressed or open: the icon's own color says it, as Discord's header does. Its target grows to 44
+   past the box, 4 to each side, so two boxes 8 apart never share one (`::after`). */
+.channel__icon.ac-btn {
+  position: relative;
+  width: var(--control-h-sm);
+  min-width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  min-height: var(--control-h-sm);
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+}
+.channel__icon.ac-btn::after {
+  content: "";
+  position: absolute;
+  inset: calc((var(--control-h-sm) - var(--touch-target)) / 2) calc(-1 * var(--space-1));
+}
+.channel__acts > .channel__icon.ac-btn:last-child {
+  margin-right: calc((20px - var(--control-h-sm)) / 2);
+}
+.channel__icon.ac-btn,
+.channel__icon.ac-btn:hover,
+.channel__icon.ac-btn:active,
+.channel__icon.ac-btn[aria-pressed="true"],
+.channel__icon.ac-btn[aria-expanded="true"] {
+  background: none;
+  box-shadow: none;
+}
+.channel__icon.ac-btn > .ac-icon {
+  width: 20px;
+  height: 20px;
+}
+.channel__icon.ac-btn:hover,
+.channel__icon.ac-btn[aria-pressed="true"],
+.channel__icon.ac-btn[aria-expanded="true"] {
+  color: var(--ink);
+}
+html:not([data-pointer]) .channel__icon.ac-btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+/* An ink pill (the page's color on the ink), as the sidebar's red one but neutral: a count of threads, not a call on
+   me. The ring of the header's color cuts it from the glyph. The rail's 16px count's type (10px): at 10.5px the
+   figures' cap box rounds half a pixel low on a 2x screen. */
+.channel__icon-count.ac-count {
+  position: absolute;
+  top: -1px;
+  right: 1px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--pane);
+  background: var(--ink2);
+  box-shadow: 0 0 0 2px var(--pane);
+}
+.members-sheet .channel__icon-count.ac-count {
+  box-shadow: 0 0 0 2px var(--side);
+}
+.channel__search-icon.ac-btn {
+  display: none;
+}
+
+/* The header's search field: a soft plate with no line at rest, narrow, the field's own look and wider while used. */
+.channel__search.search-box {
+  margin-left: 8px;
+  width: 220px;
+  transition: width 0.2s var(--out);
+}
+.channel__search.search-box:focus-within {
+  width: 300px;
+}
+.channel__search .search-box__field {
+  flex-wrap: nowrap;
+  min-height: var(--control-h-sm);
+  padding: 2px 8px 2px 32px;
+  border-color: transparent;
+  border-radius: var(--control-r-sm);
+  background: var(--plate-soft);
+  box-shadow: none;
+  overflow: hidden;
+}
+.channel__search .search-box__field:hover {
+  background: var(--plate);
+}
+.channel__search .search-box__field:focus-within {
+  background: var(--field-bg);
+  box-shadow:
+    inset 0 0 0 1px var(--field-line),
+    var(--focus-ring);
+}
+.channel__search .search-box__icon {
+  left: 10px;
+  top: 50%;
+}
+.channel__search .search-box__input {
+  min-width: 0;
+  height: 26px;
+  font-size: 13.5px;
+}
+.channel__search .ac-token {
+  flex: none;
+  border: 0;
+  border-radius: 7px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--line);
+  font-weight: 550;
+}
+@media (prefers-reduced-motion: reduce) {
+  .channel__search.search-box {
+    transition: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .channel__header:has(.channel__head-text) {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+  }
+  /* The nav toggle stays on the name's first row, which is the toggle's 40 (a DM's face is 36). */
+  .channel__header:has(> .channel__line) {
+    align-items: flex-start;
+  }
+  .channel__header:has(> .channel__line > .dm-who) > .nav-toggle {
+    margin-top: calc((36px - var(--control-h-md)) / 2);
+  }
+  .channel__head-text {
+    padding-block: calc((var(--control-h-md) - 30px) / 2);
+  }
+  .channel__line {
+    column-gap: var(--space-2);
+  }
+  /* The name alone, as Discord's app has it. */
+  .channel__head-text .channel__topic {
+    display: none;
+  }
+  .channel__title-hash.ac-icon {
+    width: 18px;
+    height: 18px;
+  }
+  /* Threads, pins and the settings move to the members sheet's head (the cog stays when there's no sheet to open); the
+     search takes the whole screen, from its icon, a DM's too. */
+  .channel__acts > .channel__threads,
+  .channel__acts > .channel__pin,
+  .channel__acts > .channel__search {
+    display: none;
+  }
+  .channel__acts:has(.channel__members-toggle) > .channel__cog {
+    display: none;
+  }
+  .channel__search-icon.ac-btn {
+    display: inline-flex;
+  }
+  .search-sheet {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--pane);
+  }
+  .search-sheet__head {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) 14px 10px 6px;
+    box-shadow: inset 0 -1px 0 var(--line);
+  }
+  .search-sheet__head .channel__search.search-box {
+    flex: 1;
+    width: auto;
+    margin: 0;
+    position: static;
+  }
+  .search-sheet__head .channel__search .search-box__field {
+    min-height: var(--control-h-md);
+  }
+  /* The menu as a plain list under the field, to the bottom of the screen. */
+  .search-sheet .search-menu.search-box__menu {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 64px);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    max-height: none;
+    padding: 8px 8px 24px;
+    border-radius: 0;
+    background: var(--pane);
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

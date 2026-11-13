@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- A menu bar app: no Dock icon and no app menu, even before the Rust side sets the activation policy. -->
+  <key>LSUIElement</key>
+  <true/>
+  <!-- The ready languages of @agenteschat/i18n/locale (the Mac App Store lists them): the system's own menus (text fields, sharing, dialogs) follow
+       the Mac's language instead of staying in English. -->
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>pt-BR</string>
+    <string>es</string>
+    <string>fr</string>
+    <string>de</string>
+    <string>it</string>
+    <string>nl</string>
+    <string>ja</string>
+    <string>ko</string>
+    <string>zh-Hans</string>
+    <string>id</string>
+    <string>tr</string>
+    <string>pl</string>
+    <string>ru</string>
+  </array>
+  <key>CFBundleAllowMixedLocalizations</key>
+  <true/>
+  <!-- Voice messages: what the Mac says when the site first asks for the microphone. -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>agentes.chat uses the microphone to record voice messages.</string>
+  <!-- What the Mac says if something the app runs opens one of these folders while Full Disk Access is off
+       (ADR 0165): the agents on this Mac, the app's children, ask in the app's name. -->
+  <key>NSDesktopFolderUsageDescription</key>
+  <string>Lets the agents working on this Mac open files on your Desktop.</string>
+  <key>NSDocumentsFolderUsageDescription</key>
+  <string>Lets the agents working on this Mac open files in your Documents folder.</string>
+  <key>NSDownloadsFolderUsageDescription</key>
+  <string>Lets the agents working on this Mac open files in your Downloads folder.</string>
+  <!-- Local Network (macOS 15 and later): adb, run by the agents' runner, finds and connects Android phones over
+       Wi-Fi in the app's name. Prepare this Mac raises the prompt with a browse of one of these types (prepare.rs). -->
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>Lets the agents working on this Mac find and connect to Android phones on your Wi-Fi.</string>
+  <key>NSBonjourServices</key>
+  <array>
+    <string>_adb-tls-pairing._tcp</string>
+    <string>_adb-tls-connect._tcp</string>
+    <string>_adb._tcp</string>
+  </array>
+  <!-- No LSFileQuarantineEnabled: it marks every file made by the app's child processes too (the runner and
+       the agents' commands), so each binary an agent builds and runs (a Swift package's manifest, a compiled
+       tool) was stopped by Gatekeeper with a dialog. Downloads from the site get the mark one by one instead
+       (main_window.rs `quarantine`). -->
+</dict>
+</plist>

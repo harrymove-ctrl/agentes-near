@@ -1,0 +1,1 @@
+ALTER TABLE "agents" ADD COLUMN "brain_speed" text DEFAULT 'standard' NOT NULL;

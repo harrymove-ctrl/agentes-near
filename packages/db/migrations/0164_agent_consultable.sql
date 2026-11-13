@@ -1,0 +1,1 @@
+ALTER TABLE "agents" ADD COLUMN "consultable" boolean DEFAULT true NOT NULL;

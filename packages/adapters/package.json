@@ -1,0 +1,43 @@
+{
+  "name": "@agenteschat/adapters",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./machine-protocol": "./src/machine-protocol.ts",
+    "./runner-control": "./src/runner-control.ts",
+    "./command-policy": "./src/command-policy.ts",
+    "./secret-box": "./src/secret-box.ts",
+    "./redact": "./src/redact.ts",
+    "./error-scrub": "./src/error-scrub.ts",
+    "./error-reports": "./src/error-reports.ts",
+    "./host-stats": "./src/host-stats.ts",
+    "./in-flight": "./src/in-flight.ts",
+    "./browser-start": "./src/browser-start.ts",
+    "./vault/site": "./src/vault/site.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@1password/sdk": "0.5.0",
+    "@agenteschat/db": "workspace:*",
+    "@noble/ciphers": "^2.4.0",
+    "@noble/hashes": "^2.4.0",
+    "@sentry/core": "10.76.2",
+    "imapflow": "^2.5.5",
+    "mailparser": "^3.9.46",
+    "nodemailer": "^10.1.7",
+    "postgres": "^3.4.9",
+    "tldts": "7.4.18"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "@types/mailparser": "^3.9.0",
+    "@types/nodemailer": "^8.0.2"
+  },
+  "license": "AGPL-3.0-only"
+}

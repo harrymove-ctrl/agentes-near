@@ -1,0 +1,225 @@
+/*
+ * Presence and written status (ADR 0084): the badge's ring on the surfaces faces sit on, a line beside a name or on a
+ * line of its own, and the "Definir status" dialog.
+ */
+
+/* The badge's one-pixel ring takes the color of what the face sits on (a raised card unless said here). */
+.sidebar {
+  --presence-ring: var(--side);
+}
+/* The account card at the sidebar's foot is raised; the rail leaves you on the sidebar's paper. */
+.sidebar:not([data-rail="true"]) .sidebar__me {
+  --presence-ring: var(--raised);
+}
+/* A hovered row's plate, so the ring never shows as a dark arc around the badge on it in dark. */
+.sidebar__item:hover,
+.members-side__row.profile-trigger:hover {
+  --presence-ring: var(--side-hover);
+}
+.sidebar__item[data-status="active"] {
+  --presence-ring: var(--side-chosen);
+}
+.ac-msg {
+  --presence-ring: var(--pane);
+}
+
+/* A line's emoji beside a name; its words on hover. */
+.status-emoji {
+  flex: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: default;
+}
+.msg-status {
+  margin-left: 6px;
+}
+
+/* Emoji and words, muted, on one line; a placeholder ("Definir status") fainter. Led by a limit's icon instead, the
+   row is an .ac-iconline, which places the icon on the first line. */
+.status-line {
+  display: flex;
+  gap: 5px;
+  min-width: 0;
+  color: var(--muted);
+}
+.status-line:not(.ac-iconline) {
+  align-items: center;
+}
+.status-line.ac-iconline {
+  gap: 5px;
+}
+.status-line--empty {
+  color: var(--faint);
+}
+.status-line__emoji {
+  flex: none;
+  font-size: 13px;
+  line-height: 1;
+}
+.status-line__icon {
+  flex: none;
+}
+.status-line__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The account row: your line under your name. The lines end at its baseline (out of its 16px line), as the name's
+   `.ac-captop` starts them at its capitals. */
+.sidebar__user-line {
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: calc(var(--cap-top) - 2 * var(--cap-mid) - 8px);
+}
+/* A sidebar row: someone offline is quieter. */
+.sidebar__item[data-presence="offline"] .sidebar__item-label {
+  color: var(--muted);
+}
+
+/* The profile card: the line in a well, who wrote it or when it clears under it. */
+.profile-card__status {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 11px 11px 11px 3px;
+  background: var(--card-well, var(--sunken));
+  box-shadow: var(--card-well-shadow, none);
+  font-size: 13.5px;
+  line-height: 18px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.profile-card__status-emoji {
+  flex: none;
+  font-size: 15px;
+}
+/* A limit's icon: its box as tall as it, which .ac-iconline centres on the first of the text's 18px lines. */
+.profile-card__status-emoji .ac-icon {
+  display: block;
+}
+.profile-card__status small {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--faint);
+}
+/* "Ver fila" under an out-of-office line with conversations waiting (UsageQueue.tsx). */
+.profile-card__status .cq-link {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* "Definir status": the preview, the line and its suggestions, when it clears, how you appear. */
+.ac-dialog__body.status-dialog {
+  gap: 18px;
+}
+/* What it says above, then the face, the name and the status as a MediaRow. */
+.status-preview {
+  --presence-ring: var(--card-well, var(--sunken));
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--card-well, var(--sunken));
+  box-shadow: var(--card-well-shadow, none);
+}
+.status-preview__caption {
+  font-size: 12px;
+  color: var(--faint);
+}
+.status-preview__name {
+  font-weight: 650;
+}
+.status-preview .status-line {
+  font-size: 13.5px;
+}
+.status-field {
+  gap: 2px;
+  padding-right: 4px;
+}
+.status-field input {
+  padding-left: 6px;
+}
+/* The emoji key: the chosen emoji, or the smile until one is. */
+.status-field__emoji {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.status-field__emoji:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .status-field__emoji:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.status-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: 10px;
+}
+.status-dialog__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.status-dialog__row > label {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.status-dialog__label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink);
+}
+/* The four ways to appear: one card of rows, the badge first and the radio last. */
+.status-avail__opt.ac-list__row {
+  flex-wrap: nowrap;
+  padding: 11px 14px;
+  cursor: pointer;
+}
+.status-avail__opt:hover {
+  /* The kit's row hover: in the dialog the page's color was a near-black plate in dark. */
+  background: var(--plate-soft);
+}
+.status-avail__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+.status-avail__title {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.status-avail__help {
+  font-size: 13px;
+  color: var(--muted);
+}
+.status-avail__opt .ac-radio {
+  margin: 0;
+}

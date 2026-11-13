@@ -1,0 +1,21 @@
+/*
+ * The one layering scale. Anything that floats uses these, never a raw
+ * number. Scrims, dialogs, sheets, side panes and floating layers (select
+ * lists, menus, popovers, hover cards, date pickers, tooltips) share one
+ * layer, where later portals stack above earlier ones: whatever opens from
+ * another stacks above its opener, a list opened in a dialog and a dialog
+ * opened from a popover alike. Each dialog renders its scrim before its
+ * panel, so each scrim lies under its own dialog and over anything opened
+ * before it.
+ */
+:root {
+  /* Under its parent's content, inside the parent's own stacking context (a card's horizon). */
+  --z-under: -1;
+  --z-raised: 1;
+  --z-lifted: 2;
+  --z-sticky: 1;
+  --z-scrim: 50;
+  --z-dialog: 50;
+  --z-floating: 50;
+  --z-toast: 60;
+}

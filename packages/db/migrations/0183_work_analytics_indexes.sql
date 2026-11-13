@@ -1,0 +1,3 @@
+CREATE INDEX "agent_run_steps_run_id_index" ON "agent_run_steps" USING btree ("run_id") WHERE "agent_run_steps"."kind" = 'error' and "agent_run_steps"."data"->>'reason' = 'brain_unavailable';--> statement-breakpoint
+CREATE INDEX "agent_runs_created_at_index" ON "agent_runs" USING btree ("created_at");--> statement-breakpoint
+CREATE INDEX "usage_records_created_at_index" ON "usage_records" USING btree ("created_at");

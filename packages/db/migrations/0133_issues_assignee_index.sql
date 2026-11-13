@@ -1,0 +1,1 @@
+CREATE INDEX "issues_org_id_assignee_type_assignee_id_updated_at_index" ON "issues" USING btree ("org_id","assignee_type","assignee_id","updated_at");

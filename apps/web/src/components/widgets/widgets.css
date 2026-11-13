@@ -1,0 +1,243 @@
+/*
+ * Widgets on the web (ADR 0135): the side panel of a widget and "Pin to a dashboard". The cards and the board grid
+ * are the design system's (`@agenteschat/ui`, styles/widgets.css).
+ */
+
+/* ── The side panel: from the right edge, the page still in view ───────── */
+@media (min-width: 641px) {
+  .ac-dialog.wd {
+    top: 12px;
+    right: 12px;
+    bottom: 12px;
+    left: auto;
+    transform: none;
+    width: min(480px, calc(100% - 24px));
+    max-height: none;
+  }
+  .ac-dialog__scrim:has(+ .ac-dialog.wd) {
+    background: transparent;
+  }
+}
+@media (min-width: 641px) and (prefers-reduced-motion: no-preference) {
+  .ac-dialog.wd[data-state="open"] {
+    animation: wd-in 0.28s cubic-bezier(0.2, 0.9, 0.25, 1);
+  }
+}
+@keyframes wd-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+.wd .wd__body {
+  flex: 1 1 auto;
+  gap: 20px;
+  padding-bottom: var(--dialog-pad);
+}
+/* Its title renamed in place: a soft plate under the pointer; the pencil among the head's actions, shown on hover. */
+.wd__title {
+  margin: 0 -6px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  cursor: text;
+  transition: background 0.15s;
+}
+.wd__title:hover {
+  background: var(--plate-soft);
+}
+.wd__title-input {
+  box-sizing: border-box;
+  width: calc(100% + 12px);
+  margin: -2px -6px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--field-bg);
+  box-shadow:
+    inset 0 0 0 1px var(--field-line),
+    var(--field-ring);
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+.wd .wd__pen {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.wd .ac-dialog__head:hover .wd__pen,
+.wd .wd__pen:focus-visible {
+  opacity: 1;
+}
+@media (hover: none) {
+  .wd .wd__pen {
+    opacity: 1;
+  }
+}
+/* The widget, big: its head is the panel's. */
+.wd__big {
+  flex: none;
+  min-height: 0;
+  box-shadow: inset 0 0 0 1px var(--line);
+  background: none;
+}
+.wd__big .wg__head {
+  display: none;
+}
+.wd__big .wg__body {
+  padding: 14px 16px 10px;
+}
+.wd__sec h3 {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--muted);
+}
+.wd__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.wd__rows > li + li {
+  border-top: 1px solid var(--line);
+}
+.wd__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: var(--row-py) 14px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.wd__row > .ac-icon {
+  flex: none;
+  color: var(--ink2);
+}
+.wd__grow {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.wd__grow small {
+  display: block;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.wd__hist .wd__row {
+  align-items: flex-start;
+  font-size: 13.5px;
+}
+.wd__hist time {
+  flex: none;
+  width: 86px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.wd__hist [data-tone="warn"] {
+  color: var(--warn);
+}
+.wd__none {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.wd__loading {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+/* Changing the alert, in its row. */
+.wd__alert {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 14px 12px 42px;
+  font-size: 13.5px;
+}
+.wd__alert-on,
+.wd__cond {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wd__cond label {
+  flex: none;
+  color: var(--ink2);
+}
+.wd__cond .ac-input {
+  flex: 1;
+  min-width: 0;
+  /* A small field of the ruler, as the panel's small buttons under it. */
+  height: var(--control-h-sm);
+  border-radius: var(--control-r-sm);
+}
+.wd__alert-acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.wd__to {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.wd__ask .ac-composer textarea {
+  min-height: 44px;
+}
+/* In place of the box while the workspace is being deleted. */
+.wd__readonly {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.wd__end {
+  display: flex;
+}
+
+/* What a board's notice lets the person do where it shows (Home, the inbox): Publish, Resolve, Open widget. */
+.wn-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── "Pin to a dashboard" ──────────────────────────────────────────────── */
+.wpin__stage {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--sunken);
+}
+.wpin__stage .wg {
+  box-shadow: var(--card-shadow);
+}
+.wpin__keep {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+}
+.wpin__keep .ac-switch {
+  flex: none;
+  margin-top: 2px;
+}
+.wpin__keep-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.wpin__keep-text label {
+  font-weight: 600;
+}
+.wpin__keep-text small {
+  font-size: 12.5px;
+  color: var(--muted);
+}

@@ -1,0 +1,95 @@
+{
+  "info": {
+    "arguments": [
+      "devicectl",
+      "device",
+      "info",
+      "details",
+      "--device",
+      "6F1C2A3B-4D5E-4F60-8A9B-0C1D2E3F4A5B",
+      "--json-output",
+      "out.json"
+    ],
+    "commandType": "devicectl.device.info.details",
+    "environment": {
+      "TERM": "xterm-256color"
+    },
+    "jsonVersion": 3,
+    "outcome": "success",
+    "version": "506.7"
+  },
+  "result": {
+    "capabilities": [
+      {
+        "featureIdentifier": "com.apple.coredevice.feature.tags",
+        "name": "Modify Tags"
+      },
+      {
+        "featureIdentifier": "com.apple.coredevice.feature.default.user.credentials",
+        "name": "Modify credentials for default users for a device"
+      },
+      {
+        "featureIdentifier": "com.apple.coredevice.feature.unpairdevice",
+        "name": "Unpair Device"
+      }
+    ],
+    "connectionProperties": {
+      "authenticationType": "manualPairing",
+      "isMobileDeviceOnly": false,
+      "lastConnectionDate": "2026-11-11T12:00:00.000Z",
+      "pairingState": "paired",
+      "potentialHostnames": [
+        "Sams-iPhone.coredevice.local",
+        "6F1C2A3B-4D5E-4F60-8A9B-0C1D2E3F4A5B.coredevice.local",
+        "00008120-000A1B2C3D4E5F60.coredevice.local"
+      ],
+      "tunnelState": "unavailable"
+    },
+    "deviceProperties": {
+      "bootedFromSnapshot": true,
+      "ddiServicesAvailable": false,
+      "developerModeStatus": "enabled",
+      "hasInternalOSBuild": false,
+      "name": "Sam's iPhone",
+      "osBuildUpdate": "24A437",
+      "osVersionNumber": "27.0",
+      "rootFileSystemIsWritable": false,
+      "supportsCheckedAllocations": false
+    },
+    "hardwareProperties": {
+      "cpuType": {
+        "name": "arm64e",
+        "subType": 2,
+        "type": 16777228
+      },
+      "deviceType": "iPhone",
+      "ecid": 1234567890123456,
+      "hardwareModel": "D27AP",
+      "internalStorageCapacity": 128000000000,
+      "isProductionFused": true,
+      "marketingName": "iPhone 14",
+      "platform": "iOS",
+      "productType": "iPhone14,7",
+      "reality": "physical",
+      "serialNumber": "XX0YY1ZZ22",
+      "supportedCPUTypes": [
+        {
+          "name": "arm64e",
+          "subType": 2,
+          "type": 16777228
+        },
+        {
+          "name": "arm64",
+          "subType": 0,
+          "type": 16777228
+        }
+      ],
+      "supportedDeviceFamilies": [1],
+      "thinningProductType": "iPhone14,7",
+      "udid": "00008120-000A1B2C3D4E5F60"
+    },
+    "identifier": "6F1C2A3B-4D5E-4F60-8A9B-0C1D2E3F4A5B",
+    "tags": [],
+    "visibilityClass": "default"
+  }
+}

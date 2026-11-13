@@ -1,0 +1,363 @@
+/*
+ * The agent's "Quem pensa" (ADR 0032 §5, addendum 2026-11-10), over the dialog Connect uses from a conversation
+ * (`.arrival-chat`, arrival.css): the sky, the title, one thing in the middle and the same footer. What is its own here:
+ * the account's limits under its row, a line per setting, the screens sliding in and the height gliding between them.
+ */
+
+/* ---------- the screens ---------- */
+/* The title, the middle and the footer glide as one box: its height eases from one screen to the next (useGlide). */
+.bd-glide {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.bd-screen {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.bd-screen:focus {
+  outline: none;
+}
+/* With the footer under it, the middle stops at its own focus room, as the body before a footer does: the screen's
+   last part, it isn't the dialog's, so it doesn't take the dialog's inset at its foot. */
+.bd .bd-glide > .bd-screen:not(:last-child) > .ac-dialog__body.ac-dialog__body {
+  padding-bottom: 4px;
+}
+/* With none (a sign-in whose actions aren't there yet), it keeps the dialog's edge at its foot. */
+.bd .bd-glide > .bd-screen:last-child > .ac-dialog__body.ac-dialog__body,
+.bd .bd-glide:has(> .arrival-chat__acts:empty) > .bd-screen > .ac-dialog__body.ac-dialog__body {
+  padding-bottom: var(--dialog-pad);
+}
+/* While the box glides, the middle doesn't flash a scrollbar. */
+.bd-glide[style*="height"] .ac-dialog__body {
+  overflow: hidden;
+}
+/* A screen comes in from the side it is on: deeper ones from the right, back from the left. The footer only fades. */
+@media (prefers-reduced-motion: no-preference) {
+  .bd-screen {
+    animation: bd-in 280ms var(--out) both;
+  }
+  .bd-screen[data-dir="back"] {
+    animation-name: bd-back;
+  }
+  .bd .bd-foot,
+  .bd .arrival-chat__acts {
+    animation: bd-fade 220ms var(--out) both;
+  }
+}
+@keyframes bd-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+@keyframes bd-back {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+@keyframes bd-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The footer with a note and two buttons: the note takes the line over them, whole, the buttons at its end. */
+.bd .ac-dialog__foot.bd-foot--two {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+.bd .bd-foot--two > .ac-dialog__foot-acts {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---------- the account in use ---------- */
+.bd-use {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Whom a switch is for, then the account it goes to: the body's own gap between them, no margin of the cards' own. */
+.bd .arrival-for {
+  margin-bottom: 0;
+}
+/* The one in use is only shown: its row doesn't take a click. */
+.arrival-have__row[data-still] {
+  cursor: default;
+}
+/* Picking another row: its ring comes on softly (at once under reduced motion, like every change here). */
+@media (prefers-reduced-motion: no-preference) {
+  .bd .arrival-have__row {
+    transition: box-shadow 140ms var(--out);
+  }
+}
+/* Its limits under it, from the mark's edge: name, bar, how much, when it renews; the columns line up. */
+.bd-wins {
+  display: grid;
+  grid-template-columns: max-content minmax(48px, 1fr) max-content max-content;
+  column-gap: 12px;
+  row-gap: 8px;
+  align-items: center;
+  margin: 4px 2px 6px;
+  padding-inline-start: 44px;
+  color: var(--ink2, var(--ink));
+  font-size: 13px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.bd-win {
+  display: contents;
+}
+.bd-win__bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  overflow: hidden;
+}
+.bd-win__bar i {
+  display: block;
+  width: var(--used);
+  height: 100%;
+  border-radius: 3px;
+  background: var(--ink-muted);
+}
+.bd-win[data-level="almost"] .bd-win__bar i,
+.bd-win[data-level="critical"] .bd-win__bar i {
+  background: var(--attention);
+}
+.bd-win[data-level="limited"] .bd-win__bar i {
+  background: var(--faint);
+}
+.bd-win__n {
+  min-width: 34px;
+  text-align: end;
+}
+.bd-win[data-level="almost"] .bd-win__n,
+.bd-win[data-level="critical"] .bd-win__n {
+  color: var(--attention);
+}
+.bd-win__at {
+  color: var(--ink-muted);
+  font-size: 12.5px;
+  text-align: end;
+  white-space: nowrap;
+}
+.bd-wins__age {
+  grid-column: 1 / -1;
+  color: var(--faint);
+  font-size: 12.5px;
+}
+/* On a phone the limits start at the row's edge, and when each renews goes under its bar. */
+@media (max-width: 480px) {
+  .bd-wins {
+    grid-template-columns: max-content minmax(32px, 1fr) max-content;
+    padding-inline-start: 0;
+  }
+  .bd-win__at {
+    grid-column: 1 / -1;
+    margin-top: -6px;
+    text-align: start;
+  }
+}
+/* The bars fill from empty as the screen comes in. */
+@media (prefers-reduced-motion: no-preference) {
+  .bd .arrival-have__meter i,
+  .bd-win__bar i {
+    animation: bd-fill 640ms var(--out) both;
+  }
+}
+@keyframes bd-fill {
+  from {
+    width: 0;
+  }
+}
+
+/* ---------- a line per setting ---------- */
+/* Its name, its value, the way in; the names share one column across the lines (subgrid). */
+.bd-lines {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) 16px;
+  column-gap: 16px;
+}
+.bd-line {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: max-content minmax(0, 1fr) 16px;
+  /* biome-ignore lint/suspicious/noDuplicateProperties: subgrid, with its own columns where a browser lacks it */
+  grid-template-columns: subgrid;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 2px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+  text-align: start;
+  cursor: pointer;
+}
+.bd-line--still {
+  cursor: default;
+}
+.bd-line__k {
+  color: var(--ink-muted);
+}
+.bd-line__v {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 600;
+}
+.bd-line__v > .ac-icon,
+.bd-line__v > .ac-brand {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+.bd-line__text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.bd-line__chev {
+  color: var(--faint);
+  transition: transform 200ms var(--out);
+}
+.bd-line[aria-expanded="true"] > .bd-line__chev {
+  transform: rotate(180deg);
+}
+.bd-line:hover .bd-line__k {
+  color: var(--ink);
+}
+html:not([data-pointer]) .bd-line:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 8px;
+}
+/* What a line opens under itself grows open (its rows from 0 to their height) and closes back. */
+.bd-fold {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms var(--out);
+}
+.bd-fold[data-open] {
+  grid-template-rows: 1fr;
+}
+.bd-fold__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+.bd-fold__in {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 2px 14px;
+}
+/* The line above already names it: the ramp keeps its hint on the head and its name for whoever reads it aloud. */
+.bd-fold .ac-effort__head > span:first-child {
+  display: none;
+}
+.bd-fold__hint {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 18px;
+  text-wrap: pretty;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bd-fold,
+  .bd-line__chev {
+    transition: none;
+  }
+}
+/* A switch's line: the words (and their ⓘ) first, the switch at the end of the first line. */
+.bd-switch,
+.bd-row {
+  grid-column: 1 / -1;
+  padding: 11px 2px;
+  border-top: 1px solid var(--line);
+}
+.bd-switch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  align-items: start;
+  font-size: 14.5px;
+  line-height: 22px;
+}
+.bd-switch__k {
+  min-width: 0;
+}
+.bd-switch > .ac-switch {
+  margin-top: 1px;
+}
+/* "Atende outras pessoas" reads like the switch lines around it: its words in the same size and weight, its terms
+   under them. */
+.bd-row .plan-replies {
+  font-size: 14.5px;
+  line-height: 22px;
+}
+.bd-row .plan-replies > :first-child {
+  font-weight: 400;
+}
+
+/* ---------- one instruction ---------- */
+/* The words start at the title's edge, like everything else in the dialog; the actions end the footer. */
+.bd-step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 4px 0 10px;
+}
+.bd-step > p {
+  margin: 0;
+  max-width: 440px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+  text-wrap: pretty;
+}
+.bd-step > span {
+  max-width: 440px;
+  color: var(--ink-muted);
+  font-size: 14.5px;
+  line-height: 21px;
+  text-wrap: pretty;
+}
+
+/* ---------- choices without a mark (the models, the computers) ---------- */
+.bd .arrival-have__row.bd-pick {
+  grid-template-columns: 18px minmax(0, 1fr);
+}
+/* Over the account line's colour (arrival.css) by specificity, never by which sheet links last. */
+.arrival-have__line.bd-pick__hint {
+  color: var(--faint);
+}
+
+/* ---------- the sky ---------- */
+/* A switch done lights the trail anew, one pixel after the other. */
+@media (prefers-reduced-motion: no-preference) {
+  .bd .team-scene__trail[data-lit] i {
+    animation: bd-lit 320ms var(--out) both;
+    animation-delay: calc(var(--n) * 60ms + 120ms);
+  }
+}
+@keyframes bd-lit {
+  from {
+    background: #ffffff40;
+    transform: scale(0.6);
+  }
+}

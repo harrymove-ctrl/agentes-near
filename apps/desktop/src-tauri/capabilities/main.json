@@ -1,0 +1,16 @@
+{
+  "identifier": "main",
+  "description": "The main window on agentes.chat (servers.rs adds the same for another server's origin, at runtime): it may drag and zoom the window from its title bar, and ask this computer what `this_mac` relays (status, pairing after the system's own dialog, reconnect, a Preferences tab, the access requests, the badge, notifications). Its right-click menu may be drawn by the system (`context_menu`). It says when it painted (`page_ready`, the cover goes). No other app command, nothing else of this computer.",
+  "webviews": ["main"],
+  "local": false,
+  "remote": {
+    "urls": ["https://app.agentes.chat/*"]
+  },
+  "permissions": [
+    "core:window:allow-start-dragging",
+    "core:window:allow-internal-toggle-maximize",
+    "allow-this-mac",
+    "allow-context-menu",
+    "allow-page-ready"
+  ]
+}

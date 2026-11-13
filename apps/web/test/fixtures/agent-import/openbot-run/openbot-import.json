@@ -1,0 +1,79 @@
+{
+  "format": "openbot-agent-import",
+  "version": 1,
+  "source": { "app": "grok-bot", "exportedAt": "2026-10-18T09:30:00Z" },
+  "agents": [
+    {
+      "key": "scout",
+      "name": "Scout",
+      "title": "Competitor scout",
+      "description": "Short version. Read imported/INSTRUCTIONS.md for everything.",
+      "avatar": "agents/scout/avatar.png",
+      "skills": ["agents/scout/skills/price-watch"],
+      "routines": [
+        {
+          "name": "Morning sweep",
+          "instruction": "List what changed on the three competitor sites since yesterday.",
+          "active": true,
+          "timezone": "Europe/Lisbon",
+          "schedule": { "kind": "weekdays", "time": "08:15" }
+        },
+        {
+          "name": "Year-end review",
+          "instruction": "Draft the yearly competitor review.",
+          "active": false,
+          "timezone": "Europe/Lisbon",
+          "schedule": { "kind": "once", "date": "2026-12-30", "time": "10:00" }
+        },
+        {
+          "name": "Pulse",
+          "instruction": "Check the pricing pages again.",
+          "active": true,
+          "timezone": null,
+          "schedule": { "kind": "interval", "amount": 45, "unit": "minutes", "anchorAt": "2026-10-01T08:00:00Z" }
+        }
+      ],
+      "memories": ["Prices are compared in EUR.", "The main rivals are Northwind and Contoso."],
+      "files": "agents/scout/files"
+    },
+    {
+      "key": "closer",
+      "name": "Closer",
+      "title": "Account executive",
+      "description": "You write short follow-up emails. Never promise a discount.",
+      "avatar": null,
+      "skills": [],
+      "routines": [
+        {
+          "name": "Stale deals",
+          "instruction": "List the deals with no reply for five days.",
+          "active": true,
+          "timezone": "America/Sao_Paulo",
+          "schedule": { "kind": "custom", "expression": "0 17 * * MON-FRI" }
+        }
+      ],
+      "memories": [],
+      "files": null
+    }
+  ],
+  "channels": [
+    {
+      "key": "deal-room",
+      "name": "Deal room",
+      "title": "Weekly pricing call",
+      "instructions": "Scout brings the news; Closer says what it changes for open deals.",
+      "members": ["scout", "closer", "ghost"],
+      "lead": "scout",
+      "routines": [
+        {
+          "name": "Friday call",
+          "instruction": "Agree on three actions for next week.",
+          "active": true,
+          "timezone": "Europe/Lisbon",
+          "schedule": { "kind": "weekly", "weekday": 5, "time": "15:00" }
+        }
+      ],
+      "memories": ["Deals above 10k need a second look."]
+    }
+  ]
+}

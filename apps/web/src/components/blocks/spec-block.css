@@ -1,0 +1,382 @@
+/*
+ * A live block drawn by the app (ADR 0113): the same look the kit gave a block's page (the app's controls, plain
+ * cards, a cut corner), now with the app's own components and tokens, so it follows the theme with nothing to send.
+ */
+.spec-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 6px 16px 16px;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+.spec-block > * {
+  min-width: 0;
+}
+.spec-block__heading {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 22px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.spec-block__text {
+  margin: 0;
+  color: var(--ink2);
+  text-wrap: pretty;
+}
+.spec-block__note {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--faint);
+  text-wrap: pretty;
+}
+.spec-block__list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--ink2);
+}
+.spec-block__list li {
+  margin: 2px 0;
+}
+.spec-block__list li::marker {
+  color: var(--faint);
+}
+.spec-block__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--muted);
+}
+.spec-block__label b {
+  font-weight: 650;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.spec-block__title {
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 550;
+  color: var(--muted);
+}
+
+/* The slider: the kit's track and its cut-corner thumb. */
+.spec-block__slider {
+  display: block;
+}
+.spec-block__slider input[type="range"] {
+  --p: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.spec-block__slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ink) var(--p), var(--line2) var(--p));
+}
+.spec-block__slider input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ink) var(--p), var(--line2) var(--p));
+}
+.spec-block__slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border-radius: 7px 7px 7px 3px;
+  background: linear-gradient(180deg, #fff, #f1f1ee);
+  box-shadow:
+    0 0 0 1px rgba(23, 23, 22, 0.14),
+    0 2px 5px rgba(23, 23, 22, 0.2),
+    inset 0 1px 0 #fff;
+  transition: transform 0.12s cubic-bezier(0.34, 1.36, 0.5, 1);
+}
+.spec-block__slider input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 7px 7px 7px 3px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(23, 23, 22, 0.14),
+    0 2px 5px rgba(23, 23, 22, 0.2);
+}
+.spec-block__slider input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+html:not([data-pointer]) .spec-block__slider input[type="range"]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.spec-block__switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--ink2);
+}
+
+/* Numbers: tiles in a row, the cut corner of the app's cards. */
+.spec-block__stats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+}
+.spec-block__stat {
+  padding: 10px 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: color-mix(in srgb, var(--sunken) 45%, var(--raised));
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.spec-block__stat span {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.spec-block__stat b {
+  display: block;
+  margin-top: 1px;
+  font-size: 21px;
+  line-height: 27px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.spec-block__stat small {
+  display: block;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.spec-block__stat[data-tone="up"] small {
+  color: var(--ok);
+}
+.spec-block__stat[data-tone="down"] small {
+  color: var(--danger);
+}
+
+.spec-block__result {
+  padding: 10px 14px 12px;
+  text-align: center;
+  border-radius: 14px 14px 14px 4px;
+  background: color-mix(in srgb, var(--sunken) 45%, var(--raised));
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.spec-block__result span {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.spec-block__result b {
+  display: block;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+/* A value the server drew rolls in: the same moment for everyone looking. */
+.spec-block__result b[data-roll] {
+  animation: spec-block-roll 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.15);
+}
+@keyframes spec-block-roll {
+  0% {
+    transform: translateY(-120%);
+    filter: blur(3px);
+    opacity: 0;
+  }
+  45% {
+    transform: translateY(18%);
+    filter: blur(0);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.spec-block__progress {
+  display: block;
+}
+.spec-block__track {
+  display: block;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--plate);
+}
+.spec-block__track span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ink);
+  transition: width 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.spec-block__chart {
+  margin: 0;
+}
+.spec-block__table {
+  overflow-x: auto;
+}
+
+.spec-block__more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  border-radius: 6px;
+}
+.spec-block__more summary::-webkit-details-marker {
+  display: none;
+}
+.spec-block__more summary::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.6px solid;
+  border-bottom: 1.6px solid;
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+}
+.spec-block__more[open] summary::before {
+  transform: rotate(45deg);
+}
+html:not([data-pointer]) .spec-block__more summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.spec-block__more-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+.spec-block__row {
+  display: grid;
+  gap: 14px 16px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+@media (max-width: 440px) {
+  .spec-block__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A card: flat, a hairline and the cut corner; as a choice, the picked one gets the ink line. */
+.spec-block__card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--line2);
+}
+.spec-block__card[data-pick] {
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.spec-block__card[data-pick]:not([data-on]):hover {
+  box-shadow: 0 0 0 1px var(--faint);
+}
+.spec-block__card[data-on] {
+  box-shadow: 0 0 0 1.6px var(--ink);
+}
+html:not([data-pointer]) .spec-block__card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.spec-block__card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 10px;
+}
+.spec-block__card-head b {
+  font-size: 14px;
+  font-weight: 650;
+}
+.spec-block__card-head small {
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--faint);
+}
+
+.spec-block__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.spec-block__actions[data-align="center"],
+.spec-block__result + .spec-block__actions {
+  justify-content: center;
+}
+.spec-block__actions[data-align="start"] {
+  justify-content: flex-start;
+}
+
+/* The agent's own page waits for a click (ADR 0113): what it is, and the button that runs it. */
+.live-block__gate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 14px 16px;
+}
+.live-block__gate span {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.live-block__gate b {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.live-block__gate small {
+  font-size: 12.5px;
+  line-height: 17px;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spec-block__result b[data-roll],
+  .spec-block__track span {
+    animation: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "agentes-chat",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --filter '@agenteschat/server' --filter '@agenteschat/web' dev",
+    "start": "bun run --filter '@agenteschat/server' start",
+    "build": "bun run --filter '@agenteschat/web' build && bun run --filter '@agenteschat/server' build",
+    "test": "bun test",
+    "typecheck": "bun run --filter '*' typecheck",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check:boundaries": "bun scripts/check-boundaries.ts",
+    "check:licenses": "bun scripts/check-licenses.ts",
+    "check:migrations": "bun scripts/check-migrations.ts",
+    "check:geometry": "bun scripts/geometry/check.ts",
+    "sync:unavailable": "bun scripts/unavailable-page.ts",
+    "ci:local": "bash scripts/ci-local.sh",
+    "db:generate": "cd packages/db && bunx drizzle-kit generate --name",
+    "docs:env": "bun run --filter '@agenteschat/config' docs",
+    "i18n:missing": "bun scripts/i18n.ts missing",
+    "i18n:apply": "bun scripts/i18n.ts apply",
+    "i18n:status": "bun scripts/i18n.ts status",
+    "report:autonomy": "bun --env-file=.env apps/server/scripts/autonomy-report.ts",
+    "smoke": "bun --env-file=.env scripts/smoke.ts",
+    "composio:check": "bun --env-file=.env apps/server/scripts/composio-check.ts",
+    "eval:memory": "bun --env-file=.env packages/engine/eval/memory.ts",
+    "eval:behavior": "bun --env-file=.env packages/engine/eval/behavior.ts",
+    "eval:resilience": "bun --env-file=.env packages/engine/eval/resilience.ts",
+    "eval:mentions": "bun --env-file=.env packages/engine/eval/mention-handoff.ts",
+    "eval:catchup": "bun --env-file=.env packages/engine/eval/catch-up.ts",
+    "eval:router": "bun --env-file=.env packages/engine/eval/router.ts",
+    "eval:turns": "bun --env-file=.env packages/engine/eval/turns-real.ts",
+    "eval:conversation": "bun --env-file=.env packages/engine/eval/conversation.ts",
+    "eval:browser": "bun --env-file=.env packages/engine/eval/browser/ab.ts",
+    "eval:browser:micro": "bun --env-file=.env packages/engine/eval/browser/micro.ts",
+    "eval:desktop:micro": "bun --env-file=.env packages/engine/eval/desktop/micro.ts",
+    "eval:media": "bun --env-file=.env packages/engine/eval/media/run.ts",
+    "eval:brain-floor": "bun apps/server/scripts/brain-floor.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/bun": "^1.4.2",
+    "typescript": "^7.0.2"
+  },
+  "patchedDependencies": {
+    "react-native-screens@4.30.0": "patches/react-native-screens@4.30.0.patch"
+  },
+  "packageManager": "bun@1.4.4",
+  "license": "AGPL-3.0-only"
+}

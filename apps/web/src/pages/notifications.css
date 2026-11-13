@@ -1,0 +1,840 @@
+/*
+ * Notificações: "Esperando você" on top (the
+ * agents look up while they wait), then the rest by day, grouped by
+ * conversation. Inline actions float on hover / focus (a row on phones),
+ * the mini composer opens in place. Pixel pieces from @agenteschat/ui:
+ * ExpiryFuse (approvals), PlanStrip (mission and routine steps), SkyGlow
+ * (all caught up).
+ */
+.nt {
+  padding-bottom: 120px;
+}
+.nt-grow {
+  flex: 1;
+}
+
+/* Avatars at the design's sizes (the engine draws to the box). A row's face is a MediaRow's, 24. */
+.nt-av24 {
+  width: 24px;
+  height: 24px;
+}
+.nt-av30 {
+  width: 30px;
+  height: 30px;
+}
+.nt-av22 {
+  width: 22px;
+  height: 22px;
+}
+.nt-av20 {
+  width: 20px;
+  height: 20px;
+  font-size: 9px;
+}
+.nt-av17 {
+  width: 17px;
+  height: 17px;
+  font-size: 8px;
+}
+
+/* ── Toolbar (the header is the shared PageHeader) ──────────────────────── */
+.nt-tb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Out over the page's side room: where the filters scroll, they slide under the work area's edges. */
+.nt-segwrap {
+  max-width: calc(100% + 2 * var(--page-x));
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px var(--page-x);
+  margin: -2px calc(-1 * var(--page-x));
+}
+.nt-segwrap::-webkit-scrollbar {
+  display: none;
+}
+@media (hover: none) {
+  .nt-keys-btn {
+    display: none;
+  }
+}
+
+/* ── "Esperando você": what blocks an agent or a decision ───────────────── */
+/* The day groups' head, then each request on a card of its own, the face inside it where a day's row has it, so a
+   waiting card and the day's list share both edges and the words' column. */
+.nt-wait__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nt-wi {
+  --nt-wi-side: 16px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  border-radius: 18px;
+  outline: none;
+  cursor: pointer;
+}
+/* A MediaRow on the card: the face (a day's row's size) on its first line (who asks, its kind), centred on that line,
+   the words after it, and everything else under them at the card's full width. */
+.nt-wi > .nt-face {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: var(--nt-wi-side);
+  display: flex;
+  pointer-events: none;
+}
+.nt-wi > .rq {
+  max-width: none;
+  margin: 0;
+}
+.nt-wi > :is(.rq, .nt-wr__main) > .rq__head {
+  padding-left: 32px;
+}
+/* The one the keys are on (J/K): its card's edge a step stronger. */
+.nt-wi.is-cur > :is(.rq, .nt-wr__main) {
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+html:not([data-pointer]) .nt-wi:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+html:not([data-pointer]) .nt-item:focus-visible {
+  box-shadow: var(--focus-ring-inset);
+}
+.nt-ctx {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.nt-ctx b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+/* Its agent stopped until I answer: in attention once it has waited a while. */
+.nt-late {
+  color: var(--warn);
+  font-weight: 600;
+}
+/* Remind me later and Done end the footer, after the time. */
+.rq__end > .nt-tail.ac-acts {
+  display: flex;
+  margin-right: -6px;
+}
+
+/* ── What only points somewhere: a card of the requests' shape, opened by a click on it ── */
+.nt-wr__main {
+  max-width: none;
+  margin: 0;
+}
+/* Where it is from, then when, as a request's kind; the time left on the right, as its state. */
+.nt-wr__left {
+  margin-left: auto;
+}
+/* The headline is the card's words: their size, its names in bold. */
+.nt-wr .rq__lead.nt-what {
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+}
+.nt-wr__sub {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin: 4px 0 0;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--muted);
+}
+/* The whole card opens: Open answers its hover. */
+@media (hover: hover) {
+  .nt-wr:hover .nt-wr__open:not(:focus-visible) {
+    box-shadow: var(--e2), var(--top);
+  }
+}
+.nt-ok {
+  color: var(--ok);
+}
+.nt-quote {
+  display: flex;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--ink2);
+  line-height: 1.5;
+  min-width: 0;
+}
+.nt-quote::before {
+  content: "";
+  width: 3px;
+  border-radius: 3px;
+  background: var(--line2);
+  flex: none;
+}
+.nt-quote span {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.nt-resolved {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+  animation: nt-fi 0.25s var(--out);
+}
+
+/* ── Day groups and items ───────────────────────────────────────────────── */
+/* The shared list card, but tooltips under the last row must not be clipped. */
+.nt-list {
+  overflow: visible;
+}
+/* A MediaRow: the face, who and what on its line with the time at its end, the rest under them at the row's width. The
+   face 10 from the top, so the headline's line, centred on it, is 12 from the top as the last line is from the bottom. */
+.nt-item {
+  position: relative;
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--line);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.nt-item:first-child {
+  border-top: 0;
+  border-radius: 20px 20px 0 0;
+}
+.nt-item:last-child {
+  border-radius: 0 0 20px 20px;
+}
+.nt-item:only-child {
+  border-radius: 20px;
+}
+/* The row's ground, opaque over the list card's face, is also the ring that cuts a second face or an emoji out of the
+   first (`.nt-stk`, `.nt-emo`): a fixed card-colored ring drew a lighter circle on a hovered or current row in dark. */
+.nt-item {
+  --nt-ground: var(--raised);
+}
+.nt-item:hover {
+  --nt-ground: color-mix(in srgb, var(--sunken) 40%, var(--raised));
+  background: var(--nt-ground);
+}
+.nt-item.is-cur {
+  --nt-ground: color-mix(in srgb, var(--sunken) 75%, var(--raised));
+  background: var(--nt-ground);
+}
+.nt-item > .ac-mediarow__head {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+/* A source chip ("Devices", "Routine") never touches the headline above it: 8 under it, like the snippet under them. */
+.nt-item:has(> .ac-mediarow__body > .nt-tags:first-child) {
+  row-gap: var(--space-2);
+}
+/* In the body its parts stand the body's gap apart. */
+.nt-item > .ac-mediarow__body > * {
+  margin-block: 0;
+}
+.nt-what {
+  min-width: 0;
+}
+.nt-what b {
+  color: var(--ink);
+  font-weight: 600;
+}
+/* Unread is the weight of the headline (no bar on the side, like Threads). */
+.nt-item:not(.is-unread) .nt-what b,
+.nt-wr:not(.is-unread) .nt-what b {
+  font-weight: 500;
+}
+/* A headline that names nobody (the workspace's computer, its standing) is all subject: it takes the weight whole. */
+.nt-what:not(:has(b)) {
+  color: var(--ink);
+  font-weight: 600;
+}
+.nt-item:not(.is-unread) .nt-what:not(:has(b)) {
+  font-weight: 500;
+}
+.nt-tm {
+  font-size: 12px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* The kit's chips as they are: 22 high, their words 12. */
+.nt-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nt-chip-ink {
+  color: var(--ink2);
+}
+.nt-chip-ok .ac-icon {
+  color: var(--ok);
+}
+.nt-chip-warn .ac-icon {
+  color: var(--warn);
+}
+.nt-snip {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* A restriction's notice: its whole line, how to contest it included. */
+.nt-snip--whole {
+  -webkit-line-clamp: unset;
+}
+.nt-item:not(.is-unread) .nt-snip {
+  color: var(--muted);
+}
+.nt-snip b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+.nt-replied {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+  font-size: 12.5px;
+  color: var(--muted);
+  min-width: 0;
+}
+.nt-replied .ac-icon {
+  color: var(--ok);
+}
+.nt-replied span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nt-replied--quiet {
+  color: var(--faint);
+}
+/* The face of what the workspace itself tells: its icon in a tile the size of the people's and agents'. */
+.nt-sys {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 30%;
+  background: var(--sunken);
+  color: var(--ink2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+/* A group: two stacked faces in one face's room. */
+.nt-stk {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.nt-stk > *:first-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.nt-stk > *:nth-child(2) {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  box-shadow: 0 0 0 2px var(--nt-ground, var(--raised));
+}
+.nt-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  height: var(--control-h-sm);
+  padding: 0 10px 0 6px;
+  margin-left: -6px;
+  border: 0;
+  border-radius: var(--control-r-sm);
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--ink2);
+  cursor: pointer;
+}
+.nt-more:hover {
+  background: rgba(127, 127, 127, 0.12);
+}
+html:not([data-pointer]) .nt-more:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nt-more .ac-icon {
+  transition: transform 0.25s var(--spring);
+}
+.nt-more[aria-expanded="true"] .ac-icon {
+  transform: rotate(180deg);
+}
+.nt-reps {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  background: var(--sunken);
+  animation: nt-fi 0.25s var(--out);
+}
+.nt-rep {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 0 10px;
+  padding: 9px 12px;
+  border-top: 1px solid var(--line);
+}
+.nt-rep:first-child {
+  border-top: 0;
+}
+.nt-rep__head {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 13px;
+}
+.nt-rep__head b {
+  font-weight: 600;
+}
+.nt-rep__head small {
+  font-size: 11.5px;
+  color: var(--faint);
+}
+.nt-rep p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+/* Reactions: quieter. */
+.nt-item--rx > .ac-mediarow__head {
+  font-size: 13px;
+}
+.nt-item--rx .nt-what b {
+  font-weight: 550;
+}
+.nt-emo {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+}
+.nt-emo span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--sunken);
+  box-shadow: 0 0 0 2px var(--nt-ground, var(--raised));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+}
+.nt-emo span:nth-child(2) {
+  left: 6px;
+  top: 6px;
+}
+.nt-item--rx .nt-quote {
+  font-size: 13px;
+  color: var(--muted);
+}
+.nt-item--rx .nt-quote span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Mission and routine steps as a pixel strip. */
+.nt-steprow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* A device notice's decisions on that line: the kit's line of actions keeps its own column gap, plated pairs 8 apart. */
+.nt-steprow.ac-acts {
+  column-gap: calc(2 * var(--ghost-plate));
+}
+
+/* ── Inline actions: on hover / focus (a floating bar), a row on phones ──── */
+.nt-acts {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: calc(var(--control-r-sm) + 3px);
+  background: var(--raised);
+  box-shadow: var(--e2), var(--top);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(3px);
+  transition:
+    opacity 0.15s,
+    transform 0.2s var(--spring);
+  z-index: 2;
+}
+.nt-item:hover .nt-acts,
+.nt-item:focus-within .nt-acts,
+.nt-item.is-cur .nt-acts,
+.nt-item:has([data-state="open"]) .nt-acts {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.nt-item.is-replying .nt-acts {
+  opacity: 0;
+  pointer-events: none;
+}
+/* The time ends every row at the card's edge, the same place on each, and the bar floats over it while it shows: no
+   room kept per row for buttons that aren't there (it put each row's time somewhere else). */
+@media (min-width: 721px) {
+  .nt-item:is(:hover, :focus-within, .is-cur, :has([data-state="open"])):not(.is-replying) .nt-tm {
+    visibility: hidden;
+  }
+}
+.nt-nb {
+  position: relative;
+  width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  border-radius: var(--control-r-sm);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font: inherit;
+  line-height: normal;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.18s var(--spring);
+}
+.nt-nb:hover {
+  background: rgba(127, 127, 127, 0.12);
+  color: var(--ink);
+}
+.nt-nb:active {
+  transform: scale(0.92);
+}
+html:not([data-pointer]) .nt-nb:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nt-nb__label {
+  display: none;
+}
+.nt-nb[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--bg);
+  background: var(--ink);
+  box-shadow: var(--e2);
+  pointer-events: none;
+  animation: nt-fi 0.15s var(--out);
+  z-index: 5;
+}
+
+/* ── The mini composer, opened in place ─────────────────────────────────── */
+.nt-cmp {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+  animation: nt-fi 0.22s var(--out);
+  cursor: auto;
+}
+.nt-cmp:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.nt-cmp textarea {
+  all: unset;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  max-height: 180px;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 2px 4px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  color: var(--ink);
+}
+.nt-cmp textarea::placeholder {
+  color: var(--faint);
+}
+.nt-cmp textarea:disabled {
+  color: var(--muted);
+  -webkit-text-fill-color: currentColor;
+  cursor: not-allowed;
+}
+/* Why it takes nothing (the workspace is being deleted), where the text would start. */
+.nt-cmp__readonly {
+  margin: 0;
+  padding: 2px 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.nt-cmp__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nt-cmp__hint {
+  font-size: 12px;
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* Its keys mean nothing on a touch screen or at phone width. */
+@media (max-width: 760px), (pointer: coarse) {
+  .nt-cmp__hint {
+    display: none;
+  }
+}
+
+/* ── Exit and entrance ──────────────────────────────────────────────────── */
+.is-leaving {
+  animation: nt-leave 0.26s var(--out) both;
+  pointer-events: none;
+}
+.nt-item.is-new,
+.nt-wi.is-new {
+  animation: nt-landed 0.8s var(--spring) both;
+}
+.nt-item.is-new::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  opacity: 0;
+  animation: nt-ring 2.4s var(--out) 0.2s;
+}
+.nt-item.is-pulse {
+  animation: nt-pulse 0.7s var(--spring);
+}
+@keyframes nt-leave {
+  to {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes nt-ring {
+  15% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes nt-landed {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes nt-pulse {
+  40% {
+    transform: scale(1.01);
+    background: color-mix(in srgb, var(--sunken) 70%, transparent);
+  }
+}
+@keyframes nt-fi {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nt-more-pages {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+/* ── Phones ─────────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .nt .ac-pagehead__actions {
+    width: 100%;
+  }
+  .nt-tb {
+    margin-bottom: 14px;
+  }
+  .nt-segwrap {
+    width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  .nt-item {
+    padding: 12px 14px;
+  }
+  /* The actions: a row under the tapped item. */
+  .nt-acts {
+    position: static;
+    grid-column: 1 / -1;
+    display: none;
+    margin-top: 2px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nt-item.is-cur .nt-acts {
+    display: flex;
+  }
+  .nt-item.is-replying .nt-acts {
+    display: none;
+  }
+  .nt-nb {
+    width: auto;
+    height: var(--control-h-sm);
+    padding: 0 10px;
+    border-radius: var(--control-r-sm);
+    background: var(--raised);
+    box-shadow: var(--e1), var(--top);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink2);
+  }
+  .nt-nb__label {
+    display: inline;
+  }
+  .nt-nb[data-act="open"] {
+    width: var(--control-h-sm);
+    padding: 0;
+  }
+  .nt-nb[data-act="open"] .nt-nb__label {
+    display: none;
+  }
+  .nt-nb[data-tip]:hover::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nt-item,
+  .nt-wi,
+  .nt-item::after,
+  /* As specific as the rules that start them: a media query adds no weight. */
+  .nt-item.is-new,
+  .nt-wi.is-new,
+  .nt-item.is-new::after,
+  .nt-item.is-pulse,
+  .nt-nb[data-tip]:hover::after,
+  .nt-acts,
+  .nt-nb,
+  .nt-nb::after,
+  .nt-cmp,
+  .nt-reps,
+  .nt-resolved,
+  .nt-more .ac-icon,
+  .nt-faces > * {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* A shared failure row's agents: each a button to its conversation. */
+.nt-fails {
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+.nt-fails > li + li .nt-rep {
+  border-top: 1px solid var(--line);
+}
+.nt-fails .nt-rep {
+  width: 100%;
+  align-items: center;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.nt-fails > li:first-child .nt-rep {
+  border-radius: 14px 14px 0 0;
+}
+.nt-fails > li:last-child .nt-rep {
+  border-radius: 0 0 14px 14px;
+}
+.nt-fails > li:only-child .nt-rep {
+  border-radius: 14px;
+}
+.nt-fails .nt-rep:hover {
+  background: rgba(127, 127, 127, 0.08);
+}
+html:not([data-pointer]) .nt-fails .nt-rep:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.nt-fails .nt-rep__head {
+  min-width: 0;
+}
+.nt-fails .nt-rep__head small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* A change someone sent to whoever decides (ADR 0137): its card under the words, decided right here. */
+.nt-wr__card {
+  min-width: 0;
+  cursor: auto;
+}

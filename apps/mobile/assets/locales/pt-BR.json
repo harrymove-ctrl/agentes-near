@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "Para enviar imagens nas conversas.",
+    "NSCameraUsageDescription": "Para tirar fotos para as conversas e ler QR codes.",
+    "NSPhotoLibraryAddUsageDescription": "Para salvar imagens das conversas no app Fotos."
+  }
+}

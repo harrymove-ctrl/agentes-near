@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "Om afbeeldingen in je gesprekken te sturen.",
+    "NSCameraUsageDescription": "Om foto's voor je gesprekken te maken en QR-codes te scannen.",
+    "NSPhotoLibraryAddUsageDescription": "Om afbeeldingen uit je gesprekken in Foto's te bewaren."
+  }
+}

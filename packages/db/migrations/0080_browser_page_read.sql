@@ -1,0 +1,1 @@
+ALTER TABLE "browser_handoffs" ADD COLUMN "page_read_at" timestamp with time zone;

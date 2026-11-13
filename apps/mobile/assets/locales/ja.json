@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "会話で画像を送信するために使用します。",
+    "NSCameraUsageDescription": "会話用の写真の撮影とQRコードの読み取りに使用します。",
+    "NSPhotoLibraryAddUsageDescription": "会話の画像を写真に保存するために使用します。"
+  }
+}

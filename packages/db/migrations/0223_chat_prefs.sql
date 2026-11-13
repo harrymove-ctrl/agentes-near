@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "chat_prefs" jsonb DEFAULT '{}'::jsonb NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "agents" ADD COLUMN "audience_role_ids" uuid[] DEFAULT '{}'::uuid[] NOT NULL;

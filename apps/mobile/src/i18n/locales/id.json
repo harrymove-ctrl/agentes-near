@@ -1,0 +1,159 @@
+{
+  "common": {
+    "back": "Kembali",
+    "cancel": "Batal",
+    "close": "Tutup",
+    "continue": "Lanjut",
+    "done": "Selesai",
+    "retry": "Coba lagi",
+    "loading": "Memuat",
+    "or": "atau"
+  },
+  "auth": {
+    "skyLabel": "Langit berisi agen",
+    "social": {
+      "failed": "Belum bisa memasukkanmu sekarang. Coba lagi.",
+      "unfinished": "Proses masuk tidak selesai. Coba lagi atau pakai emailmu."
+    },
+    "errors": {
+      "network": "Tidak ada koneksi. Periksa internet lalu coba lagi.",
+      "generic": "Ada yang salah. Coba lagi.",
+      "offlineRetry": "Sedang tidak ada internet. Aku lanjutkan begitu koneksi kembali."
+    },
+    "flow": {
+      "email": "Apa alamat emailmu?",
+      "emailLead": "Untuk masuk atau membuat akunmu.",
+      "signUp": "Senang bertemu denganmu. Tim memanggilmu apa?"
+    },
+    "server": {
+      "line": "Server: {{host}} ·",
+      "change": "Ganti",
+      "title": "Di mana agentes.chat-mu?",
+      "subtitle": "Alamat yang dibuka timmu di browser.",
+      "label": "Alamat server",
+      "placeholder": "agentes.timkamu.ts.net",
+      "use": "Pakai server ini",
+      "checking": "Memeriksa…",
+      "scan": "Pindai kode QR",
+      "backTo": "Kembali ke {{host}}",
+      "footChange": "Ganti",
+      "footChoose": "Server dan bahasa",
+      "footServer": "Server lain",
+      "footLanguage": "Bahasa",
+      "footTeam": "Pakai server timmu?",
+      "footTeamAction": "Masuk lewat server itu",
+      "footOn": "Masuk ke {{host}}",
+      "footSwitch": "Ganti",
+      "now": "Sekarang di {{host}}",
+      "invalid": "Periksa alamatnya, misalnya agentes.timkamu.ts.net.",
+      "unreachable": "Kami tidak bisa menjangkau {{host}}. Periksa alamat dan koneksimu, lalu coba lagi.",
+      "unreachableTailscale": "Kami tidak bisa menjangkau {{host}}. Server ini ada di Tailscale: buka aplikasi Tailscale, hubungkan, lalu coba lagi. Sudah terhubung? Komputer servernya mungkin sedang tidur atau aplikasinya ditutup.",
+      "certificate": "Sertifikat {{host}} tidak valid. Hubungi orang yang mengelola server.",
+      "notAgentes": "{{host}} bukan server agentes.chat. Periksa alamatnya.",
+      "serverTooOld": "{{host}} perlu diperbarui agar bisa dipakai dengan aplikasi ini.",
+      "appTooOld": "Perbarui aplikasi agentes untuk memakai {{host}}.",
+      "down": {
+        "line": "{{host}} tidak menjawab.",
+        "text": "Mungkin sedang mati atau di luar jaringanmu. Aplikasi akan terbuka sendiri begitu server kembali.",
+        "tryNow": "Coba sekarang",
+        "switchServer": "Ganti server",
+        "retryIn_other": "mencoba lagi dalam {{count}} dtk"
+      }
+    },
+    "connect": {
+      "title": "Hubungkan ke server ini?",
+      "titleSignIn": "Masuk dengan akun komputer?",
+      "on": "Server: {{host}}",
+      "leave": "Kamu akan keluar dari akun saat ini di ponsel ini.",
+      "confirm": "Hubungkan",
+      "notNow": "Nanti saja",
+      "checking": "Memeriksa server…",
+      "notALink": "Tautan ini bukan dari server agentes.chat.",
+      "tokenFailed": "Kode sudah kedaluwarsa atau sudah dipakai. Masuk dengan emailmu, atau tampilkan kode baru di komputer.",
+      "signInSlow": "Proses masuk lebih lama dari seharusnya. Masuk dengan emailmu, atau tampilkan kode baru di komputer."
+    },
+    "scan": {
+      "hint": "Arahkan ke kode QR di komputer",
+      "typeAddress": "Ketik alamatnya",
+      "notOurs": "Kode QR ini bukan dari server agentes.chat.",
+      "cameraTitle": "Pakai kamera",
+      "cameraText": "Kamera hanya dipakai untuk membaca kode QR.",
+      "allow": "Izinkan kamera",
+      "settings": "Buka Pengaturan"
+    }
+  },
+  "org": {
+    "noneTitle": "Kamu belum ada di ruang kerja mana pun",
+    "noneSubtitle": "Minta undangan ke seseorang di timmu, atau buat ruang kerja di situs web.",
+    "openSite": "Buka situs web",
+    "signOut": "Keluar"
+  },
+  "account": {
+    "deleteFailed": "Belum bisa menghapus akunmu sekarang. Coba lagi.",
+    "deleted": "Akunmu hilang selamanya pada {{date}}. Masuk sebelum itu untuk memulihkannya.",
+    "signedOut": "Kamu sudah keluar."
+  },
+  "theme": {
+    "system": "Sama seperti ponsel",
+    "light": "Terang",
+    "dark": "Gelap"
+  },
+  "push": {
+    "channel": "Peringatan",
+    "channelDescription": "Yang menunggumu, sebutan, dan percakapan.",
+    "offer": {
+      "line": "Mau tahu saat {{name}} selesai?",
+      "action": "Beri tahu aku"
+    },
+    "ask": {
+      "title": "Ketahui saat agen membutuhkanmu",
+      "text": "Mereka bekerja selagi kamu mengerjakan hal lain. Kami akan memberi tahu saat mereka butuh persetujuanmu, menyelesaikan permintaanmu, atau memanggilmu.",
+      "on": "Aktifkan notifikasi",
+      "later": "Nanti saja",
+      "done": "Notifikasi aktif",
+      "failed": "Belum bisa mengaktifkan notifikasi. Coba lagi di Kamu › Notifikasi.",
+      "someone": "Seorang agen",
+      "examples": "Contoh notifikasi",
+      "now": "sekarang",
+      "minutes": "{{n}} mnt",
+      "approval": {
+        "title": "{{name}} butuh persetujuanmu",
+        "body": "Boleh aku lanjutkan permintaanmu?"
+      },
+      "finished": {
+        "title": "{{name}} sudah selesai",
+        "body": "Permintaanmu sudah siap."
+      },
+      "mention": {
+        "title": "{{name}} memanggilmu",
+        "body": "Bisa lihat sebentar kalau ada waktu?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, agen",
+    "agentWorking": "{{name}}, agen, sedang bekerja",
+    "agentPlain": "Agen",
+    "person": "{{name}}",
+    "loading": "Memuat",
+    "grabber": "Seret ke bawah untuk menutup",
+    "closeSheet": "Tutup",
+    "send": "Kirim",
+    "attach": "Lampirkan dan lainnya",
+    "hold": "Tahan untuk konfirmasi",
+    "clearSearch": "Hapus pencarian"
+  },
+  "composer": {
+    "placeholder": "Tulis pesan",
+    "join": "Tambahkan ke tugas yang sedang berjalan",
+    "now": "Hentikan dan kirim",
+    "choice": "Cara mengirim selagi agen bekerja",
+    "holdToStop": "Tahan untuk menghentikan dan mengirim"
+  },
+  "search": {
+    "placeholder": "Cari"
+  },
+  "picker": {
+    "none": "Tidak ada yang cocok dengan “{{text}}”."
+  }
+}

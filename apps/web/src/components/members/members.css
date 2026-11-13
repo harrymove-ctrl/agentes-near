@@ -1,0 +1,303 @@
+/* A channel's members on the right: under the channel's header, on the work's sheet, its
+   own scroll. The thread, search and agent panels float over it. */
+.members-side {
+  flex: 0 0 264px;
+  width: 264px;
+  overflow-y: auto;
+  padding: 18px 10px 24px 12px;
+  box-sizing: border-box;
+  background: var(--pane);
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--line) 80%, transparent);
+  --presence-ring: var(--pane);
+  /* Row plates step from the work's sheet, not the sidebar's paper (dark's paper hover is invisible on the sheet).
+     Opaque, so the presence ring that reuses them matches the plate it sits on. */
+  --side-hover: color-mix(in srgb, var(--ink) 6%, var(--pane));
+  --side-chosen: color-mix(in srgb, var(--ink) 11%, var(--pane));
+}
+.members-side__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.members-side__group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+/* "Members": the column's one title, over its groups. */
+.members-side__title {
+  margin: 0 0 -6px;
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--ink);
+}
+.members-side__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0 8px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
+}
+/* Last in the list, for who manages the channel: the channel details' add flow (the plus tile is theirs too).
+   A smaller tile and text than a member's row and less room on the right, so the label stays on one line in 264px
+   even beside the 8px scrollbar (German's, the longest, ~186px of the 190px left). */
+.members-side__add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  padding: 5px 4px 5px 8px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: var(--control-r-md);
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--ink-muted);
+  text-align: left;
+  cursor: pointer;
+}
+.members-side__add .member-row__plus {
+  width: 24px;
+  height: 24px;
+}
+.members-side__add .member-row__plus .ac-icon {
+  width: 14px;
+  height: 14px;
+}
+.members-side__add:hover {
+  background: var(--side-hover);
+  color: var(--ink);
+}
+html:not([data-pointer]) .members-side__add:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.members-side__row.profile-trigger {
+  display: flex;
+  width: 100%;
+  border-radius: var(--control-r-md);
+  text-align: left;
+}
+.members-side__inner {
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.members-side__row.profile-trigger:hover {
+  background: var(--side-hover);
+}
+/* The row whose card is open keeps its plate. */
+.members-side__row.profile-trigger[data-state="open"] {
+  background: var(--side-chosen);
+}
+html:not([data-pointer]) .members-side__row.profile-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.members-side__inner .sidebar__trail {
+  z-index: -1;
+  opacity: 0.9;
+}
+.members-side__inner > .ac-avatar {
+  flex: none;
+  width: var(--name-face);
+  height: var(--name-face);
+}
+.members-side__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.members-side__name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 19px;
+  color: var(--ink);
+}
+.members-side__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.members-side__you {
+  flex: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+/* What someone is doing: one line under the name, ending in "…" (the row's title and the profile have it whole), so
+   the face, the name and the line share the row's middle like every face row in the sidebar. Wrapped, it left the
+   face hanging at the top beside a two-line block and the emoji off its words' line. */
+.members-side__line {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12.5px;
+  /* The role's tag's height: a row keeps its height whichever of the two its second line shows. */
+  line-height: 18px;
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.members-side__line.status-line {
+  display: flex;
+}
+/* With an icon it is an `.ac-iconline`, which places the icon on the line itself (one line here, so its middle). */
+.members-side__line.status-line:not(.ac-iconline) {
+  align-items: center;
+}
+.members-side__line.status-line > :first-child {
+  translate: none;
+}
+/* An agent's role as a tag (`.ac-tag`), as in the sidebar: its own small plate, as wide as its words. */
+.members-side__line.ac-tag {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 1px;
+  font-size: 11.5px;
+  line-height: 18px;
+}
+/* An agent working here: its pixel orbit beside its name (what it does is the orbit's label and the row's title). */
+.members-side__spin {
+  flex: none;
+}
+.members-side__inner[data-presence="offline"] {
+  opacity: 0.45;
+}
+.members-side__inner[data-presence="offline"] .members-side__name {
+  font-weight: 500;
+}
+.members-side__crown {
+  flex: none;
+  display: inline-flex;
+  color: var(--warn);
+}
+.members-side__more.ac-btn {
+  align-self: flex-start;
+  margin: 2px 0 0 4px;
+}
+
+/* At tablet widths the column takes room from the chat only when someone opens it; on a phone it is a sheet. */
+@media (max-width: 760px) {
+  .members-side {
+    display: none;
+  }
+}
+
+/* The phone's sheet: from the right over the channel, as Discord's app. */
+.members-sheet__scrim {
+  position: fixed;
+  z-index: 39;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: var(--scrim);
+}
+.members-sheet {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 86%;
+  display: flex;
+  flex-direction: column;
+  background: var(--side);
+  --presence-ring: var(--side);
+  box-shadow: var(--e3);
+  border-radius: var(--radius-section) 0 0 var(--radius-section);
+  overflow: hidden;
+  animation: members-sheet-in 0.24s var(--out);
+}
+@keyframes members-sheet-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .members-sheet {
+    animation: none;
+  }
+}
+/* The channel's name and its glyphs are an action line, as the channel header's: the glyphs go under a name that can't
+   keep its line beside them, the × stays on the name's first line. */
+.members-sheet__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 12px 6px 18px;
+}
+.members-sheet__line {
+  flex: 1 1 0%;
+  align-items: center;
+  column-gap: var(--space-2);
+}
+/* Its first line is the glyphs' 32. */
+.members-sheet__title {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding-block: var(--space-1);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 24px;
+}
+.members-sheet__title > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.members-sheet__title .ac-icon {
+  flex: none;
+  color: var(--faint);
+  translate: 0 calc(12px - var(--cap-mid) - 50%);
+}
+/* The 32px icon boxes carry their own air: the phone header's 8px between them. */
+.members-sheet__acts {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.members-sheet__find {
+  padding: 4px 14px 8px;
+}
+.members-sheet__find .ac-searchfield {
+  width: 100%;
+}
+.members-sheet__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+.members-sheet__list .members-side__groups {
+  gap: 16px;
+}

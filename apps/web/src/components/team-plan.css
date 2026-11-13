@@ -1,0 +1,261 @@
+/*
+ * The right hand's team setup (ADR 0137 §10): answers to tap under a question, the team card's rows, the map and the
+ * templates gallery. On the request card's 4px grid; pills are the composer's chip shape.
+ */
+.tp-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* Its own room outside a message: in one, the conversation's rhythm sets it (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .tp-chips {
+  margin-top: 10px;
+}
+.tp-chips__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tp-chips__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+/* Not a picked one: its light words would sit on the light plate (and a tap leaves hover on, on touch screens). */
+.tp-chip:hover:not(:disabled, [aria-pressed="true"]) {
+  background: var(--plate);
+}
+.tp-chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--raised);
+  box-shadow: none;
+}
+.tp-chip:disabled {
+  cursor: default;
+}
+.tp-chip:disabled:not([aria-pressed="true"]) {
+  opacity: 0.7;
+}
+html:not([data-pointer]) .tp-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* The start card's other ways in, under a hairline like the request card's footer. */
+.tp-start__write {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+/* Text links, no padding of their own: a wrapped line starts at the same left edge as the first. */
+.tp-start__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  font-size: 14px;
+}
+
+.tp-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+/* The rows' ends drop under their words by the list's width, not the window's: a thread is narrow on a desktop too. */
+.tp-agents {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  container-type: inline-size;
+}
+.tp-body .tp-agents {
+  margin-top: 0;
+}
+/* A MediaRow (the kit's `.ac-mediarow`) on a well. */
+.tp-agent {
+  padding: 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+}
+.tp-agent__line {
+  line-height: 20px;
+  color: var(--ink2, var(--ink));
+  overflow-wrap: anywhere;
+}
+.tp-pill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--icon-gap-sm);
+  margin: 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--plate);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.tp-pill__new {
+  font-weight: 600;
+  color: var(--accent, var(--link));
+}
+.tp-section__title {
+  margin: 0 0 var(--space-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tp-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tp-note {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--info-well, var(--card-well));
+  color: var(--ink);
+}
+.tp-map__people {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.tp-map__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.tp-map__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px 12px 12px 4px;
+  border: 1px dashed var(--line2);
+}
+.tp-map__agent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tp-map__lodi {
+  justify-content: center;
+  margin: 0;
+  color: var(--muted);
+}
+
+.tp-gallery {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) 3fr;
+  gap: 16px;
+}
+.tp-gallery__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* The faces (`ac-iconline`) sit on the name's line, so a subtitle that wraps hangs under the name. */
+.tp-gallery__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--line2);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.tp-gallery__item[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+html:not([data-pointer]) .tp-gallery__item:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.tp-gallery__faces {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 72px;
+  color: var(--muted);
+}
+.tp-gallery__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.tp-gallery__text small {
+  color: var(--muted);
+}
+.tp-gallery__preview {
+  min-width: 0;
+  padding: 16px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--card-well);
+}
+.tp-gallery__preview .tp-agent {
+  background: var(--raised);
+}
+.tp-gallery__title {
+  margin: 0;
+  font-size: 18px;
+}
+@media (max-width: 760px) {
+  .tp-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* On a billing hold: the new agents' wave, and what the first agent delivers, drawn as a message and labelled. */
+.tp-wave {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+/* Under the templates: the other ways in (an import, one agent from scratch). The dialog body's gap is its room above. */
+.tp-gallery__more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+}
+.tp-gallery__error {
+  color: var(--danger);
+}

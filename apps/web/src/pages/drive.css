@@ -1,0 +1,743 @@
+/* ---------- Drive ----------
+ * A grid of real previews (or a list), quick filters, groups, a details panel
+ * beside it (a sheet on phones), multi-select with a glass bar, drop to upload.
+ * In layout.css: `.drive` itself (`.page` overrides it on phones), the previews
+ * (`.drive-pv`, also on the agent's page), the kind tag and the selection bar (Threads). */
+.drive__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Icon-only items are square inside the track. */
+.drive-view .ac-seg__item {
+  width: calc(var(--seg-h) - 2 * var(--seg-in));
+  padding: 0;
+  justify-content: center;
+}
+
+.drive-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Groups. */
+/* "Carregar mais": the next page of files, centred under them. */
+.drive-more {
+  display: flex;
+  justify-content: center;
+}
+.drive-group__stack {
+  display: inline-flex;
+}
+.drive-group__stack > * + * {
+  margin-left: -5px;
+}
+.drive-group__stack > * {
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+/* A button whose hit area covers its card or row (the checkbox and menu sit above it). */
+.drive-hit {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  min-width: 0;
+}
+.drive-hit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+html:not([data-pointer]) .drive-hit:focus-visible {
+  outline: none;
+}
+html:not([data-pointer]) .drive-card:has(.drive-hit:focus-visible),
+html:not([data-pointer]) .drive-row:has(.drive-hit:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+/* Grid cards. */
+.drive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+  gap: 14px;
+}
+.drive-card {
+  position: relative;
+  min-width: 0;
+  padding: 7px;
+  border-radius: var(--radius-xl);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  transition:
+    transform 0.22s var(--spring),
+    box-shadow 0.2s var(--out);
+}
+.drive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--e2), var(--top);
+}
+.drive-card--open,
+.drive-card--selected {
+  background: var(--chosen-bg);
+  box-shadow: var(--chosen-shadow);
+  transform: var(--chosen-lift);
+}
+.drive-card__body {
+  padding: 10px 6px 4px;
+  min-width: 0;
+}
+.drive-card__title {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.drive-card__name,
+.drive-card__where {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-card__name {
+  flex: none;
+  max-width: 45%;
+}
+.drive-card__where::before {
+  content: "·";
+  margin-right: 6px;
+  color: var(--faint);
+}
+.drive-card__when {
+  margin-left: auto;
+  flex: none;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.drive-check {
+  position: relative;
+  z-index: var(--z-lifted);
+  /* On its own, not beside a label: no nudge onto a text line, so it centres in its row or on the kind tag. */
+  margin: 0;
+}
+/* Its middle on the kind tag's (top 15px, 24px tall): the 18px box 3px lower. */
+.drive-card .drive-check {
+  position: absolute;
+  top: 18px;
+  left: 15px;
+  box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: scale(0.85);
+  transition:
+    opacity 0.15s,
+    transform 0.2s var(--spring);
+}
+.drive-card:hover .drive-check,
+.drive-card:focus-within .drive-check,
+.drive--selecting .drive-card .drive-check,
+.drive-card .drive-check[data-state="checked"] {
+  opacity: 1;
+  transform: none;
+}
+@media (hover: none) {
+  .drive-card .drive-check {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* List: the groups' heads inside its card, where its rows' words start. */
+.drive-table {
+  overflow: hidden;
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+}
+.drive-table .drive-group__head {
+  margin: 0;
+  padding: 14px 16px 6px;
+}
+.drive-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.drive-table__head,
+.drive-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 2.4fr) minmax(0, 1.2fr) minmax(0, 1fr) 108px 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+}
+.drive-table__head {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+}
+.drive-row {
+  position: relative;
+  border-top: 1px solid var(--line);
+  transition: background 0.12s;
+}
+.drive-row > .drive-check,
+.drive-table__head > .drive-check {
+  justify-self: center;
+}
+.drive-row:hover {
+  background: color-mix(in srgb, var(--sunken) 55%, transparent);
+}
+.drive-row--open,
+.drive-row--selected {
+  background: color-mix(in srgb, var(--sunken) 85%, transparent);
+}
+.drive-row--open::before,
+.drive-row--selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--ink);
+}
+.drive-row__name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.drive-row__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.drive-row__title {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-row__sub {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.drive-row__sub > .ac-icon {
+  flex: none;
+}
+/* The kind (and, on a phone, who and when) in one box: a flex line clips its loose text without the "…". */
+.drive-row__subtext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-row__mobile {
+  display: none;
+}
+.drive-row__who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.drive-row__who span,
+.drive-row__where,
+.drive-row__when {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-row__where,
+.drive-row__when {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.drive-row__more {
+  position: relative;
+  z-index: var(--z-lifted);
+}
+
+/* Details (in the shared details dialog). A video plays in the preview's place: as wide as the dialog, 16:9 (other
+   shapes letterboxed), never taller than most of the window. */
+.drive-details__video.ac-video--viewer {
+  flex: none;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  max-height: 62vh;
+  border-radius: var(--radius-lg);
+}
+.drive-details__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.drive-details__actions > .ac-btn--primary {
+  flex: 1 1 auto;
+}
+.drive-audience {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.drive-group__hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+.drive-author > span {
+  min-width: 0;
+}
+.drive-author b,
+.drive-author small {
+  display: block;
+}
+.drive-author b {
+  font-weight: 650;
+}
+.drive-author small {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.drive-versions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.drive-versions li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 6px 6px 10px 2px;
+  border-radius: 12px;
+}
+.drive-versions li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 24px;
+  bottom: -6px;
+  width: 1.5px;
+  background: var(--line2);
+}
+.drive-versions li:last-child::before {
+  display: none;
+}
+.drive-versions__node {
+  position: relative;
+  z-index: var(--z-raised);
+  width: 12px;
+  height: 12px;
+  margin: 5px 0 0 3px;
+  border-radius: 50%;
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1.5px var(--faint);
+}
+.drive-versions__current .drive-versions__node {
+  background: var(--ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+/* A version's note is what someone wrote: a word longer than the column breaks instead of running under "Ver". */
+.drive-versions__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
+}
+.drive-versions__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13.5px;
+}
+/* "View" on the first line: a box the line's height, the 32px button centred in it. */
+.drive-versions__tail {
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+.drive-versions__note {
+  margin-top: 1px;
+  font-size: 13px;
+  color: var(--ink2);
+}
+.drive-versions__who {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--faint);
+}
+.drive-where {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--sunken);
+  font: inherit;
+  font-size: 13.5px;
+  color: inherit;
+  text-align: left;
+}
+button.drive-where {
+  cursor: pointer;
+}
+button.drive-where:hover {
+  background: color-mix(in srgb, var(--sunken) 70%, var(--plate));
+}
+html:not([data-pointer]) button.drive-where:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.drive-where__icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: var(--raised);
+  box-shadow: var(--e1);
+  color: var(--muted);
+}
+.drive-where__text {
+  min-width: 0;
+  flex: 1;
+}
+.drive-where__text b {
+  display: block;
+  font-weight: 600;
+}
+.drive-where__text small {
+  display: block;
+  font-size: 12px;
+  color: var(--faint);
+}
+
+/* Drop anywhere on the page. */
+.drive-drop {
+  position: relative;
+}
+.drive-dropzone {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-dialog);
+  display: flex;
+  padding: 16px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  backdrop-filter: blur(10px) saturate(1.3);
+  pointer-events: none;
+}
+.drive-dropzone__in {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  border: 2px dashed var(--line2);
+  border-radius: 28px;
+  text-align: center;
+}
+.drive-dropzone__icon {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: var(--raised);
+  box-shadow: var(--e3), var(--top);
+  color: var(--ink);
+}
+.drive-dropzone__icon .ac-icon {
+  width: 32px;
+  height: 32px;
+}
+.drive-dropzone__in b {
+  font-family: var(--font-display);
+  font-weight: var(--font-display-weight, 300);
+  font-size: clamp(26px, 4vw, 36px);
+  letter-spacing: -0.03em;
+}
+.drive-dropzone__in span {
+  max-width: 44ch;
+  color: var(--muted);
+}
+
+/* Upload progress (glass, bottom right). */
+.drive-uploads {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: var(--z-floating);
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: var(--e3);
+}
+.drive-uploads__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.drive-uploads__head b {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* The × reaches out by its plate, so its icon stands on the card's padding line as the spinner does on the left. */
+.drive-uploads__head > .ac-btn--ghost {
+  margin-inline-end: calc(-1 * var(--ghost-plate));
+}
+.drive-uploads ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.drive-uploads__row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  align-items: center;
+  font-size: 13px;
+}
+.drive-uploads__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.drive-uploads__status {
+  font-size: 12px;
+  color: var(--faint);
+}
+.drive-uploads__track {
+  grid-column: 2 / 4;
+  position: relative;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.drive-uploads__track i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 4px;
+  background: var(--ink);
+}
+.drive-uploads__row[data-status="sending"] .drive-uploads__track i {
+  width: 40%;
+}
+.drive-uploads__row[data-status="done"] .drive-uploads__track i {
+  width: 100%;
+  background: var(--ok);
+}
+.drive-uploads__row[data-status="done"] > .ac-icon {
+  color: var(--ok);
+}
+.drive-uploads__row[data-status="failed"] .drive-uploads__status {
+  color: var(--danger);
+}
+
+/* Trash. */
+.drive-note {
+  margin: 0;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.drive-trash {
+  overflow: hidden;
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+}
+/* A MediaRow: the kind's tile, the title and what to do with it on one line (under them in a list under 480px), who
+   deleted it and when under them, whole. */
+.drive-trash {
+  container-type: inline-size;
+}
+.drive-trash__row {
+  padding: var(--row-py) 12px;
+  border-top: 1px solid var(--line);
+}
+.drive-trash__row:first-child {
+  border-top: 0;
+}
+.drive-trash__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--sunken);
+  color: var(--muted);
+}
+.drive-trash__title {
+  overflow-wrap: anywhere;
+}
+.drive-trash__meta {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.drive-trash__meta > .ac-avatar {
+  flex: none;
+}
+.drive-trash__by {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drive-group {
+    animation: drive-in 0.3s var(--out) both;
+  }
+  .drive-dropzone {
+    animation: drive-in 0.18s var(--out) both;
+  }
+  .drive-dropzone__icon {
+    animation: drive-bob 1.6s var(--out) infinite alternate;
+  }
+  .drive-uploads__row[data-status="sending"] .drive-uploads__track i {
+    animation: drive-track 1.2s ease-in-out infinite;
+  }
+}
+@keyframes drive-bob {
+  to {
+    transform: translateY(-8px);
+  }
+}
+@keyframes drive-track {
+  from {
+    left: -40%;
+  }
+  to {
+    left: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drive-card,
+  .drive-card .drive-check,
+  .drive-row {
+    transition: none;
+  }
+  .drive-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .drive-table__head,
+  .drive-row {
+    grid-template-columns: 40px minmax(0, 2.4fr) minmax(0, 1.2fr) 96px 40px;
+  }
+  .drive-table__head .drive-row__where,
+  .drive-row__where {
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .drive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .drive-card {
+    padding: 5px;
+    border-radius: 16px;
+  }
+  .drive-card .drive-check {
+    top: 14px;
+    left: 11px;
+  }
+  .drive-card__where {
+    display: none;
+  }
+  .drive-table__head {
+    display: none;
+  }
+  .drive-row {
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 10px;
+    padding: 8px;
+  }
+  .drive-row__who,
+  .drive-row__when {
+    display: none;
+  }
+  .drive-row__mobile {
+    display: inline;
+  }
+  .drive-uploads {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+  }
+}

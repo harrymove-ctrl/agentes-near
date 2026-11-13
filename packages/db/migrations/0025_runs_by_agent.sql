@@ -1,0 +1,1 @@
+CREATE INDEX "agent_runs_org_id_agent_id_created_at_index" ON "agent_runs" USING btree ("org_id","agent_id","created_at");

@@ -1,0 +1,344 @@
+{
+  "common.back": {
+    "value": "Back"
+  },
+  "common.cancel": {
+    "value": "Cancel"
+  },
+  "common.close": {
+    "value": "Close"
+  },
+  "common.continue": {
+    "value": "Continue"
+  },
+  "common.done": {
+    "value": "Done"
+  },
+  "common.retry": {
+    "value": "Try again"
+  },
+  "common.loading": {
+    "value": "Loading"
+  },
+  "common.or": {
+    "value": "or"
+  },
+  "auth.skyLabel": {
+    "value": "Sky with agents"
+  },
+  "auth.social.failed": {
+    "value": "Couldn't sign you in right now. Try again."
+  },
+  "auth.social.unfinished": {
+    "value": "Sign-in didn't finish. Try again or use your email."
+  },
+  "auth.errors.network": {
+    "value": "No connection. Check the internet and try again."
+  },
+  "auth.errors.generic": {
+    "value": "Something went wrong. Try again."
+  },
+  "auth.errors.offlineRetry": {
+    "value": "No internet right now. I'll go on as soon as it's back."
+  },
+  "auth.flow.email": {
+    "value": "What's your e-mail?"
+  },
+  "auth.flow.emailLead": {
+    "value": "To sign in or create your account."
+  },
+  "auth.flow.signUp": {
+    "value": "Nice to meet you. What does the team call you?"
+  },
+  "auth.server.line": {
+    "value": "Server: {{host}} ·"
+  },
+  "auth.server.change": {
+    "value": "Change"
+  },
+  "auth.server.title": {
+    "value": "Where is your agentes.chat?"
+  },
+  "auth.server.subtitle": {
+    "value": "The address your team opens in the browser."
+  },
+  "auth.server.label": {
+    "value": "Server address"
+  },
+  "auth.server.placeholder": {
+    "value": "agentes.yourteam.ts.net"
+  },
+  "auth.server.use": {
+    "value": "Use this server"
+  },
+  "auth.server.checking": {
+    "value": "Checking…"
+  },
+  "auth.server.scan": {
+    "value": "Scan QR code"
+  },
+  "auth.server.backTo": {
+    "value": "Back to {{host}}"
+  },
+  "auth.server.footChange": {
+    "value": "Change"
+  },
+  "auth.server.footChoose": {
+    "value": "Server and language"
+  },
+  "auth.server.footServer": {
+    "value": "Another server"
+  },
+  "auth.server.footLanguage": {
+    "value": "Language"
+  },
+  "auth.server.footTeam": {
+    "value": "Use your team's server?"
+  },
+  "auth.server.footTeamAction": {
+    "value": "Sign in through it"
+  },
+  "auth.server.footOn": {
+    "value": "Signing in on {{host}}"
+  },
+  "auth.server.footSwitch": {
+    "value": "Change"
+  },
+  "auth.server.now": {
+    "value": "Now on {{host}}"
+  },
+  "auth.server.invalid": {
+    "value": "Check the address, something like agentes.yourteam.ts.net."
+  },
+  "auth.server.unreachable": {
+    "value": "We can't reach {{host}}. Check the address and your connection, and try again."
+  },
+  "auth.server.unreachableTailscale": {
+    "value": "We can't reach {{host}}. It's on Tailscale: open the Tailscale app, connect and try again. Connected already? The computer it runs on may be asleep, or its app closed."
+  },
+  "auth.server.certificate": {
+    "value": "The certificate of {{host}} isn't valid. Talk to whoever runs the server."
+  },
+  "auth.server.notAgentes": {
+    "value": "{{host}} isn't an agentes.chat server. Check the address."
+  },
+  "auth.server.serverTooOld": {
+    "value": "{{host}} needs an update to work with this app."
+  },
+  "auth.server.appTooOld": {
+    "value": "Update the agentes app to use {{host}}."
+  },
+  "auth.server.down.line": {
+    "value": "{{host}} didn't answer."
+  },
+  "auth.server.down.text": {
+    "value": "It may be down or outside your network. The app opens on its own once it's back."
+  },
+  "auth.server.down.tryNow": {
+    "value": "Try now"
+  },
+  "auth.server.down.switchServer": {
+    "value": "Change server"
+  },
+  "auth.server.down.retryIn": {
+    "value": {
+      "one": "tries again in {{count}} s",
+      "other": "tries again in {{count}} s"
+    }
+  },
+  "auth.connect.title": {
+    "value": "Connect to this server?"
+  },
+  "auth.connect.titleSignIn": {
+    "value": "Sign in with the computer's account?"
+  },
+  "auth.connect.on": {
+    "value": "Server: {{host}}"
+  },
+  "auth.connect.leave": {
+    "value": "You'll be signed out of the current account on this phone."
+  },
+  "auth.connect.confirm": {
+    "value": "Connect"
+  },
+  "auth.connect.notNow": {
+    "value": "Not now"
+  },
+  "auth.connect.checking": {
+    "value": "Checking the server…"
+  },
+  "auth.connect.notALink": {
+    "value": "This link isn't from an agentes.chat server."
+  },
+  "auth.connect.tokenFailed": {
+    "value": "The code expired or was already used. Sign in with your email, or show a new code on the computer."
+  },
+  "auth.connect.signInSlow": {
+    "value": "Signing in is taking longer than it should. Sign in with your email, or show a new code on the computer."
+  },
+  "auth.scan.hint": {
+    "value": "Point at the QR code on the computer"
+  },
+  "auth.scan.typeAddress": {
+    "value": "Type the address"
+  },
+  "auth.scan.notOurs": {
+    "value": "This QR code isn't from an agentes.chat server."
+  },
+  "auth.scan.cameraTitle": {
+    "value": "Use the camera"
+  },
+  "auth.scan.cameraText": {
+    "value": "It's only used to read the QR code."
+  },
+  "auth.scan.allow": {
+    "value": "Allow camera"
+  },
+  "auth.scan.settings": {
+    "value": "Open Settings"
+  },
+  "org.noneTitle": {
+    "value": "You're not in a workspace yet"
+  },
+  "org.noneSubtitle": {
+    "value": "Ask someone on your team for an invitation, or create the workspace on the website."
+  },
+  "org.openSite": {
+    "value": "Open the website"
+  },
+  "org.signOut": {
+    "value": "Sign out"
+  },
+  "account.deleteFailed": {
+    "value": "Couldn't delete your account right now. Try again."
+  },
+  "account.deleted": {
+    "value": "Your account goes for good on {{date}}. Sign in before then to restore it."
+  },
+  "account.signedOut": {
+    "value": "You signed out."
+  },
+  "theme.system": {
+    "value": "Same as the phone"
+  },
+  "theme.light": {
+    "value": "Light"
+  },
+  "theme.dark": {
+    "value": "Dark"
+  },
+  "push.channel": {
+    "value": "Alerts"
+  },
+  "push.channelDescription": {
+    "value": "What's waiting for you, mentions and conversations."
+  },
+  "push.offer.line": {
+    "value": "Want to know when {{name}} is done?"
+  },
+  "push.offer.action": {
+    "value": "Notify me"
+  },
+  "push.ask.title": {
+    "value": "Know when an agent needs you"
+  },
+  "push.ask.text": {
+    "value": "They work while you do something else. We'll tell you when they need your ok, finish what you asked or call you."
+  },
+  "push.ask.on": {
+    "value": "Turn on notifications"
+  },
+  "push.ask.later": {
+    "value": "Not now"
+  },
+  "push.ask.done": {
+    "value": "Notifications on"
+  },
+  "push.ask.failed": {
+    "value": "Couldn't turn on notifications. Try again in You › Notifications."
+  },
+  "push.ask.someone": {
+    "value": "An agent"
+  },
+  "push.ask.examples": {
+    "value": "Examples of notifications"
+  },
+  "push.ask.now": {
+    "value": "now"
+  },
+  "push.ask.minutes": {
+    "value": "{{n}} min"
+  },
+  "push.ask.approval.title": {
+    "value": "{{name}} needs your ok"
+  },
+  "push.ask.approval.body": {
+    "value": "Can I go ahead with what you asked?"
+  },
+  "push.ask.finished.title": {
+    "value": "{{name}} is done"
+  },
+  "push.ask.finished.body": {
+    "value": "What you asked for is ready."
+  },
+  "push.ask.mention.title": {
+    "value": "{{name}} called you"
+  },
+  "push.ask.mention.body": {
+    "value": "Can you take a look when you have a minute?"
+  },
+  "a11y.agent": {
+    "value": "{{name}}, agent"
+  },
+  "a11y.agentWorking": {
+    "value": "{{name}}, agent, working"
+  },
+  "a11y.agentPlain": {
+    "value": "Agent"
+  },
+  "a11y.person": {
+    "value": "{{name}}"
+  },
+  "a11y.loading": {
+    "value": "Loading"
+  },
+  "a11y.grabber": {
+    "value": "Drag down to close"
+  },
+  "a11y.closeSheet": {
+    "value": "Close"
+  },
+  "a11y.send": {
+    "value": "Send"
+  },
+  "a11y.attach": {
+    "value": "Attach and more"
+  },
+  "a11y.hold": {
+    "value": "Hold to confirm"
+  },
+  "a11y.clearSearch": {
+    "value": "Clear search"
+  },
+  "composer.placeholder": {
+    "value": "Write a message"
+  },
+  "composer.join": {
+    "value": "Add to the task in progress"
+  },
+  "composer.now": {
+    "value": "Stop and send"
+  },
+  "composer.choice": {
+    "value": "How to send while the agent works"
+  },
+  "composer.holdToStop": {
+    "value": "Hold to stop and send"
+  },
+  "search.placeholder": {
+    "value": "Search"
+  },
+  "picker.none": {
+    "value": "Nothing matches “{{text}}”."
+  }
+}

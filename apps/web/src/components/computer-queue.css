@@ -1,0 +1,458 @@
+/* A shared computer's line: the dialog, the waiting agent's row, the fan-out strip (ComputerQueue.tsx). */
+
+.cq-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--agent);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cq-link:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+.cq-link[aria-busy] {
+  color: var(--agent);
+  opacity: 0.6;
+}
+html:not([data-pointer]) .cq-link:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+
+/* "You go first": the viewer's own request. */
+.cq-first.ac-chip {
+  flex: none;
+  background: var(--agent-soft);
+  color: var(--agent);
+}
+
+.cq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cq__group + .cq__group {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.cq__title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.cq__all {
+  font-weight: 500;
+  color: var(--faint);
+}
+.cq__fill {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink);
+}
+.cq__open {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .cq__open:hover .cq__l1 b {
+    color: var(--agent);
+  }
+}
+html:not([data-pointer]) .cq__open:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+.cq__empty,
+.cq__rule {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+/* The group's title sits on the rows' outer edge, a highlighted row's plate included, as every group heading's. */
+.cq__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Face, then two lines: who and when, then what and where. The face sits on the first line. */
+.cq__row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+}
+.cq__row .ac-avatar {
+  margin: 1px;
+}
+.cq__row[data-mine] {
+  background: var(--agent-soft);
+}
+.cq__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.cq__l1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 6px;
+  align-self: stretch;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+.cq__l1 b {
+  min-width: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.cq__nth {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.cq__time {
+  margin-left: auto;
+  padding-left: 8px;
+  font-size: 12px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cq__l2 {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+.cq__row[data-mine] .cq__l2 {
+  color: var(--ink2);
+}
+/* A row's or a waiting note's actions, words only: "Ver conversa", "Não rodar", "Responder mesmo assim", "Ver fila". */
+.cq__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px var(--space-2);
+  font-size: 13px;
+  line-height: 18px;
+}
+.cq__text > .cq-first {
+  margin-top: 4px;
+}
+/* On the viewer's own plate the chip's fill matches the plate, so only its words show: line them up with the row's text. */
+.cq__row[data-mine] .cq-first {
+  margin-left: calc(-1 * var(--space-2));
+}
+
+/* The waiting agent's turn after the message it answers, where "thinking" shows otherwise. */
+.cq-turn__say {
+  color: var(--ink-muted);
+}
+/* A paragraph's own margins out, except where the conversation's rhythm sets them (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .cq-turn__say {
+  margin: 0;
+}
+.cq-turn__acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+.cq-turn__acts:empty {
+  display: none;
+}
+
+/* Under a message that called several agents. */
+.cq-fan {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: var(--msg-card-w);
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--card-shadow);
+}
+.cq-fan__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.cq-fan__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cq-fan__chip.ac-chip {
+  padding-left: 3px;
+  background: var(--plate);
+  color: var(--ink);
+}
+.cq-fan__chip small {
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+.cq-fan__chip[data-state="answered"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line2);
+}
+.cq-fan__chip[data-state="answered"] small {
+  color: var(--ok);
+}
+.cq-fan__chip[data-state="working"] small {
+  color: var(--agent);
+}
+
+/* The outage card's pill, on the author line beside the time. */
+.cq-away.ac-chip {
+  flex: none;
+}
+
+/* The header's "Computador · 4 aguardando": the computer and its count alone where the header is narrow. */
+.cq-btn.ac-btn {
+  white-space: nowrap;
+}
+.cq-btn .cq-btn__count {
+  display: none;
+}
+@media (max-width: 640px) {
+  .cq-btn .cq-btn__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  /* CountChip's own display: its text-box centring trims a block container, never an inline-flex box. */
+  .cq-btn .cq-btn__count {
+    display: inline-block;
+  }
+}
+
+/* An agent's usage line (UsageQueue.tsx): a row's "Não rodar", and "Não rodar nenhuma" asked in place. */
+.cq-confirm {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.cq-confirm__ask {
+  margin-right: auto;
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  /* The question on its own line, its two answers together under it. */
+  .cq-confirm {
+    justify-content: flex-end;
+  }
+  .cq-confirm__ask {
+    flex-basis: 100%;
+  }
+}
+
+/*
+ * An agent's usage queue (UsageQueue.tsx): its face and the phase as the title, a switch between the two lists when
+ * both have something, then one short row per conversation: number, where · who and when, and the action slot.
+ */
+/*
+ * Its top stays put while its height changes (the other list, a row gone, the footer only under Na fila): held by its
+ * top instead of centered and, on a phone, a sheet of one height while the switch shows.
+ */
+@media (min-width: 641px) {
+  .ac-dialog.uq-dialog {
+    top: 12vh;
+    transform: translateX(-50%);
+    max-height: calc(88vh - 24px);
+    /* biome-ignore lint/suspicious/noDuplicateProperties: dvh with a vh fallback for older browsers */
+    max-height: calc(100dvh - 12vh - 24px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 641px) {
+  .ac-dialog.uq-dialog[data-state="open"] {
+    animation-name: uq-dialog-in;
+  }
+}
+@keyframes uq-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+@media (max-width: 640px) {
+  .ac-dialog.uq-dialog:has(.ac-seg) {
+    height: min(520px, calc(100vh - 12px));
+    /* biome-ignore lint/suspicious/noDuplicateProperties: dvh with a vh fallback for older browsers */
+    height: min(520px, calc(100dvh - 12px - env(safe-area-inset-top, 0px)));
+  }
+  /* The footer keeps to the sheet's bottom edge. */
+  .uq-dialog:has(.ac-seg) .ac-dialog__body {
+    flex-grow: 1;
+  }
+}
+/* A title that wraps keeps the face on its first line's capitals. */
+.uq-dialog .ac-dialog__lead {
+  translate: 0 calc(var(--control-h-sm) / 2 - var(--cap-mid) - 50%);
+}
+.uq {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+/* The rows' 8px padding bleeds past the body's edge: numbers line up with the title and the switch. */
+.uq__rows {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 2px;
+  margin: 0 -8px;
+  padding: 0;
+  list-style: none;
+}
+.uq__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 12px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.uq__row:has(.uq__open:hover) {
+  background: var(--sunken);
+}
+.uq__open {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: start;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.uq__row[data-two] .uq__open {
+  grid-template-columns: minmax(0, 1fr);
+}
+html:not([data-pointer]) .uq__open:focus-visible {
+  outline: none;
+  border-radius: 6px;
+  box-shadow: var(--focus-ring);
+}
+.uq__n {
+  color: var(--faint);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+/* Long names wrap under each other, inside the text column. */
+.uq__what {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.uq__what b {
+  font-weight: 600;
+}
+.uq__meta {
+  color: var(--ink-muted);
+}
+.uq__why {
+  display: block;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+.uq__act {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+.uq__act:empty {
+  display: none;
+}
+.uq__now {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--agent);
+}
+.uq__done {
+  color: var(--ink-muted);
+}
+/* "+1 que você não vê": under the rows' text, past the number column. */
+.uq__hidden {
+  margin: -8px 0 0;
+  padding-left: 30px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--faint);
+}
+/* Phone: each row and its action a 44px target; a skipped row's action under its reason, where it has the width. */
+@media (max-width: 640px) {
+  .uq__open,
+  .uq__act {
+    padding: 12px 0;
+  }
+  .uq__row[data-two] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .uq__row[data-two] .uq__act {
+    padding-top: 0;
+  }
+}

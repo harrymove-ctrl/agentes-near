@@ -1,0 +1,802 @@
+/*
+ * A request in the conversation (RequestCard), the same for every kind. On a 4px grid with 16px sides, its parts 12
+ * apart: a quiet header (the kind, the state), the agent's words (what you decide), the object in a well with "Ver …"
+ * under its words, and the footer in a strip of its own under a hairline, always in the same place, its buttons 32 and
+ * 8 apart. Flat: a hairline and the cut corner, the agent's sky a thin band on top.
+ */
+.rq {
+  position: relative;
+  display: block;
+  max-width: var(--msg-card-w);
+  padding: 12px 16px 0;
+  box-sizing: border-box;
+  background: var(--raised);
+  box-shadow: 0 0 0 1px var(--line2);
+  border-radius: 16px 16px 16px 4px;
+}
+/* Its own room outside a message: in one, the conversation's rhythm sets it (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .rq {
+  margin: 4px 0 8px;
+}
+/* Nothing left to decide, so no footer: the card closes on its own padding. */
+.rq:not(:has(.rq__foot)) {
+  padding-bottom: 12px;
+}
+.rq > :not(.ac-approval__sky),
+.rq > .ac-locked > *,
+.rq__form > .ac-locked > * {
+  position: relative;
+}
+.rq__form {
+  display: contents;
+}
+/* As tall as the card's corner radius: a shorter band scales its rounded corners down (CSS shrinks radii that don't
+   fit their box), and their tighter curve showed outside the card's. */
+.rq > .ac-approval__sky {
+  height: 16px;
+  opacity: 0.7;
+}
+.rq__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+}
+.rq__kind {
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Where it was asked, after the kind, quieter (a card away from its conversation: Notificações). */
+.rq__source {
+  font-weight: 500;
+  color: var(--faint);
+}
+/* Who else it waits for, as words, muted (waiting for the viewer says nothing: the buttons say it). */
+.rq__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warn);
+  white-space: nowrap;
+}
+.rq__state--other {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rq__lead {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--ink);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+/*
+ * The object's line, as an attachment's name under its cover: edge to edge under a hairline, the app's mark loose
+ * (no tile), its title and values, "Ver …" under them. Nothing with a background of its own inside the card.
+ */
+.rq__well {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px -16px 0;
+  padding: var(--row-py) 16px;
+  border-top: 1px solid var(--line);
+}
+/* The mark stands on the title's line (20px), never in the middle of a tall detail. */
+.rq__well > .rq__logo {
+  height: 20px;
+  align-items: center;
+}
+.rq__preview + .rq__well {
+  margin-top: 0;
+}
+.rq__logo {
+  flex: none;
+  display: inline-flex;
+}
+/* A connector's mark and our own icons, loose at the line's size. */
+.rq__logo .ap-conn-mark :is(.connector-icon, .ap-conn__own),
+.rq__tile {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+.rq__logo .ap-conn-mark,
+.rq__logo .ap-conn-mark .ap-conn__own {
+  border-radius: 6px;
+  box-shadow: none;
+  background: none;
+}
+.rq__tile {
+  display: inline-grid;
+  place-items: center;
+  color: var(--ink2);
+}
+.rq__tile .brw-site-icon {
+  width: 16px;
+  height: 16px;
+}
+/* A face (the agent a proposal would create) stands where the mark would, a step larger. */
+.rq__logo .ac-avatar {
+  width: 26px;
+  height: 26px;
+}
+.rq__wt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+/* "Ver …" under the words, on their edge (its words start where theirs do), never a column beside them. */
+.rq__wt > .rq__more {
+  align-self: flex-start;
+  justify-self: start;
+  height: 22px;
+  margin: 2px 0 0 -6px;
+}
+/*
+ * In a narrow card (a phone, a thread beside the conversation) the mark keeps the title's line and everything under the
+ * title takes the well's whole width, instead of a column of words beside the mark.
+ */
+@container (max-width: 479px) {
+  .rq__well {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 1px;
+  }
+  .rq__well > .rq__wt {
+    display: contents;
+  }
+  .rq__wt > :not(b) {
+    grid-column: 1 / -1;
+  }
+}
+/* What it asks and where it goes wrap: cut, they hide the meaning. */
+.rq__wt b,
+.rq__wt small {
+  overflow-wrap: anywhere;
+}
+.rq__wt b {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.rq__wt small {
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+.rq__more {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+  margin: 0 -4px 0 0;
+  padding: 0 6px 0 8px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.rq__more:hover {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .rq__more:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.rq__more svg {
+  transition: transform 0.2s var(--out);
+}
+.rq__more[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+/* What "Ver …" opens: the whole action. "Aprovar sempre" and where the request came from live here too. */
+/* On a card it is the card's own surface, edge to edge under a hairline (the pills keep their box below). */
+.rq > .rq__details,
+.rq__item > .rq__details {
+  margin: 0 -16px;
+  padding: 12px 16px;
+  border-radius: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  box-shadow: none;
+}
+.rq__item > .rq__details {
+  margin: 10px -16px 0;
+}
+/*
+ * What will happen, drawn as an attachment's cover: edge to edge between hairlines, its start fading at the foot (an
+ * email as it will go out).
+ */
+.rq__preview {
+  position: relative;
+  max-height: 168px;
+  margin: 12px -16px 0;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  -webkit-mask-image: linear-gradient(#000 70%, transparent);
+  mask-image: linear-gradient(#000 70%, transparent);
+}
+.rq-mail {
+  padding: 10px 16px 12px;
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--ink2);
+}
+.rq-mail__subject {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.rq-mail__to {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.rq-mail__body {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.rq__details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--sunken);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13px;
+  min-width: 0;
+}
+/* An email reads like a letter: its fields, then the text as its own paragraph under a hairline. */
+.rq__details .email-letter {
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+.rq__details .email-letter__head {
+  padding: 0 0 10px;
+}
+.rq__details .email-letter__body {
+  padding: 10px 0 0;
+}
+.rq__details .email-letter__original {
+  margin: 10px -14px -12px;
+}
+.rq__origin {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.rq__field {
+  margin-top: 12px;
+}
+.rq__field .ac-input {
+  width: 100%;
+}
+.rq__note {
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--faint);
+}
+.rq__error {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--danger);
+}
+/* The footer: a strip of its own, edge to edge, always in the same place on every kind. Its time left ends its last row,
+   wrapping with it. */
+.rq__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 8px;
+  margin: 12px -16px 0;
+  padding: 8px 16px;
+  min-height: 48px;
+  box-sizing: border-box;
+  border-top: 1px solid var(--line);
+}
+.rq__foot > .ac-btn {
+  height: 32px;
+}
+/* On touch every button keeps its 32 plate, its target grown to 44 above and below it (the kit's small button's). */
+@media (pointer: coarse) {
+  :is(.rq__foot, .rq__item-acts) > .ac-btn {
+    position: relative;
+  }
+  :is(.rq__foot, .rq__item-acts) > .ac-btn::after {
+    content: "";
+    position: absolute;
+    inset: calc((var(--control-h-sm) - var(--touch-target)) / 2) 0;
+  }
+}
+/* Its buttons 8 apart, a ghost too: it keeps its own padding instead of reaching into the gap. */
+.rq__foot,
+.rq__item-acts {
+  column-gap: var(--space-2);
+}
+/* On a phone a lone button with nothing else to press takes the footer's width (rule 23), the time left under it at
+   the end. One main button beside ghosts (Depois, or a waiting card's Lembrar depois and Concluído after it) grows into
+   their row and they keep their place there; two main buttons keep their widths. */
+@media (max-width: 640px) {
+  .rq__foot:not(:has(> .ac-btn ~ .ac-btn)):not(:has(.ac-btn--ghost)) > .ac-btn {
+    flex: 1 1 100%;
+  }
+  .rq__foot:has(.ac-btn--ghost):not(:has(> .ac-btn:not(.ac-btn--ghost) ~ .ac-btn:not(.ac-btn--ghost)))
+    > .ac-btn:not(.ac-btn--ghost) {
+    flex: 1 1 auto;
+  }
+}
+/*
+ * A question's choices: a list in the card's body, one a line, its number key on the left (1 to 9 answer while the
+ * focus is in the list), "Other answer" its last line. Whole sentences wrap inside their line.
+ */
+.rq__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rq__choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+  font: inherit;
+  font-size: 14.5px;
+  line-height: 20px;
+  color: var(--ink);
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 0.12s;
+}
+.rq__choice:hover:not(:disabled) {
+  background: var(--plate);
+}
+.rq__choice:disabled {
+  cursor: default;
+}
+html:not([data-pointer]) .rq__choice:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.rq__choice-text {
+  flex: 1;
+  min-width: 0;
+}
+.rq__key {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  background: var(--raised);
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.rq__choice--other {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: var(--muted);
+}
+.rq__choice--other .rq__key {
+  box-shadow: none;
+  background: none;
+}
+/* "Tecle 1–4 para responder": only where there are keys. */
+.rq__keys {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+@media (hover: none) {
+  .rq__keys {
+    display: none;
+  }
+}
+.rq__foot > .ap-refuse {
+  flex: 1 1 100%;
+  margin: 0;
+}
+.rq__end {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+/* The fuse in line here, not along a card's edge. */
+.rq__end .ac-expiry-fuse {
+  position: static;
+  width: 72px;
+  height: 4px;
+}
+
+/*
+ * A decided request (RequestDone): no card, one event pill (`EventPill`). A pixel mark, words that wrap, its time, and
+ * its actions in the frame ("Ver …" opens the rest under it).
+ */
+.rq-done {
+  max-width: var(--msg-card-w);
+}
+/* The mark: the pill's own, a pixel square or bar on its words' first line. */
+.rq-done__mark {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 18px;
+}
+.rq-done__mark > span {
+  width: 8px;
+  height: 2px;
+  background: var(--faint);
+}
+.rq-done__mark[data-done] > span {
+  width: 5px;
+  height: 5px;
+  background: var(--ok);
+}
+/* When it runs or ran, under the pill on its words' edge (past the mark), quiet. */
+.rq-done__note {
+  margin: 0;
+  padding-inline: calc(12px + 14px + var(--icon-gap)) 12px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--faint);
+}
+/* Its words wrap, never cut. */
+.rq-done__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.rq-done__text b {
+  font-weight: 600;
+  color: var(--ink2);
+}
+/* What it opens is someone's words: a long reason wraps and keeps its lines. */
+.rq-done .rq__details {
+  align-self: stretch;
+  margin-top: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+/*
+ * A request still waiting (RequestOpen): the same pill, its words in ink and what it asks for in a soft tint. Its why,
+ * what it gives or a command sit under the frame, quiet, as plain lines (never a card).
+ */
+.rq-open {
+  max-width: var(--msg-card-w);
+}
+.rq-open .rq__details {
+  align-self: stretch;
+  margin-top: 0;
+  overflow-wrap: anywhere;
+}
+.rq-open__below {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 0 2px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+.rq-open__below p {
+  margin: 0;
+}
+.rq-open__below code {
+  white-space: pre-wrap;
+}
+
+/* Waiting for you: a pixel square outline in the warning tone, pulsing. */
+.rq-wait {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+}
+.rq-wait > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px var(--warn);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rq-wait > span {
+    animation: rq-pulse 1.4s ease-in-out infinite;
+  }
+  /* "Ver" in the bar: the request lights up for a moment where it landed. */
+  .rq.rq--flash {
+    animation: rq-flash 1.4s var(--out);
+  }
+}
+@keyframes rq-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes rq-flash {
+  0%,
+  30% {
+    background-color: color-mix(in srgb, var(--warn) 12%, var(--raised));
+  }
+}
+
+/* The bar above the composer while a request waits out of view: the verb in the warning tone. */
+.ac-typing[data-active="true"][data-ask] .ac-typing__text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ac-typing__more {
+  flex: none;
+  color: var(--faint);
+}
+
+/*
+ * Several requests on one card: each item one row edge to edge under a hairline, an action line (`.ac-actline`): its
+ * words, then its own decision beside them while they fit on one line there, else under them; decided ones quieter
+ * with how they ended.
+ */
+.rq {
+  container-type: inline-size;
+}
+.rq__items {
+  display: flex;
+  flex-direction: column;
+  margin: 12px -16px 0;
+  padding: 0;
+  list-style: none;
+}
+.rq__item {
+  align-items: center;
+  padding: var(--row-py) 16px;
+  border-top: 1px solid var(--line);
+}
+/* Under the words, from their edge: past the mark while the words keep a column beside it. */
+.rq__item > .rq__item-acts {
+  margin-inline-start: calc(22px + 10px);
+}
+@container (max-width: 479px) {
+  .rq__item > :is(.rq__item-acts, .rq__item-outcome) {
+    margin-inline-start: 0;
+  }
+}
+/* What follows its line (its details, how it ended, a reason being typed, a run's items) takes a row of its own. */
+.rq__item > :not(.rq__well, .rq__item-acts) {
+  flex: 1 1 100%;
+}
+.rq__items .rq__well {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.rq__item .rq__wt {
+  align-items: flex-start;
+}
+/* An item's decision: every button the footer's height, 8 apart, wrapping from the words' edge. */
+.rq__item-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 8px;
+}
+/* The footer right under a line that already ends with a hairline of its own: no gap between them. */
+.rq__well + .ac-locked > .rq__foot:first-child,
+.rq__well + .rq__form > .ac-locked > .rq__foot:first-child,
+.rq__details + .ac-locked > .rq__foot:first-child,
+.rq__details + .rq__form > .ac-locked > .rq__foot:first-child,
+.rq__items + .rq__foot,
+.rq__items + .rq__note + .rq__foot {
+  margin-top: 0;
+}
+.rq__item-acts > .ac-btn {
+  height: 32px;
+}
+.rq__item-outcome {
+  margin: 4px 0 0 32px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* Cancelar after how it ended: on its words' middle (an inline button's baseline is its icon's bottom). */
+.rq__item-outcome > .ac-btn {
+  vertical-align: middle;
+}
+/* A run's requests, unfolded under its line: each a row of its own, indented on the words' column. */
+.rq__run > .rq__items {
+  margin: 10px -16px calc(-1 * var(--row-py)) 16px;
+}
+/* An approval's values read whole across the card, never cut mid-sentence (the line's other kinds keep one line). */
+.rq[data-ask-kind="approval"] .rq__wt small {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* A request's own why, when it differs from the card's lead: read whole. */
+.rq__wt small.rq__item-why {
+  white-space: normal;
+  color: var(--ink2);
+}
+.rq__item--done .rq__wt b {
+  color: var(--ink2);
+  font-weight: 500;
+}
+.rq__item--done .rq__logo {
+  opacity: 0.6;
+}
+.rq__item .ap-refuse {
+  margin-top: 8px;
+}
+.rq__items + .rq__note {
+  margin: 0 -16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+}
+.rq__note {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+/* The right hand's line on a card it looked at for someone (ADR 0139): deciding, passed and why, out of its reach. */
+.rq__delegate {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+/* A card a newer one replaced: still readable, plainly not the one to act on. */
+.rq--muted {
+  opacity: 0.6;
+}
+/* A settings card's lines (ADR 0137): the setting, then what it was struck through, an arrow and what it becomes. */
+.rq__settings {
+  display: grid;
+  /* The setting's name up to 40% (wrapping past it), so in a narrow thread its value keeps the rest. */
+  grid-template-columns: fit-content(40%) minmax(0, 1fr);
+  gap: 8px 24px;
+  margin: 16px 0 0;
+}
+.rq__setting {
+  display: contents;
+}
+.rq__setting dt {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--muted);
+}
+.rq__setting dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.rq__setting s {
+  color: var(--muted);
+}
+.rq__setting dd .ac-icon {
+  color: var(--muted);
+}
+/* Sent to whoever decides: where the decision would be, quiet. */
+.rq__sent {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Under the right hand's greeting and cards: the line to build the team with it. */
+.rh-intro__again {
+  margin: 8px 0 0;
+}
+/* The right hand's first card (ADR 0137): the ready-made agents, four in a row (two on a phone), each a Criar. */
+.rh-intro__presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.rh-intro__preset {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  border: 0;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--card-well);
+  box-shadow: var(--card-well-shadow);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.rh-intro__preset:hover:not(:disabled) {
+  background: var(--plate);
+}
+.rh-intro__preset:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+html:not([data-pointer]) .rh-intro__preset:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.rh-intro__preset-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 16px;
+}
+.rh-intro__preset-text small {
+  color: var(--muted);
+  font-size: 12px;
+}
+/* Four across only on the full-width card: in a narrower chat (its agent's page or a thread docked beside it, a
+   phone) four left each name ~40px, so two across. By the card's width, not the window's; `width: 100%` keeps the
+   card's width set from outside, as a container needs. */
+.rq:has(.rh-intro__presets) {
+  container: rh-intro / inline-size;
+  width: 100%;
+}
+@container rh-intro (max-width: 619px) {
+  .rh-intro__presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

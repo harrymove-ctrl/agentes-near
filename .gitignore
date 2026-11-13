@@ -1,0 +1,27 @@
+node_modules
+dist/
+.data/
+.env
+.env.*
+!.env.example
+*.log
+# Backups as SELF_HOSTING.md takes them.
+*.dump
+files-*.tar.gz
+.DS_Store
+coverage/
+__pycache__/
+# Coding agents' local state stays out; the project's skills (.claude/skills/) are tracked.
+.claude/*
+!.claude/skills/
+*.local.json
+packages/engine/eval/out/
+packages/engine/scripts/out/
+
+# Design prototypes stay local (never in the repo).
+docs/design/telas/
+*.keystore
+*.jks
+
+# Translation work files (bun run i18n:missing)
+i18n-work/

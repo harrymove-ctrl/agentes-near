@@ -1,0 +1,11 @@
+# Security updates for the packages come from the repository's Dependabot settings; this keeps the pinned
+# actions current.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

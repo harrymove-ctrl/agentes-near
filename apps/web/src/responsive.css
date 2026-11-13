@@ -1,0 +1,579 @@
+/*
+ * Responsive app layout (2026-10). Loaded after layout.css. Breakpoints, the
+ * same numbers in @agenteschat/ui components.css and in COMPACT_QUERY
+ * (components/NavDrawer.tsx):
+ *   phone   ≤ 640px    single columns, dialogs are bottom sheets
+ *   compact ≤ 760px    the sidebar is a drawer behind a menu button; side panels go full screen
+ *   tablet  761–1199px the sidebar is an icon rail (layout.css `data-rail`; on desktop, when collapsed)
+ *   desktop ≥ 1200px
+ * Touch is about the pointer, not the width: `(pointer: coarse)` grows hit
+ * areas to 40px. Nothing scrolls the page sideways: wide things (tables, the
+ * issue board, code) scroll inside their own box.
+ */
+
+/* ── Shell: bar + page; the sidebar slides in over it ── */
+@media (max-width: 760px) {
+  .shell {
+    flex-direction: column;
+    overflow: hidden;
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+  .shell__main {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .shell__main--chat {
+    padding-bottom: 0;
+  }
+  /* A phone has no room for the sheet's margin: the page fills the screen, square, as before. */
+  .shell__work {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    padding: 0;
+    background: var(--pane);
+  }
+  .shell__pages,
+  [data-theme="light"] .shell__pages {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .shell__work > .outages {
+    margin-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--line);
+  }
+  /* Chat pages hide the bar: the notice keeps clear of the notch itself. */
+  .shell:has(.channel__header) .outages {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Menu, the workspace, search. Chat pages put the menu in their own header instead. */
+  .shell__bar {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+    min-height: 52px;
+    padding: calc(env(safe-area-inset-top, 0px) + 6px) 8px 6px;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .shell:has(.channel__header) .shell__bar {
+    display: none;
+  }
+  .shell__bar-org {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px;
+    font-size: 15px;
+    font-weight: 650;
+  }
+  .shell__bar-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-toggle {
+    flex: none;
+  }
+
+  /* The drawer: same sidebar, off-canvas. Hidden (and out of the tab order) while closed.
+     It floats 8px off the edges with round corners: in a phone's browser the strip
+     above the page (clock, battery) takes one colour across its whole width, the
+     scrim's, so a drawer flush with the top looked cut under it. Floating, that
+     strip reads as part of the dimmed page around the drawer. */
+  .shell .sidebar {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 8px);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+    left: calc(env(safe-area-inset-left, 0px) + 8px);
+    z-index: var(--z-scrim);
+    flex: none;
+    width: min(304px, calc(100vw - 56px));
+    min-width: 0;
+    height: auto;
+    padding: 14px 12px;
+    border-radius: var(--radius-section);
+    box-shadow: var(--e3);
+    overscroll-behavior: contain;
+    transform: translateX(calc(-100% - 8px - env(safe-area-inset-left, 0px)));
+    visibility: hidden;
+    transition:
+      transform 0.24s var(--out),
+      visibility 0s linear 0.24s;
+  }
+  .shell .sidebar[data-open="true"] {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.24s var(--out);
+  }
+  .shell__scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-scrim);
+    padding: 0;
+    border: 0;
+    background: var(--scrim);
+    cursor: default;
+  }
+}
+.sidebar:focus {
+  outline: none;
+}
+@media (min-width: 761px) {
+  .nav-toggle {
+    display: none;
+  }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  .shell__scrim {
+    animation: ac-fade-in 160ms ease-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell .sidebar,
+  .shell .sidebar[data-open="true"] {
+    transition: none;
+  }
+}
+
+/* ── Conversation: one-line header, edge-to-edge messages, composer above the home bar ── */
+@media (max-width: 760px) {
+  .channel__header {
+    flex-wrap: nowrap;
+    gap: 8px;
+    min-height: 56px;
+    padding: calc(env(safe-area-inset-top, 0px) + 8px) 12px 8px 8px;
+  }
+  .channel__header > .ac-btn,
+  .channel__header > .ac-acts {
+    flex: none;
+  }
+  /* A header's name and its line wrap whole, never cut: the header's glyphs go under them instead (`.channel__line`). */
+  .channel__title {
+    display: block;
+    min-width: 0;
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+  /* A DM's name, its pill 8 after it on its capitals, and under it when both don't fit. */
+  .dm-who .channel__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+  }
+  .dm-who .channel__title > .channel__name {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .dm-who .channel__title > .ac-chip {
+    flex: none;
+  }
+  .channel__messages {
+    padding: 12px 0 10px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 10px), transparent), var(--scroll-strip);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 10px), transparent), var(--scroll-strip);
+  }
+  .channel__messages .ac-msg:not([data-look="bubbles"], [data-look="compact"]) {
+    --msg-lead: calc(var(--name-face) + 10px);
+  }
+  .channel__messages .ac-msg {
+    --msg-inline: 12px;
+    column-gap: 10px;
+  }
+  .channel__composer {
+    padding: 0 10px calc(env(safe-area-inset-bottom, 0px) + 10px);
+  }
+  .channel__notice {
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+}
+/* The narrowest phones have no room for a DM's name, its pill and its topic beside the face: the pill goes under the
+   name, which rises to the face's top as a name alone does, and the topic stays in the profile the header opens. */
+@media (max-width: 359px) {
+  .dm-who .channel__title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dm-who .channel__title.ac-captop {
+    margin-block-start: calc(var(--cap-top) - 11px);
+  }
+  .dm-who .channel__topic {
+    display: none;
+  }
+}
+@media (max-width: 359px) {
+  @supports (top: 1lh) {
+    .dm-who .channel__title.ac-captop {
+      margin-block-start: calc(var(--cap-top) - 0.5lh);
+    }
+  }
+}
+
+/* ── Pages ── */
+@media (max-width: 640px) {
+  .page {
+    padding-bottom: 28px;
+  }
+  .page-title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+  .page__header-text {
+    min-width: min(220px, 100%);
+  }
+  .settings {
+    padding-bottom: 28px;
+  }
+  .tabs-bar .ac-toolbar {
+    flex: 1 1 100%;
+  }
+}
+
+/* Centered card pages on a phone (invite, onboarding) */
+@media (max-width: 640px) {
+  .center {
+    padding: calc(env(safe-area-inset-top, 0px) + 24px) 16px calc(env(safe-area-inset-bottom, 0px) + 32px);
+  }
+}
+
+/* ── Touch: 40px targets, 16px fields ── */
+@media (pointer: coarse) {
+  .sidebar__item,
+  .sidebar__jump,
+  .settings__link {
+    height: auto;
+    min-height: var(--control-h-md);
+  }
+}
+@media (max-width: 760px), (pointer: coarse) {
+  .wiki-editor__text {
+    font-size: 16px;
+  }
+  /* No keyboard hints on a touch screen or at phone width (the kit's own: components.css). A hint whose words only
+     follow its keys goes with them. */
+  .sidebar__jump .ac-kbd,
+  .sidebar__goto-keys,
+  .titlebar__search .ac-kbd,
+  .wiki-suggest .ac-kbd,
+  .newag__hint:has(> .ac-kbd) {
+    display: none;
+  }
+}
+/* Onboarding: clear the notch (viewport-fit=cover); the home bar and the e-mail chips field: pages/onboarding.css. */
+.onb {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+@media (max-width: 760px) {
+  .onb__rail {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
+  }
+}
+/* Agent page: one column below the desktop (the public card's cards; the overview is one column already). */
+@media (max-width: 1100px) {
+  .agp-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* The overview in one column: the Ficha between what it does and its recent work. */
+  .agp-overview {
+    display: flex;
+    flex-direction: column;
+    /* The grid's "start" would shrink every card to its content (and the Ficha, sized by its own width, to nothing). */
+    align-items: stretch;
+    gap: 16px;
+  }
+}
+@media (max-width: 900px) {
+  .agp-cfg {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .agp-subnav {
+    position: static;
+    flex-direction: row;
+    margin: 0 calc(-1 * var(--agp-gutter));
+    padding: 2px var(--agp-gutter) 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  .agp-subnav::-webkit-scrollbar {
+    display: none;
+  }
+  .agp-subnav__item {
+    flex: none;
+    white-space: nowrap;
+  }
+  .agp-tag--dot {
+    margin-left: 4px;
+  }
+}
+@media (max-width: 760px) {
+  .agp {
+    padding: 0 0 28px;
+  }
+}
+@media (max-width: 640px) {
+  .agp-cells {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .agp-cell + .agp-cell::before {
+    top: -1px;
+    right: 12px;
+    bottom: auto;
+    left: 12px;
+    width: auto;
+    height: 1px;
+  }
+  .agp-tabs .ac-tab {
+    height: 44px;
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
+  /* The tokens go on the time's line: beside the words they kept their one line and squeezed a failure's reason to a
+     word a line. */
+  .agp-run {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 10px;
+  }
+  .agp-run time {
+    grid-row: 1;
+    padding: 0;
+  }
+  .agp-run__t {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+  .agp-run__r {
+    grid-row: 1;
+  }
+  .agp-savebar {
+    bottom: 10px;
+    width: 100%;
+    padding: 8px 8px 8px 12px;
+  }
+  .agp-savebar__where {
+    display: none;
+  }
+  .agp-savebar__save {
+    flex: 1;
+  }
+}
+
+/* The agent page in the panel beside its DM: the same narrow rules (above and in layout.css), by the
+   panel's width instead of the screen's. */
+.agp--panel {
+  --agp-gutter: 20px;
+  padding: 0 0 24px;
+}
+@container agp-side (max-width: 1100px) {
+  .agp-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .agp-overview {
+    display: flex;
+    flex-direction: column;
+    /* The grid's "start" would shrink every card to its content (and the Ficha, sized by its own width, to nothing). */
+    align-items: stretch;
+    gap: 16px;
+  }
+}
+@container agp-side (max-width: 900px) {
+  .agp-cfg {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  /* Activity's month: the numbers under the chart (layout.css), not a 260px column beside a sliver of it. */
+  .agp-month {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .agp-subnav {
+    position: static;
+    flex-direction: row;
+    margin: 0 calc(-1 * var(--agp-gutter));
+    padding: 2px var(--agp-gutter) 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  .agp-subnav::-webkit-scrollbar {
+    display: none;
+  }
+  .agp-subnav__item {
+    flex: none;
+    white-space: nowrap;
+  }
+  .agp-tag--dot {
+    margin-left: 4px;
+  }
+}
+@container agp-side (max-width: 640px) {
+  .agp-cells {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .agp-cell + .agp-cell::before {
+    top: -1px;
+    right: 12px;
+    bottom: auto;
+    left: 12px;
+    width: auto;
+    height: 1px;
+  }
+  .agp-tabs .ac-tab {
+    height: 44px;
+    padding: 0 10px;
+    font-size: 13.5px;
+  }
+  .agp-run {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 10px;
+  }
+  .agp-run time {
+    grid-row: 1;
+    padding: 0;
+  }
+  .agp-run__t {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+  .agp-run__r {
+    grid-row: 1;
+  }
+  .agp-savebar {
+    bottom: 10px;
+    width: 100%;
+    padding: 8px 8px 8px 12px;
+  }
+  .agp-savebar__where {
+    display: none;
+  }
+  .agp-savebar__save {
+    flex: 1;
+  }
+}
+@container agp-side (max-width: 640px) {
+  .level-row__below {
+    padding-left: 0;
+  }
+  /* The tile above its card, the role's field the rest of its line and its list as wide as it (layout.css). */
+  .agp-id {
+    flex-direction: column;
+  }
+  .agp-id__fields {
+    align-self: stretch;
+  }
+  .agp-roleedit {
+    flex: 1 1 auto;
+  }
+  .agp-roles {
+    right: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* ── The notices on phones: the lead and the × on the title's line, the buttons under the words ── */
+@media (max-width: 640px) {
+  .outage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 2px 10px;
+    padding: 11px 12px;
+  }
+  /* The lead's middle on the first line's capitals' middle, however many lines the words take. */
+  .outage > :first-child {
+    translate: 0 calc(11px - var(--cap-mid) - 50%);
+  }
+  @supports (top: 1lh) {
+    .outage > :first-child {
+      translate: 0 calc(0.5lh - var(--cap-mid) - 50%);
+    }
+  }
+  .outage__text {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: column;
+    gap: 0;
+    white-space: normal;
+  }
+  /* Without a ×, the words take its column too. */
+  .outage:not(:has(.outage__close)) .outage__text {
+    grid-column: 2 / -1;
+  }
+  .outage__text b {
+    max-width: none;
+  }
+  .outage__crew {
+    display: none;
+  }
+  /* The setup notice names no one: its faces are who waits for the computer, across from its button. */
+  .setup-notice .outage__crew {
+    display: inline-flex;
+    grid-column: 2 / -1;
+    grid-row: 2;
+    justify-self: end;
+    align-self: center;
+  }
+  /* In the middle of the title's line, the × itself on the notice's padding. */
+  .outage__close {
+    grid-column: 3;
+    grid-row: 1;
+    margin: calc(11px - var(--cap-mid) - var(--control-h-sm) / 2) -12px 0 0;
+  }
+  /* The buttons end the notice at its right edge, under the × (as the notice island's do), not under the words where
+     the main one read as part of the text. */
+  .outage__acts {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  /* A hold's button has a row of its own here: it takes its whole height. */
+  .hold-banner > .outage__acts {
+    margin-block: 0;
+  }
+  /* A ghost shows only its words: at the end they stop on the padding line, where the × above stops. */
+  .outage__acts > .ac-btn--ghost:last-child {
+    margin-right: -12px;
+  }
+  /* The setup notice's faces end that row, across from its button: the button stays under the words, its words
+     starting where they start. */
+  .setup-notice .outage__acts {
+    justify-content: flex-start;
+  }
+  .setup-notice .outage__acts > .ac-btn--ghost:last-child {
+    margin-right: 0;
+  }
+  .setup-notice .outage__acts > .ac-btn--ghost:first-child {
+    margin-left: -12px;
+  }
+  /* Words with nothing before them (a hold's) take the lead's column too, from the padding, with no lift. */
+  .outage > .outage__text:first-child {
+    grid-column: 1 / -1;
+    translate: none;
+  }
+  /* A lone main button takes the notice's width, under the words (rule 23). */
+  .outage__acts:has(> .ac-btn:only-child:not(.ac-btn--ghost)) {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+  }
+  .outage__acts > .ac-btn:only-child:not(.ac-btn--ghost) {
+    flex: 1 1 auto;
+  }
+}

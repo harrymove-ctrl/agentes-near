@@ -1,0 +1,339 @@
+/*
+ * Receipts under an agent's reply: one change is a quiet row; several are a group with "N changes · X ago". Cards like
+ * the reply's tools (the card face, its hairline and cut corner, the same width), flat icons. A change's sentence is
+ * one line (`.ag-rc__line`); the other rows' wrap, whole, the icon on their first line. Undone rows are struck through
+ * and dimmed.
+ */
+/* Its own room outside a message: in one, the conversation's rhythm sets it (`.ac-msg .ac-msg__body > *`). */
+:where(:not(.ac-msg__body)) > .ag-rcs {
+  margin-top: 8px;
+}
+/* Several rows of their own (team checks, ADR 0064): one under the other. */
+.ag-rcs--stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* The same room on both sides (its icon's glyph and its action's words 12px in) and the kit's gap after the icon. */
+.ag-rc {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--icon-gap);
+  max-width: var(--msg-card-w);
+  padding: 7px 12px;
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: var(--surface-raised);
+  box-shadow: var(--card-shadow);
+  font-size: 14px;
+  color: var(--muted);
+}
+/* The icon sits flat on the card, no tile of its own inside it: its box is its 16px glyph, 12px in from the card's
+   edge, as the other cards' first glyph. */
+.ag-rc__ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 24px;
+  /* On the first line's middle, which is the 32px button's. */
+  margin-block: 4px;
+  color: var(--ink2);
+}
+/* The sentence and its action in an `.ac-actline` after the icon: an action that doesn't fit beside the sentence goes
+   under it, from its edge. Its words stand as far under the sentence as its own height leaves them. */
+.ag-rc > .ac-actline {
+  flex: 1 1 0%;
+  row-gap: 0;
+}
+/* No width of its own: the kit's line (`.ac-actline`) or ActionRow (`.ac-actrow__text`) sets it. */
+.ag-rc__tx {
+  display: flex;
+  flex-direction: column;
+  padding-block: 6px;
+  line-height: 20px;
+}
+.ag-rc__sentence {
+  overflow-wrap: anywhere;
+}
+/* What an agent changed reads in one line, cut with "…": its whole words are its tip. The clip stands 4px out, so a
+   link's focus ring at the line's edge shows whole; `clip`, not `hidden`, so tabbing to a link past the cut never
+   scrolls the words. */
+.ag-rc__line {
+  overflow: clip;
+  margin: calc(-1 * var(--space-1));
+  padding: var(--space-1);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* A link the keys reach is never past the cut: while it has the focus, its line says everything. */
+.ag-rc__line:has(:focus-visible) {
+  overflow: visible;
+  white-space: normal;
+}
+.ag-rc__target {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.ag-rc__target:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+/* A memory's words opening that memory: the sentence's own weight and colour, underlined under the pointer. */
+.ag-rc__target--words {
+  color: inherit;
+  font-weight: inherit;
+}
+.ag-rc__sentence b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ag-rc__by {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+/* On a screen with no hover, a row's changes listed whole in a popover (the kit's rows), each sentence opening its own
+   thing, with a chevron where it does. As wide as its words want, up to what the window leaves. */
+.ac-popover.ag-rcpop-card {
+  max-width: min(420px, calc(100vw - 24px));
+}
+.ag-rcpop {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+.ag-rcpop__words {
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+a.ag-rcpop__words {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--ink);
+}
+.ag-rcpop__text {
+  flex: 1;
+  min-width: 0;
+}
+/* On the first line's capitals, as the kit's leading icons (`.ac-iconline`); the row's 20px line where lh is unknown. */
+.ag-rcpop__cue {
+  flex: none;
+  color: var(--faint);
+  translate: 0 calc(10px - var(--cap-mid) - 50%);
+}
+@supports (top: 1lh) {
+  .ag-rcpop__cue {
+    translate: 0 calc(0.5lh - var(--cap-mid) - 50%);
+  }
+}
+a.ag-rcpop__words:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ag-rcpop__by {
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--faint);
+  overflow-wrap: anywhere;
+}
+/* A row's action: words only, as `.cq-link`; its height is the first line's, so the sentence and it share a middle. */
+.ag-rc__btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: var(--control-h-sm);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--agent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ag-rc__btn:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ag-rc__btn:disabled {
+  color: var(--faint);
+  text-decoration: none;
+  cursor: default;
+}
+html:not([data-pointer]) .ag-rc__btn:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+/* A receipt's words take the row after its icon. */
+:is(.ag-rc, .ag-rcg__it) > .ag-rc__tx {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.is-undone .ag-rc__sentence {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+.ag-rc.is-undone,
+.ag-rcg__it.is-undone {
+  opacity: 0.8;
+}
+
+/* B: several changes */
+.ag-rcg {
+  max-width: var(--msg-card-w);
+  margin-top: 8px;
+  border-radius: var(--radius-item) var(--radius-item) var(--radius-item) 4px;
+  background: var(--surface-raised);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+.ag-rcg__hd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 4px 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.ag-rcg__hd b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.ag-rcg__it {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 38px;
+  padding: 3px 12px;
+  border-top: 0.5px solid var(--line2);
+  font-size: 13.5px;
+  color: var(--ink2);
+}
+.ag-rcg__ic {
+  flex: none;
+  margin-block: 9px;
+  color: var(--muted);
+}
+.ag-rcg__it .ag-rc__btn {
+  font-size: 13px;
+}
+.ag-rcg__it .ag-rc__btn:enabled {
+  color: var(--muted);
+}
+.ag-rcg__it .ag-rc__btn:enabled:hover {
+  color: var(--ink);
+}
+
+/* A webhook routine's address to copy: under the sentence, lined up with it. */
+.ag-rc__extra {
+  display: flex;
+  margin: 4px 0 -2px;
+}
+/* A hand-off by direct message: the two agents' pair row, across the conversation as any pair row is, from past the
+   row's face. An action goes on its own line under it, so the two stay on the middle. */
+.ag-rc--talk {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-left: calc(-1 * var(--msg-lead));
+}
+/* A line across the conversation stands between turns, as the list's own pair line does: the turn's gap on both sides,
+   of which the body's part gap is one. */
+.ag-rcs .ag-rc--talk {
+  padding-block: calc(var(--msg-turn-gap) - var(--msg-part-gap));
+}
+/* Two lines in a row stack as one group, as the list's quiet lines do: the part gap between them, past the room the
+   one above keeps under it and the stack's 6px. */
+.ag-rcs .ag-rc--talk + .ag-rc--talk {
+  padding-top: 0;
+  margin-top: calc(2 * var(--msg-part-gap) - var(--msg-turn-gap) - 6px);
+}
+.ag-rc--talk > .ag-rc__btn {
+  min-height: 26px;
+  font-size: 13px;
+}
+/* The row's own edge is short of the line's (`.consult-pair`) by a look's side padding: the rest is the same 16px. */
+.ag-rcs .ag-rc--talk > .consult-pair {
+  flex: 1 1 100%;
+  padding-inline: calc(16px - var(--msg-inline));
+}
+
+/*
+ * A report about the app the agent offered (ADR 0160 §12): a receipt's row with two actions at its end, on the middle
+ * of its two lines of words; where they don't fit beside the words they go under them (`.ac-actline`). Opened, the
+ * report comes down inside the row, under a hairline. One surface: nothing inside has a background of its own.
+ */
+.ag-fb {
+  flex-wrap: wrap;
+}
+.ag-fb .ag-fb__acts {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  align-self: center;
+}
+.ag-fb__send {
+  color: var(--ink);
+  font-weight: 650;
+}
+.ag-fb__no {
+  color: var(--muted);
+}
+.ag-fb__no:hover:not(:disabled) {
+  color: var(--ink);
+}
+/* "See the report", closing the second line, and "Ask before sending" under an opened report: quiet words. */
+.ag-fb__more {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ag-fb__more:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html:not([data-pointer]) .ag-fb__more:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+.ag-fb__open {
+  flex: 1 0 100%;
+  margin: 4px -12px 0;
+  padding: 10px 12px 5px;
+  border-top: 1px solid var(--line);
+}
+/* The report is the agent's words, as the email carries them: its lines kept, a long word wrapped. */
+.ag-fb__text {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--ink2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ag-fb__note {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--faint);
+}
+/* Under a sent report's pill, the report takes the pill's own opened box: its "Ask before sending" starts a line. */
+.rq__details > .ag-fb__more {
+  align-self: flex-start;
+  font-size: 12.5px;
+}

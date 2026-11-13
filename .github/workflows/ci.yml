@@ -1,0 +1,803 @@
+name: CI
+
+# All verification runs here: on every pull request (when it opens and on each push to it, drafts included),
+# every push to main, every `v*` release tag, and on demand (`gh workflow run CI --ref <branch>` or "Run
+# workflow" in Actions). The pull request's run gives it the "CI result" check main requires. A branch with
+# no pull request starts nothing by itself.
+#
+# The `changes` job narrows a run to the jobs its files touch: a pull request by the files it changes, a push
+# to main by what the push changed, a manual run on a branch by what the branch changed since it left main. A
+# manual run on main, one started with `scope: all`, and a release tag check everything.
+#
+# Only jobs gated on a push or a tag (the images, the release assets) write anything or read a secret.
+#
+# Runners: GitHub's own (4 vCPU, 16 GB on Linux), which cost a public repository nothing; no variable is set.
+# No label is written here: each job names a repository variable (Settings → Secrets and variables → Actions
+# → Variables) and falls back to GitHub's runner, so moving to another provider, or back, is a change of
+# variables:
+#   CI_RUNNER        the light jobs
+#   CI_RUNNER_LARGE  the tests and the isolation job's QEMU guest (16 GB: the guest takes 8)
+#   CI_RUNNER_ARM    the arm64 image, built natively
+# The tests use the cores the runner has, so a smaller runner is slower, not broken. Everything else runs
+# on x64: on ARM the backend shards took 2.5x as long (603 and 667 s against 229 and 275 s, 2026-10-26).
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "changed = only the jobs this branch's changes touch; all = every job"
+        type: choice
+        options: [changed, all]
+        default: changed
+
+permissions:
+  contents: read
+
+env:
+  APP_IMAGE: ghcr.io/agentes-chat/agentes
+  BACKUP_IMAGE: ghcr.io/agentes-chat/backup
+  SPEECH_IMAGE: ghcr.io/agentes-chat/speech
+
+# A newer push supersedes a running check of the same branch or pull request (on main only the newest
+# commit's image matters); a release tag's run is never cancelled. A pull request's runs and a manual run
+# on its branch are two groups.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  changes:
+    name: What changed
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 5
+    env:
+      # Everything: a release tag, a manual run asked for all, a manual run on main (nothing to compare it with).
+      ALL: >-
+        ${{ github.ref_type == 'tag' || (github.event_name == 'workflow_dispatch' &&
+        (inputs.scope == 'all' || github.ref_name == github.event.repository.default_branch)) }}
+    # pull-requests: on a pull request the filter asks the API for its files.
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.groups.outputs.code }}
+      shared: ${{ steps.groups.outputs.shared }}
+      backend: ${{ steps.groups.outputs.backend }}
+      web: ${{ steps.groups.outputs.web }}
+      mobile: ${{ steps.groups.outputs.mobile }}
+      desktop: ${{ steps.groups.outputs.desktop }}
+      image: ${{ steps.groups.outputs.image }}
+      docker: ${{ steps.groups.outputs.docker }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # A pull request: the files it changes. A push to main: what the push changed. A manual run on a branch:
+      # what the branch changed since it left main (the merge base), which is what its pull request would change.
+      - name: Changed files
+        id: filter
+        if: env.ALL != 'true'
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          base: ${{ github.event.repository.default_branch }}
+          predicate-quantifier: some-with-excludes
+          filters: |
+            code:
+              - "**"
+              - "!docs/**"
+              - "!*.md"
+              - "!**/README.md"
+            shared:
+              - "packages/**"
+              - "package.json"
+              - "bun.lock"
+              - "bunfig.toml"
+              - "tsconfig*.json"
+              - ".env.example"
+              - ".github/workflows/ci.yml"
+            backend:
+              - "apps/server/**"
+              - "install.sh"
+            web:
+              - "apps/web/**"
+            mobile:
+              - "apps/mobile/**"
+            desktop:
+              - "apps/desktop/**"
+            docker:
+              - "Dockerfile"
+              - ".dockerignore"
+              - "docker-compose*.yml"
+              - "deploy/backup/**"
+      # A group counts only when code changed, not just docs or READMEs. The image holds the server
+      # and the web app.
+      - name: What runs
+        id: groups
+        env:
+          CODE: ${{ steps.filter.outputs.code }}
+          CHANGES: ${{ steps.filter.outputs.changes || '[]' }}
+        run: |
+          changed() { [ "$ALL" = true ] || { [ "$CODE" = true ] && jq -e --arg g "$1" 'any(.[]; . == $g)' <<<"$CHANGES" >/dev/null; }; }
+          for g in code shared backend web mobile desktop docker; do
+            if changed "$g"; then echo "$g=true"; else echo "$g=false"; fi >> "$GITHUB_OUTPUT"
+          done
+          if changed shared || changed backend || changed web || changed docker; then echo image=true; else echo image=false; fi >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+  check:
+    name: Lint, boundaries, typecheck, build
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # A tag publishes exactly the version /api/health reports; a tag that disagrees with
+      # apps/server/package.json is refused before anything runs. It must be strict semver
+      # (v1.2.3 or v1.2.3-rc.1, no leading zeros): the image tags come from metadata-action's
+      # semver patterns, which give nothing for any other shape.
+      - name: Tag must be semver and match the server version
+        if: github.ref_type == 'tag'
+        run: |
+          [[ "$GITHUB_REF_NAME" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$ ]]
+          test "v$(jq -r .version apps/server/package.json)" = "$GITHUB_REF_NAME"
+      - &setup-bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - &cache-bun
+        name: Cache Bun downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-${{ runner.arch }}-
+      - &install
+        run: bun install --frozen-lockfile
+      - name: Lint and format
+        run: bun run lint
+      - name: Shell scripts
+        if: success() || failure()
+        run: shellcheck install.sh deploy/*.sh deploy/backup/*.sh scripts/*.sh
+      # No test shard covers scripts/, so the checks' own tests run here. The boundaries check itself runs in
+      # the secrets job, which docs-only changes run too.
+      - name: Boundaries check's own test
+        if: success() || failure()
+        run: bun test scripts/check-boundaries.test.ts
+      - name: Geometry check's own test
+        if: success() || failure()
+        run: bun test scripts/geometry/check.test.ts
+      - name: Dependency licenses (no GPL, AGPL, source-available or unlicensed packages)
+        if: success() || failure()
+        run: |
+          bun test scripts/check-licenses.test.ts
+          bun run check:licenses
+      - name: Typecheck
+        if: success() || failure()
+        # One package at a time, each within 5 minutes: a package whose check hangs is named here, instead of the whole
+        # job running out of time with no log.
+        run: |
+          set +e
+          status=0
+          for dir in $(git ls-files '*/package.json' | xargs -n1 dirname | sort); do
+            jq -e '.scripts.typecheck' "$dir/package.json" >/dev/null || continue
+            start=$(date +%s)
+            (cd "$dir" && timeout 300 bun run typecheck) > typecheck-one.log 2>&1
+            code=$?
+            cat typecheck-one.log | tee -a typecheck.log
+            echo "$dir: $(( $(date +%s) - start ))s, exit $code" | tee -a typecheck-times.log
+            if [ "$code" -ne 0 ]; then
+              echo "::error::Typecheck failed in $dir (exit $code; 124 = over 5 minutes)"
+              status=1
+            fi
+          done
+          exit $status
+      - name: Build web and server
+        id: build
+        if: success() || failure()
+        run: bun run build
+      # Mermaid's bundle and mermaid-frame.js are files of their own, which only the sandboxed frame loads
+      # (apps/web/src/lib/mermaid.ts): the app's chunks name both, and none of mermaid's code is in them.
+      # Only those two files are left out of that check, not every name starting with mermaid: a chunk
+      # such as mermaid.core-*.js would be mermaid running in the page. An `if` rather than `!`: bash -e
+      # ignores a failure under `!`.
+      - name: Mermaid ships as the frame's own files
+        if: (success() || failure()) && steps.build.outcome == 'success'
+        working-directory: apps/web/dist
+        run: |
+          refs=$(grep -ohE 'assets/mermaid(\.min|-frame)-[A-Za-z0-9_-]+\.js' assets/*.js | sort -u)
+          echo "$refs"
+          test "$(wc -l <<<"$refs")" -eq 2
+          for f in $refs; do test -f "$f"; done
+          if grep -l mermaidAPI $(ls assets/*.js | grep -vxF "$refs"); then exit 1; fi
+      # A schema change without its migration fails here (drizzle-kit only diffs, no database). The
+      # timeout covers drizzle-kit asking whether a column was renamed, which it can't in CI.
+      - name: Migrations are up to date with the schema
+        if: success() || failure()
+        timeout-minutes: 2
+        run: |
+          bun run db:generate ci-drift-check
+          git status --porcelain -- packages/db/migrations
+          test -z "$(git status --porcelain -- packages/db/migrations)"
+      # A deploy migrates while the previous version still serves, and a rollback runs that version on the
+      # migrated database: a new migration that drops, renames, retypes or sets NOT NULL needs its marker.
+      - name: Migrations keep the running version working
+        if: success() || failure()
+        run: |
+          bun test scripts/check-migrations.test.ts
+          bun run check:migrations
+      - name: Deploy and backup scripts
+        if: success() || failure()
+        run: bun test ./deploy/deploy.test.ts
+      # Its logic with fake models: routing by the language heard, the queue and busy answers, OpenAI's shape.
+      - name: Speech server
+        if: success() || failure()
+        run: python3 -m unittest discover -s deploy/speech
+      # GitHub's log storage sometimes loses logs; keep the errors as an artifact and in the summary.
+      - name: Keep errors
+        if: always()
+        run: |
+          { echo '### Typecheck errors'; echo '```'; grep -E 'error TS' typecheck.log 2>/dev/null | head -80 || true; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          { echo '### Typecheck time per package'; echo '```'; cat typecheck-times.log 2>/dev/null || true; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-logs-check
+          path: |
+            typecheck.log
+            typecheck-times.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # The backend suite (PGlite, servers) on five runners at once. One file after another, a third of it took
+  # 13 to 20 minutes on a runner whose other cores sat idle (2026-11-10), so each runner now spreads its files
+  # over its cores and Bun does the split. In three, a shard took 9 to 17 minutes on GitHub's 4 vCPU runners
+  # (2026-11-11), so the split is in five. The paths select the same test files as before.
+  test-backend:
+    name: Test (backend ${{ matrix.shard }}/5)
+    needs: changes
+    if: needs.changes.outputs.shared == 'true' || needs.changes.outputs.backend == 'true'
+    runs-on: ${{ vars.CI_RUNNER_LARGE || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5]
+    env:
+      # The engine's own folder only: the suites in its subfolders are not part of this job.
+      PATHS: >-
+        packages/engine/test/*.test.ts packages/adapters packages/config packages/db packages/modules
+        packages/providers packages/client packages/i18n packages/tokens packages/setup apps/server
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - *setup-bun
+      - *cache-bun
+      - *install
+      # Test files run on every core, each in a process and with modules of its own (--parallel), and Bun splits
+      # them in five by count. Splitting by each file's measured time was tried (2026-11-10): the shards then
+      # opened with their heaviest files all at once and ran 40 to 60% longer.
+      - name: Test
+        timeout-minutes: 25
+        run: bun test --parallel --shard=${{ matrix.shard }}/5 $PATHS 2>&1 | tee test.log
+      - &keep-test-errors
+        name: Keep errors
+        if: always()
+        run: |
+          { echo '### Failed tests'; echo '```'; grep -E '\(fail\)|error:|Unhandled error' test.log 2>/dev/null | head -80 || true; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-logs-backend-${{ matrix.shard }}
+          path: test.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # The browser-DOM tests (web app, design system) never share a process with the backend tests
+  # (PGlite, servers): in one process the first PGlite database after the DOM files sometimes never
+  # came up. The phone and desktop tests (no DOM) get a process of their own too: a React update left
+  # over from a DOM file can land after the DOM is detached and fail whichever file runs next.
+  test-web:
+    name: Test (web, design system, phone, desktop)
+    needs: changes
+    if: >-
+      needs.changes.outputs.shared == 'true' || needs.changes.outputs.web == 'true' ||
+      needs.changes.outputs.mobile == 'true' || needs.changes.outputs.desktop == 'true'
+    runs-on: ${{ vars.CI_RUNNER_LARGE || 'ubuntu-latest' }}
+    timeout-minutes: 60
+    env:
+      SHARED: ${{ needs.changes.outputs.shared }}
+      WEB: ${{ needs.changes.outputs.web }}
+      MOBILE: ${{ needs.changes.outputs.mobile }}
+      DESKTOP: ${{ needs.changes.outputs.desktop }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - *setup-bun
+      - *cache-bun
+      - *install
+      # About 3 minutes on a runner (2026-10-20).
+      - name: Test (web and design system)
+        if: env.SHARED == 'true' || env.WEB == 'true'
+        # The whole suite takes about 10 minutes on one runner now (3320 tests, 612 s on 2026-11-06).
+        timeout-minutes: 15
+        # The preload saves every screen the tests reach, for the geometry check below. It costs a few percent.
+        env:
+          GEOMETRY_OUT: ${{ runner.temp }}/geometry
+        # Three workers for every four cores: with every core busy, tests that wait on a timer or on work off the
+        # JS thread (a 30 ms limit, WebCrypto, a socket's retry) failed now and then, a different one each run.
+        run: |
+          cores=$(nproc)
+          workers=$(( cores * 3 / 4 )); [ "$workers" -ge 1 ] || workers=1
+          bun test --parallel="$workers" --preload ./scripts/geometry/capture.ts apps/web packages/ui 2>&1 | tee test.log
+      # Lays those screens out in the runner's Chrome at 1280, 320 and 390 px and fails on an offender that isn't in
+      # scripts/geometry/baseline.json: an action on its row's edge, uneven padding in a chip, a row wrapping word by word.
+      # A screen with messages also at the smallest and largest Tamanho do texto. Each screen is laid out twice, in the
+      # app's CSS order and the reverse one (cascadeorder).
+      - name: Geometry (the layout rules on every screen the tests reach)
+        if: (success() || failure()) && (env.SHARED == 'true' || env.WEB == 'true')
+        timeout-minutes: 35
+        run: GEOMETRY_BROWSERS=$(nproc) bun run check:geometry "$RUNNER_TEMP/geometry" --report geometry-report.md --text-size xs,xl
+      # The "Novo evento" dialog tests once aborted the whole DOM process (exit 134), so the main run
+      # skips them (RUN_NEW_EVENT) and they run alone here. Alone they pass, so a failure is real.
+      - name: Test (new event dialog, alone)
+        if: (success() || failure()) && (env.SHARED == 'true' || env.WEB == 'true')
+        timeout-minutes: 3
+        env:
+          RUN_NEW_EVENT: "1"
+        run: bun test --timeout 20000 apps/web/test/new-event.test.tsx 2>&1 | tee -a test.log
+      - name: Test (phone and desktop apps)
+        if: (success() || failure()) && (env.SHARED == 'true' || env.MOBILE == 'true' || env.DESKTOP == 'true')
+        timeout-minutes: 5
+        run: |
+          # Only the apps whose code changed (shared packages change both).
+          paths=()
+          if [ "$SHARED" = true ] || [ "$MOBILE" = true ]; then paths+=(apps/mobile/test); fi
+          if [ "$SHARED" = true ] || [ "$DESKTOP" = true ]; then paths+=(apps/desktop/test); fi
+          # Shared runners render the apps' windows far slower than a laptop: the web new-event step's limit, not bun's 5 s.
+          bun test --timeout 20000 "${paths[@]}" 2>&1 | tee -a test.log
+      - *keep-test-errors
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ci-logs-web
+          path: |
+            test.log
+            geometry-report.md
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # The desktop app's Rust tests (src-tauri): the server here's folder and secrets, its copies, what runs after an
+  # exit, the setup's limits and Cancel, where links and frames open, Tailscale's output. Unix tests, so Linux is
+  # enough (the Desktop workflow's server smoke covers the Windows stop). The build wants the web view's files, the
+  # icons and the two sidecars: stand-ins here.
+  test-desktop-rust:
+    name: Test (desktop, Rust)
+    needs: changes
+    if: needs.changes.outputs.desktop == 'true'
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: System libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev
+      - *setup-bun
+      - *cache-bun
+      - *install
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+      - uses: swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: apps/desktop/src-tauri -> target
+      - name: Stand-ins for what the app bundles
+        working-directory: apps/desktop
+        run: |
+          mkdir -p dist src-tauri/binaries
+          printf '<!doctype html>\n' > dist/index.html
+          for bin in agentes-runner agent-browser; do
+            install -m 755 /dev/null "src-tauri/binaries/$bin-x86_64-unknown-linux-gnu"
+          done
+          bun scripts/icons.ts
+          bun run tauri icon app-icon.png
+      - name: Rust tests
+        working-directory: apps/desktop/src-tauri
+        run: cargo test
+
+  # Whole-history secret scan with the pinned gitleaks image (the GitHub action needs a license key
+  # for organization repos; the CLI does not), and the boundaries check: no cloud/ or ee/ imports, no
+  # internal notes in public files. Every change runs this job, docs included; the check needs no install.
+  # --verbose with --redact names each finding's file, line, commit and rule, never its value.
+  secrets:
+    name: Secret scan and boundaries
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      # Bun first: the boundaries check below still runs when the scan fails.
+      - *setup-bun
+      # main and a release tag scan the whole history (about two minutes); a branch or a pull request scans the
+      # commits it adds to main, which main's own runs have already scanned up to there.
+      - name: Secret scan
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          range=()
+          if [ "$GITHUB_REF_TYPE" = branch ] && [ "$GITHUB_REF_NAME" != "$DEFAULT_BRANCH" ] &&
+            git rev-parse --verify --quiet "origin/$DEFAULT_BRANCH" > /dev/null; then
+            range=(--log-opts="origin/$DEFAULT_BRANCH..HEAD")
+          fi
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f git --config /repo/.gitleaks.toml --no-banner --redact --verbose --exit-code 1 "${range[@]}" /repo
+      - name: Boundaries (no cloud/ or ee/ imports, no internal notes in public files)
+        if: success() || failure()
+        run: bun run check:boundaries
+
+  # System mode's isolation on real kernels, as root (apps/server/test/runner/isolation.root.test.ts): real
+  # agent users, slices, the loopback table and the bind policy, then what each agent reaches, with real Gradle,
+  # Kotlin, adb and Xtigervnc as two agents at once. Each leg boots a distribution's own cloud image in QEMU
+  # (scripts/isolation-vm.sh), with KVM where the runner has it: the test needs systemd as the machine's init,
+  # and a runner may run its job in a container, without one. Ubuntu 24.04's systemd lacks BPF_FRAMEWORK, so the bind
+  # policy is left out there, and that guest has Chrome; Debian 13 (the Cloud's release) has it.
+  # The guest takes 8 GB, so the runner has 16.
+  isolation-root:
+    name: Isolation as root (${{ matrix.leg }})
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ${{ vars.CI_RUNNER_LARGE || 'ubuntu-latest' }}
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [ubuntu, debian13]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - *setup-bun
+      - *cache-bun
+      - *install
+      # What the agents' users run in the bind check, built as the image builds it.
+      - name: The runner bundle
+        run: bun build apps/server/runner/main.ts --target=node --banner '#!/usr/bin/env node' --outfile "$RUNNER_TEMP/agentes-runner.mjs"
+      - name: The guest's image
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/isolation-image
+          key: isolation-image-${{ matrix.leg }}-${{ hashFiles('scripts/isolation-vm.sh') }}
+      - name: Test as root (in QEMU)
+        timeout-minutes: 45
+        run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install -y --no-install-recommends qemu-system-x86 qemu-utils genisoimage > /dev/null
+          bun build apps/server/test/runner/isolation.root.test.ts --target=bun --outfile "$RUNNER_TEMP/isolation.root.test.js"
+          scripts/isolation-vm.sh "$RUNNER_TEMP/isolation.root.test.js" "$RUNNER_TEMP/agentes-runner.mjs" ~/isolation-image "${{ matrix.leg }}"
+
+  # The image as self-hosters run it: the docker-compose.yml at the repository root with this
+  # commit's image, a .env with only the three values it asks for, migrations on boot, the health
+  # probe, the first sign-up (the installation's owner), an organization, a second sign-up refused
+  # (sign-up is closed by default), the web app, the runner download and install.sh at /install,
+  # then an upgrade's steps on the same volumes, the usage report the image prints (`agentes telemetry`),
+  # and the backup profile: a dump and its restore.
+  # amd64 only, nothing pushed.
+  # Only pushes write the layer cache, which the image build below then reuses: entries scoped to a
+  # branch would crowd main's out of the repository's cache quota.
+  compose:
+    name: Image boots with docker compose
+    needs: changes
+    if: needs.changes.outputs.image == 'true'
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 20
+    env:
+      AGENTES_IMAGE: agentes:ci
+      AGENTES_BACKUP_IMAGE: agentes-backup:ci
+      URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          load: true
+          tags: ${{ env.AGENTES_IMAGE }}
+          cache-from: type=gha,scope=app-amd64
+          cache-to: ${{ github.event_name == 'push' && 'type=gha,scope=app-amd64,mode=max' || '' }}
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: deploy/backup
+          load: true
+          tags: ${{ env.AGENTES_BACKUP_IMAGE }}
+          cache-from: type=gha,scope=backup-amd64
+          cache-to: ${{ github.event_name == 'push' && 'type=gha,scope=backup-amd64,mode=max' || '' }}
+      - name: Boot and use it
+        run: |
+          docker image ls "$AGENTES_IMAGE"
+          printf 'AGENTES_SECRET=%s\nPOSTGRES_PASSWORD=%s\nPUBLIC_URL=%s\n' \
+            "$(openssl rand -base64 48)" "$(openssl rand -hex 16)" "$URL" > .env
+          PASSWORD=$(openssl rand -hex 12)
+          docker compose up -d
+          healthy() {
+            for _ in $(seq 90); do
+              curl -fs "$URL/api/health" > health.json && return 0
+              sleep 2
+            done
+            return 1
+          }
+          signup() {
+            curl -s -o /dev/null -w '%{http_code}' -H "Origin: $URL" -H 'Content-Type: application/json' \
+              -d "{\"name\":\"CI\",\"email\":\"$1\",\"password\":\"$PASSWORD\"}" "${@:2}" "$URL/api/auth/sign-up/email"
+          }
+          healthy
+          jq -e '.status == "ok" and .edition == "selfhost"' health.json
+          test "$(signup owner@ci.invalid -c cookies.txt)" = 200
+          curl -fs -b cookies.txt "$URL/api/app/me" | jq -e '.user.email == "owner@ci.invalid"'
+          curl -fs -b cookies.txt -H "Origin: $URL" -H 'Content-Type: application/json' -d '{"name":"CI"}' \
+            "$URL/api/app/organizations" | jq -e '.generalChannelId'
+          test "$(signup second@ci.invalid)" = 403
+          # Separate commands: bash -e ignores a failure on the left of &&.
+          curl -fs "$URL/" -o index.html
+          grep -q 'id="root"' index.html
+          curl -fs "$URL/runner/agentes-runner.mjs" -o runner.mjs
+          test "$(head -1 runner.mjs)" = '#!/usr/bin/env node'
+          curl -fs "$URL/install" | cmp - install.sh
+          # New containers on the same volumes, migrations first: the organization must still be there.
+          docker compose down
+          docker compose run --rm agentes migrate
+          docker compose up -d
+          healthy
+          curl -fs -b cookies.txt "$URL/api/app/me" | jq -e '.organizations | length == 1'
+          docker compose run --rm -T agentes telemetry > report.json
+          jq -e '.report == 1 and .install == "docker" and .host.container and .people.total == 1' report.json
+      # The bucket is rclone serving a folder over the S3 API, on the compose network. Its access key
+      # id has at least 3 characters: rclone serve s3 answers a shorter one with 403 InvalidAccessKeyId.
+      - name: Back up and restore
+        run: |
+          printf 'S3_ENDPOINT=http://s3:8080\nS3_PROVIDER=Rclone\nS3_ACCESS_KEY_ID=ci-key\nS3_SECRET_ACCESS_KEY=ci-secret\nS3_BACKUP_BUCKET=backups\n' >> .env
+          docker compose run -d --name s3 --entrypoint sh backup -c \
+            'mkdir -p /tmp/s3/backups && exec rclone serve s3 --auth-key ci-key,ci-secret --addr :8080 /tmp/s3'
+          docker compose run --rm backup now
+          name=$(docker compose run --rm -T backup list | awk '{print $NF}')
+          docker compose run --rm -T backup fetch "$name" > ci.dump
+          docker compose exec -T postgres createdb -U agentes restored
+          docker compose exec -T postgres pg_restore -U agentes -d restored --exit-on-error < ci.dump
+          docker compose exec -T postgres psql -U agentes -d restored -tAc 'select email from users' | grep -x owner@ci.invalid
+      - name: Logs
+        if: failure()
+        run: docker compose logs --no-color
+
+  # Images publish only from a green run on a push to main or a version tag, never from a pull
+  # request, so a tag a deployment tracks can never point at a build the tests rejected. main → :edge
+  # (moving head); version tags → :1.2.3, :1.2 and :latest (metadata-action adds :latest to semver
+  # tags by itself). A private copy of the repository publishes tags only (an edge image costs about
+  # 10 runner minutes there; public repositories run them free). The backup and speech services' images
+  # ship on the same tags, so the standalone compose file needs no build context. The speech image has no
+  # layer cache: its models (about 700 MB) would crowd the app's layers out of the repository's cache
+  # quota. It is optional like its service: a build that fails (its models come from Hugging Face)
+  # publishes the app without it.
+  #
+  # Each platform builds on its own native runner (Bun under QEMU emulation is slow and fragile) and
+  # pushes by digest only; publish then stitches the digests into one tag per image.
+  # test-web stays out of the images' gate: it covers the desktop and phone apps and screen tests, which
+  # still run and turn the run red. Product decision: a UI test's failure doesn't hold back the server image.
+  build:
+    name: Image (${{ matrix.slug }})
+    needs: [changes, check, test-backend, secrets, compose]
+    if: >-
+      github.event_name == 'push' && needs.changes.outputs.image == 'true' &&
+      (github.ref_type == 'tag' || !github.event.repository.private) &&
+      !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+            slug: amd64
+          - platform: linux/arm64
+            runner: ${{ vars.CI_RUNNER_ARM || 'ubuntu-24.04-arm' }}
+            slug: arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # Labels only here (they link the package to this repository); tags are applied to the merged
+      # manifest in publish.
+      - uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        id: meta
+        with:
+          images: ${{ env.APP_IMAGE }}
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        id: app
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+          outputs: type=image,name=${{ env.APP_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=app-${{ matrix.slug }}
+          cache-to: type=gha,scope=app-${{ matrix.slug }},mode=max
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        id: backup
+        with:
+          context: deploy/backup
+          platforms: ${{ matrix.platform }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+          outputs: type=image,name=${{ env.BACKUP_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=backup-${{ matrix.slug }}
+          cache-to: type=gha,scope=backup-${{ matrix.slug }},mode=max
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        id: speech
+        continue-on-error: true
+        # Within the job's 30 minutes, so a stalled download fails this step and not the app's release.
+        timeout-minutes: 12
+        with:
+          context: deploy/speech
+          platforms: ${{ matrix.platform }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+          outputs: type=image,name=${{ env.SPEECH_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+      - name: Export the digests
+        env:
+          DIGEST: ${{ steps.app.outputs.digest }}
+          BACKUP_DIGEST: ${{ steps.backup.outputs.digest }}
+          SPEECH_DIGEST: ${{ steps.speech.outputs.digest }}
+        run: |
+          mkdir -p /tmp/digests/app /tmp/digests/backup /tmp/digests/speech
+          touch "/tmp/digests/app/${DIGEST#sha256:}" "/tmp/digests/backup/${BACKUP_DIGEST#sha256:}"
+          if [[ -n $SPEECH_DIGEST ]]; then touch "/tmp/digests/speech/${SPEECH_DIGEST#sha256:}"; fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: digests-${{ matrix.slug }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish the images
+    needs: build
+    # Without its own condition a job is skipped when any job earlier in its chain was, and on main the
+    # jobs a push doesn't touch are skipped, so the images were built and never tagged.
+    if: ${{ !cancelled() && needs.build.result == 'success' }}
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          path: /tmp/digests
+          pattern: digests-*
+          merge-multiple: true
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        id: meta
+        with:
+          images: ${{ env.APP_IMAGE }}
+          tags: |
+            type=edge,branch=main
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      - name: Create the multi-arch manifests
+        working-directory: /tmp/digests
+        env:
+          META: ${{ steps.meta.outputs.json }}
+        run: |
+          app=() backup=() speech=()
+          for tag in $(jq -r '.tags[]' <<<"$META"); do
+            app+=(-t "$tag")
+            backup+=(-t "$BACKUP_IMAGE:${tag##*:}")
+            speech+=(-t "$SPEECH_IMAGE:${tag##*:}")
+          done
+          shopt -s nullglob
+          apps=(app/*) speeches=(speech/*)
+          for digest in "${apps[@]}"; do app+=("$APP_IMAGE@sha256:${digest#app/}"); done
+          for digest in backup/*; do backup+=("$BACKUP_IMAGE@sha256:${digest#backup/}"); done
+          for digest in "${speeches[@]}"; do speech+=("$SPEECH_IMAGE@sha256:${digest#speech/}"); done
+          docker buildx imagetools create "${app[@]}"
+          docker buildx imagetools create "${backup[@]}"
+          # Every platform's speech image or none: the tags stay on the last release that built them all.
+          if ((${#speeches[@]} == ${#apps[@]})); then
+            docker buildx imagetools create "${speech[@]}"
+          else
+            echo "::warning::The speech image didn't build on every platform; its tags stay where they were."
+          fi
+          docker buildx imagetools inspect "$(jq -r '.tags[0]' <<<"$META")"
+
+  # A version tag's GitHub release carries that version's install.sh, from a green run only, so
+  # `…/releases/download/v1.2.3/install.sh` is an installer the tests passed.
+  release-install:
+    name: Release install.sh
+    needs: [changes, check, test-backend, test-web, secrets, compose]
+    if: >-
+      github.ref_type == 'tag' && !cancelled() &&
+      !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Attach install.sh to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release view "$TAG" > /dev/null 2>&1 ||
+            gh release create "$TAG" --verify-tag --title "agentes.chat ${TAG#v}" --generate-notes
+          gh release upload "$TAG" install.sh --clobber
+
+  # A version tag's release also carries agentes.chat without Docker (ADR 0060 §2): one package per
+  # computer (macOS and Linux, x64 and arm64), each with the Bun install.sh pins, and native.json, signed
+  # with the desktop updater's key, which the installer checks before it downloads anything. After
+  # release-install, which makes the release.
+  release-native:
+    name: Release the native packages
+    needs: [changes, check, test-backend, test-web, secrets, compose, release-install]
+    if: >-
+      github.ref_type == 'tag' && !cancelled() &&
+      !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - *setup-bun
+      - *cache-bun
+      - *install
+      - name: Build the packages
+        env:
+          TAG: ${{ github.ref_name }}
+        run: bun scripts/native-package.ts packages --version "${TAG#v}" --out "$RUNNER_TEMP/native"
+      - name: Sign native.json
+        working-directory: apps/desktop
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          bun run tauri signer sign "$RUNNER_TEMP/native/native.json"
+          test -s "$RUNNER_TEMP/native/native.json.sig"
+      - name: Attach them to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd "$RUNNER_TEMP/native"
+          gh release upload "$TAG" agentes-native-*.tar.gz native.json native.json.sig --clobber --repo "$GITHUB_REPOSITORY"
+
+  # The one check to require once branch protection is on: red when any job failed or was
+  # cancelled; a skipped job is fine (nothing it covers changed).
+  done:
+    name: CI result
+    if: always()
+    needs:
+      [changes, check, test-backend, test-web, test-desktop-rust, secrets, isolation-root, compose, build, publish, release-install, release-native]
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 2
+    steps:
+      - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

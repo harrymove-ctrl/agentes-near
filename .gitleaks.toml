@@ -1,0 +1,68 @@
+[extend]
+useDefault = true
+
+# Tests never read .env and never touch the network: every key, token and password in them is made
+# up, most on purpose to check redaction, encryption at rest and masking. Only the generic rule is
+# off there: a real key in a provider's format (Anthropic, OpenAI, AWS, GitHub, a private key...)
+# pasted into a test still fails the scan.
+[[allowlists]]
+description = "Made-up keys and tokens in tests"
+targetRules = ["generic-api-key"]
+paths = [
+  '''(^|/)test/''',
+  '''\.test\.tsx?$''',
+]
+
+# The curl-header rule stays on in tests: it is the only one that catches keys with no rule of their own
+# (OpenRouter's sk-or-v1-, DeepSeek's, Gemini's AQ.). Only the made-up tokens of the test that checks a
+# command's label never shows what the command hides are let through, by value.
+[[allowlists]]
+description = "Made-up curl header tokens of the command label test"
+targetRules = ["curl-auth-header"]
+condition = "AND"
+paths = ['''(^|/)test/''']
+regexes = ['''^(abc123def456ghi789|9f8e7d6c5b4a3210|sk-ant-api03-abcdefghijklmnop)$''']
+
+# A Himetrica site key only names the site to the analytics tracker, which sends it from every page.
+[[allowlists]]
+description = "Himetrica site keys (public by design)"
+regexes = ['''^hm_[0-9a-f]{48}$''']
+
+# A test's made-up private keys (a run nobody is behind must never send a credential) once sat close enough
+# that the private-key rule read them as one key, in a commit already on main. History stays as it is, so
+# that commit is allowed for this rule only; a real key in any other commit still fails the scan.
+[[allowlists]]
+description = "Made-up private keys read as one in a test, in one past commit"
+targetRules = ["private-key"]
+commits = ["cfab1cb463a3470c8303f3b2efac9c17959d5e2b"]
+
+# The characters the runner draws a desktop's VNC passwords from (letters and digits without look-alikes) sit
+# in a constant whose name says "password", so the generic rule reads the alphabet as a key. Only that exact
+# string is allowed.
+[[allowlists]]
+description = "The desktop's VNC password alphabet"
+targetRules = ["generic-api-key"]
+regexes = ['''^ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789$''']
+
+# Chrome uses this bundled RSA public key only to give the offline extension a stable ID.
+# Limit this exception to this exact key and file; other keys in the manifest still fail.
+[[allowlists]]
+description = "Offline extension's public identity key"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^apps/server/runner/assets/start/manifest\.json\.txt$''']
+regexes = ['''^MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhHkuBQUoz\+h1CDNDjKFRN6qmKBiey0bQXO4ala21CVMUbnDKeeaBpdxdpizXTti7He9go8\+XKN/pX\+dxPlvLmwCrx38awhaA0j3SFSYpN2HoSUuV22wZNKUPjthrVQeQQPUrzv/tuXrU5NlGEBkaGyH6Zp2Jc6P2acX7e9DiKnQJj6G1nfGVo3WXCC2Om1WwGPVzgM\+dBzi7yiigB2sI6EYWIXMB\+eNIb3vcxv4KNjk7BuldvLzBt9EwYyUVlVxkVSxnpvohUhicoMVZvqH1O6WHZCYsoQ2HF1tQQtr9QTgWx5asALgGtMkeKHWiKRiCuoUpG5/7SkZpyUban7ZUQIDAQAB$''']
+
+# S78 feeds this exact made-up curl token to a failing tool to verify that judge evidence masks it.
+[[allowlists]]
+description = "Synthetic curl token in the autonomy error-masking test"
+targetRules = ["curl-auth-header"]
+condition = "AND"
+paths = ['''^packages/engine/test/autonomy/turn-end\.test\.ts$''']
+regexes = ['''^abcdef0123456789$''']
+
+# A keyboard-shortcut list named *_KEYS, not a credential.
+[[allowlists]]
+description = "Keyboard shortcut lists"
+targetRules = ["generic-api-key"]
+regexes = ['''^Alt\+Shift\+Arrow(Up|Down)( Alt\+Shift\+Arrow(Up|Down))*$''']

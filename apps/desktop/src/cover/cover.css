@@ -1,0 +1,105 @@
+/* The main window's cover (cover.rs): the boot sky with the agent, over the site. */
+.cover {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #0a3f9c;
+  color: #fff;
+  font:
+    500 13.5px / 1.5 "Onest Variable",
+    -apple-system,
+    system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  transition: opacity 0.26s ease-out;
+}
+.cover[data-fading] {
+  opacity: 0;
+}
+.cover__sky {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cover__in {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  pointer-events: none;
+}
+.cover__agent {
+  width: 72px;
+  height: 72px;
+}
+.cover__word {
+  margin: 0;
+  font-family: "Funnel Display", "Onest Variable", sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 8px rgba(4, 32, 63, 0.5);
+}
+.cover__word span {
+  opacity: 0.6;
+}
+.cover__line {
+  margin: 0;
+  min-height: 20px;
+  max-width: 46ch;
+  opacity: 0.85;
+  text-shadow: 0 1px 6px rgba(4, 32, 63, 0.6);
+}
+/* How long the server here has been starting or updating, ticking (from 10 s). */
+.cover__time {
+  margin: -8px 0 0;
+  font-size: 12.5px;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 6px rgba(4, 32, 63, 0.6);
+}
+.cover__time:empty {
+  display: none;
+}
+/* The cover's buttons ("Start it", "Copy details", "Use another server", …): the only things on it that click. */
+.cover__acts {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+.cover__acts:empty {
+  display: none;
+}
+.cover__acts button {
+  font: inherit;
+  font-weight: 600;
+  color: #0a3f9c;
+  background: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 7px 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 8px rgba(4, 32, 63, 0.35);
+}
+.cover__acts button + button {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.cover__acts button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover {
+    transition: none;
+  }
+}

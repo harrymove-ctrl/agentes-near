@@ -1,0 +1,7 @@
+{
+  "ios": {
+    "NSPhotoLibraryUsageDescription": "Untuk mengirim gambar di percakapan Anda.",
+    "NSCameraUsageDescription": "Untuk mengambil foto bagi percakapan Anda dan memindai kode QR.",
+    "NSPhotoLibraryAddUsageDescription": "Untuk menyimpan gambar dari percakapan Anda ke Foto."
+  }
+}

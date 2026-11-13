@@ -1,0 +1,160 @@
+{
+  "common": {
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "continue": "Weiter",
+    "done": "Fertig",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen",
+    "or": "oder"
+  },
+  "auth": {
+    "skyLabel": "Himmel mit Agenten",
+    "social": {
+      "failed": "Die Anmeldung klappt gerade nicht. Versuch es noch einmal.",
+      "unfinished": "Die Anmeldung wurde nicht abgeschlossen. Versuch es noch einmal oder nutze deine E-Mail."
+    },
+    "errors": {
+      "network": "Keine Verbindung. Prüf dein Internet und versuch es noch einmal.",
+      "generic": "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+      "offlineRetry": "Gerade kein Internet. Ich mache weiter, sobald es wieder da ist."
+    },
+    "flow": {
+      "email": "Wie lautet deine E-Mail?",
+      "emailLead": "Um dich anzumelden oder dein Konto zu erstellen.",
+      "signUp": "Freut mich. Wie nennt dich das Team?"
+    },
+    "server": {
+      "line": "Server: {{host}} ·",
+      "change": "Ändern",
+      "title": "Wo läuft dein agentes.chat?",
+      "subtitle": "Die Adresse, die dein Team im Browser öffnet.",
+      "label": "Serveradresse",
+      "placeholder": "agentes.deinteam.ts.net",
+      "use": "Diesen Server nutzen",
+      "checking": "Wird geprüft…",
+      "scan": "QR-Code scannen",
+      "backTo": "Zurück zu {{host}}",
+      "footChange": "Ändern",
+      "footChoose": "Server und Sprache",
+      "footServer": "Anderer Server",
+      "footLanguage": "Sprache",
+      "footTeam": "Nutzt du den Server deines Teams?",
+      "footTeamAction": "Darüber anmelden",
+      "footOn": "Anmeldung auf {{host}}",
+      "footSwitch": "Wechseln",
+      "now": "Jetzt auf {{host}}",
+      "invalid": "Prüf die Adresse, etwa agentes.deinteam.ts.net.",
+      "unreachable": "Wir erreichen {{host}} nicht. Prüf die Adresse und deine Verbindung und versuch es noch einmal.",
+      "unreachableTailscale": "Wir erreichen {{host}} nicht. Der Server läuft über Tailscale: Öffne die Tailscale-App, verbinde dich und versuch es noch einmal. Schon verbunden? Der Computer, auf dem er läuft, schläft vielleicht oder seine App ist geschlossen.",
+      "certificate": "Das Zertifikat von {{host}} ist ungültig. Sprich mit der Person, die den Server betreibt.",
+      "notAgentes": "{{host}} ist kein agentes.chat-Server. Prüf die Adresse.",
+      "serverTooOld": "{{host}} braucht ein Update, um mit dieser App zu funktionieren.",
+      "appTooOld": "Aktualisiere die agentes-App, um {{host}} zu nutzen.",
+      "down": {
+        "line": "{{host}} hat nicht geantwortet.",
+        "text": "Er ist vielleicht offline oder außerhalb deines Netzwerks. Die App öffnet sich von selbst, sobald er wieder da ist.",
+        "tryNow": "Jetzt versuchen",
+        "switchServer": "Server wechseln",
+        "retryIn_one": "neuer Versuch in {{count}} s",
+        "retryIn_other": "neuer Versuch in {{count}} s"
+      }
+    },
+    "connect": {
+      "title": "Mit diesem Server verbinden?",
+      "titleSignIn": "Mit dem Konto des Computers anmelden?",
+      "on": "Server: {{host}}",
+      "leave": "Du wirst auf diesem Handy vom aktuellen Konto abgemeldet.",
+      "confirm": "Verbinden",
+      "notNow": "Nicht jetzt",
+      "checking": "Server wird geprüft…",
+      "notALink": "Dieser Link stammt nicht von einem agentes.chat-Server.",
+      "tokenFailed": "Der Code ist abgelaufen oder wurde schon benutzt. Melde dich mit deiner E-Mail an oder lass dir auf dem Computer einen neuen Code anzeigen.",
+      "signInSlow": "Die Anmeldung dauert länger als sonst. Melde dich mit deiner E-Mail an oder lass dir auf dem Computer einen neuen Code anzeigen."
+    },
+    "scan": {
+      "hint": "Richte die Kamera auf den QR-Code am Computer",
+      "typeAddress": "Adresse eingeben",
+      "notOurs": "Dieser QR-Code stammt nicht von einem agentes.chat-Server.",
+      "cameraTitle": "Kamera nutzen",
+      "cameraText": "Sie wird nur zum Lesen des QR-Codes verwendet.",
+      "allow": "Kamera erlauben",
+      "settings": "Einstellungen öffnen"
+    }
+  },
+  "org": {
+    "noneTitle": "Du bist noch in keinem Workspace",
+    "noneSubtitle": "Bitte jemanden aus deinem Team um eine Einladung oder erstelle den Workspace auf der Website.",
+    "openSite": "Website öffnen",
+    "signOut": "Abmelden"
+  },
+  "account": {
+    "deleteFailed": "Dein Konto lässt sich gerade nicht löschen. Versuch es noch einmal.",
+    "deleted": "Dein Konto verschwindet am {{date}} endgültig. Melde dich vorher an, um es wiederherzustellen.",
+    "signedOut": "Du hast dich abgemeldet."
+  },
+  "theme": {
+    "system": "Wie auf dem Handy",
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "push": {
+    "channel": "Hinweise",
+    "channelDescription": "Was auf dich wartet, Erwähnungen und Unterhaltungen.",
+    "offer": {
+      "line": "Willst du wissen, wann {{name}} fertig ist?",
+      "action": "Benachrichtigen"
+    },
+    "ask": {
+      "title": "Wissen, wann ein Agent dich braucht",
+      "text": "Sie arbeiten, während du etwas anderes machst. Wir sagen dir Bescheid, wenn sie dein Okay brauchen, mit deinem Auftrag fertig sind oder dich rufen.",
+      "on": "Benachrichtigungen einschalten",
+      "later": "Nicht jetzt",
+      "done": "Benachrichtigungen an",
+      "failed": "Benachrichtigungen ließen sich nicht einschalten. Versuch es noch einmal unter Du › Benachrichtigungen.",
+      "someone": "Ein Agent",
+      "examples": "Beispiele für Benachrichtigungen",
+      "now": "jetzt",
+      "minutes": "{{n}} Min.",
+      "approval": {
+        "title": "{{name}} braucht dein Okay",
+        "body": "Darf ich mit deinem Auftrag weitermachen?"
+      },
+      "finished": {
+        "title": "{{name}} ist fertig",
+        "body": "Dein Auftrag ist erledigt."
+      },
+      "mention": {
+        "title": "{{name}} hat dich gerufen",
+        "body": "Kannst du kurz draufschauen, wenn du eine Minute hast?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, Agent",
+    "agentWorking": "{{name}}, Agent, arbeitet",
+    "agentPlain": "Agent",
+    "person": "{{name}}",
+    "loading": "Wird geladen",
+    "grabber": "Zum Schließen nach unten ziehen",
+    "closeSheet": "Schließen",
+    "send": "Senden",
+    "attach": "Anhängen und mehr",
+    "hold": "Zum Bestätigen gedrückt halten",
+    "clearSearch": "Suche leeren"
+  },
+  "composer": {
+    "placeholder": "Nachricht schreiben",
+    "join": "Zur laufenden Aufgabe hinzufügen",
+    "now": "Stoppen und senden",
+    "choice": "So senden, während der Agent arbeitet",
+    "holdToStop": "Zum Stoppen und Senden gedrückt halten"
+  },
+  "search": {
+    "placeholder": "Suchen"
+  },
+  "picker": {
+    "none": "Nichts passt zu „{{text}}“."
+  }
+}

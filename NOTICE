@@ -1,0 +1,80 @@
+agentes.chat — Copyright (C) 2026 Codari Global, LLC and contributors
+
+Unless a file or package says otherwise, this repository is licensed under the
+GNU Affero General Public License version 3 only (SPDX: AGPL-3.0-only), in
+LICENSE. Packages with their own LICENSE file and package.json "license"
+(published SDKs, CLIs) are licensed as stated there. Third-party components
+keep their licenses (below).
+
+ADDITIONAL PERMISSION UNDER AGPL-3.0 SECTION 7 (application stores)
+You may convey object code of the client applications in apps/mobile and
+apps/desktop, including the parts of this repository they contain, through an
+application store or marketplace whose terms restrict recipients (usage rules,
+device limits, DRM); those terms alone are not treated as further restrictions
+under section 10, provided you otherwise comply with this License, including by
+offering the Corresponding Source under this License, at no charge, through a
+means not subject to those terms.
+
+ADDITIONAL TERM UNDER AGPL-3.0 SECTION 7(b) (attribution)
+Every copy of this work, and every modified version or work based on it, that has
+an interactive user interface must keep this attribution in its Appropriate
+Legal Notices (section 0), where everyone who uses it, including remotely over a
+network, can find it from its settings or menus (such as an About screen):
+
+    Based on agentes.chat by Codari Global, LLC (https://agentes.chat)
+
+You may show your own name, product name and branding next to it, and translate
+it, but you may not remove it, hide it, change its meaning or present the work as
+made only by you. Keeping it uses the name only to say where the work comes
+from; it grants no other right to the trademarks below.
+
+TRADEMARKS: this License grants no rights to "agentes", "agentes.chat" or their
+logos (section 7(e)). See TRADEMARKS.md.
+
+--------------------------------------------------------------------------------
+
+"agentes", "agentes.chat" and the agentes logo are trademarks of Codari Global, LLC (TRADEMARKS.md).
+Source: https://github.com/agentes-chat/agentes-chat. Release images and desktop app releases
+are built from the tag of their version.
+
+Third-party software keeps its own license. The license texts are next to what they cover:
+
+- apps/desktop/src-tauri/licenses/bun: the desktop app's runner is compiled with Bun (MIT),
+  which statically links JavaScriptCore and WebCore from WebKit (LGPL-2.0 or later) and tinycc
+  (LGPL-2.1). The README there gives the source of those libraries and how to rebuild the
+  runner from this repository with a modified one.
+- apps/desktop/src-tauri/licenses/agent-browser: agent-browser (Apache-2.0), bundled with the
+  desktop app, and axe-core (MPL-2.0), embedded in it.
+- apps/web/src/fonts, apps/web/public/email, apps/desktop/src/fonts, apps/mobile/assets/fonts:
+  the Doto and Funnel Display fonts (SIL Open Font License 1.1); apps/web/public/email also has
+  the Source Sans 3 font (SIL Open Font License 1.1).
+- apps/desktop/src-tauri/installer/installer.nsi: Tauri's NSIS installer template (Apache-2.0 OR
+  MIT, Copyright (c) 2017 - Present Tauri Apps Contributors), changed; apps/desktop/scripts/
+  installer-art.ts holds the outlines of a few Funnel Display glyphs (SIL Open Font License 1.1).
+- packages/engine/assets/fonts: the Onest and Martian Mono fonts (SIL Open Font License 1.1),
+  embedded in exported PDFs.
+- apps/web/public/connectors: icons from Simple Icons (CC0 1.0).
+- packages/ui/src/brand/marks.ts: the marks of Claude, OpenAI, Gemini, DeepSeek, Kimi, Z.ai,
+  MiniMax and OpenCode, Gemini's as gemini.png in apps/web/public/brands and
+  apps/mobile/assets/images/brands. apps/web/public/brands/postgresql.svg: PostgreSQL's
+  elephant. apps/desktop/src/ui/here.tsx: Tailscale's icon. Each is drawn from its maker's own
+  files (a press kit, a brand page, the maker's repository or the icon its own site serves),
+  named in the code or the README beside it.
+- apps/web/public/brands, apps/mobile/assets/images/brands and
+  apps/web/test/fixtures/agent-import: the logos of Grok Bot (SpaceXAI LLC), ChatGPT dots
+  (OpenAI) and OpenBot.run, without any of their code. Logos and sample files of OpenMausBot
+  (Apache-2.0, "OpenMausBot, Copyright 2026 Milind Soni and OpenMausBot contributors"), Hermes
+  Agent (MIT, Copyright (c) 2025 Nous Research), OpenClaw (MIT, Copyright (c) 2026 OpenClaw
+  Foundation) and Paperclip (MIT, Copyright (c) 2025 Paperclip AI. Its logo is Lucide's
+  paperclip icon, ISC), and sample files of OpenBot (MIT, Copyright (c) 2026 CopilotKit). The
+  README in apps/web/public/brands gives each logo's source, and the license texts are in
+  apps/web/test/fixtures/agent-import.
+- Packages installed from npm and crates.io: the license in each package. The container
+  image is built on the oven/bun image (Debian and Bun), whose parts keep their licenses.
+- deploy/speech: the speech image (the compose file's speech profile) holds NVIDIA's Parakeet TDT
+  0.6B v3 (CC BY 4.0) and OpenAI's Whisper tiny (MIT), as ONNX exports by others; deploy/speech/
+  NOTICE credits them and goes into the image. It is built on the python image (Debian, with its
+  ffmpeg) and Python packages from PyPI, each keeping its license.
+
+Every mark and logo listed here is a trademark of its owner, used only to name its product or
+service; none of these licenses grants trademark rights.

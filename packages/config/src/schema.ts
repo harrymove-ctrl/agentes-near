@@ -1,0 +1,1105 @@
+import { z } from "zod";
+import { parseFirebaseServiceAccount, parsePemKey } from "./pem";
+
+/**
+ * Every environment variable agentes.chat reads is declared here, exactly once.
+ *
+ * This list is the single source of truth for:
+ * - runtime validation (see `loadConfig`)
+ * - `.env.example` (`bun run docs:env`)
+ *
+ * Adding a variable anywhere else is a bug (docs/adr/0004-configuration.md).
+ */
+export interface EnvVarDefinition {
+  /** Zod schema that parses the raw string value. Include `.default()` for optional vars. */
+  schema: z.ZodType;
+  /** Shown in `.env.example`. Write it for a self-hoster, not for us. */
+  description: string;
+  /** Grouping used in `.env.example`. */
+  section:
+    | "Server"
+    | "Database"
+    | "Security"
+    | "Sign-in"
+    | "Agents"
+    | "Connectors"
+    | "Search"
+    | "Chat"
+    | "Storage"
+    | "Sandbox"
+    | "Email"
+    | "Composio"
+    | "Email for agents"
+    | "Push"
+    | "Operator"
+    | "Usage report"
+    | "Observability";
+  /** Example value for docs. Never a real secret. */
+  example?: string;
+  /** Secret values are never logged and are masked in diagnostics. */
+  secret?: boolean;
+}
+
+/** A Sentry DSN: `https://<public key>@<host>/<project id>`. */
+const DSN = /^https?:\/\/[^@/\s]+@[^/\s]+\/(?:[^\s]*\/)?\d+$/;
+const DSN_MESSAGE = "must be a DSN such as https://<key>@errors.example.com/1";
+
+/** Claude model ids accepted as defaults. Prices live in `@agenteschat/providers` (`MODEL_CATALOG`). */
+const modelId = z.string().regex(/^[a-z0-9][a-z0-9.-]*$/, "must be a model id such as claude-sonnet-5-5");
+
+export const envVars = {
+  NODE_ENV: {
+    schema: z.enum(["development", "test", "production"]).default("development"),
+    description: "Runtime mode. Use `production` for any real deployment.",
+    section: "Server",
+    example: "production",
+  },
+  HOST: {
+    schema: z.string().default("0.0.0.0"),
+    description: "Interface the HTTP server binds to.",
+    section: "Server",
+  },
+  PORT: {
+    schema: z.coerce.number().int().min(1).max(65535).default(3000),
+    description: "Port the HTTP and WebSocket server listens on.",
+    section: "Server",
+  },
+  PUBLIC_URL: {
+    schema: z.url().default("http://localhost:3000"),
+    description:
+      "Public base URL of this instance, without a trailing slash. Used for sign-in callbacks, invitation links and the allowed browser origin.",
+    section: "Server",
+    example: "https://chat.example.com",
+  },
+  LANDING_URL: {
+    schema: z.url().optional(),
+    description:
+      "Public URL of the agentes.chat landing page (its own site), without a trailing slash. Turns on the waiting list: that origin may call it (CORS on `/api/waitlist` only), and the confirmation email links there. Unset: no waiting list.",
+    section: "Server",
+    example: "https://agentes.chat",
+  },
+  APP_VERSION: {
+    schema: z
+      .string()
+      .regex(/^[\w.+-]{1,64}$/, "must be a version such as 2026.10.31.4")
+      .optional(),
+    description:
+      "This deploy's version: the release error reports are filed under, and `version` in `GET /api/instance` and `/api/health`. `deploy/deploy.sh` sets it in the image it deploys, from its second argument. Unset (default): the server's own version.",
+    section: "Server",
+    example: "2026.10.31.4",
+  },
+  // Mirror: PUBLIC_SOURCE_URL in packages/client/src/lib/about.ts.
+  SOURCE_URL: {
+    schema: z.url().default("https://github.com/agentes-chat/agentes-chat"),
+    description:
+      "Where people get this server's source code, shown as \"Source code\" on the About screen of every app (AGPL-3.0 section 13). Running a modified version: point it at your modified source. Default: agentes.chat's public repository.",
+    section: "Server",
+    example: "https://github.com/your-org/your-fork",
+  },
+  WEB_DIR: {
+    schema: z.string().default("./public"),
+    description:
+      "Directory containing the built web app (single-page app). Served by this server when it exists; otherwise only the API runs.",
+    section: "Server",
+  },
+  SHUTDOWN_DELAY_MS: {
+    schema: z.coerce.number().int().min(0).max(5_000).default(0),
+    description:
+      "On SIGTERM, how long the server keeps serving while `/api/health` answers 503, before it stops taking requests. Behind a reverse proxy with an active health check (and a retry window), set it above the check's interval so the proxy stops sending requests here first and holds them for the next instance instead of failing them (2000 for a check every second). 0 (default): stop taking requests at once.",
+    section: "Server",
+  },
+  OUTBOX_MAX_IN_FLIGHT: {
+    schema: z.coerce.number().int().min(1).default(48),
+    description:
+      "How many jobs one server process runs at once besides its requests: agents' runs, routines, a message's routing, notifications, emails. Agents' runs spend most of their time waiting for their model or their computer, so this can be far above the number of CPUs. A job holds a database connection only while it reads or writes (`DATABASE_POOL_MAX`).",
+    section: "Server",
+  },
+  OUTBOX_QUICK_SLOTS: {
+    schema: z.coerce.number().int().min(0).default(12),
+    description:
+      "Of `OUTBOX_MAX_IN_FLIGHT`, the slots only quick jobs may take (a message's routing, notifications, push, emails, search indexing), so they never wait behind agents' runs and routines, which hold the rest at most. Must be below `OUTBOX_MAX_IN_FLIGHT`. 0: no slots of their own.",
+    section: "Server",
+  },
+  OUTBOX_MAX_IN_FLIGHT_CEILING: {
+    schema: z.coerce.number().int().min(1).optional(),
+    description:
+      "At most this many jobs at once in one process, however far the slots could grow. While jobs wait for a slot (a burst of routines, a busy hour), the slots double every 30 seconds from `OUTBOX_MAX_IN_FLIGHT`: agents' runs as far as half the process's memory holds them (about 4 MB each while they wait), quick jobs to 4 per database connection (`DATABASE_POOL_MAX`); they shrink back once nothing waits. Unset (default): only those limits. Set it to `OUTBOX_MAX_IN_FLIGHT` to keep the slots fixed. With the built-in database they never grow.",
+    section: "Server",
+  },
+  SERVER_ROLE: {
+    schema: z.enum(["all", "worker"]).default("all"),
+    description:
+      "What this process does. `all` (default): serves the app and its API, and runs jobs. `worker`: only runs jobs (agents' runs, routines, notifications, emails; pushes stay with the app, which knows who has it open), and answers nothing over HTTP but its health check (`/api/health` on `PORT`). When jobs keep waiting for a slot (the log says so), start one more process with `SERVER_ROLE=worker` and the same settings: jobs share out across every process on the database, each workspace taking its turn. Processes booting together take turns on the migrations; a worker may leave them to the app (`RUN_MIGRATIONS_ON_BOOT=false`). Needs a PostgreSQL database, not the built-in one.",
+    section: "Server",
+  },
+  DATABASE_URL: {
+    schema: z
+      .string()
+      .regex(
+        /^(postgres(ql)?:\/\/|pglite:\/\/\/)/,
+        "must be a postgres:// or postgresql:// URL, or pglite:/// and an absolute folder",
+      ),
+    description:
+      "PostgreSQL connection string (PostgreSQL 15 or newer with the `vector` extension available). Add `?sslmode=require` for managed databases that require TLS. Native mode (`agentes-server`, no Docker) sets it to `pglite:///<folder>`: the database built into the server, in that folder, for one process.",
+    section: "Database",
+    example: "postgres://agenteschat:password@db.example.com:5432/agenteschat?sslmode=require",
+    secret: true,
+  },
+  DATABASE_POOL_MAX: {
+    schema: z.coerce.number().int().min(1).default(20),
+    description:
+      "Maximum number of open connections per agentes.chat process, shared by its HTTP requests and its jobs (`OUTBOX_MAX_IN_FLIGHT`). Keep it, times the number of processes, under the database's `max_connections`.",
+    section: "Database",
+  },
+  RUN_MIGRATIONS_ON_BOOT: {
+    schema: z.stringbool().default(true),
+    description:
+      "Apply pending database migrations when the server starts. Disable only if you run migrations as a separate deployment step.",
+    section: "Database",
+  },
+  AGENTES_SECRET: {
+    schema: z.string().min(32, "must be at least 32 characters. Generate one with `openssl rand -base64 48`"),
+    description:
+      "Master secret. Session signing and the key that encrypts stored provider credentials (API keys of model providers) derive from it. Generate with `openssl rand -base64 48`. **Changing it makes stored credentials unreadable.** Back it up.",
+    section: "Security",
+    example: "<output of openssl rand -base64 48>",
+    secret: true,
+  },
+  ALLOW_SIGNUP: {
+    schema: z.stringbool().default(false),
+    description:
+      "Forces sign-up open: anyone can create an account. When off (default), the **first** account can sign up (it becomes owner of the installation), and after it sign-up is by invitation only until the operator API's sign-up mode is set to open, live, with no restart (ADR 0078). Keep it off on a self-hosted instance reachable from the internet.",
+    section: "Sign-in",
+  },
+  OWNER_CLAIM_SHA256: {
+    schema: z
+      .string()
+      .regex(/^[0-9a-f]{64}$/, "must be 64 hex characters (the SHA-256 of the owner link's token)")
+      .optional(),
+    description:
+      "SHA-256 (hex) of the token in an owner link (`<PUBLIC_URL>/owner#claim=<token>`). While no account exists, only that link creates the first account, the installation's owner; every other sign-up waits. Unset: the first account to sign up owns the installation.",
+    section: "Sign-in",
+  },
+  OWNER_KEY_SHA256: {
+    schema: z
+      .string()
+      .regex(/^[0-9a-f]{64}$/, "must be 64 hex characters (the SHA-256 of the owner key)")
+      .optional(),
+    description:
+      "SHA-256 (hex) of the key the agentes.chat desktop app keeps when it runs this server on the same computer. Only that key creates the first account (the owner, with no password), and the app signs that owner in with it again whenever the session ends. Set by the desktop app.",
+    section: "Sign-in",
+  },
+  TERMS_URL: {
+    schema: z.url().optional(),
+    description:
+      "Your terms of service, linked on the sign-in and sign-up screens when `PRIVACY_URL` is set too, and where this server's /terms leads. Default on agentes.chat Cloud (https://app.agentes.chat): its /terms page.",
+    section: "Sign-in",
+    example: "https://example.com/terms",
+  },
+  PRIVACY_URL: {
+    schema: z.url().optional(),
+    description:
+      "Your privacy policy, linked on the sign-in and sign-up screens together with `TERMS_URL`, and where this server's /privacy leads. Default on agentes.chat Cloud (https://app.agentes.chat): its /privacy page.",
+    section: "Sign-in",
+    example: "https://example.com/privacy",
+  },
+  TRUSTED_PROXIES: {
+    schema: z
+      .string()
+      .optional()
+      .transform((value) =>
+        value
+          ?.split(",")
+          .map((entry) => entry.trim())
+          .filter(Boolean),
+      ),
+    description:
+      "Comma-separated IPs/CIDRs of your reverse proxies (load balancer, Cloudflare…). Used to find the real client IP for every rate limit. Leave empty if agentes.chat is reached directly.",
+    section: "Sign-in",
+    example: "10.0.0.0/8,172.16.0.0/12",
+  },
+  TURNSTILE_SITE_KEY: {
+    schema: z.string().optional(),
+    description:
+      "For agentes.chat Cloud. Unset by default. Cloudflare Turnstile's site key. With `TURNSTILE_SECRET_KEY`, a bot check runs before email lookup, sign-in, sign-up, password reset, the code to ask to join and the waiting list. Unset: no check, and no page loads anything from Cloudflare.",
+    section: "Sign-in",
+  },
+  TURNSTILE_SECRET_KEY: {
+    schema: z.string().optional(),
+    description:
+      "For agentes.chat Cloud. Unset by default. Cloudflare Turnstile's secret key, which this server uses to check each answer with Cloudflare. Set both keys or neither. A secret Cloudflare refuses stops the server at boot.",
+    section: "Sign-in",
+    secret: true,
+  },
+  GOOGLE_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Enables “Sign in with Google” when set together with `GOOGLE_CLIENT_SECRET`. Redirect URI: `{PUBLIC_URL}/api/auth/callback/google`.",
+    section: "Sign-in",
+  },
+  GOOGLE_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "OAuth client secret for Google sign-in.",
+    section: "Sign-in",
+    secret: true,
+  },
+  GITHUB_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Enables “Sign in with GitHub” when set together with `GITHUB_CLIENT_SECRET`. Callback URL: `{PUBLIC_URL}/api/auth/callback/github`.",
+    section: "Sign-in",
+  },
+  GITHUB_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "OAuth client secret for GitHub sign-in.",
+    section: "Sign-in",
+    secret: true,
+  },
+  APPLE_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Services ID for “Sign in with Apple” (e.g. `chat.agentes.signin`). Enabled when set together with `APPLE_TEAM_ID`, `APPLE_KEY_ID` and `APPLE_PRIVATE_KEY`. Return URL: `{PUBLIC_URL}/api/auth/callback/apple`. Someone who hides their address behind Apple gets email from this server only once `EMAIL_FROM`'s domain is registered in Apple Developer › Sign in with Apple for Email Communication, with SPF and DKIM passing: until then they get no code to delete their account, nor any other email.",
+    section: "Sign-in",
+  },
+  APPLE_TEAM_ID: {
+    schema: z.string().optional(),
+    description:
+      "Apple Developer team id (10 characters) for Sign in with Apple and, with `APPLE_APP_BUNDLE_ID`, for links that open the iOS app.",
+    section: "Sign-in",
+  },
+  APPLE_KEY_ID: {
+    schema: z.string().optional(),
+    description: "Key id of the Sign in with Apple private key.",
+    section: "Sign-in",
+  },
+  APPLE_PRIVATE_KEY: {
+    schema: z
+      .string()
+      .optional()
+      .transform((value, ctx) => {
+        if (value === undefined) return value;
+        try {
+          return parsePemKey(value);
+        } catch (error) {
+          ctx.addIssue({ code: "custom", message: (error as Error).message });
+          return z.NEVER;
+        }
+      }),
+    description:
+      "Sign in with Apple private key (.p8): PEM, PEM with `\\n`, or base64 of the PEM file. The server signs Apple's client secret with it at boot (valid 150 days: restart at least that often).",
+    section: "Sign-in",
+    secret: true,
+  },
+  APPLE_APP_BUNDLE_ID: {
+    schema: z.string().optional(),
+    description:
+      "Bundle id of the iOS app (e.g. `chat.agentes.app`), so it can sign in with Apple natively. With `APPLE_TEAM_ID`, links to this server's pages the app has a screen for (conversations, messages, threads, agents, tasks, routines, approvals, the inbox, settings; invitations and password resets) open the app: `/.well-known/apple-app-site-association`, also at `/apple-app-site-association`. Comma-separated for several builds (e.g. `chat.agentes.app,chat.agentes.app.preview`): all get the links, the first signs in with Apple. The app must be built with this server's host in its Associated Domains (`EXPO_PUBLIC_API_URL`).",
+    section: "Sign-in",
+  },
+  ANDROID_APP_PACKAGE: {
+    schema: z.string().optional(),
+    description:
+      "Package of the Android app (e.g. `chat.agentes.app`). With `ANDROID_APP_CERT_SHA256`, links to this server's pages the app has a screen for open the app, as on iOS (`/.well-known/assetlinks.json`). Comma-separated for several builds (e.g. `chat.agentes.app,chat.agentes.app.preview`). The app must be built with this server's host (`EXPO_PUBLIC_API_URL`).",
+    section: "Sign-in",
+  },
+  ANDROID_APP_CERT_SHA256: {
+    schema: z.string().optional(),
+    description:
+      "SHA-256 fingerprints of the Android app's signing certificates (`AA:BB:…`), comma-separated: Google Play's app signing key (Play Console › Test and release › App integrity › App signing), and the upload key's for builds installed outside Play.",
+    section: "Sign-in",
+  },
+  AGENT_DEFAULT_MODEL: {
+    schema: modelId.default("claude-sonnet-5-5"),
+    description:
+      "Unused: new agents start on Automático (`auto`, each run picks the model and effort), whatever this says. Still checked when set; to be removed.",
+    section: "Agents",
+  },
+  ROUTER_ENABLED: {
+    schema: z.stringbool().default(true),
+    description:
+      "Let the router pick which agents (at most 4) answer messages that mention nobody. Off = agents answer only when @mentioned.",
+    section: "Agents",
+  },
+  ROUTER_MODEL: {
+    schema: modelId.default("claude-haiku-5-5"),
+    description:
+      "Small model the router uses on a Claude key when Jev doesn't decide. An OpenAI key uses `OPENAI_CHEAP_MODEL`, other providers their catalog's routing pick. Any model in the catalog. An organization can override it in its settings.",
+    section: "Agents",
+  },
+  ROUTER_STRATEGY: {
+    schema: z.enum(["jev", "llm"]).optional(),
+    description:
+      "How the router starts: `jev` (TypeSafe Jev, with the server's Jev key from `TYPESAFE_API_KEY` or Settings › AI accounts) or `llm` (skips Jev). When a step can't decide, the next one does: a small model on the organization's keys, then, on a self-hosted server, the author's own plan, then simple rules. Default: `jev` when a Jev key is set.",
+    section: "Agents",
+  },
+  TYPESAFE_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "Your TypeSafe key for Jev (https://console.typesafe.ai/keys), optional. Jev picks who answers messages nobody @mentioned, keeps memory tidy and finds what agents look for on their screens. The installation's owner can also add it in Settings › AI accounts. This variable wins over that one. Never sent to a browser. Calls are billed to your TypeSafe account.",
+    section: "Agents",
+    secret: true,
+  },
+  JEV_TIMEOUT_MS: {
+    schema: z.coerce.number().int().min(200).max(30_000).default(2000),
+    description:
+      "Timeout for each Jev call: picking who answers and its judgments (memory, stops, hand-offs, the tools a turn loads). Screen judgments wait at least 6 s. After it, the next step decides, as without Jev.",
+    section: "Agents",
+  },
+  JEV_VISION_MODEL: {
+    schema: z
+      .string()
+      .regex(/^[a-z0-9][a-z0-9._-]{0,63}$/)
+      .default("jev-preview"),
+    description:
+      "Jev model for judgments over images (an agent finding a target on a screenshot of its browser or desktop). Needs a release that takes images.",
+    section: "Agents",
+  },
+  OPENAI_CHEAP_MODEL: {
+    schema: modelId.default("gpt-6-luna"),
+    description:
+      "Small OpenAI model for the organization's own calls on an OpenAI key: picking who answers when Jev doesn't, summaries, reflection.",
+    section: "Agents",
+  },
+  ROUTER_MIN_SCORE: {
+    schema: z.coerce.number().min(0).max(1).default(0.5),
+    description: "Minimum router score (0–1) for an agent to answer a message without mentions.",
+    section: "Agents",
+  },
+  ROUTER_MENTION_THRESHOLD: {
+    schema: z.coerce.number().min(0).max(1).default(0.6),
+    description:
+      "When an agent @mentions another, minimum probability (0–1) that the message plainly asks that agent to do something for it to answer. A mention is credit or a reference unless it asks: agents ask each other with ask_agent and tell_agent.",
+    section: "Agents",
+  },
+  AGENT_MAX_OUTPUT_TOKENS: {
+    schema: z.coerce.number().int().min(256).max(128_000).default(16_000),
+    description: "Upper bound on tokens an agent may generate in one reply.",
+    section: "Agents",
+  },
+  AGENT_MAX_TOOL_TURNS: {
+    schema: z.coerce.number().int().min(1).max(200).default(200),
+    description:
+      "Maximum model calls in one agent run (each tool round trip is one, browser and desktop steps included). A backstop for runaway runs: a run that goes in circles stops long before it. Near it the agent wraps up, and a conversation run ends with Continuar.",
+    section: "Agents",
+  },
+  AGENT_WORK_MAX_PER_ORG: {
+    schema: z.coerce.number().int().min(1).max(1000).default(10),
+    description:
+      "How many background works (long tasks agents moved out of a conversation) may run at once in one workspace. Past it a new one waits in line and starts by itself when one ends. Each agent runs at most 3 at once.",
+    section: "Agents",
+  },
+  AGENT_CONTEXT_MESSAGES: {
+    schema: z.coerce.number().int().min(1).max(500).default(30),
+    description: "How many recent channel (or thread) messages are included in an agent's context.",
+    section: "Agents",
+  },
+  AGENT_MAX_HOPS: {
+    schema: z.coerce.number().int().min(1).max(500).default(100),
+    description:
+      "Depth backstop: the most agent replies in a row along one chain without a person. The per-stretch limit (50 runs agents start on their own since a person last acted) stops them long before; reaching this means some path lost its stretch.",
+    section: "Agents",
+  },
+  PLATFORM_ANTHROPIC_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "The server's own Claude API key. Workspaces without a key of their own can use it (the setup's key step offers it beside the providers), and the router uses its small model when a workspace has no key with one. Usage is still recorded per organization.",
+    section: "Agents",
+    secret: true,
+  },
+  PLATFORM_ANTHROPIC_WORKSPACE_ID: {
+    schema: z.string().optional(),
+    description:
+      "Workspace id for the platform key, when the key is not scoped to a workspace (sent as `anthropic-workspace-id`).",
+    section: "Agents",
+  },
+  MODEL_ENDPOINTS_PRIVATE: {
+    schema: z.stringbool().optional(),
+    description:
+      "Whether a workspace's own model endpoint (Settings › AI keys › Other provider) may be on this server's network or over http: an Ollama, vLLM, LM Studio or LiteLLM next to it. Unset: allowed, except on agentes.chat Cloud (https://app.agentes.chat) and with `ALLOW_SIGNUP=true`, where only public https addresses are, checked again at every connection.",
+    section: "Agents",
+  },
+  SUMMARY_MODEL: {
+    schema: modelId.default("claude-haiku-5-5"),
+    description:
+      "Model that writes thread and channel summaries and extracts decisions, facts and lessons (reflection). An organization can override it. Billed to the organization (usage kind `summary`).",
+    section: "Agents",
+  },
+  REFLECT_EVERY_MESSAGES: {
+    schema: z.coerce.number().int().min(2).max(500).default(20),
+    description: "Reflect on a thread (extract decisions, facts, lessons) each time it grows by this many replies.",
+    section: "Agents",
+  },
+  REFLECT_IDLE_MINUTES: {
+    schema: z.coerce.number().int().min(5).max(10_080).default(120),
+    description: "Also reflect on a thread once it has been quiet this long.",
+    section: "Agents",
+  },
+  REFLECT_MAX_PER_THREAD: {
+    schema: z.coerce.number().int().min(1).max(100).default(5),
+    description: "Upper bound on reflections per thread (bounds cost and agent-to-agent loops).",
+    section: "Agents",
+  },
+  LEARN_MAX_PER_AGENT_DAY: {
+    schema: z.coerce.number().int().min(0).max(1000).default(20),
+    description:
+      "Upper bound on background learning jobs per agent and day (an agent's run that figured something out or was corrected). 0 turns them off.",
+    section: "Agents",
+  },
+  LEARN_MIN_TOOL_CALLS: {
+    schema: z.coerce.number().int().min(1).max(100).default(6),
+    description:
+      "Without a judge, a run learns after a failed tool call later fixed only when it made at least this many tool calls.",
+    section: "Agents",
+  },
+  LEARN_SKILL_AFTER: {
+    schema: z.coerce.number().int().min(2).max(100).default(3),
+    description: "A how-to an agent reused successfully this many times becomes one of its skills.",
+    section: "Agents",
+  },
+  EMBEDDINGS_PROVIDER: {
+    schema: z.enum(["none", "voyage", "openai"]).default("none"),
+    description:
+      "Vector embeddings for search, so a request finds what was written in other words or another language (ADR 0167). `none`: full-text search only. `voyage`: Voyage AI (needs `VOYAGE_API_KEY`). `openai`: any server with OpenAI's embeddings API at `EMBEDDINGS_URL`: DeepInfra, OpenAI, or one of your own such as the compose file's `embeddings` profile. Usage is recorded per organization (kind `embedding`). When the server can't answer, search goes on with words alone.",
+    section: "Search",
+  },
+  VOYAGE_API_KEY: {
+    schema: z.string().optional(),
+    description: "Voyage AI API key, used when `EMBEDDINGS_PROVIDER=voyage`.",
+    section: "Search",
+    secret: true,
+  },
+  EMBEDDINGS_URL: {
+    schema: z.url().optional(),
+    description:
+      "With `EMBEDDINGS_PROVIDER=openai`: the base of the embeddings API, requests go to `/embeddings` under it. DeepInfra: `https://api.deepinfra.com/v1/openai`. The compose file's `embeddings` profile: `http://embeddings:8080/v1`. It may be on your own network: only this server calls it.",
+    section: "Search",
+    example: "https://api.deepinfra.com/v1/openai",
+  },
+  EMBEDDINGS_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "The key that embeddings server asks for, sent as `Authorization: Bearer` (with `EMBEDDINGS_PROVIDER=openai`). A server of your own may need none.",
+    section: "Search",
+    secret: true,
+  },
+  EMBEDDING_MODEL: {
+    schema: z.string().optional(),
+    description:
+      "Embedding model, with at most 1024 numbers per vector (fewer are padded with zeros). Default: `voyage-3.5` for `voyage`, `Qwen/Qwen3-Embedding-0.6B` for `openai`. Also `Qwen/Qwen3-Embedding-8B`, `BAAI/bge-m3` and `ibm-granite/granite-embedding-311m-multilingual-r2`, or any other the server knows. After a change, each workspace's documents of `EMBEDDINGS_KINDS` get vectors again in the background from the next start; until then search finds them by their words.",
+    section: "Search",
+  },
+  EMBEDDINGS_KINDS: {
+    schema: z
+      .string()
+      .default("context_item")
+      .transform((value) =>
+        value
+          .split(",")
+          .map((entry) => entry.trim())
+          .filter(Boolean),
+      )
+      .pipe(z.array(z.enum(["message", "context_item", "issue", "file", "wiki", "action"]))),
+    description:
+      "What gets vectors, comma-separated, from context_item (memories), wiki, file, issue, action and message. The rest is found by its words alone. Messages are most of what is indexed, and their vectors would take most of the disk.",
+    section: "Search",
+    example: "context_item,wiki,file,issue,action",
+  },
+  EMBEDDINGS_QUERY_TIMEOUT_MS: {
+    schema: z.coerce.number().int().min(100).max(60_000).default(1500),
+    description:
+      "How long a search waits for its query's vector before it goes on with words alone, in milliseconds. An agent's run searches its memory before it starts, so a run may start this much later. A model on a small CPU may need more.",
+    section: "Search",
+  },
+  BRAVE_SEARCH_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "Brave Search API key (https://brave.com/search/api), optional. Agents' `web_search` uses it first when set. Without it: `SEARXNG_URL` when set, else the agent's own browser on its computer (Google, then Bing or DuckDuckGo), else DuckDuckGo's HTML page, with no key.",
+    section: "Search",
+    secret: true,
+  },
+  SEARXNG_URL: {
+    schema: z.url().optional(),
+    description:
+      "Base URL of a SearXNG instance with the JSON format turned on (`search.formats: [html, json]`), optional. Agents' `web_search` uses it when `BRAVE_SEARCH_API_KEY` isn't set. It may be on your own network: only this server calls it.",
+    section: "Search",
+  },
+  GIPHY_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "GIPHY API key (https://developers.giphy.com), optional. With it, people search and send GIFs in chat and agents may follow a light reply with one; each workspace can turn GIFs off and pick their rating in Settings › GIFs and stickers. The installation's owner can also add it there, on a server that isn't agentes.chat's own. This variable wins over that one. This server searches GIPHY and serves every GIF itself, so browsers and the phone app never talk to GIPHY and the key never leaves the server. With no key: no GIFs anywhere; the agents' own stickers still work.",
+    section: "Chat",
+    secret: true,
+  },
+  SPEECH_ENGINES: {
+    schema: z.string().optional(),
+    description:
+      "Speech engines for voice messages, in the order they are tried (ADR 0100): comma-separated, from assemblyai, elevenlabs, soniox, groq, openai, local and deepinfra. Empty: every one with a key, in that order. With none, the microphone stays hidden, unless the installation's owner sets one in Settings.",
+    section: "Chat",
+    example: "assemblyai,groq",
+  },
+  ASSEMBLYAI_API_KEY: {
+    schema: z.string().optional(),
+    description: "AssemblyAI key for voice messages, optional (ADR 0100). The audio goes to AssemblyAI to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  ELEVENLABS_API_KEY: {
+    schema: z.string().optional(),
+    description: "ElevenLabs key for voice messages, optional (ADR 0100). The audio goes to ElevenLabs to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  SONIOX_API_KEY: {
+    schema: z.string().optional(),
+    description: "Soniox key for voice messages, optional (ADR 0100). The audio goes to Soniox to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  GROQ_API_KEY: {
+    schema: z.string().optional(),
+    description: "Groq key for voice messages, optional (ADR 0100). The audio goes to Groq to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  OPENAI_SPEECH_API_KEY: {
+    schema: z.string().optional(),
+    description: "OpenAI key for voice messages, optional (ADR 0100). The audio goes to OpenAI to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  DEEPINFRA_API_KEY: {
+    schema: z.string().optional(),
+    description: "DeepInfra key for voice messages, optional (ADR 0100). The audio goes to DeepInfra to become text.",
+    section: "Chat",
+    secret: true,
+  },
+  LOCAL_SPEECH_URL: {
+    schema: z.url().optional(),
+    description:
+      "A speech server of your own that speaks the OpenAI format, for voice messages (ADR 0100): the compose file's `speech` profile (Parakeet, at `http://speech:8000/v1`), Speaches or a local Whisper. The audio stays with you.",
+    section: "Chat",
+    example: "http://speech:8000/v1",
+  },
+  LOCAL_SPEECH_MODEL: {
+    schema: z.string().optional(),
+    description: "The model that speech server loads (default `whisper-1`).",
+    section: "Chat",
+  },
+  LOCAL_SPEECH_API_KEY: {
+    schema: z.string().optional(),
+    description: "The key that speech server asks for, if it asks for one (sent as `Authorization: Bearer`).",
+    section: "Chat",
+    secret: true,
+  },
+  LOCAL_SPEECH_WARM: {
+    schema: z
+      .stringbool()
+      .transform((on) => (on ? "on" : "off") as "on" | "off")
+      .default("off"),
+    description:
+      "`on`: tell that speech server when someone starts recording (`POST <LOCAL_SPEECH_URL>/warm`, with the workspace in `X-Agentes-Org`, as every request to it has), so a model it loads on demand is ready when the recording arrives.",
+    section: "Chat",
+  },
+  VOICE_RETENTION_DAYS: {
+    schema: z.coerce.number().int().min(0).default(90),
+    description:
+      "Days a voice message's recording is kept (ADR 0100). After that its audio is deleted; the message and its words stay. 0 = keep it forever.",
+    section: "Chat",
+  },
+  VOICE_LIMIT_PERSON_MINUTES_PER_DAY: {
+    schema: z.coerce.number().int().min(0).default(60),
+    description:
+      "agentes.chat's own servers: minutes of voice messages one person may send in 24 hours (ADR 0100). 0 = no limit. Never applies on a self-hosted server.",
+    section: "Chat",
+  },
+  VOICE_LIMIT_ORG_MINUTES_PER_MEMBER: {
+    schema: z.coerce.number().int().min(0).default(20),
+    description:
+      "agentes.chat's own servers: minutes of voice messages a workspace may send in 24 hours, per member (ADR 0100). 0 = no limit for the workspace.",
+    section: "Chat",
+  },
+  VOICE_LIMIT_ORG_MIN_MINUTES_PER_DAY: {
+    schema: z.coerce.number().int().min(0).default(300),
+    description: "agentes.chat's own servers: the least a workspace's limit above may be, however few its members.",
+    section: "Chat",
+  },
+  CONNECTOR_GITHUB_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Client id of the GitHub OAuth app used to connect GitHub for agents (not sign-in). Set together with `CONNECTOR_GITHUB_CLIENT_SECRET`. Redirect URI: `{PUBLIC_URL}/api/app/connectors/oauth/callback`. Without it, GitHub can still be connected with an API key.",
+    section: "Connectors",
+  },
+  CONNECTOR_GITHUB_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "Client secret of the GitHub OAuth app for the GitHub connector.",
+    section: "Connectors",
+    secret: true,
+  },
+  GITHUB_APP_ID: {
+    schema: z.string().optional(),
+    description:
+      "Id of the GitHub App agents act as on GitHub (ADR 0156). With `GITHUB_APP_PRIVATE_KEY`, every GitHub call an agent makes (tools, git pushes and fetches) goes with a short installation token for that repository where the workspace installed the app from agentes.chat, so pull requests, issues, comments and commits come from the app's bot; the workspace's own GitHub connection elsewhere. Each token asks only what its tool needs. Permissions: read and write on the repository ones agents use (SELF_HOSTING.md, GitHub as an app), metadata read; on organizations, members read and projects read and write. Without these variables, the server's owner can create the app from Settings › Connectors (GitHub's manifest flow); set here, they win.",
+    section: "Connectors",
+  },
+  GITHUB_APP_PRIVATE_KEY: {
+    schema: z
+      .string()
+      .optional()
+      .transform((value, ctx) => {
+        if (value === undefined) return value;
+        try {
+          return parsePemKey(value);
+        } catch (error) {
+          ctx.addIssue({ code: "custom", message: (error as Error).message });
+          return z.NEVER;
+        }
+      }),
+    description: "Private key of that GitHub App: PEM, PEM with `\\n`, or base64 of the PEM file.",
+    section: "Connectors",
+    secret: true,
+  },
+  GITHUB_APP_SLUG: {
+    schema: z.string().optional(),
+    description:
+      "URL name of that GitHub App (`github.com/apps/{slug}`). Workspaces install it from the app; only installations made that way are used.",
+    section: "Connectors",
+  },
+  GITHUB_APP_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Client id of that GitHub App, with Request user authorization (OAuth) during installation on. Callback URL: `{PUBLIC_URL}/api/app/github-app/callback`. Used to check that the person installing can see the installation.",
+    section: "Connectors",
+  },
+  GITHUB_APP_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "Client secret of that GitHub App.",
+    section: "Connectors",
+    secret: true,
+  },
+  GITHUB_APP_WEBHOOK_SECRET: {
+    schema: z.string().optional(),
+    description:
+      "Webhook secret of that GitHub App. Webhook URL: `{PUBLIC_URL}/api/github-app/webhook` (uninstalls, suspensions and repository changes). Optional: without the webhook, reading the GitHub panel checks the installations with GitHub.",
+    section: "Connectors",
+    secret: true,
+  },
+  CONNECTOR_SENTRY_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Client id of the Sentry integration used to connect Sentry for agents (not sign-in). Set together with `CONNECTOR_SENTRY_CLIENT_SECRET`. Redirect URI: `{PUBLIC_URL}/api/app/connectors/oauth/callback`. Without it, Sentry can still be connected with an API key.",
+    section: "Connectors",
+  },
+  CONNECTOR_SENTRY_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "Client secret of the Sentry integration for the Sentry connector.",
+    section: "Connectors",
+    secret: true,
+  },
+  CONNECTOR_LINEAR_CLIENT_ID: {
+    schema: z.string().optional(),
+    description:
+      "Client id of the Linear OAuth app used to connect Linear for agents (not sign-in). Set together with `CONNECTOR_LINEAR_CLIENT_SECRET`. Redirect URI: `{PUBLIC_URL}/api/app/connectors/oauth/callback`. Without it, Linear can still be connected with an API key.",
+    section: "Connectors",
+  },
+  CONNECTOR_LINEAR_CLIENT_SECRET: {
+    schema: z.string().optional(),
+    description: "Client secret of the Linear OAuth app for the Linear connector.",
+    section: "Connectors",
+    secret: true,
+  },
+  MILLIONSEND_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "MillionSend API key (transactional email: invitations, password reset, email verification, budget and approval alerts). Without it or `SMTP_URL`, emails are written to the log instead of sent, and password reset and email verification stay off.",
+    section: "Email",
+    secret: true,
+  },
+  MILLIONSEND_API_URL: {
+    schema: z.url().default("https://api.millionsend.com"),
+    description:
+      "Base URL of the email API used with `MILLIONSEND_API_KEY`. Any Resend-compatible API works (Resend, a self-hosted MillionSend).",
+    section: "Email",
+  },
+  SMTP_URL: {
+    // Parsed, not only prefix-checked: nodemailer prints a URL it can't parse, password included, then throws at boot.
+    schema: z
+      .url({
+        protocol: /^smtps?$/,
+        error: "must be an smtp:// or smtps:// URL, with any / # ? in the user and password percent-encoded",
+      })
+      .optional(),
+    description:
+      "SMTP server for transactional email when `MILLIONSEND_API_KEY` is not set: `smtps://` for implicit TLS (port 465), `smtp://` for STARTTLS (port 587), which is then required; `?requireTLS=false` at the end allows a relay without TLS on a trusted network. Percent-encode special characters in the user and password.",
+    section: "Email",
+    example: "smtps://user:password@smtp.example.com:465",
+    secret: true,
+  },
+  EMAIL_FROM: {
+    schema: z.string().optional(),
+    description:
+      "Sender of transactional emails, e.g. `agentes.chat <ping@example.com>` (its domain must be verified with your email provider). Default: `agentes.chat <ping@HOST>`, HOST being the host of `PUBLIC_URL`. On agentes.chat Cloud (https://app.agentes.chat): `agentes.chat <ping@agentes.chat>`.",
+    section: "Email",
+  },
+  EMAIL_ART: {
+    schema: z.enum(["auto", "attach"]).default("auto"),
+    description:
+      "Where emails get their pictures. `auto`: from this server's `/email/` when its address is public, else attached to each message. `attach`: always attached, for a server that people outside can't open.",
+    section: "Email",
+  },
+  COMPOSIO_API_KEY: {
+    schema: z.string().optional(),
+    description:
+      "Composio project API key: Gmail and Outlook mailboxes for agents (ADR 0038) and the connectors that go through Composio, Google Drive, Slack and more (ADR 0107). Without it, Gmail and Outlook don't appear among the email connectors and those services are unavailable; IMAP mailboxes still work.",
+    section: "Composio",
+    secret: true,
+  },
+  COMPOSIO_WEBHOOK_SECRET: {
+    schema: z.string().optional(),
+    description:
+      "Signing secret of the Composio webhook subscription (Standard Webhooks). Point the subscription at `{PUBLIC_URL}/api/webhooks/composio`. Without it, routines can't wake on new Gmail/Outlook mail, and an expired connector account is only noticed when a call fails.",
+    section: "Composio",
+    secret: true,
+  },
+  COMPOSIO_GMAIL_AUTH_CONFIG_ID: {
+    schema: z.string().optional(),
+    description:
+      "Composio auth config for Gmail (`ac_…`). Optional: without it, one using Composio's managed Google app is created on first use. Set it to use our own Google OAuth app (white label).",
+    section: "Composio",
+  },
+  COMPOSIO_OUTLOOK_AUTH_CONFIG_ID: {
+    schema: z.string().optional(),
+    description:
+      "Composio auth config for Outlook (`ac_…`). Optional: without it, one using Composio's managed Microsoft app is created on first use.",
+    section: "Composio",
+  },
+  COMPOSIO_AUTH_CONFIGS: {
+    schema: z
+      .string()
+      .regex(/^\s*([a-z0-9_]+\s*=\s*ac_[A-Za-z0-9_-]+\s*)(,\s*[a-z0-9_]+\s*=\s*ac_[A-Za-z0-9_-]+\s*)*$/, {
+        error: "must be toolkit=ac_… pairs separated by commas",
+      })
+      .optional(),
+    description:
+      "Composio auth configs for connectors, as `toolkit=ac_…` pairs separated by commas: an OAuth app of your own made in Composio's dashboard, or a white label. Each one wins over Composio's own app for its toolkit.",
+    section: "Composio",
+    example: "googledrive=ac_abc123,slack=ac_def456",
+  },
+  COMPOSIO_CALLS_PER_MONTH: {
+    schema: z.coerce.number().int().min(0).default(0),
+    description:
+      "Composio tool calls a workspace may make per calendar month (UTC), connectors and mailboxes together; at the cap its Composio tools stop until the next month and its admins are told. 0: no cap (a self-hosted server pays its own Composio project).",
+    section: "Composio",
+  },
+  MAIL_IMAP_ENABLED: {
+    schema: z.stringbool().default(true),
+    description: "IMAP/SMTP mailboxes for agents (iCloud, hosting providers, any server). `false` hides them.",
+    section: "Email for agents",
+  },
+  MAIL_POLL_SECONDS: {
+    schema: z.coerce.number().int().min(60).max(3600).default(300),
+    description: "How often IMAP folders watched by routines are checked for new mail.",
+    section: "Email for agents",
+  },
+  EMAIL_REPLY_TO: {
+    schema: z.string().optional(),
+    description: "Optional Reply-To address for transactional emails.",
+    section: "Email",
+  },
+  APPROVAL_REMINDER_HOURS: {
+    schema: z.coerce.number().min(0.25).max(23).default(4),
+    description: "Email approvers a digest of requests still waiting after this many hours (requests expire at 24 h).",
+    section: "Email",
+  },
+  EXPO_ACCESS_TOKEN: {
+    schema: z.string().optional(),
+    description:
+      "Expo access token for push notifications to the iPhone app (only needed when “enhanced push security” is on in the Expo project). iPhone pushes are sent through the Expo Push API either way; Android pushes don't use Expo (`PUSH_SENDER`).",
+    section: "Push",
+    secret: true,
+  },
+  FIREBASE_SERVICE_ACCOUNT: {
+    schema: z
+      .string()
+      .optional()
+      .transform((value, ctx) => {
+        if (value === undefined) return value;
+        try {
+          return parseFirebaseServiceAccount(value);
+        } catch (error) {
+          ctx.addIssue({ code: "custom", message: (error as Error).message });
+          return z.NEVER;
+        }
+      }),
+    description:
+      "Android pushes straight to Firebase Cloud Messaging: the JSON key of a service account of the Firebase project the Android app is built with (Firebase console › Project settings › Service accounts), as the file's contents or base64 of the file. Only for a server that sends with its own Firebase project (`PUSH_SENDER`) or runs the push relay (`PUSH_RELAY_SERVE`); the app from the stores is reached through the relay.",
+    section: "Push",
+    secret: true,
+  },
+  PUSH_SENDER: {
+    schema: z.enum(["auto", "direct", "relay", "off"]).default("auto"),
+    description:
+      "How Android pushes are sent (iPhones go through Expo for now). `auto` (default): straight to Firebase when `FIREBASE_SERVICE_ACCOUNT` is set, else through the push relay. `relay`: through the agentes.chat push relay (`PUSH_RELAY_URL`), which is what lets the Android app from the stores get this server's pushes; the server registers itself there on its first push, no account needed, and each push's text passes through it. `direct`: straight to Firebase with `FIREBASE_SERVICE_ACCOUNT`, for an Android app built with your own Firebase project. `off`: no Android pushes.",
+    section: "Push",
+  },
+  PUSH_RELAY_URL: {
+    schema: z
+      .url()
+      .refine((u) => u.startsWith("https://"), "must be an https URL")
+      .default("https://app.agentes.chat/api/push-relay/v1"),
+    description: "The push relay Android pushes go through with `PUSH_SENDER=relay` (or `auto` without Firebase).",
+    section: "Push",
+  },
+  PUSH_RELAY_SERVE: {
+    schema: z
+      .stringbool()
+      .transform((on) => (on ? "on" : "off") as "on" | "off")
+      .default("off"),
+    description:
+      "Runs the push relay at `/api/push-relay/v1` for other installations' Android pushes, sent with this server's `FIREBASE_SERVICE_ACCOUNT` (agentes.chat's own servers). `on` without the service account serves nothing.",
+    section: "Push",
+  },
+  WEB_PUSH: {
+    schema: z
+      .stringbool()
+      .transform((on) => (on ? "on" : "off") as "on" | "off")
+      .default("on"),
+    description:
+      "Push notifications to browsers (Web Push), for people who turn them on in the web app. Nothing to set up: the server makes its own key pair on first use and keeps it in the database. `off` turns it off.",
+    section: "Push",
+  },
+  WEB_PUSH_VAPID_PUBLIC_KEY: {
+    schema: z
+      .string()
+      .regex(/^[A-Za-z0-9_-]{86,88}={0,2}$/, "must be a base64url P-256 public key (65 bytes)")
+      .optional(),
+    description:
+      "Pins the Web Push key pair (VAPID public key, base64url) instead of the one the server makes; set it with `WEB_PUSH_VAPID_PRIVATE_KEY`. Changing it makes every browser subscribe again.",
+    section: "Push",
+  },
+  WEB_PUSH_VAPID_PRIVATE_KEY: {
+    schema: z
+      .string()
+      .regex(/^[A-Za-z0-9_-]{42,44}={0,2}$/, "must be a base64url P-256 private key (32 bytes)")
+      .optional(),
+    description: "The private half of `WEB_PUSH_VAPID_PUBLIC_KEY` (base64url).",
+    section: "Push",
+    secret: true,
+  },
+  FILES_DIR: {
+    // `/data/files`, or on Windows (the desktop app's server) `C:\…` or `\\server\share\…`.
+    schema: z
+      .string()
+      .regex(/^(\/|[A-Za-z]:[\\/]|\\\\)/, "must be an absolute path")
+      .optional(),
+    description:
+      "Absolute path of a folder on this server's disk for platform file storage (Drive files, uploads, photos), used when the `S3_*` bucket is not set. Without either, files are stored in Postgres. Choose before the first upload: files stay in the store they were written to.",
+    section: "Storage",
+    example: "/data/files",
+  },
+  S3_ENDPOINT: {
+    schema: z.url().optional(),
+    description:
+      "S3-compatible endpoint for platform file storage (artifacts, uploads), e.g. a Cloudflare R2 endpoint. Used when S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY are all set.",
+    section: "Storage",
+    example: "https://<account>.r2.cloudflarestorage.com",
+  },
+  S3_REGION: {
+    schema: z.string().default("auto"),
+    description: "Region of the platform bucket (`auto` for R2).",
+    section: "Storage",
+  },
+  S3_BUCKET: {
+    schema: z.string().optional(),
+    description: "Bucket for platform file storage. Each organization gets its own key prefix; objects stay private.",
+    section: "Storage",
+  },
+  S3_ACCESS_KEY_ID: {
+    schema: z.string().optional(),
+    description: "Access key id for the platform bucket.",
+    section: "Storage",
+  },
+  S3_SECRET_ACCESS_KEY: {
+    schema: z.string().optional(),
+    description: "Secret access key for the platform bucket.",
+    section: "Storage",
+    secret: true,
+  },
+  S3_PATH_STYLE: {
+    schema: z.stringbool().default(false),
+    description:
+      "Path-style bucket URLs (`https://endpoint/bucket/key`), for MinIO, Garage and similar stores. Off: virtual-hosted URLs (`https://bucket.endpoint/key`), as R2 and AWS expect.",
+    section: "Storage",
+  },
+  HOST_COMPUTER_TOKEN: {
+    schema: z
+      .string()
+      .min(32, "must be at least 32 characters. Generate one with `openssl rand -base64 48`")
+      .optional(),
+    description:
+      "Makes the machine this server runs on a computer for its agents: `agentes-runner host` on it, with the same token, joins the organizations the installation's first account made and is an owner or admin of (one computer per organization). Can't be set with `ALLOW_SIGNUP=true` or `MACHINE_PROVISIONING=external`. Unset: off.",
+    section: "Sandbox",
+    example: "<output of openssl rand -base64 48>",
+    secret: true,
+  },
+  DESKTOP_RELEASES_TOKEN: {
+    schema: z.string().optional(),
+    description:
+      "Fine-grained GitHub token (read-only contents) for the repository that publishes the desktop app's releases and the server's. The server reads the latest `desktop-v*` release with it (`/api/desktop/latest`, `/api/desktop/download/...`), and the packages that run agentes.chat without Docker from the latest `v*` one (`/api/native/latest`, `/api/native/download/...`). Unset: those endpoints answer 404.",
+    section: "Sandbox",
+    secret: true,
+  },
+  DESKTOP_RELEASES_REPO: {
+    schema: z
+      .string()
+      .regex(/^[\w.-]+\/[\w.-]+$/, "must be owner/repo")
+      .default("agentes-chat/agentes-chat"),
+    description:
+      "GitHub repository (`owner/repo`) whose releases tagged `desktop-v<version>` hold the desktop app, and `v<version>` the packages without Docker.",
+    section: "Sandbox",
+  },
+  OPERATOR_API_TOKEN: {
+    schema: z
+      .string()
+      .min(32, "must be at least 32 characters. Generate one with `openssl rand -base64 48`")
+      .optional(),
+    description:
+      "Turns on the operator API (ADR 0056): a second listener on `OPERATOR_API_PORT` that serves `/api/operator/v1` to your own automation, called with this value as `Authorization: Bearer`. It reaches every workspace and account on the instance, so never publish that port or put it behind your reverse proxy. While it is set the server also keeps 90 days of events for it (sign-ups, sign-ins with their IP address, workspaces, agents, runs; metadata only). Unset (default): nothing listens there and nothing is recorded. Generate with `openssl rand -base64 48`.",
+    section: "Operator",
+    example: "<output of openssl rand -base64 48>",
+    secret: true,
+  },
+  OPERATOR_API_PORT: {
+    schema: z.coerce.number().int().min(1).max(65535).default(3001),
+    description:
+      "Port of the operator API's listener, on the same `HOST`; only with `OPERATOR_API_TOKEN`. The compose file doesn't publish it: containers on the same Docker network reach it as `agentes:3001`.",
+    section: "Operator",
+  },
+  SUPPORT_EMAIL: {
+    schema: z.email().optional(),
+    description:
+      "Where people write to whoever runs this server, shown with a workspace's hold notice, its suspended screen and the workspace's own computer when something on it doesn't work. Unset (default): they are told to ask the people who run the server.",
+    section: "Operator",
+    example: "support@example.com",
+  },
+  FEEDBACK_EMAIL: {
+    schema: z.email().optional(),
+    description:
+      "Where the apps' feedback form sends what people write (the Beta mark beside their name): one email per message, with the person's name and address to answer them, the workspace's name and the app's version, never a conversation. Unset (default): the apps show no form.",
+    section: "Operator",
+    example: "feedback@example.com",
+  },
+  OPS_REPORT_EMAIL: {
+    schema: z
+      .string()
+      .optional()
+      .transform((value) =>
+        value
+          ?.split(",")
+          .map((entry) => entry.trim())
+          .filter(Boolean),
+      )
+      .pipe(z.array(z.email()).optional()),
+    description:
+      "Where the daily stall-and-noise report goes, one address or several separated by commas: for each workspace, where agents stopped although someone waited on them and where they acted for nothing, over the previous UTC day and against the 7 days before it. Workspace names and counts only, never what anyone wrote. Needs email (`MILLIONSEND_API_KEY` or `SMTP_URL`). Unset (default): no report. `bun run report:autonomy` prints the same table at any time.",
+    section: "Operator",
+    example: "ops@example.com",
+  },
+  BILLING_URL: {
+    schema: z.url({ protocol: /^https$/ }).optional(),
+    description:
+      "Your billing service's address. With `BILLING_LINK_SECRET`, owners and admins get a Plan and billing page and buttons on billing holds and full workspaces that open it signed in. Unset (default): no billing anywhere.",
+    section: "Operator",
+    example: "https://billing.example.com",
+  },
+  BILLING_LINK_SECRET: {
+    schema: z
+      .string()
+      .min(32, "must be at least 32 characters; generate one with `openssl rand -base64 48`")
+      .optional(),
+    description:
+      "Signs the link to the billing service (HMAC-SHA256, 5 minutes). The billing service holds the same value. Generate with `openssl rand -base64 48`.",
+    section: "Operator",
+    example: "<output of openssl rand -base64 48>",
+    secret: true,
+  },
+  BILLING_HOLD_NEW_WORKSPACES: {
+    schema: z.stringbool().default(false),
+    description:
+      "New workspaces start on a payment hold: their agents wait until the billing service lifts it. Needs `BILLING_URL`, `BILLING_LINK_SECRET` and `OPERATOR_API_TOKEN`.",
+    section: "Operator",
+  },
+  SESSION_SCREENING: {
+    schema: z.stringbool().default(false),
+    description:
+      "For agentes.chat Cloud. Unset by default. While a person is in control of an agent's screen, reads the screen's text to screen it for abuse (needs `OPERATOR_API_TOKEN`).",
+    section: "Operator",
+  },
+  MACHINE_PROVISIONING: {
+    schema: z.enum(["off", "external"]).default("off"),
+    description:
+      "Where workspaces get their computer. `off` (default): people connect their own computers. `external`: from a provisioner you run (ADR 0056 §10): every workspace without a ready computer is a request it reads on the operator API, its people see the computer being prepared, and it hands the computer a single-use code to connect with. People may still connect computers of their own under Settings › Devices: agents use them when they name them, but always live on the workspace's computer. Needs `OPERATOR_API_TOKEN`; can't be set with `HOST_COMPUTER_TOKEN`.",
+    section: "Operator",
+  },
+  TELEMETRY: {
+    schema: z
+      .stringbool()
+      .transform((on) => (on ? "on" : "off") as "on" | "off")
+      .default("on"),
+    description:
+      "Send anonymous usage statistics to agentes.chat once a day: counts such as people, agents, machine sizes, AI tokens used and how much data the agents' browsers send and receive. Never messages, files, names or sites. `off` stops it, whatever the switch in Settings → General says (the installation's owner can turn it off there too). `docker compose run --rm agentes telemetry` prints exactly what would be sent (https://agentes.chat/docs/install-on-a-server#data).",
+    section: "Usage report",
+  },
+  TELEMETRY_URL: {
+    schema: z.url().default("https://telemetry.agentes.chat/v1/report"),
+    description: "Where the usage report is sent (the report as JSON in a POST).",
+    section: "Usage report",
+  },
+  INSTALL_MODE: {
+    schema: z.enum(["docker", "native", "desktop"]).optional(),
+    description:
+      "How this server was installed, as the usage report says it: `docker`, `native` or `desktop`. The desktop app sets it, and `agentes-server` (no Docker) when it isn't set. Unset: `docker` inside a container, else `native`.",
+    section: "Usage report",
+  },
+  LOG_LEVEL: {
+    schema: z.enum(["debug", "info", "warn", "error"]).default("info"),
+    description: "Minimum log level written to stdout.",
+    section: "Observability",
+  },
+  SENTRY_DSN: {
+    schema: z.string().regex(DSN, DSN_MESSAGE).optional(),
+    description:
+      "Error reports from this server to a Sentry-compatible server: the DSN of a project there. Each report holds the error, its stack, the release and internal ids, never message content, emails, IP addresses, cookies or tokens (https://agentes.chat/docs/install-on-a-server#data). Unset (default): no reports, and the reporting code isn't loaded.",
+    section: "Observability",
+    example: "https://<key>@errors.example.com/1",
+    secret: true,
+  },
+  SENTRY_WEB_DSN: {
+    schema: z.string().regex(DSN, DSN_MESSAGE).optional(),
+    description:
+      "The same for the web and desktop apps: every browser that opens this server gets this DSN (a browser DSN is public by design) and reports its own errors there. Unset (default): browsers report nothing and load no reporting code.",
+    section: "Observability",
+    example: "https://<key>@errors.example.com/2",
+  },
+  SENTRY_MOBILE_DSN: {
+    schema: z.string().regex(DSN, DSN_MESSAGE).optional(),
+    description:
+      "The same for the phone app, so its reports land in a project of their own. Unset (default): the phone app reports where `SENTRY_WEB_DSN` says, and nowhere without it.",
+    section: "Observability",
+    example: "https://<key>@errors.example.com/3",
+  },
+  SENTRY_ENVIRONMENT: {
+    schema: z.string().min(1).max(64).default("production"),
+    description: "The environment error reports are filed under (`production`, `staging`).",
+    section: "Observability",
+  },
+} satisfies Record<string, EnvVarDefinition>;
+
+export type EnvVarName = keyof typeof envVars;
+
+export const configSchema = z.object(
+  Object.fromEntries(Object.entries(envVars).map(([key, def]) => [key, def.schema])) as {
+    [K in EnvVarName]: (typeof envVars)[K]["schema"];
+  },
+);
+
+export type Config = z.infer<typeof configSchema>;

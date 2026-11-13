@@ -1,0 +1,3 @@
+# Button
+
+Use **primary** (`action`) no máximo uma vez por área, para a ação principal; **default** para as demais; **agent** só para pedir algo a um agente ("Pedir à Ada"): botão padrão com o canto vivo e o ícone de agente em `agent`; **danger** para recusar ou excluir; **ghost** em barras de ferramentas. Rótulo começa com verbo. Botão só de ícone exige `aria-label`. O consumidor fornece o rótulo e, opcionalmente, um ícone `ac-icon` antes dele. Tamanhos (régua de controles, `--control-*` em tokens.css; raio = 30% da altura): padrão 40px (raio 12), `ac-btn--sm` 32px (raio 10) em barras, linhas e cards, `ac-btn--lg` 48px (raio 14) só na ação principal de uma tela inteira (cadastro, onboarding). Botão só de ícone é quadrado, nunca redondo.

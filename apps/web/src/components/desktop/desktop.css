@@ -1,0 +1,168 @@
+/* ---------- the agent's screen, live (ADR 0058): noVNC's screen on the computer dialog's stage ---------- */
+.dsk {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+/* The desktop's own shape (1280×900, `DESKTOP_SIZE`): noVNC scales it inside, the panel never jumps. */
+.dsk-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1280 / 900;
+  max-height: 560px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--screen-bg);
+  box-shadow: var(--e2);
+}
+/*
+ * noVNC sets its canvas's cursor inline, to the screen's own pointer or to none where the screen draws none: watching,
+ * the person's own pointer stays over it, so it never looks like they're in control.
+ */
+.dsk-screen:not(.is-control) canvas {
+  /* biome-ignore lint/complexity/noImportantStyles: only !important outranks the inline style noVNC sets */
+  cursor: default !important;
+}
+/* The last picture, held over the next connection while a hand back or control opens it (`holdPicture`). */
+.dsk-screen > .dsk-still {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* Another view's last picture (the page, before the screen opens): its own shape, inside the screen's. */
+.dsk-screen > img.dsk-still {
+  object-fit: contain;
+}
+/*
+ * In control the person's keys and pastes go here, a text field nobody sees, not to noVNC's canvas
+ * (`useScreenKeys`). 16px: iOS zooms into a smaller field when it takes focus.
+ */
+.dsk-keys {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  resize: none;
+  overflow: hidden;
+  pointer-events: none;
+  font-size: 16px;
+}
+/*
+ * Under the screen (and a cover it opens from), in the steps' line's place and as tall (13px text on a 22px line): what
+ * programs there can see. A phone's Keyboard button leads it with no baseline to share (a
+ * button's is its icon's bottom edge, about 4 px under its label's), so the words' first line is centred on the button,
+ * a small button as tall as `--control-h-sm`.
+ */
+.dsk-line {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 22px;
+  font-size: 13px;
+  line-height: 22px;
+}
+.dsk-line > .ac-btn ~ * {
+  margin-top: calc((var(--control-h-sm) - 22px) / 2);
+}
+/*
+ * The window keeps one line's room for it (the phone's sheet and full screen don't, and let it wrap): its words stay
+ * one line, cut short only in a window too small for them. It is as tall as that room, a tablet's 40 px too, its words
+ * on its middle where no Keyboard button leads them (watching), as they are on the button's.
+ */
+@media (min-width: 721px) {
+  .cmp-dialog:not(.is-screen-only) .dsk-line {
+    min-height: var(--cmp-line);
+  }
+  .cmp-dialog:not(.is-screen-only) .dsk-line > :first-child:not(.ac-btn) {
+    margin-top: calc((var(--cmp-line) - 22px) / 2);
+  }
+  .cmp-dialog:not(.is-screen-only) .dsk-words {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 4px;
+    min-width: 0;
+    height: 22px;
+    overflow: hidden;
+  }
+  .cmp-dialog:not(.is-screen-only) .dsk-words > * {
+    min-width: 0;
+  }
+  .cmp-dialog:not(.is-screen-only) .dsk-words .muted {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+/* What the clipboard just did, for a moment in the line's words' place, as a toast would say it. */
+.dsk-said {
+  color: var(--ink);
+}
+.dsk-said.is-error > .ac-icon {
+  color: var(--danger);
+}
+/* What the computer copied when the browser kept it out of the person's clipboard, with Copy: one line, cut to fit. */
+.dsk-got {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.dsk-got > * {
+  flex: none;
+}
+.dsk-got > q {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.dsk-egress {
+  margin-left: auto;
+  flex: none;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 720px) {
+  .dsk-egress {
+    display: none;
+  }
+}
+
+/*
+ * The browser card's view of the screen its browser runs on (ADR 0058 §7): the whole screen, scaled into the card
+ * in its own shape (no bands, nothing cut), the card's covers over it.
+ */
+.dsk--card {
+  gap: 0;
+}
+.dsk--card > .dsk-stage {
+  position: relative;
+}
+.brw-mf .dsk-screen {
+  max-height: none;
+  border-radius: 0;
+  box-shadow: none;
+  aspect-ratio: 1280 / 900;
+}
+.brw-ac.is-full .dsk--card,
+.brw-ac.is-full .dsk--card > .dsk-stage {
+  height: 100%;
+}
+.brw-ac.is-full .dsk-screen {
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+}

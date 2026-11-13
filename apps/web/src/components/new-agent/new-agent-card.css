@@ -1,0 +1,972 @@
+/*
+ * A new agent's dialog (ADR 0164): the starting points on the left, the agent's card on the right, the same height
+ * whatever is picked; its sky is the agent page's cover (AgentCover).
+ */
+.nac__keys {
+  display: contents;
+}
+.nac__grid {
+  display: grid;
+  grid-template-columns: 440px minmax(0, 1fr);
+  gap: 16px;
+  height: min(560px, calc(100dvh - 256px));
+  min-height: 400px;
+}
+
+/* The list: from scratch first, then the starting points. */
+.nac__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: auto;
+  min-height: 0;
+  margin: 0 -6px;
+  padding: 2px 6px 12px;
+}
+/* The list and the card's body fade at an edge only while there is more to scroll that way (`useScrollEdges` sets the
+   flags, as the sidebar's list does); the fade spares our scrollbar (the kit's strip). */
+.nac__list,
+.nac__body {
+  --nac-fade-top: 0px;
+  --nac-fade-bottom: 0px;
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--nac-fade-top),
+      #000 calc(100% - var(--nac-fade-bottom)),
+      transparent 100%
+    ),
+    var(--scroll-strip);
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--nac-fade-top),
+      #000 calc(100% - var(--nac-fade-bottom)),
+      transparent 100%
+    ),
+    var(--scroll-strip);
+}
+:is(.nac__list, .nac__body)[data-fade-top="true"] {
+  --nac-fade-top: 20px;
+}
+:is(.nac__list, .nac__body)[data-fade-bottom="true"] {
+  --nac-fade-bottom: 28px;
+}
+@property --nac-fade-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --nac-fade-bottom {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nac__list,
+  .nac__body {
+    transition:
+      --nac-fade-top 0.2s var(--out),
+      --nac-fade-bottom 0.2s var(--out);
+  }
+}
+/* The item, its faces and the card below borrow the gallery's classes (team-plan.css). Each rule that changes what the
+   gallery sets names both classes, so it wins whichever sheet the build links first. */
+.tp-gallery__item.nac__item {
+  padding: 8px 12px 8px 8px;
+}
+.nac__item[aria-selected="true"] {
+  box-shadow: 0 0 0 2px var(--ink);
+}
+.tp-gallery__faces.nac__face {
+  min-width: 0;
+}
+.nac__blank {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border-bottom-left-radius: var(--radius-cut);
+  background: var(--raised);
+  box-shadow: inset 0 0 0 1.5px var(--line2);
+  color: var(--muted);
+}
+.nac__group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 2px 2px;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.nac__groupbox {
+  display: contents;
+}
+
+/* The card. Its cover and fitting room follow the card's own width (`nac-card`), whatever the window. */
+.tp-gallery__preview.nac__card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  container: nac-card / inline-size;
+}
+.nac__cover {
+  position: relative;
+  flex: none;
+  height: clamp(200px, 34dvh, 252px);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 16px 16px 0 0;
+  transition: height 0.4s var(--out);
+}
+.nac__cover[data-look] {
+  height: clamp(150px, 24dvh, 196px);
+}
+.nac__hero {
+  position: absolute;
+  left: 20px;
+  bottom: 8px;
+  width: 104px;
+  height: 104px;
+}
+.nac__cover[data-look] .nac__hero {
+  left: calc(50% - 56px);
+  width: 112px;
+  height: 112px;
+}
+.nac__hero .ac-avatar {
+  width: 100%;
+  height: 100%;
+}
+.nac__bubble {
+  position: absolute;
+  left: 140px;
+  right: 16px;
+  top: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 34px 12px 14px;
+  border-radius: 18px 18px 18px var(--radius-cut);
+  background: var(--raised);
+  box-shadow: var(--e2), var(--top);
+  animation: nac-pop 0.42s var(--spring) both;
+}
+@keyframes nac-pop {
+  from {
+    opacity: 0;
+    transform: translate(-8px, 6px) scale(0.94);
+  }
+}
+.nac__hi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 5px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.nac__hi > span:last-child {
+  margin-left: -5px;
+}
+.nac__name,
+.nac__what {
+  all: unset;
+  box-sizing: border-box;
+  field-sizing: content;
+  font: inherit;
+  border-radius: 6px;
+  cursor: text;
+}
+.nac__name {
+  min-width: 3.2ch;
+  margin: 0 -3px;
+  padding: 0 3px;
+  color: var(--ink);
+  box-shadow: inset 0 -1.5px 0 color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.nac__name:focus {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  box-shadow: inset 0 -2px 0 var(--ink);
+}
+.nac__what {
+  display: block;
+  width: 100%;
+  max-height: 88px;
+  overflow: auto;
+  margin: 0 -3px;
+  padding: 1px 3px;
+  color: var(--ink2);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  white-space: pre-wrap;
+}
+.nac__name::placeholder,
+.nac__what::placeholder {
+  color: var(--faint);
+}
+.nac__name:hover,
+.nac__what:hover,
+.nac__what:focus {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.nac__pen {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  color: var(--faint);
+  pointer-events: none;
+}
+.nac__bubble:focus-within .nac__pen {
+  opacity: 0;
+}
+.nac__acts {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+}
+.nac__glass.ac-btn {
+  background: var(--sky-glass);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 0 1px var(--sky-line);
+  color: var(--sky-ink);
+}
+
+.nac__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px 18px 18px;
+}
+.nac__handle {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.nac__similar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.nac__sec {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.nac__label {
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* A section's label with its add button at the end of the same line: always in sight, never wrapped away. */
+.nac__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+.nac__head > .nac__label {
+  min-width: 0;
+}
+/* The ghost's words on the body's edge, and no taller than the label's line. */
+.nac__plus.ac-btn {
+  flex: none;
+  margin-block: -8px;
+  margin-inline-end: -10px;
+}
+.nac__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.nac__none {
+  color: var(--faint);
+  font-size: 13.5px;
+}
+.nac__app,
+.nac__add {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .nac__app:hover {
+    box-shadow: inset 0 0 0 1px var(--ink2);
+  }
+}
+.nac__level {
+  margin-left: 2px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.nac__add.ac-chip {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--line2);
+  color: var(--muted);
+}
+@media (hover: hover) {
+  .nac__add.ac-chip:hover {
+    box-shadow: inset 0 0 0 1px var(--ink2);
+    color: var(--ink);
+  }
+}
+.nac__offer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+/* How it works: its instructions read as text, a field on hover and focus (as the bubble's words), about eight lines
+   before they scroll (`HOW_MAX_HEIGHT`). */
+.nac__how {
+  position: relative;
+  display: block;
+}
+.nac__instr {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: calc(100% + 12px);
+  max-height: 184px;
+  overflow: auto;
+  margin: 0 -6px;
+  padding: 4px 26px 4px 6px;
+  border-radius: 6px;
+  color: var(--ink2);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+.nac__instr::placeholder {
+  color: var(--faint);
+}
+.nac__instr:hover,
+.nac__instr:focus {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.nac__how .nac__pen {
+  top: 7px;
+  right: 2px;
+  bottom: auto;
+}
+.nac__how:focus-within .nac__pen {
+  opacity: 0;
+}
+.nac__tips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 4px;
+  margin-inline-start: -10px;
+}
+/* The footer's start: the import, then Connect AI while nothing here can think; it wraps before anything is cut. */
+.nac__foot-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  min-width: 0;
+}
+/* A link with its icon, as the app's other links with one: the row's middle, not .ac-iconline (a link is not a row). */
+.nac__import {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* "Outro app": the catalog as rows, its starting point's apps on top (AppsPickerDialog). */
+.nac-pick .ac-dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.nac-pick__group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nac-pick__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nac-pick__row {
+  gap: 12px;
+  min-height: 52px;
+  padding-block: var(--action-clear);
+  border-top: 1px solid var(--line);
+}
+.nac-pick__row:first-child {
+  border-top: 0;
+}
+.nac-pick__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+.nac-pick__text b {
+  font-weight: 600;
+}
+.nac-pick__text small {
+  overflow: hidden;
+  color: var(--ink-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nac-pick__on {
+  gap: 6px;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+}
+.nac__look {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* What it wears: as many columns as fit, each a comfortable tap (six across on a desktop's card). */
+.nac__look .newag__opts--acc {
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+}
+.nac__look .newag__opts--acc .newag__opt {
+  width: auto;
+}
+
+/* One app's level. */
+.nac-app__asks {
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 19px;
+}
+.nac-app__asks .ac-icon {
+  color: var(--faint);
+}
+
+/* The flight to the sidebar. */
+.nac-flight {
+  position: fixed;
+  z-index: var(--z-toast);
+  pointer-events: none;
+  will-change: transform;
+}
+.nac-flight .ac-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Narrow screens (ADR 0164): two steps, one pane at a time (`NEW_AGENT_STEPS_QUERY` sets the flags on the form). The
+ * dialog keeps one height across them: most of the window, and on a phone the kit's sheet at its full height. The
+ * list fills it and scrolls with its fades; the card scrolls as one column, cover first, in the dialog's body.
+ */
+.ac-dialog.nac:has(> .nac__keys[data-steps]) {
+  height: min(760px, calc(100dvh - 48px));
+}
+@media (max-width: 640px) {
+  .ac-dialog.nac:has(> .nac__keys[data-steps]) {
+    height: calc(100dvh - 12px - env(safe-area-inset-top, 0px));
+  }
+}
+.nac__keys[data-steps] .ac-dialog__body {
+  flex: 1 1 auto;
+}
+.nac__keys[data-steps] .nac__grid {
+  grid-template-columns: minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+.nac__keys[data-step="card"] .nac__grid {
+  height: auto;
+}
+.nac__keys[data-step="card"] .nac__card {
+  overflow: visible;
+}
+.nac__keys[data-step="card"] .nac__body {
+  overflow: visible;
+}
+/* Create on the card's step: the sheet's width, as a phone's main action is. */
+.nac__foot--create > .ac-btn {
+  flex: 1 1 auto;
+}
+
+/*
+ * A card under about 480px (a phone, a narrow window): the cover stacks, the buttons on top, the agent under them and
+ * its bubble under the agent at the card's width, so its words never squeeze into a column beside it.
+ */
+@container nac-card (max-width: 480px) {
+  .nac__cover {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    height: auto;
+    padding: 60px 12px 14px;
+  }
+  .nac__cover[data-look] {
+    align-items: center;
+    height: auto;
+    padding-bottom: 12px;
+  }
+  .nac__hero,
+  .nac__cover[data-look] .nac__hero {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 88px;
+    height: 88px;
+  }
+  .nac__bubble {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    align-self: stretch;
+    /* The tail points up at the agent above it. */
+    border-radius: var(--radius-cut) 18px 18px 18px;
+  }
+  .nac__body {
+    padding-inline: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nac__bubble {
+    animation: none;
+  }
+}
+
+/* A new agent's checklist band in its chat (ADR 0164): night until it can think, trails to what it still needs. */
+.nac-band {
+  position: relative;
+  height: 112px;
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 1px solid var(--line);
+  /* Its agent, slots and trails follow the band's own width (a phone's chat, a side panel). */
+  container: nac-band / inline-size;
+}
+.nac-band__stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease;
+}
+.nac-band__stars i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  opacity: 0.85;
+  animation: nac-twinkle 2.4s steps(2) infinite;
+}
+@keyframes nac-twinkle {
+  50% {
+    opacity: 0.25;
+  }
+}
+.nac-band[data-lit] .nac-band__stars {
+  opacity: 0;
+}
+.nac-band__agent {
+  position: absolute;
+  left: 22px;
+  bottom: 8px;
+  width: 72px;
+  height: 72px;
+}
+.nac-band__agent .ac-avatar {
+  width: 100%;
+  height: 100%;
+}
+.nac-band__zz {
+  position: absolute;
+  left: 58px;
+  top: -12px;
+  color: #fff;
+  font-family: "Doto", var(--font-mono);
+  font-weight: 900;
+  pointer-events: none;
+}
+/* The sleeping z is a drawing, not a word: the stylesheet's, never text in the page. */
+.nac-band__zz i::before {
+  content: "z";
+}
+.nac-band__zz i {
+  position: absolute;
+  opacity: 0;
+  font-size: 16px;
+  font-style: normal;
+  animation: nac-z 2.4s linear infinite;
+}
+.nac-band__zz i:nth-child(2) {
+  animation-delay: 0.8s;
+  font-size: 20px;
+}
+.nac-band__zz i:nth-child(3) {
+  animation-delay: 1.6s;
+  font-size: 24px;
+}
+@keyframes nac-z {
+  0% {
+    opacity: 0;
+    transform: translate(0, 10px);
+  }
+  20% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(16px, -22px);
+  }
+}
+.nac-band__path {
+  position: absolute;
+  left: 100px;
+  right: 20px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+}
+.nac-band__step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  max-width: 160px;
+}
+.nac-band__trail {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 28px;
+  padding: 0 6px;
+}
+.nac-band__trail i {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: color-mix(in srgb, var(--trail, #fff) 34%, transparent);
+}
+.nac-band__trail[data-lit] i {
+  background: var(--trail, #fff);
+}
+.nac-band__trail[data-fresh] i {
+  animation: nac-walk 0.9s steps(1) both;
+}
+.nac-band__trail[data-fresh] i:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.nac-band__trail[data-fresh] i:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.nac-band__trail[data-fresh] i:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.nac-band__trail[data-fresh] i:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.nac-band__trail[data-fresh] i:nth-child(6) {
+  animation-delay: 0.5s;
+}
+@keyframes nac-walk {
+  0% {
+    background: color-mix(in srgb, var(--trail, #fff) 34%, transparent);
+  }
+  100% {
+    background: var(--trail, #fff);
+  }
+}
+.nac-band__slot {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-cut);
+  background: color-mix(in srgb, #fff 16%, transparent);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.5);
+  color: #fff;
+  transition:
+    background-color 0.4s,
+    box-shadow 0.4s,
+    transform 0.4s var(--spring);
+}
+.nac-band[data-lit] .nac-band__slot:not([data-done]) {
+  background: color-mix(in srgb, #fff 55%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--trail) 40%, transparent);
+  color: var(--trail);
+}
+.nac-band__slot .connector-icon {
+  background: none;
+  box-shadow: none;
+  opacity: 0.55;
+  filter: grayscale(0.6) brightness(1.6);
+}
+.nac-band__slot[data-done] {
+  background: var(--raised);
+  box-shadow: var(--e2);
+  transform: translateY(-2px);
+}
+.nac-band__slot[data-done] .connector-icon {
+  opacity: 1;
+  filter: none;
+}
+.nac-band__check {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 6px;
+  background: var(--ok, #1f8a4c);
+  color: #fff;
+}
+.nac-band__check .ac-icon {
+  width: 10px;
+  height: 10px;
+  stroke-width: 2.6;
+}
+/*
+ * A narrow band (a phone's chat): a smaller agent, shorter trails and smaller slots, so an AI and four apps fit from
+ * about 300px; narrower still, the path scrolls sideways and fades at the edge that has more (`useScrollEdges`).
+ */
+@container nac-band (max-width: 520px) {
+  .nac-band__agent {
+    left: 12px;
+    bottom: 10px;
+    width: 56px;
+    height: 56px;
+  }
+  .nac-band__zz {
+    left: 42px;
+    top: -14px;
+  }
+  .nac-band__path {
+    left: 74px;
+    right: 12px;
+    bottom: 18px;
+    padding-block: 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    --nac-band-fade-start: 0px;
+    --nac-band-fade-end: 0px;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--nac-band-fade-start),
+      #000 calc(100% - var(--nac-band-fade-end)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--nac-band-fade-start),
+      #000 calc(100% - var(--nac-band-fade-end)),
+      transparent 100%
+    );
+  }
+  .nac-band__path::-webkit-scrollbar {
+    display: none;
+  }
+  .nac-band__path[data-fade-start="true"] {
+    --nac-band-fade-start: 20px;
+  }
+  .nac-band__path[data-fade-end="true"] {
+    --nac-band-fade-end: 24px;
+  }
+  .nac-band__step {
+    flex: none;
+  }
+  .nac-band__trail {
+    flex: none;
+    width: 22px;
+    min-width: 0;
+    padding: 0 3px;
+  }
+  .nac-band__trail i {
+    width: 3px;
+    height: 3px;
+  }
+  .nac-band__trail i:nth-child(n + 5) {
+    display: none;
+  }
+  .nac-band__slot {
+    width: 32px;
+    height: 32px;
+  }
+}
+@container nac-band (max-width: 400px) {
+  .nac-band__agent {
+    left: 10px;
+    width: 48px;
+    height: 48px;
+  }
+  .nac-band__zz {
+    left: 36px;
+  }
+  .nac-band__path {
+    left: 64px;
+    right: 10px;
+  }
+  .nac-band__trail {
+    width: 16px;
+    padding: 0 2px;
+  }
+  .nac-band__trail i:nth-child(n + 4) {
+    display: none;
+  }
+  .nac-band__slot {
+    width: 28px;
+    height: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nac-band__zz i,
+  .nac-band__stars i,
+  .nac-band__trail[data-fresh] i {
+    animation: none;
+  }
+  .nac-band__zz i {
+    opacity: 0.8;
+  }
+}
+
+/* From scratch, while it has no name: "Oi, eu sou …" with no closing period, and three ideas with a dice. */
+.nac__name:placeholder-shown + span {
+  display: none;
+}
+.nac__names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.nac__idea,
+.nac__dice {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.nac__idea {
+  padding: 2px 9px;
+  border-radius: 9px 9px 9px var(--radius-cut);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  transition:
+    background-color 0.12s,
+    transform 0.18s var(--spring);
+}
+@media (hover: hover) {
+  .nac__idea:hover {
+    background: color-mix(in srgb, var(--ink) 11%, transparent);
+    transform: translateY(-1px);
+  }
+}
+.nac__dice {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px 8px 8px var(--radius-cut);
+  color: var(--muted);
+}
+@media (hover: hover) {
+  .nac__dice:hover {
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+    color: var(--ink);
+  }
+}
+/* Touch: a tap picks a name, a color or what it wears, each a 40px target at least. */
+@media (pointer: coarse) {
+  .nac__idea {
+    padding: 10px 12px;
+  }
+  .nac__dice {
+    width: 40px;
+    height: 40px;
+  }
+  .nac__look .newag__swatch {
+    width: 40px;
+    height: 40px;
+  }
+  .nac__look .newag__opt {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+html:not([data-pointer]) .nac__idea:focus-visible,
+html:not([data-pointer]) .nac__dice:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* Skills: manuals it opens when needed. */
+.nac__help {
+  color: var(--faint);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.nac-skill__lead {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border-bottom-left-radius: var(--radius-cut);
+  background: var(--plate);
+  color: var(--ink2);
+}
+.nac-skill__line {
+  margin: 0 0 10px;
+  color: var(--ink2);
+  font-size: 14.5px;
+}
+.nac-skill__body {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  color: var(--ink2);
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+}

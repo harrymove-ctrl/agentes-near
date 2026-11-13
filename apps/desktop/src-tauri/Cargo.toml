@@ -1,0 +1,61 @@
+[package]
+name = "agentes-desktop"
+version = "0.8.1"
+description = "agentes.chat for macOS, Windows and Linux: the Cloud, your own server, and agents on this computer"
+license = "AGPL-3.0-only"
+edition = "2021"
+rust-version = "1.77.2"
+publish = false
+
+[lib]
+name = "agentes_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png", "macos-private-api", "unstable"] }
+tauri-plugin-shell = "2"
+tauri-plugin-autostart = "2"
+# A second launch (a link on Windows and Linux arrives as one) reaches the running app.
+tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
+tauri-plugin-deep-link = "2"
+# 2.8 shows a notification's buttons on desktop too (`on_action`): the Stop of a phone someone's agent uses.
+tauri-plugin-notification = "2.8"
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+# 2.10 names the bundle the app came in (`{{bundle_type}}` in the update address): a Linux deb isn't sent the AppImage.
+tauri-plugin-updater = "2.10"
+tauri-plugin-positioner = { version = "2", features = ["tray-icon"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The server here's secrets (local_server.rs): the owner key's SHA-256, base64 for the generated values.
+sha2 = "0.10"
+base64 = "0.22"
+# Random bytes for those secrets and for home ids from the system's own source, Windows included.
+getrandom = { version = "0.3", features = ["std"] }
+# Every server's workspaces with its own session (workspaces.rs, ADR 0154): a small blocking client, rustls.
+ureq = { version = "2", default-features = false, features = ["tls"] }
+
+[target.'cfg(unix)'.dependencies]
+# SIGTERM for the server here's graceful stop.
+libc = "0.2"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+# tauri-plugin-deep-link 2.6.2 fills rust-ini's ParseOption with the two fields 0.21.1 has; 0.21.3 added two
+# more, so it doesn't build against it (0.21.2 is yanked). Drop the pin once the plugin sets all four.
+rust-ini = "=0.21.1"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# The notch window (src/notch.rs): its level, Spaces and frame, and finding the notch.
+objc2 = "0.6"
+# The window buttons placed again the moment AppKit moves them (main_window.rs `follow_lights`).
+block2 = "0.6"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

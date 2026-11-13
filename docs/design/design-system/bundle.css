@@ -1,0 +1,121 @@
+/* agentes.chat — component styles. Every value comes from tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 15px; line-height: 22px; color: var(--ink); background: var(--surface); }
+.ac-icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ac-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-4); }
+.ac-stack { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); max-width: 560px; }
+
+/* Button */
+.ac-btn { display: inline-flex; align-items: center; gap: var(--space-2); height: 36px; padding: 0 var(--space-4); font: inherit; font-size: 14px; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--line-strong); background: var(--surface-raised); color: var(--ink); cursor: pointer; }
+.ac-btn:hover { background: var(--surface); }
+.ac-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ac-btn[disabled] { cursor: not-allowed; color: var(--ink-muted); border-color: var(--line); background: var(--surface); }
+.ac-btn--primary { background: var(--action); border-color: var(--action); color: var(--on-action); }
+.ac-btn--primary:hover { background: var(--action); opacity: .88; }
+.ac-btn--agent { border-bottom-left-radius: var(--radius-cut); }
+.ac-btn--agent .ac-icon { color: var(--agent); }
+.ac-btn--danger { color: var(--danger); border-color: var(--danger); }
+.ac-btn--ghost { border-color: transparent; background: transparent; }
+.ac-btn--ghost:hover { background: var(--surface-sunken); }
+.ac-btn--icon { width: 36px; padding: 0; justify-content: center; }
+.ac-btn--sm { height: 28px; padding: 0 var(--space-3); font-size: 13px; }
+
+/* Input */
+.ac-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.ac-field__label { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
+.ac-field__help { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.ac-field__error { font-size: 13px; line-height: 18px; color: var(--danger); }
+.ac-input { box-sizing: border-box; height: 36px; width: 100%; padding: 0 var(--space-3); font: inherit; font-size: 15px; color: var(--ink); background: var(--surface-raised); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); }
+.ac-input::placeholder { color: var(--ink-muted); }
+.ac-input:focus { outline: none; box-shadow: var(--focus-ring); }
+.ac-input[aria-invalid="true"] { border-color: var(--danger); }
+
+/* Composer */
+.ac-composer { display: flex; align-items: flex-end; gap: var(--space-2); padding: var(--space-2); background: var(--surface-raised); border: 1px solid var(--line-strong); border-radius: var(--radius-md); }
+.ac-composer:focus-within { box-shadow: var(--focus-ring); }
+.ac-composer textarea { flex: 1; min-width: 0; border: 0; resize: none; background: transparent; font: inherit; color: var(--ink); padding: var(--space-2); outline: none; }
+.ac-composer textarea::placeholder { color: var(--ink-muted); }
+
+/* Avatar: people are circles, agents are rounded squares with one cut corner */
+.ac-avatar { display: inline-grid; place-items: center; flex: none; width: 36px; height: 36px; font-size: 14px; font-weight: 700; background: var(--surface-sunken); color: var(--ink); border-radius: var(--radius-full); position: relative; }
+.ac-avatar--agent { background: var(--agent); color: var(--on-agent); border-radius: var(--radius-md); border-bottom-left-radius: var(--radius-cut); }
+.ac-avatar--sm { width: 24px; height: 24px; font-size: 11px; }
+.ac-avatar--sm.ac-avatar--agent { border-radius: var(--radius-sm); border-bottom-left-radius: var(--radius-cut); }
+.ac-avatar--lg { width: 56px; height: 56px; font-size: 20px; }
+.ac-avatar__presence { position: absolute; right: -2px; bottom: -2px; width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--success); box-shadow: 0 0 0 2px var(--surface); }
+.ac-avatar--agent .ac-avatar__presence { background: var(--agent); }
+.ac-avatar--running::after { content: ""; position: absolute; inset: -4px; border: 2px solid var(--agent); border-radius: inherit; border-bottom-left-radius: var(--radius-cut); }
+
+/* Message */
+.ac-msg { display: flex; gap: var(--space-3); padding: var(--space-2) var(--space-4); }
+.ac-msg__body { min-width: 0; flex: 1; }
+.ac-msg__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); }
+.ac-msg__author { font-weight: 600; }
+.ac-msg__time { font-size: 13px; color: var(--ink-muted); }
+.ac-msg__meta { font-size: 12px; line-height: 16px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.ac-msg__text { margin: 2px 0 0; overflow-wrap: anywhere; }
+.ac-msg__text code { font-family: var(--font-mono); font-size: 13px; background: var(--surface-sunken); padding: 1px var(--space-1); border-radius: var(--radius-cut); }
+.ac-mention { color: var(--ink); background: var(--surface-sunken); font-weight: 600; padding: 0 3px; border-radius: var(--radius-cut); }
+.ac-msg--streaming .ac-msg__text::after { content: ""; display: inline-block; width: 8px; height: 15px; margin-left: 2px; vertical-align: -2px; background: var(--agent); }
+@media (prefers-reduced-motion: no-preference) { .ac-msg--streaming .ac-msg__text::after { animation: ac-blink 1s steps(2) infinite; } }
+@keyframes ac-blink { 50% { opacity: 0; } }
+
+/* Approval card: a neutral card; the only color is the status chip. Chips carry an icon, never a dot. */
+.ac-approval { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); border-bottom-left-radius: var(--radius-cut); max-width: 520px; }
+.ac-approval__head { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.ac-approval__who { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.ac-approval__who b { color: var(--ink); font-weight: 600; }
+.ac-chip { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; height: 22px; padding: 0 var(--space-2); font-size: 12px; font-weight: 600; border-radius: var(--radius-full); background: var(--surface-sunken); color: var(--ink); }
+.ac-chip--waiting { background: var(--attention-soft); color: var(--attention); }
+.ac-chip--done { color: var(--success); }
+.ac-chip .ac-icon { width: 14px; height: 14px; }
+.ac-approval__title { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; }
+.ac-approval__detail { margin: 0; padding: var(--space-2) var(--space-3); font-size: 13px; line-height: 18px; font-variant-numeric: tabular-nums; color: var(--ink-muted); background: var(--surface-sunken); border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+.ac-approval__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ac-approval--done { gap: var(--space-2); }
+.ac-approval--done .ac-approval__title { font-weight: 400; color: var(--ink-muted); }
+
+/* Logo: the agent mark + the wordmark set in Onest */
+.ac-logo { display: inline-flex; align-items: center; gap: 0.16em; font-family: var(--font-sans); font-weight: 700; letter-spacing: -0.025em; color: var(--ink); line-height: 1; font-size: 24px; }
+.ac-logo__mark { width: 1.25em; height: 1.25em; flex: none; }
+.ac-logo__body { fill: var(--agent); }
+.ac-logo__eyes { fill: var(--on-agent); }
+.ac-logo__tld { color: var(--ink-muted); font-weight: 600; }
+.ac-logo--mono .ac-logo__body { fill: currentColor; }
+.ac-logo--mono .ac-logo__eyes { fill: var(--surface); }
+
+/* Logo expanded: mark + "agentes" + a small "chat" bubble (cut corner = the bubble's tail) */
+.ac-logo__word { display: inline-flex; align-items: flex-start; gap: 0.12em; }
+.ac-logo__chat { font-size: 0.36em; font-weight: 700; letter-spacing: 0; line-height: 1; padding: 0.28em 0.5em 0.34em; margin-top: 0.12em; border-radius: 0.6em; border-bottom-left-radius: 0.12em; background: var(--agent); color: var(--on-agent); }
+.ac-logo--mono .ac-logo__chat { background: var(--ink); color: var(--surface); }
+
+/* Select: our own trigger + listbox, never the native <select> */
+.ac-select { position: relative; display: flex; min-width: 0; }
+.ac-select__trigger { display: flex; align-items: center; gap: var(--space-2); width: 100%; height: 36px; box-sizing: border-box; padding: 0 var(--space-2) 0 var(--space-3); font: inherit; font-size: 15px; color: var(--ink); background: var(--surface-raised); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); cursor: pointer; text-align: left; }
+.ac-select__trigger:hover { border-color: var(--ink-muted); }
+.ac-select__trigger:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ac-select__trigger[aria-expanded="true"] { border-color: var(--ink); }
+.ac-select__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ac-select__chev { width: 16px; height: 16px; flex: none; color: var(--ink-muted); fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s ease; }
+.ac-select__trigger[aria-expanded="true"] .ac-select__chev { transform: rotate(180deg); }
+.ac-select--sm .ac-select__trigger { height: 32px; font-size: 14px; }
+.ac-select__scrim { position: fixed; inset: 0; z-index: 19; border: 0; padding: 0; background: transparent; cursor: default; }
+.ac-menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; min-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 2px; padding: var(--space-1); background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--overlay); max-height: 280px; overflow-y: auto; }
+.ac-menu__item { display: flex; align-items: flex-start; gap: var(--space-2); width: 100%; box-sizing: border-box; padding: 8px 10px; border: 0; border-radius: var(--radius-sm); background: transparent; font: inherit; font-size: 14px; line-height: 20px; color: var(--ink); text-align: left; cursor: pointer; white-space: nowrap; }
+.ac-menu__item:hover, .ac-menu__item:focus-visible { background: var(--surface-sunken); outline: none; }
+.ac-menu__check { width: 16px; height: 16px; flex: none; margin-top: 2px; visibility: hidden; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ac-menu__item[aria-selected="true"] { font-weight: 600; }
+.ac-menu__item[aria-selected="true"] .ac-menu__check { visibility: visible; }
+.ac-menu__label { display: flex; flex-direction: column; min-width: 0; }
+.ac-menu__desc { font-size: 13px; line-height: 18px; font-weight: 400; color: var(--ink-muted); white-space: normal; }
+@media (prefers-reduced-motion: reduce) { .ac-select__chev { transition: none; } }
+
+/* Checkbox and radio: our own look, native input underneath */
+.ac-check, .ac-radio { appearance: none; -webkit-appearance: none; flex: none; width: 18px; height: 18px; margin: 2px 0 0; border: 1.5px solid var(--line-strong); background: var(--surface-raised); cursor: pointer; display: inline-grid; place-content: center; }
+.ac-check { border-radius: 5px; }
+.ac-radio { border-radius: 999px; }
+.ac-check::before { content: ""; width: 10px; height: 10px; background: var(--on-action); clip-path: polygon(14% 52%, 0 66%, 38% 100%, 100% 22%, 86% 8%, 38% 72%); transform: scale(0); }
+.ac-radio::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--on-action); transform: scale(0); }
+.ac-check:checked, .ac-radio:checked { background: var(--action); border-color: var(--action); }
+.ac-check:checked::before, .ac-radio:checked::before { transform: scale(1); }
+.ac-check:focus-visible, .ac-radio:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ac-check:disabled { cursor: not-allowed; opacity: .55; }

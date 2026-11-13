@@ -1,0 +1,29 @@
+/*
+ * The onboarding's Connect an AI step (ADR 0162): the team's stage beside it, where the workspace's preview stands on
+ * every other step, at the preview's size and place (`.onb-preview` in onboarding.css), its words over the sky as the
+ * arrival's stage has them (arrival.css).
+ */
+.onb-stage {
+  flex: 0 0 272px;
+  min-width: 0;
+  position: sticky;
+  top: 0;
+  padding-top: 40px;
+}
+.onb-stage__frame {
+  height: min(600px, calc(100dvh - 120px));
+  overflow: hidden;
+  border-radius: var(--radius-section);
+  box-shadow: var(--e2);
+}
+
+/* The AI connected, once every agent thinks: a card to read, not to press. */
+.onb-ai__connected {
+  cursor: default;
+}
+.onb-ai__connected:hover {
+  box-shadow:
+    0 0 0 1px var(--line2),
+    var(--e1),
+    var(--top);
+}

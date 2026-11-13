@@ -1,0 +1,1 @@
+ALTER TABLE "agent_runs" ADD COLUMN "working_since" timestamp with time zone;

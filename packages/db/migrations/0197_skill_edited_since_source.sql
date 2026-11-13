@@ -1,0 +1,1 @@
+ALTER TABLE "skills" ADD COLUMN "edited_since_source" boolean DEFAULT false NOT NULL;

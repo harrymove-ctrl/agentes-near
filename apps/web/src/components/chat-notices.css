@@ -1,0 +1,123 @@
+/* What reached an agent's conversation (a notice), a stopped task, a part that failed to draw: one event pill
+   (`EventPill`) in the messages' text column; what it opens goes under it. */
+.cn-pill {
+  margin-inline: var(--thread-indent, calc(16px + var(--name-face) + var(--space-3))) 12px;
+}
+/* Inside a message, in place of one of its parts, or under a stopped reply: already in the text's column. */
+.cn-pill--part,
+.ac-msg__body .cn-pill {
+  margin-inline: 0;
+}
+/* The text itself, under the pill: a quiet rule on its left. */
+.cn-line__body {
+  align-self: stretch;
+  margin: 2px 0 2px 10px;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--ink2);
+}
+
+/* A quiet line outside the chat's events (a consultation's state in its panel) and its inline toggles ("Ver
+   relatório", a consultation's link). */
+.cn-line {
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-inline: var(--thread-indent, calc(16px + var(--name-face) + var(--space-3))) 12px;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--faint);
+}
+/* Never wider than the room beside the icon (14px + the 8px gap): long text wraps here. */
+.cn-line__text {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 22px);
+  overflow-wrap: anywhere;
+}
+.cn-line__toggle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.cn-line__toggle:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html:not([data-pointer]) .cn-line__toggle:focus-visible {
+  outline: none;
+  border-radius: 2px;
+  box-shadow: var(--focus-ring);
+}
+
+/* The routine report an agent's message answers, unfolded under it ("Ver relatório"). */
+.cn-report__toggle {
+  margin-left: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.cn-report {
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+  font-size: 13.5px;
+  line-height: 20px;
+  color: var(--ink2);
+}
+
+/* A fast reply while the task kept working: a quiet word next to the agent's name. */
+.msg-talker {
+  font-weight: 400;
+}
+
+/* "You stopped Ada" (ADR 0128): "Add a reason" opens its field and Send (`.tm-saywhy`) under the pill. */
+.cn-stopped__why {
+  align-self: stretch;
+  max-width: 520px;
+}
+
+/*
+ * A long message from one agent to another, folded to its first paragraph: "Ler tudo · mais 18 linhas" opens it
+ * whole in its thread beside the chat, pressed while that thread shows there (like a thread's line).
+ */
+.msg-talk__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  margin: 2px 0 0 -8px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.msg-talk__more:hover,
+.msg-talk__more[aria-pressed="true"] {
+  background: var(--plate);
+  color: var(--ink);
+}
+html:not([data-pointer]) .msg-talk__more:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.msg-talk__count {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--faint);
+}
+.msg-talk__count::before {
+  content: "· ";
+}
+.msg-talk__more > svg {
+  color: var(--faint);
+}

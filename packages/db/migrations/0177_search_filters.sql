@@ -1,0 +1,1 @@
+CREATE INDEX "search_documents_org_id_kind_source_created_at_index" ON "search_documents" USING btree ("org_id","kind","source_created_at");

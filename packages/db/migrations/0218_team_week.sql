@@ -1,0 +1,1 @@
+ALTER TABLE "organization_members" ADD COLUMN "team_week" jsonb DEFAULT '{}'::jsonb NOT NULL;

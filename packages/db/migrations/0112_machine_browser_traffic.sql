@@ -1,0 +1,1 @@
+ALTER TABLE "machines" ADD COLUMN "browser_traffic" jsonb;

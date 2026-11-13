@@ -1,0 +1,248 @@
+{
+  "snapshot": "- toolbar \"Panel\"\n  - button \"Applications\" [ref=e1]\n  - button \"agentes.chat · Your team and your agents, in the same conversation - Chromium\" [window, ref=e2]\n  - button \"agent - Thunar\" [window, ref=e3]\n  - button \"Terminal - agent@desktop: ~\" [window, ref=e4]\n  - button \"2026-10-24\" [ref=e5]\n- toolbar \"Panel\"\n  - button \"Show Desktop\" [ref=e6]\n  - button \"Terminal Emulator\" [ref=e7]\n  - button \"File Manager\" [ref=e8]\n  - button \"Web Browser\" [ref=e9]\n  - button [ref=e10]\n  - button \"Directory Menu\" [ref=e11]\n- alertdialog \"Text Editor\" [active, ref=e12]\n  - text \"Save changes to “notas.txt” before closing?\"\n  - text \"If you don't save, your changes will be lost.\"\n  - button \"Close without Saving\" [focused, default, ref=e13]\n  - button \"Cancel\" [ref=e14]\n  - button \"Save\" [ref=e15]\n- window \"agent - Thunar\" [ref=e16]\n- window \"agentes.chat · Your team and your agents, in the same conversation - Chromium\" [agent browser: use browser_do]\n- window \"Terminal - agent@desktop: ~\" [ref=e17]",
+  "refs": {
+    "e1": {
+      "role": "button",
+      "name": "Applications"
+    },
+    "e2": {
+      "role": "button",
+      "name": "agentes.chat · Your team and your agents, in the same conversation - Chromium"
+    },
+    "e3": {
+      "role": "button",
+      "name": "agent - Thunar"
+    },
+    "e4": {
+      "role": "button",
+      "name": "Terminal - agent@desktop: ~"
+    },
+    "e5": {
+      "role": "button",
+      "name": "2026-10-24"
+    },
+    "e6": {
+      "role": "button",
+      "name": "Show Desktop"
+    },
+    "e7": {
+      "role": "button",
+      "name": "Terminal Emulator"
+    },
+    "e8": {
+      "role": "button",
+      "name": "File Manager"
+    },
+    "e9": {
+      "role": "button",
+      "name": "Web Browser"
+    },
+    "e10": {
+      "role": "button",
+      "name": ""
+    },
+    "e11": {
+      "role": "button",
+      "name": "Directory Menu"
+    },
+    "e12": {
+      "role": "alertdialog",
+      "name": "Text Editor"
+    },
+    "e13": {
+      "role": "button",
+      "name": "Close without Saving"
+    },
+    "e14": {
+      "role": "button",
+      "name": "Cancel"
+    },
+    "e15": {
+      "role": "button",
+      "name": "Save"
+    },
+    "e16": {
+      "role": "window",
+      "name": "agent - Thunar"
+    },
+    "e17": {
+      "role": "window",
+      "name": "Terminal - agent@desktop: ~"
+    }
+  },
+  "address": "desktop://text-editor/dialog",
+  "title": "Text Editor",
+  "screen": {
+    "width": 1280,
+    "height": 800
+  },
+  "marks": [
+    {
+      "ref": "e1",
+      "number": 1,
+      "role": "button",
+      "name": "Applications",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "width": 96,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e2",
+      "number": 2,
+      "role": "button",
+      "name": "agentes.chat · Your team and your agents, in the same conversation - Chromium",
+      "box": {
+        "x": 104,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e3",
+      "number": 3,
+      "role": "button",
+      "name": "agent - Thunar",
+      "box": {
+        "x": 304,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e4",
+      "number": 4,
+      "role": "button",
+      "name": "Terminal - agent@desktop: ~",
+      "box": {
+        "x": 504,
+        "y": 0,
+        "width": 200,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e5",
+      "number": 5,
+      "role": "button",
+      "name": "2026-10-24",
+      "box": {
+        "x": 1176,
+        "y": 0,
+        "width": 58,
+        "height": 26
+      }
+    },
+    {
+      "ref": "e6",
+      "number": 6,
+      "role": "button",
+      "name": "Show Desktop",
+      "box": {
+        "x": 488,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e7",
+      "number": 7,
+      "role": "button",
+      "name": "Terminal Emulator",
+      "box": {
+        "x": 544,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e8",
+      "number": 8,
+      "role": "button",
+      "name": "File Manager",
+      "box": {
+        "x": 592,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e9",
+      "number": 9,
+      "role": "button",
+      "name": "Web Browser",
+      "box": {
+        "x": 640,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e10",
+      "number": 10,
+      "role": "button",
+      "box": {
+        "x": 688,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e11",
+      "number": 11,
+      "role": "button",
+      "name": "Directory Menu",
+      "box": {
+        "x": 744,
+        "y": 752,
+        "width": 48,
+        "height": 48
+      }
+    },
+    {
+      "ref": "e13",
+      "number": 13,
+      "role": "button",
+      "name": "Close without Saving",
+      "box": {
+        "x": 401,
+        "y": 425,
+        "width": 159,
+        "height": 34
+      }
+    },
+    {
+      "ref": "e14",
+      "number": 14,
+      "role": "button",
+      "name": "Cancel",
+      "box": {
+        "x": 560,
+        "y": 425,
+        "width": 159,
+        "height": 34
+      }
+    },
+    {
+      "ref": "e15",
+      "number": 15,
+      "role": "button",
+      "name": "Save",
+      "box": {
+        "x": 719,
+        "y": 425,
+        "width": 159,
+        "height": 34
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+/* App styles: fonts, the design system, and page layout. No component visuals here: those live in @agenteschat/ui. */
+/* The kit, then the app's base sheets, in one cascade layer. Page sheets (a component's own CSS) stay unlayered, so a
+   page rule beats the kit and the base whatever order the build links the chunks in: the production build links the
+   shared chunks' CSS before the main sheet, where a tie went to the kit, while dev links the main sheet first. One
+   layer, not two: the kit's rules for a context (an own message's code, a consult's paragraphs) outrank the base
+   sheets' general ones by specificity, which a layer between them would undo. The fonts and the variables below stay
+   unlayered, as they were. */
+@layer base;
+@import "@fontsource-variable/source-sans-3/index.css";
+@import "@fontsource-variable/jetbrains-mono/index.css";
+/* Onest: the design system's own default face (`--font-sans` in its tokens). */
+@import "@fontsource-variable/onest/index.css";
+@import "./fonts.css";
+@import "@agenteschat/ui/styles.css" layer(base);
+@import "./layout.css" layer(base);
+@import "./responsive.css" layer(base);
+@import "./chat/looks.css" layer(base);
+/* Unlayered, as the page sheets are: app rules that must win over a page's own, by specificity (the desktop app's
+   `html[data-desktop]` ones too). */
+@import "./desktop.css";
+@import "./over-pages.css";
+
+:root {
+  /* The app reads in Source Sans 3, titles too; code in JetBrains Mono. */
+  --font-sans: "Source Sans 3 Variable", "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-display: var(--font-sans);
+  --font-display-weight: 600;
+  /* Source Sans 3 draws small (x-height .486): as tall as 16px where the app says 15. */
+  --font-size-adjust: 0.52;
+  /* A dialog title's capitals' middle above its line's middle (18px on 24px), measured in this face: its baseline lands
+     on a whole pixel, so it is 1.19px where --cap-mid says 0.37. A title in another type measures its own. */
+  --title-cap-mid: 1.19px;
+  /* The wordmark, and its dot-matrix ".chat". */
+  --font-brand: "Funnel Display", var(--font-sans);
+  --font-dot: "Doto", var(--font-mono);
+}
+
+/* Japanese, Korean and Chinese read in each system's own face after the Latin one (no web font to download); Source
+   Sans 3's size adjustment is for Latin letters only. Russian needs nothing: Source Sans 3 has Cyrillic. */
+:lang(ja) {
+  --font-sans:
+    "Source Sans 3 Variable", "Source Sans 3", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo,
+    "Noto Sans JP", system-ui, sans-serif;
+}
+:lang(ko) {
+  --font-sans:
+    "Source Sans 3 Variable", "Source Sans 3", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", system-ui,
+    sans-serif;
+}
+:lang(zh-Hans) {
+  --font-sans:
+    "Source Sans 3 Variable", "Source Sans 3", "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", system-ui,
+    sans-serif;
+}
+:lang(ja),
+:lang(ko),
+:lang(zh-Hans) {
+  --font-size-adjust: none;
+}

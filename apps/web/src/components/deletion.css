@@ -1,0 +1,46 @@
+/* The last card of Settings › General and of Sua conta: deleting the workspace or the account, its icon in the danger
+   tone. */
+.settings-danger .ac-card__key {
+  color: var(--danger);
+}
+/* Deleting a workspace or an account: what goes as lines with their icons, the export and the proof under them. */
+.deletion-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.deletion-lines > li > :first-child {
+  color: var(--ink-muted);
+}
+.deletion-export,
+.deletion-note {
+  margin: 0;
+}
+.deletion-proof {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.deletion-proof > .ac-field {
+  align-self: stretch;
+}
+/* The account's blockers: one per workspace, its two ways out under its line. */
+.deletion-blockers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Links under a line: a blocker's ways out, or where to disconnect what stays behind. */
+.deletion-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}

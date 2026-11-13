@@ -1,0 +1,162 @@
+{
+  "common": {
+    "back": "Wstecz",
+    "cancel": "Anuluj",
+    "close": "Zamknij",
+    "continue": "Dalej",
+    "done": "Gotowe",
+    "retry": "Spróbuj ponownie",
+    "loading": "Ładowanie",
+    "or": "lub"
+  },
+  "auth": {
+    "skyLabel": "Niebo z agentami",
+    "social": {
+      "failed": "Nie udało się teraz zalogować. Spróbuj ponownie.",
+      "unfinished": "Logowanie się nie zakończyło. Spróbuj ponownie albo użyj adresu e-mail."
+    },
+    "errors": {
+      "network": "Brak połączenia. Sprawdź internet i spróbuj ponownie.",
+      "generic": "Coś poszło nie tak. Spróbuj ponownie.",
+      "offlineRetry": "Na razie brak internetu. Kontynuuję, gdy tylko wróci."
+    },
+    "flow": {
+      "email": "Jaki masz adres e-mail?",
+      "emailLead": "Aby się zalogować albo utworzyć konto.",
+      "signUp": "Miło mi. Jak mówi do ciebie zespół?"
+    },
+    "server": {
+      "line": "Serwer: {{host}} ·",
+      "change": "Zmień",
+      "title": "Gdzie działa twój agentes.chat?",
+      "subtitle": "Adres, który twój zespół otwiera w przeglądarce.",
+      "label": "Adres serwera",
+      "placeholder": "agentes.twojzespol.ts.net",
+      "use": "Użyj tego serwera",
+      "checking": "Sprawdzanie…",
+      "scan": "Zeskanuj kod QR",
+      "backTo": "Wróć do {{host}}",
+      "footChange": "Zmień",
+      "footChoose": "Serwer i język",
+      "footServer": "Inny serwer",
+      "footLanguage": "Język",
+      "footTeam": "Używasz serwera swojego zespołu?",
+      "footTeamAction": "Zaloguj się przez niego",
+      "footOn": "Logowanie na {{host}}",
+      "footSwitch": "Zmień",
+      "now": "Teraz na {{host}}",
+      "invalid": "Sprawdź adres, na przykład agentes.twojzespol.ts.net.",
+      "unreachable": "Nie możemy połączyć się z {{host}}. Sprawdź adres i połączenie, a potem spróbuj ponownie.",
+      "unreachableTailscale": "Nie możemy połączyć się z {{host}}. Jest w Tailscale: otwórz aplikację Tailscale, połącz się i spróbuj ponownie. Już połączono? Komputer serwera może być uśpiony albo mieć zamkniętą aplikację.",
+      "certificate": "Certyfikat {{host}} jest nieprawidłowy. Porozmawiaj z osobą, która zarządza serwerem.",
+      "notAgentes": "{{host}} nie jest serwerem agentes.chat. Sprawdź adres.",
+      "serverTooOld": "{{host}} wymaga aktualizacji, żeby działać z tą aplikacją.",
+      "appTooOld": "Zaktualizuj aplikację agentes, żeby korzystać z {{host}}.",
+      "down": {
+        "line": "{{host}} nie odpowiada.",
+        "text": "Serwer może nie działać albo być poza twoją siecią. Aplikacja otworzy się sama, gdy wróci.",
+        "tryNow": "Spróbuj teraz",
+        "switchServer": "Zmień serwer",
+        "retryIn_one": "ponowna próba za {{count}} s",
+        "retryIn_few": "ponowna próba za {{count}} s",
+        "retryIn_many": "ponowna próba za {{count}} s",
+        "retryIn_other": "ponowna próba za {{count}} s"
+      }
+    },
+    "connect": {
+      "title": "Połączyć z tym serwerem?",
+      "titleSignIn": "Zalogować się kontem z komputera?",
+      "on": "Serwer: {{host}}",
+      "leave": "Obecne konto na tym telefonie zostanie wylogowane.",
+      "confirm": "Połącz",
+      "notNow": "Nie teraz",
+      "checking": "Sprawdzanie serwera…",
+      "notALink": "Ten link nie pochodzi z serwera agentes.chat.",
+      "tokenFailed": "Kod wygasł albo został już użyty. Zaloguj się adresem e-mail albo wyświetl nowy kod na komputerze.",
+      "signInSlow": "Logowanie trwa dłużej, niż powinno. Zaloguj się adresem e-mail albo wyświetl nowy kod na komputerze."
+    },
+    "scan": {
+      "hint": "Skieruj aparat na kod QR na komputerze",
+      "typeAddress": "Wpisz adres",
+      "notOurs": "Ten kod QR nie pochodzi z serwera agentes.chat.",
+      "cameraTitle": "Użyj aparatu",
+      "cameraText": "Służy tylko do odczytania kodu QR.",
+      "allow": "Zezwól na aparat",
+      "settings": "Otwórz Ustawienia"
+    }
+  },
+  "org": {
+    "noneTitle": "Nie należysz jeszcze do żadnej przestrzeni roboczej",
+    "noneSubtitle": "Poproś kogoś z zespołu o zaproszenie albo utwórz przestrzeń roboczą na stronie.",
+    "openSite": "Otwórz stronę",
+    "signOut": "Wyloguj się"
+  },
+  "account": {
+    "deleteFailed": "Nie udało się teraz usunąć konta. Spróbuj ponownie.",
+    "deleted": "Twoje konto zniknie na dobre {{date}}. Zaloguj się wcześniej, aby je przywrócić.",
+    "signedOut": "Wylogowano."
+  },
+  "theme": {
+    "system": "Jak w telefonie",
+    "light": "Jasny",
+    "dark": "Ciemny"
+  },
+  "push": {
+    "channel": "Alerty",
+    "channelDescription": "Co na ciebie czeka, wzmianki i rozmowy.",
+    "offer": {
+      "line": "Chcesz wiedzieć, kiedy {{name}} skończy?",
+      "action": "Powiadom mnie"
+    },
+    "ask": {
+      "title": "Wiedz, kiedy agent cię potrzebuje",
+      "text": "Agenci pracują, gdy ty zajmujesz się czymś innym. Damy ci znać, gdy potrzebują twojej zgody, skończą to, o co prosisz, albo cię zawołają.",
+      "on": "Włącz powiadomienia",
+      "later": "Nie teraz",
+      "done": "Powiadomienia włączone",
+      "failed": "Nie udało się włączyć powiadomień. Spróbuj ponownie w Ty › Powiadomienia.",
+      "someone": "Agent",
+      "examples": "Przykłady powiadomień",
+      "now": "teraz",
+      "minutes": "{{n}} min",
+      "approval": {
+        "title": "{{name}} potrzebuje twojej zgody",
+        "body": "Czy mogę zrobić to, o co prosisz?"
+      },
+      "finished": {
+        "title": "{{name}}: gotowe",
+        "body": "To, o co prosisz, jest gotowe."
+      },
+      "mention": {
+        "title": "{{name}} cię woła",
+        "body": "Zerkniesz, jak znajdziesz chwilę?"
+      }
+    }
+  },
+  "a11y": {
+    "agent": "{{name}}, agent",
+    "agentWorking": "{{name}}, agent, pracuje",
+    "agentPlain": "Agent",
+    "person": "{{name}}",
+    "loading": "Ładowanie",
+    "grabber": "Przeciągnij w dół, aby zamknąć",
+    "closeSheet": "Zamknij",
+    "send": "Wyślij",
+    "attach": "Załącz i więcej",
+    "hold": "Przytrzymaj, aby potwierdzić",
+    "clearSearch": "Wyczyść wyszukiwanie"
+  },
+  "composer": {
+    "placeholder": "Napisz wiadomość",
+    "join": "Dodaj do bieżącego zadania",
+    "now": "Zatrzymaj i wyślij",
+    "choice": "Jak wysłać, gdy agent pracuje",
+    "holdToStop": "Przytrzymaj, aby zatrzymać i wysłać"
+  },
+  "search": {
+    "placeholder": "Szukaj"
+  },
+  "picker": {
+    "none": "Nic nie pasuje do „{{text}}”."
+  }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "threads" ADD COLUMN "opened_by_reply_at" timestamp with time zone;

@@ -1,0 +1,30 @@
+# OpenMausBot team file (docs/headless-cli.md, "The team file"), written for the agent import tests.
+version: 1
+engines:
+  claude:
+    key: { env: ANTHROPIC_API_KEY }
+    baseUrl: { file: /run/secrets/anthropic-base-url }
+teams:
+  - name: Launch Room
+    brief: Rehearse every launch before it goes live, and keep a written log of what was found.
+bots:
+  - name: Room Lead
+    team: Launch Room
+    title: Launch rehearsal lead
+    chief: true
+    soul: { file: souls/lead.md }
+    model: claude/claude-sonnet-5-5
+    computer: local
+    skills:
+      - { file: skills/launch-report/SKILL.md, enabled: true }
+  - name: Priya
+    team: Launch Room
+    title: Skeptical procurement manager
+    soul: You question every price and ask for two references before agreeing to anything.
+    model: openai/gpt-imaginary-1
+rooms:
+  - name: Rehearsal
+    team: Launch Room
+    members: [Room Lead, Priya]
+    brief: Walk through the launch page the way a buyer would.
+    responder: Room Lead

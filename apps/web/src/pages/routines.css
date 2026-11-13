@@ -1,0 +1,894 @@
+/*
+ * Rotinas: the horizon of the next hours, one aligned
+ * row per routine (agent, title, when, runs in pixels, switch, actions) and a
+ * details panel. The pixel pieces are RunStrip / RunLane from @agenteschat/ui.
+ */
+.routines {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 0 20px;
+  padding-bottom: 96px;
+}
+.routines__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Horizon ────────────────────────────────────────────────────────────── */
+.routines-horizon {
+  --lab: 168px;
+  position: relative;
+  padding: 14px 16px 0;
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+}
+.routines-horizon__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-bottom: 8px;
+}
+.routines-horizon__head h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink2);
+}
+.routines-horizon__sub {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.routines-horizon__legend {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--faint);
+}
+.routines-horizon__legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.routines-horizon__body {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--lab) minmax(0, 1fr);
+  row-gap: 2px;
+  padding-bottom: 30px;
+}
+.routines-horizon__scale {
+  position: relative;
+  height: 18px;
+  font-size: 11px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.routines-horizon__scale span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.routines-horizon__scale span.is-day {
+  font-weight: 650;
+  color: var(--ink2);
+}
+.routines-horizon__lane {
+  display: contents;
+}
+/* Its face on the first line of a name that wraps (`.ac-iconline` places it), the lines in the lane's middle. */
+.routines-horizon__label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  align-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 30px;
+  padding: 0 12px 0 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  /* The name's line, so the face finds its first line (`lh`). */
+  line-height: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+/* A long name wraps under itself, never a "…" that hides which routine the lane is; its lane stays on its middle. */
+.routines-horizon__label b {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.routines-horizon__label:hover b {
+  color: var(--ink);
+}
+html:not([data-pointer]) .routines-horizon__label:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.routines-horizon__track {
+  position: relative;
+  align-self: center;
+  height: 30px;
+  border-radius: var(--radius-sm);
+}
+.routines-horizon__lane:hover .routines-horizon__track {
+  background: color-mix(in srgb, var(--sunken) 50%, transparent);
+}
+.routines-horizon__next {
+  position: absolute;
+  top: 50%;
+  transform: translate(20px, -50%);
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--ink2);
+  white-space: nowrap;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.routines-horizon__next.is-soon {
+  color: var(--ink);
+}
+/* "agora": a pixel line (2px on, 2px off) with its tag below. */
+.routines-horizon__now {
+  position: absolute;
+  top: 18px;
+  bottom: 22px;
+  left: calc(var(--lab) + (100% - var(--lab)) * var(--now-k, 0));
+  width: 2px;
+  margin-left: -1px;
+  background: repeating-linear-gradient(180deg, var(--ink) 0 2px, transparent 2px 4px);
+  pointer-events: none;
+  z-index: 1;
+}
+.routines-horizon__now span {
+  position: absolute;
+  bottom: -20px;
+  left: 1px;
+  transform: translateX(-50%);
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--ink);
+  white-space: nowrap;
+}
+.routines-horizon__past {
+  position: absolute;
+  top: 18px;
+  bottom: 22px;
+  left: var(--lab);
+  width: calc((100% - var(--lab)) * var(--now-k, 0));
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--raised) 30%, transparent));
+  pointer-events: none;
+}
+
+/* ── Toolbar ────────────────────────────────────────────────────────────── */
+
+/* ── Groups and rows ────────────────────────────────────────────────────── */
+.routines-group {
+  display: flex;
+  flex-direction: column;
+}
+.routines-list {
+  border-radius: var(--radius-section);
+  background: var(--raised);
+  box-shadow: var(--e1), var(--top);
+  overflow: hidden;
+}
+.routine-row {
+  position: relative;
+  display: grid;
+  /* Fixed columns: every row lines up (placeholders stand in for missing buttons). */
+  grid-template-columns: 36px minmax(0, 1fr) minmax(0, 220px) 136px 124px;
+  align-items: center;
+  gap: 16px;
+  padding: var(--row-py) 12px var(--row-py) 16px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.routine-row:first-child {
+  border-top: 0;
+}
+.routine-row:hover {
+  background: color-mix(in srgb, var(--sunken) 45%, transparent);
+}
+.routine-row--on {
+  background: color-mix(in srgb, var(--sunken) 80%, transparent);
+}
+.routine-row--on::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--ink);
+}
+.routine-row__who {
+  display: flex;
+  justify-content: center;
+}
+.routine-row__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.routine-row__title {
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  border-radius: 4px;
+}
+html:not([data-pointer]) .routine-row__title:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* Its chips and its fix go under the words when they don't fit beside them, never squeeze them a word a line. */
+.routine-row__sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* Who and where it delivers, whole: the words wrap with the icon on their first line (`.ac-iconline`), never "…". */
+.routine-row__to {
+  gap: 6px;
+  min-width: 0;
+}
+.routine-row__to > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.routine-row__to > svg {
+  color: var(--faint);
+}
+.routine-row__chip {
+  flex: none;
+}
+/* When it runs, a MediaRow (the kit's `.ac-mediarow`): the trigger's tile and when on one line, the next run under
+   them at the cell's width, never a column of words beside the tile. */
+.routine-row__when {
+  min-width: 0;
+  row-gap: 2px;
+}
+.routine-row__when-icon {
+  border-radius: 8px;
+  background: var(--sunken);
+  color: var(--ink2);
+}
+/* When it runs is the row's fact: it wraps in its column, never cut short ("De segunda a sexta às 09:00" on a tablet). */
+.routine-row__when-text b,
+.routine-row__when-text small {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.routine-row__when-text b {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.routine-row__when-text small {
+  font-size: 12px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.routine-row__when-text small.is-live {
+  color: var(--ink2);
+  font-weight: 600;
+}
+.routine-row__runs {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.routine-row__runs small {
+  font-size: 12px;
+  color: var(--faint);
+  overflow-wrap: anywhere;
+}
+.routine-row__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.routine-row__actions .ac-switch {
+  margin-right: 6px;
+}
+.routine-row__ph {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+.routine-row__ph--switch {
+  width: 42px;
+}
+.routine-row[data-paused] .routine-row__title,
+.routine-row[data-done] .routine-row__title,
+.routine-row[data-paused] .routine-row__when-text b {
+  color: var(--muted);
+}
+.routine-row[data-paused] .ac-run-strip,
+.routine-row[data-done] .ac-run-strip {
+  opacity: 0.5;
+}
+
+/* ── Details: the routine's page in the details dialog, laid out as a task's (`issue-details`, `.ac-props`) ── */
+/* "Rotina" on the bar, with "✓ Salvo" (SavedNote) after a change. */
+.routine-details .ac-details__eyebrow {
+  display: inline-flex;
+  align-items: center;
+}
+/* Its agent, state and when, under the name. */
+.routine-page__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 14px;
+}
+.routine-page__dot {
+  color: var(--faint);
+}
+/* This week: the sentence beside the last seven days in pixels (RunMark), today last. */
+.routine-week {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-cut);
+  background: var(--card-well, var(--sunken));
+}
+.routine-week__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.routine-week__text b {
+  font-size: 15px;
+  font-weight: 600;
+}
+/* The days stand on one line: each day's name at the bottom, its runs stacked up from it. */
+.routine-week__days {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.routine-week__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.routine-week__day small {
+  font-size: 11px;
+  color: var(--faint);
+}
+/* A day's runs stacked from the bottom; a day without any is a short dash on the line. */
+.routine-week__cells {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: 2px;
+  min-height: 22px;
+}
+.routine-week__cells .ac-run-mark {
+  border-radius: 2px;
+}
+.routine-week__none {
+  display: block;
+  width: 8px;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+/* Its fields as one strip under the head (`.ac-props`): "Quando posta" with its ⓘ, then its next run and this week's
+   use on a quiet line, close under them. */
+.routine-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.routine-props__report {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  max-width: 100%;
+}
+.routine-props__line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--space-4);
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--ink-muted);
+}
+/* What it does, being edited: the box is as tall as the text, from a few lines. Doubled: over the task text's own
+   (`.issue-new__text`, issues.css), a sheet in another chunk. */
+.routine-prompt__text.routine-prompt__text {
+  min-height: 180px;
+}
+.routine-details__usage-pause {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.routine-details__usage-pause p {
+  margin: 0;
+}
+.routine-details__usage-pause-acts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.routine-details .ac-details__section p {
+  margin: 0;
+}
+/* What it does, as a task's description reads (edited in place). */
+.routine-details__prompt {
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.routine-details__nexts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.routine-details__nexts span {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: var(--sunken);
+  font-size: 12.5px;
+  color: var(--ink2);
+  font-variant-numeric: tabular-nums;
+}
+.routine-details__nexts span:first-child {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+}
+.routine-own {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.routine-own li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: var(--sunken);
+  font-size: 12.5px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.routine-own li .ac-btn {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin-right: -6px;
+}
+.routine-details__where {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: var(--sunken);
+  font-size: 13.5px;
+}
+.routine-details__where-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: var(--raised);
+  box-shadow: var(--e1);
+  color: var(--muted);
+}
+.routine-details__where b {
+  display: block;
+  font-weight: 600;
+}
+.routine-details__where small {
+  display: block;
+  font-size: 12px;
+  color: var(--faint);
+}
+/* What was prepared for its runs (`schedule_action`): one box each, its Cancel at the end. */
+.routine-ahead {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* The icon's top on the title's capitals (`.ac-captop`), Cancel centred on the title's first line. */
+.routine-ahead__item {
+  align-items: flex-start;
+}
+.routine-ahead__item > .ac-acts {
+  flex: none;
+  height: 22px;
+}
+.routine-ahead__text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* On a phone the icon and the title share a line, when it runs and Cancelar go under them at the row's width. */
+@media (max-width: 640px) {
+  .routine-ahead__item {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 10px;
+  }
+  .routine-ahead__item > .routine-ahead__text {
+    display: contents;
+  }
+  .routine-ahead__item .routine-ahead__title {
+    margin-block-start: 0;
+  }
+  .routine-ahead__item small,
+  .routine-ahead__item > .ac-acts {
+    grid-column: 1 / -1;
+  }
+  .routine-ahead__item > .ac-acts {
+    height: auto;
+    margin: 4px 0 0;
+  }
+}
+.routine-ahead__title {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+.routine-runs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.routine-runs__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 6px 2px 10px;
+}
+.routine-runs__item::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 26px;
+  bottom: -6px;
+  width: 1.5px;
+  background: var(--line2);
+}
+.routine-runs__item:last-child::before {
+  display: none;
+}
+.routine-runs__item b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.routine-runs__words {
+  margin-top: 1px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.routine-runs__item time {
+  /* On the outcome's first line: the same 22px line, so its words sit on that line's baseline. */
+  font-size: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.routine-runs__node {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--sunken);
+  color: var(--ink2);
+}
+.routine-runs__node--ok {
+  background: var(--ink);
+  color: var(--bg);
+}
+/* Dark's red, amber and blue are light: each takes its ink (the card's color on red, as a count does), not white. */
+.routine-runs__node--failed {
+  background: var(--danger);
+  color: var(--raised);
+}
+.routine-runs__node--skipped {
+  background: var(--warn);
+  color: var(--on-warn);
+}
+.routine-runs__node--running {
+  background: var(--agent);
+  color: var(--on-agent);
+}
+/* "Esperando sua aprovação" opens the request; "Abrir na conversa", the agent's message. */
+.routine-runs__link {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.routine-runs__open {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.routine-runs__open:hover,
+.routine-runs__link:hover {
+  color: var(--ink);
+}
+
+/* A quiet note with its icon: a routine that wakes someone's computer often. */
+.routine-note {
+  gap: 6px;
+  margin: 0;
+  color: var(--ink2);
+}
+.routine-note > svg {
+  color: var(--muted);
+}
+
+/* ── "Nova rotina": templates ───────────────────────────────────────────── */
+/* A row runs to three lines: its mark starts with the first. */
+.ac-tz__option:has(.routine-template__text) > :is(.ac-menu__leading, .ac-menu__label) {
+  align-self: flex-start;
+}
+.routine-template__text,
+.routine-template__needs {
+  display: block;
+}
+.routine-template__needs {
+  margin-top: 2px;
+  color: var(--ink2);
+}
+/* The apps' logos lead its sentence on the first line, its later lines under them: never a column beside its words. */
+.routine-needs {
+  color: var(--ink2);
+}
+.routine-needs > .connector-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: var(--radius-sm);
+}
+.routine-needs__connect {
+  display: block;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  .routine-row {
+    grid-template-columns: 36px minmax(0, 1fr) minmax(0, 200px) auto;
+  }
+  .routine-row__runs {
+    display: none;
+  }
+  .routines-horizon {
+    --lab: 40px;
+  }
+  .routines-horizon__label b,
+  .routines-horizon__legend {
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .routine-row {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    gap: 10px 12px;
+    padding: 12px;
+  }
+  .routine-row__when {
+    grid-column: 2 / 4;
+    grid-row: 2;
+  }
+  .routine-row__actions .ac-btn:not([aria-haspopup]),
+  .routine-row__ph {
+    display: none;
+  }
+  .routines-horizon {
+    padding: 12px 12px 0;
+  }
+}
+/* On a narrow phone the title, its line and when it runs keep the row's width: the switch and the ⋯ go under them. */
+@media (max-width: 480px) {
+  .routine-row__main {
+    grid-column: 2 / 4;
+  }
+  .routine-row__actions {
+    grid-column: 2 / 4;
+    grid-row: 3;
+    justify-content: flex-start;
+  }
+}
+
+/* "Quando chegar um email": mailbox and folder, then the optional filters. */
+.routine-email {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap);
+  min-width: 0;
+}
+
+/* "Quando o webhook for chamado": the address, the signature, an example and the latest calls, one under another. */
+.routine-hook {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.routine-hook__part {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.routine-hook__part p {
+  margin: 0;
+}
+.routine-hook__actions,
+.routine-hook__methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.routine-hook__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--control-r-md);
+  background: var(--sunken);
+}
+
+/* A GitHub or Sentry event's webhook: the service's mark and name, whether it works, the steps, Testar. */
+.routine-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 16px;
+  border-radius: var(--control-r-md);
+  background: var(--sunken);
+}
+.routine-setup__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.routine-setup__status {
+  margin: 0;
+}
+.routine-setup__status[data-tone="ok"] {
+  color: var(--ok);
+}
+.routine-setup__status[data-tone="warn"] {
+  color: var(--attention);
+}
+.routine-setup__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  list-style: none;
+  counter-reset: setup-step;
+}
+.routine-setup__steps > li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding-left: 28px;
+  counter-increment: setup-step;
+  font-size: 13px;
+  line-height: 18px;
+}
+/* The step's number, as tall as the step's 18px line: centred on its first line's capitals. */
+.routine-setup__steps > li::before {
+  content: counter(setup-step);
+  position: absolute;
+  left: 0;
+  top: calc(-1 * var(--cap-mid));
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+.routine-setup__steps p {
+  margin: 0;
+}
+/* The address and secret to paste wrap: all of them in sight, never half hidden behind a sideways scroll. */
+.routine-setup .machine-command__code {
+  overflow-x: visible;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

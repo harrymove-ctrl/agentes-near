@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- viewport-fit=cover: the layout pads itself with env(safe-area-inset-*); the keyboard resizes the page (composer stays visible). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>agentes.chat · Your team and your agents, in the same conversation</title>
+    <meta name="description" content="AI agents join the chat as teammates: each with a role, tools, a budget and a person in charge. They work in the open in the channel and ask for your approval before anything sensitive." />
+    <!-- Share card (public/og.png). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="agentes.chat" />
+    <meta property="og:url" content="https://app.agentes.chat/" />
+    <meta property="og:title" content="Your team and your agents, in the same conversation." />
+    <meta property="og:description" content="AI agents join the chat as teammates, work in the open in the channel and ask for your approval before anything sensitive." />
+    <meta property="og:image" content="https://app.agentes.chat/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The agentes.chat agent in a pixel sky, next to the title: Your team and your agents, in the same conversation." />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Your team and your agents, in the same conversation." />
+    <meta name="twitter:description" content="AI agents join the chat as teammates, work in the open in the channel and ask for your approval before anything sensitive." />
+    <meta name="twitter:image" content="https://app.agentes.chat/og.png" />
+    <meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131312" media="(prefers-color-scheme: dark)" />
+    <script>
+      // Apply the saved or system theme before the first paint (no flash).
+      try {
+        var t = localStorage.getItem("agentes.theme");
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <script>
+      // The app's own files didn't load while the boot sky is up (a deploy replaced them, the connection broke): one
+      // reload at most every 30 s, then a box that says so over the sky. main.tsx calls it too, for the language's
+      // file. The key mirrors STORAGE_KEYS.bootRetry (src/lib/storage.ts), the language rule `savedLocale()`
+      // (src/i18n/index.ts, test/locale-preload.test.ts keeps them one) and public/unavailable.html.
+      (() => {
+        const KEY = "agentes.bootRetry";
+        const reloaded = () => {
+          try {
+            if (Date.now() - Number(sessionStorage.getItem(KEY)) < 30000) return false;
+            sessionStorage.setItem(KEY, String(Date.now()));
+            // Storage that keeps nothing would reload forever.
+            if (!sessionStorage.getItem(KEY)) return false;
+          } catch {
+            return false;
+          }
+          location.reload();
+          return true;
+        };
+        // The words in every language of the app (packages/i18n/src/locale.ts), before any of its files loaded.
+        const WORDS = {
+          en: ["agentes.chat didn't open", "Part of the app didn't load. Check your connection, then reload.", "Reload"],
+          "pt-BR": ["O agentes.chat não abriu", "Uma parte do app não carregou. Confira a conexão e recarregue.", "Recarregar"],
+          es: ["agentes.chat no se abrió", "Una parte de la app no cargó. Revisa tu conexión y vuelve a cargar.", "Volver a cargar"],
+          fr: ["agentes.chat ne s'est pas ouvert", "Une partie de l'app n'a pas chargé. Vérifiez votre connexion, puis rechargez.", "Recharger"],
+          de: ["agentes.chat hat sich nicht geöffnet", "Ein Teil der App wurde nicht geladen. Prüf deine Verbindung und lade neu.", "Neu laden"],
+          it: ["agentes.chat non si è aperto", "Una parte dell'app non si è caricata. Controlla la connessione e ricarica.", "Ricarica"],
+          nl: ["agentes.chat is niet geopend", "Een deel van de app is niet geladen. Controleer je verbinding en laad opnieuw.", "Opnieuw laden"],
+          ja: ["agentes.chat を開けませんでした", "アプリの一部が読み込まれませんでした。接続を確認して、再読み込みしてください。", "再読み込み"],
+          ko: ["agentes.chat를 열지 못했어요", "앱 일부를 불러오지 못했어요. 연결을 확인한 뒤 다시 불러오세요.", "다시 불러오기"],
+          "zh-Hans": ["agentes.chat 未能打开", "应用的部分内容未能加载。请检查网络连接，然后重新加载。", "重新加载"],
+          id: ["agentes.chat tidak terbuka", "Sebagian aplikasi tidak termuat. Periksa koneksimu, lalu muat ulang.", "Muat ulang"],
+          tr: ["agentes.chat açılmadı", "Uygulamanın bir kısmı yüklenmedi. Bağlantınızı kontrol edip yeniden yükleyin.", "Yeniden yükle"],
+          pl: ["agentes.chat się nie otworzył", "Część aplikacji się nie wczytała. Sprawdź połączenie i odśwież.", "Odśwież"],
+          ru: ["agentes.chat не открылся", "Часть приложения не загрузилась. Проверьте подключение и перезагрузите страницу.", "Перезагрузить"],
+        };
+        /** "pt-PT" → pt-BR, "zh-TW" → zh-Hans, "in" → id, "es-MX" → es; else null (as `appLocale` does). */
+        const known = (tag) => {
+          const base = String(tag || "").toLowerCase().replace(/_/g, "-").split("-")[0];
+          const code = base === "pt" ? "pt-BR" : base === "zh" ? "zh-Hans" : base === "in" ? "id" : base;
+          return Object.hasOwn(WORDS, code) ? code : null;
+        };
+        const language = () => {
+          let lang = null;
+          try {
+            lang = localStorage.getItem("agentes.locale");
+          } catch {}
+          if (lang && Object.hasOwn(WORDS, lang)) return lang;
+          const cookie = /(?:^|;\s*)agentes_locale=([\w-]+)/.exec(document.cookie);
+          if (lang !== "auto" && cookie && known(cookie[1])) return known(cookie[1]);
+          const tags = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (const tag of tags) if (known(tag)) return known(tag);
+          return "en";
+        };
+        // The language's file loads beside the app's own, not after it: the build fills the map (vite-locale-preload.ts).
+        const file = (/* LOCALE_FILES */ {})[language()];
+        if (file) {
+          const link = document.createElement("link");
+          link.rel = "modulepreload";
+          link.href = file;
+          document.head.append(link);
+        }
+        const failed = () => {
+          const boot = document.querySelector("#root > .boot");
+          if (!boot || reloaded()) return;
+          const lang = language();
+          const words = WORDS[lang];
+          document.documentElement.lang = lang;
+          const box = document.createElement("div");
+          box.className = "boot__box";
+          box.setAttribute("role", "alert");
+          const [, , button] = ["h1", "p", "button"].map((tag, i) => {
+            const el = box.appendChild(document.createElement(tag));
+            el.textContent = words[i];
+            return el;
+          });
+          button.type = "button";
+          button.addEventListener("click", () => location.reload());
+          boot.removeAttribute("aria-hidden");
+          boot.replaceChildren(box);
+          // In the desktop app's window: its cover lifts (pageReady, src/lib/desktop.ts) and a Mac drags by the top.
+          const app = window.__agentesDesktop;
+          if (!app) return;
+          if (app.platform !== "windows" && app.platform !== "linux") {
+            const strip = boot.appendChild(document.createElement("div"));
+            strip.className = "boot__strip";
+            strip.setAttribute("data-tauri-drag-region", "deep");
+          }
+          const tauri = window.__TAURI_INTERNALS__;
+          if (tauri && typeof tauri.invoke === "function") {
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => Promise.resolve(tauri.invoke("page_ready", {})).catch(() => {})),
+            );
+          }
+        };
+        window.__agentesBootFailed = failed;
+        addEventListener(
+          "error",
+          (event) => {
+            const el = event.target;
+            const url = el && (el.tagName === "SCRIPT" ? el.getAttribute("src") : el.tagName === "LINK" ? el.getAttribute("href") : null);
+            if (url && new URL(url, location.href).pathname.startsWith("/assets/")) failed();
+          },
+          true,
+        );
+      })();
+    </script>
+    <style>
+      /* Before the app's CSS: the theme's own colour, never white (packages/ui tokens.css --side). */
+      html { background: #f6f9fd; }
+      html[data-theme="dark"] { background: #0b0d11; }
+      /* Only when the app takes long (first open, slow network): the boot sky (BootSplash) with the mark.
+         Opening from the browser's cache renders the app before it shows. React replaces it. */
+      .boot { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; background: #0a3f9c;
+        opacity: 0; animation: boot-in 0.3s ease-out 0.5s forwards; }
+      .boot img { width: 40px; height: 40px; animation: boot-breathe 2.4s ease-in-out 0.8s infinite; }
+      @keyframes boot-in { to { opacity: 1; } }
+      @keyframes boot-breathe { 50% { transform: translateY(-3px); } }
+      @media (prefers-reduced-motion: reduce) { .boot { animation-duration: 0s; } .boot img { animation: none; } }
+      /* A boot that failed (the script above): white on the sky, the primary button in white. */
+      .boot__box { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 420px;
+        padding: 0 24px; color: #fff; text-align: center; font: 15px/1.5 Onest, "Segoe UI", system-ui, sans-serif; }
+      .boot__box h1 { margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.03em;
+        text-wrap: balance; }
+      .boot__box p { margin: 0; color: rgba(255, 255, 255, 0.84); }
+      .boot__box button { height: 40px; margin-top: 8px; padding: 0 14px; border: 0; border-radius: 12px;
+        background: #fff; color: #151514; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+      .boot__box button:hover { opacity: 0.88; }
+      .boot__box button:focus-visible { outline: none; box-shadow: 0 0 0 2px #0a3f9c, 0 0 0 4px #fff; }
+      .boot__strip { position: fixed; inset: 0 0 auto; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div class="boot" aria-hidden="true"><img src="/favicon.svg" alt="" /></div></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

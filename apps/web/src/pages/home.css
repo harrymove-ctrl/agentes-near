@@ -1,0 +1,202 @@
+/*
+ * Home (ADR 0108): the greeting, the ask composer, then the mural (ADR 0135): a 4-column board where "Waiting on
+ * you" and "Working now" are fixed tiles among the person's widgets; what got done and what comes next under it.
+ */
+.page--list.home {
+  max-width: 1120px;
+}
+
+.home-start {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.home-ask__agent {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.home-sec {
+  display: flex;
+  flex-direction: column;
+}
+/* "Ver tudo" and "Ocultar": quiet, at the head's end. */
+.home-sec__more {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+}
+.home-sec__more:hover {
+  color: var(--ink);
+}
+html:not([data-pointer]) .home-sec__more:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+
+/* Its rows' buttons drop under their words by the list's width. */
+.home-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  container-type: inline-size;
+}
+
+/* A row, a MediaRow: the face (24), who and what on its line with its one button at the end, the rest under them. */
+.home-row {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--row-py) 16px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+.home-list > li:first-child > .home-row,
+.home-list > .home-row:first-child {
+  border-top: 0;
+}
+:is(a, button).home-row {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+:is(a, button).home-row:hover {
+  background: color-mix(in srgb, var(--sunken) 45%, transparent);
+}
+html:not([data-pointer]) :is(a, button).home-row:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-inset);
+}
+.home-row__body {
+  gap: 2px;
+}
+.home-row__title {
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+}
+.home-row__sub {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 13.5px;
+  line-height: 19px;
+  color: var(--ink2);
+  overflow-wrap: anywhere;
+}
+.home-row__meta {
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted);
+}
+
+/* First steps: a check in place of the face; a done one reads quieter. */
+.home-step__mark {
+  color: var(--ink);
+}
+.home-step__mark:empty::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 1.6px solid var(--line-strong);
+  border-radius: 50%;
+}
+.home-step[data-done] .home-row__title {
+  color: var(--muted);
+}
+
+/* The mural's head: its title and count, Organize and + at its end. */
+.home-sec__acts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.home-sec__acts .home-sec__more {
+  margin-left: 0;
+  margin-right: 8px;
+}
+.home-mural .wg--fixed .wg__head .home-sec__more {
+  margin-right: 6px;
+  font-size: 13px;
+}
+/* A board's notice: the row, then what can be done right here, under its text. */
+.home-wrow > .home-row {
+  padding-bottom: 6px;
+}
+.home-row__acts {
+  padding: 0 16px 12px;
+}
+/* A notice with one action: the button at the row's end, where "Review" sits on the others. */
+.home-wrow--side {
+  position: relative;
+}
+.home-wrow--side > .home-row {
+  padding-bottom: 12px;
+}
+.home-wrow--side:has(.home-row__acts--side) > .home-row {
+  padding-right: 128px;
+}
+.home-row__acts--side {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  padding: 0;
+}
+
+/* A phone: the button goes under the text, from its start, so the text keeps the row's width. */
+@media (max-width: 640px) {
+  .home-wrow--side:has(.home-row__acts--side) > .home-row {
+    padding-right: 16px;
+    padding-bottom: 6px;
+  }
+  .home-row__acts--side {
+    position: static;
+    padding: 0 16px 12px;
+  }
+  .home-start {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* The right hand's first run while a row is left (ADR 0155 §6): one line back to its checklist. */
+/* A MediaRow (the kit's `.ac-mediarow`): Lodi's face on the first line of words that wrap on a phone, the chevron at
+   that line's end; one line sits in the middle of the row. */
+.home-continue {
+  align-content: center;
+  min-height: 48px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--card-shadow);
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.home-continue > .ac-mediarow__head {
+  font-weight: 600;
+}
+.home-continue > .ac-mediarow__end > .ac-icon {
+  color: var(--ink-muted);
+}
+html:not([data-pointer]) .home-continue:focus-visible {
+  box-shadow: var(--field-ring);
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "organization_settings" ADD COLUMN "mode" text DEFAULT 'team' NOT NULL;
