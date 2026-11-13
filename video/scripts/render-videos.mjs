@@ -9,7 +9,7 @@ import { openBrowser, renderMedia, selectComposition } from "@remotion/renderer"
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "out");
-const CHUNK_FRAMES = 720;
+const CHUNK_FRAMES = 900;
 const WORKER_COUNT = 2;
 
 function findCachedChromium() {

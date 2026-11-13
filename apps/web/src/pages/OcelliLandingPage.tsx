@@ -1086,11 +1086,11 @@ export function OcelliLandingPage() {
                     </div>
                   </div>
 
-                  {/* Right Rail (~280px): Looping 80s Film Preview, Corpus x402 Gauge, ML-DSA-65 Pill */}
+                  {/* Right Rail (~280px): Looping 4:00 Film Preview, Corpus x402 Gauge, ML-DSA-65 Pill */}
                   <aside className="oc-live-ws__right">
                     <div className="oc-live-ws__video-card">
                       <div className="oc-live-ws__video-head">
-                        <span>80s MASTER FILM · 1080p60</span>
+                        <span>4:00 NARRATED MASTER FILM (240s · V-DRILL)</span>
                         <span className="oc-track-ev">7 ACTS</span>
                       </div>
                       <video
@@ -1111,7 +1111,7 @@ export function OcelliLandingPage() {
                             ?.scrollIntoView({ behavior: "smooth" })
                         }
                       >
-                        Full 80s Studio &amp; Audio ↓
+                        4:00 Narrated Master Film (240s · V-Drill) ↓
                       </button>
                     </div>
 
@@ -1623,16 +1623,16 @@ export function OcelliLandingPage() {
         </div>
       </section>
 
-      {/* Unified 80s 7-Chapter Agentes NEAR Product Film & @mira AI Video Director */}
+      {/* 4:00 Narrated Master Film (240s · V-Drill) & @mira AI Video Director */}
       <section className="oc-band oc-band--tinted" id="motion-studio">
         <div className="oc-container">
           <div className="oc-band-head">
-            <p className="oc-eyebrow">Unified 80s Product Film · @mira AI Video Agent</p>
-            <h2 className="oc-h2">Direct the 7-chapter Agentes NEAR promo film live in 60fps.</h2>
+            <p className="oc-eyebrow">4:00 Narrated Master Film (240s · V-Drill) · @mira AI Director</p>
+            <h2 className="oc-h2">Direct the 7-chapter Agentes NEAR promo talk &amp; step-by-step demo.</h2>
             <p className="oc-lede">
-              Prompt @mira to customize headlines, jump across all 7 chapters on the 80s master
-              timeline, switch between the live 60fps Canvas2D engine and the 1080p60 Master MP4,
-              and toggle the melodic 808 drill beat synth.
+              Prompt @mira to customize headlines, jump across all 7 chapters on the 4-minute
+              (240.0s) master timeline, switch between the live 60fps Canvas2D engine and the
+              4:00 Narrated Master Film (MP4), and play the Vietnamese Dan Tranh + 808 V-Drill synth.
             </p>
           </div>
 

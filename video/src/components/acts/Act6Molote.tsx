@@ -84,7 +84,8 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   // Quantize to 12fps On-Twos!
-  const qFrame = Math.floor(frame / 5) * 5;
+  const stepDiv = Math.max(1, Math.round(fps / 12));
+  const qFrame = Math.floor(frame / stepDiv) * stepDiv;
   const actualDur = durationInFrames / fps;
   const t = (qFrame / fps) * (12.0 / actualDur);
 

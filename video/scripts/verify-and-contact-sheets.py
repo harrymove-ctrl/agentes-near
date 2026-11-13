@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 """
-Verifies rendered 60 FPS Agentes NEAR Phase 2 MP4s (ffprobe + loudnorm) and builds
-16-frame 4x4 QA contact sheets sampling all 7 choreographed motion acts.
+Verifies rendered 30 FPS Agentes NEAR Phase 5 MP4s (240.0s Master + 60.0s X Teaser)
+via ffprobe + loudnorm and builds 16-frame 4x4 QA contact sheets sampling all 7 chapters.
 """
 
 import json
@@ -103,19 +103,19 @@ def main() -> None:
     d_info = probe_mp4(demo)
     t_info = probe_mp4(teaser)
 
-    # Sample all 7 acts across 80.0s demo
+    # Sample all 7 chapters (both signature Acts and StepByStepShowcases) across 240.0s demo
     demo_ts = [
-        1.2, 5.2, 10.6, 13.8,   # Act 1 (wave, ring, stacked) + Act 2 (Yapp typing)
-        16.4, 18.8, 22.5, 27.2, # Act 2 (99K + reply) + Act 3 (Cutline nodes + timeline)
-        31.8, 36.2, 41.6, 43.4, # Act 4 (Fitting lookbook, models, fan-out, phones)
-        48.5, 52.8, 59.8, 76.0, # Act 5 (AI graph + preview), Act 6 (Molote), Act 7 (Lockup)
+        3.5, 16.0, 29.5, 42.0,     # Ch1 Act1Moving, Ch1 3-Problems Showcase, Ch1 99K Act2, Ch2 Act4Fitting
+        58.0, 73.5, 92.0, 104.0,   # Ch2 3-Col Showcase, Ch3 Act3Cutline, Ch3 1Click Step 2, Ch3 1Click Step 3
+        114.0, 128.0, 142.0, 155.0,# Ch4 Act6Molote S-A-F-E, Ch4 OutLayer Step 1, Ch4 OutLayer Step 3, Ch5 Act5Graph
+        172.0, 208.0, 227.0, 236.5,# Ch5 Winner Mechanics, Ch6 @mira Studio Showcase, Ch7 Quickstart, Ch7 ONE Lockup
     ]
-    # Sample all 7 acts across 45.0s teaser
+    # Sample all 7 chapters across 60.0s teaser
     teaser_ts = [
-        1.2, 4.0, 7.8, 11.4,
-        14.6, 17.8, 20.8, 24.4,
-        27.8, 30.2, 32.8, 36.2,
-        39.2, 40.6, 42.5, 44.0,
+        1.5, 5.5, 10.5, 14.5,
+        18.0, 21.5, 24.5, 28.5,
+        32.5, 37.5, 41.5, 46.0,
+        49.5, 53.5, 56.0, 58.5,
     ]
 
     cs_demo = OUT_DIR / "contact-sheet.png"

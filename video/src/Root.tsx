@@ -8,16 +8,16 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AgentesNearDemo"
         component={AgentesNearDemoFilm}
-        durationInFrames={4800}
-        fps={60}
+        durationInFrames={7200}
+        fps={30}
         width={1920}
         height={1080}
       />
       <Composition
         id="AgentesNearXTeaser"
         component={AgentesNearXTeaserFilm}
-        durationInFrames={2700}
-        fps={60}
+        durationInFrames={1800}
+        fps={30}
         width={1920}
         height={1080}
       />

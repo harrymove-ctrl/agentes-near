@@ -479,7 +479,7 @@ export function NearControlModal({
                 label: "Corpus Endowment",
                 count: endowment ? Math.round(endowment.runwayHours) : undefined,
               },
-              { value: "film", label: "Promo Film (80s)" },
+              { value: "film", label: "4:00 Narrated Master Film (240s · V-Drill)" },
             ]}
           >
             <TabPanel value="enclave">
@@ -1020,8 +1020,8 @@ export function NearControlModal({
             <TabPanel value="film">
               <div className="near-modal__panel" data-testid="near-film-panel">
                 <MdxcnFrame
-                  title="AGENTES NEAR · 80s 1080p60 MASTER PROMO FILM"
-                  badge="7 CHAPTERS · 808 DRILL SCORE"
+                  title="AGENTES NEAR · 4:00 NARRATED MASTER FILM (240s · V-DRILL)"
+                  badge="7 CHAPTERS · DAN TRANH + 808 SCORE"
                   tone="purple"
                 >
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1035,8 +1035,9 @@ export function NearControlModal({
                       }}
                     >
                       <p className="near-modal__lead" style={{ margin: 0 }}>
-                        Watch the unified 80s 1080p @ 60fps product film directed by <strong>@mira</strong> covering
-                        NEAR Intents 1Click, OutLayer Intel TDX, Terrace conviction markets, and Corpus x402 compute.
+                        Watch the 4:00 Narrated Master Film (240s · V-Drill) directed by <strong>@mira</strong> with
+                        4 neural voices (Alex, @ada, @kronos, @mira) covering NEAR Intents 1Click, OutLayer Intel TDX,
+                        Terrace conviction markets, and Corpus x402 compute.
                       </p>
                       <a
                         href="/ocelli#motion-studio"
@@ -1070,15 +1071,15 @@ export function NearControlModal({
                     </div>
 
                     <div className="near-result-box__meta">
-                      <span>Resolution: 1920x1080 @ 60fps</span>
-                      <span>Audio: Melodic 808 Drill (-14 LUFS)</span>
+                      <span>Duration: 4:00 (240.0s · 1920x1080)</span>
+                      <span>Audio: 4 Neural Voices + Dan Tranh V-Drill (-14 LUFS)</span>
                       <a
                         href="/video/agentes-near-x-teaser.mp4"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: "var(--ac-ink)", textDecoration: "underline" }}
                       >
-                        45s X Launch Cut (MP4)
+                        60s X Teaser Cut (MP4)
                       </a>
                     </div>
                   </div>

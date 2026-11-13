@@ -1,165 +1,4050 @@
 {
-  "fps": 60,
+  "fps": 30,
   "width": 1920,
   "height": 1080,
-  "demo_total_frames": 4800,
-  "teaser_total_frames": 2700,
-  "demo_acts": [
-    {
-      "id": "act1_moving",
-      "act": 1,
-      "name": "Things Are Moving \u00b7 Agentes NEAR",
-      "style": "wave",
-      "bpm": 97.0,
-      "start_sec": 0.0,
-      "end_sec": 12.0,
-      "start_frame": 0,
-      "duration_frames": 720
+  "voice_provider": "studio_neural_4voice_edge_tts_vdrill",
+  "score_style": "viet_drill_dan_tranh_808_glide_118bpm",
+  "demo_total_frames": 7200,
+  "teaser_total_frames": 1800,
+  "voices": {
+    "alex": {
+      "id": "alex",
+      "label": "ALEX · FOUNDER",
+      "role": "Founder Host",
+      "accent": "#00EC97",
+      "elevenlabs_id": "nPczCjzI2devNBz1zQrb",
+      "edge_voice": "en-US-AndrewMultilingualNeural",
+      "edge_rate": "+4%",
+      "say_voice": "Reed"
     },
-    {
-      "id": "act2_yapp",
-      "act": 2,
-      "name": "Agentes NEAR \u00b7 99K Intents",
-      "style": "yapp",
-      "bpm": 104.0,
-      "start_sec": 12.0,
-      "end_sec": 20.0,
-      "start_frame": 720,
-      "duration_frames": 480
+    "ada": {
+      "id": "ada",
+      "label": "ADA · 1CLICK QUANT",
+      "role": "@ada · 1Click Quant Agent",
+      "accent": "#38BDF8",
+      "elevenlabs_id": "cgSgspJ2msm6clMCkdW9",
+      "edge_voice": "en-US-AvaMultilingualNeural",
+      "edge_rate": "+5%",
+      "say_voice": "Samantha"
     },
-    {
-      "id": "act3_cutline",
-      "act": 3,
-      "name": "Agentes 2.0 \u00b7 Intent Engine",
-      "style": "cutline",
-      "bpm": 116.0,
-      "start_sec": 20.0,
-      "end_sec": 30.0,
-      "start_frame": 1200,
-      "duration_frames": 600
+    "kronos": {
+      "id": "kronos",
+      "label": "KRONOS · OUTLAYER TDX",
+      "role": "@kronos · OutLayer TDX Guard",
+      "accent": "#F59E0B",
+      "elevenlabs_id": "cjVigY5qzO86Huf0OWal",
+      "edge_voice": "en-US-BrianMultilingualNeural",
+      "edge_rate": "+3%",
+      "say_voice": "Reed"
     },
-    {
-      "id": "act4_fitting",
-      "act": 4,
-      "name": "Agentes Studio \u00b7 5 Surfaces",
-      "style": "fitting",
-      "bpm": 120.0,
-      "start_sec": 30.0,
-      "end_sec": 45.0,
-      "start_frame": 1800,
-      "duration_frames": 900
-    },
-    {
-      "id": "act5_graph",
-      "act": 5,
-      "name": "@ada Tool Hub \u00b7 5 Tools",
-      "style": "graph",
-      "bpm": 118.0,
-      "start_sec": 45.0,
-      "end_sec": 55.0,
-      "start_frame": 2700,
-      "duration_frames": 600
-    },
-    {
-      "id": "act6_molote",
-      "act": 6,
-      "name": "OutLayer TDX \u00b7 Stop-Motion",
-      "style": "molote",
-      "bpm": 120.0,
-      "start_sec": 55.0,
-      "end_sec": 67.0,
-      "start_frame": 3300,
-      "duration_frames": 720
-    },
-    {
-      "id": "act7_one_lockup",
-      "act": 7,
-      "name": "ONE Workspace \u00b7 Agentes NEAR",
-      "style": "one",
-      "bpm": 108.0,
-      "start_sec": 67.0,
-      "end_sec": 80.0,
-      "start_frame": 4020,
-      "duration_frames": 780
+    "mira_vi": {
+      "id": "mira_vi",
+      "label": "MIRA · V-DRILL",
+      "role": "@mira · V-Drill Producer Tag",
+      "accent": "#EC4899",
+      "elevenlabs_id": "cgSgspJ2msm6clMCkdW9",
+      "edge_voice": "vi-VN-HoaiMyNeural",
+      "edge_rate": "+4%",
+      "say_voice": "Linh"
     }
-  ],
-  "teaser_acts": [
+  },
+  "demo_visuals": [
     {
-      "id": "t1_moving",
+      "id": "v_ch1_act1",
+      "chapter": 1,
+      "chapter_title": "Ch 1 · Hook & 3 Fatal Problems",
+      "kind": "act",
       "act": 1,
-      "name": "Things Are Moving \u00b7 Agentes NEAR",
-      "style": "wave",
-      "bpm": 97.0,
-      "start_sec": 0.0,
-      "end_sec": 6.5,
       "start_frame": 0,
-      "duration_frames": 390
-    },
-    {
-      "id": "t2_yapp",
-      "act": 2,
-      "name": "Agentes NEAR \u00b7 99K Intents",
-      "style": "yapp",
-      "bpm": 104.0,
-      "start_sec": 6.5,
-      "end_sec": 13.0,
-      "start_frame": 390,
-      "duration_frames": 390
-    },
-    {
-      "id": "t3_cutline",
-      "act": 3,
-      "name": "Agentes 2.0 \u00b7 Intent Engine",
-      "style": "cutline",
-      "bpm": 116.0,
-      "start_sec": 13.0,
-      "end_sec": 19.5,
-      "start_frame": 780,
-      "duration_frames": 390
-    },
-    {
-      "id": "t4_fitting",
-      "act": 4,
-      "name": "Agentes Studio \u00b7 5 Surfaces",
-      "style": "fitting",
-      "bpm": 120.0,
-      "start_sec": 19.5,
-      "end_sec": 26.0,
-      "start_frame": 1170,
-      "duration_frames": 390
-    },
-    {
-      "id": "t5_graph",
-      "act": 5,
-      "name": "@ada Tool Hub \u00b7 5 Tools",
-      "style": "graph",
-      "bpm": 118.0,
-      "start_sec": 26.0,
-      "end_sec": 31.5,
-      "start_frame": 1560,
       "duration_frames": 330
     },
     {
-      "id": "t6_molote",
+      "id": "v_ch1_problems",
+      "chapter": 1,
+      "chapter_title": "Ch 1 · Hook & 3 Fatal Problems",
+      "kind": "showcase",
+      "start_frame": 330,
+      "duration_frames": 360,
+      "showcase": {
+        "chapterBadge": "CHAPTER 01 · PROBLEM DIAGNOSIS",
+        "headline": "Why Every AI Agent Team Hits 3 Fatal Walls",
+        "accent": "#38BDF8",
+        "bgStyle": "obsidian",
+        "steps": [
+          {
+            "badge": "STEP 01 · FRAGMENTED TABS",
+            "title": "Chat & Wallets Split Across 6 Disconnected Tabs",
+            "image": "photos/garment-cobalt-overshirt.jpg",
+            "metric": "6 TABS -> 1 SLACK",
+            "whatItIs": "Team discussions happen in Slack while wallets, solver quotes, and GPUs hide in separate tabs.",
+            "whyItHelps": "Agentes NEAR unifies human channels and 6 NEAR AI agents inside one self-hosted workspace.",
+            "cursorTarget": [
+              520,
+              340
+            ]
+          },
+          {
+            "badge": "STEP 02 · RAW KEY EXPOSURE",
+            "title": "Raw Private Keys Risk Instant Treasury Drains",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "$25.00/TX TDX CAP",
+            "whatItIs": "Giving an autonomous agent a raw private key lets a single bad prompt drain your wallet.",
+            "whyItHelps": "OutLayer Intel TDX hardware enclaves enforce a deterministic $25.00/tx spend cap.",
+            "cursorTarget": [
+              780,
+              420
+            ]
+          },
+          {
+            "badge": "STEP 03 · OPAQUE EXECUTION",
+            "title": "Zero Verifiable Audit Trail on Agent Spend",
+            "image": "photos/look-4-sage.jpg",
+            "metric": "NEP-297 + ML-DSA-65",
+            "whatItIs": "Standard bot trades and GPU bills leave teams with unverified screenshots and blind trust.",
+            "whyItHelps": "Every action emits NEP-297 logs and FIPS 204 Kyvera ML-DSA-65 post-quantum proofs.",
+            "cursorTarget": [
+              640,
+              500
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch1_act2",
+      "chapter": 1,
+      "chapter_title": "Ch 1 · Hook & 3 Fatal Problems",
+      "kind": "act",
+      "act": 2,
+      "start_frame": 690,
+      "duration_frames": 330
+    },
+    {
+      "id": "v_ch2_act4",
+      "chapter": 2,
+      "chapter_title": "Ch 2 · One Slack + Ocelli 3-Col Workspace",
+      "kind": "act",
+      "act": 4,
+      "start_frame": 1020,
+      "duration_frames": 450
+    },
+    {
+      "id": "v_ch2_tour",
+      "chapter": 2,
+      "chapter_title": "Ch 2 · One Slack + Ocelli 3-Col Workspace",
+      "kind": "showcase",
+      "start_frame": 1470,
+      "duration_frames": 630,
+      "showcase": {
+        "chapterBadge": "CHAPTER 02 · 3-COLUMN OCELLI WORKSPACE",
+        "headline": "Self-Hosted Slack + 6 Autonomous NEAR Agents",
+        "accent": "#00EC97",
+        "bgStyle": "emerald",
+        "steps": [
+          {
+            "badge": "STEP 01 · LEFT CHANNEL RAIL",
+            "title": "1-Click Judge Sign-In & Protocol Channels",
+            "image": "photos/garment-cobalt-overshirt.jpg",
+            "metric": "#near-intents-arena",
+            "whatItIs": "Dedicated channels (#near-intents-arena, #outlayer-tee-vault, #compute-endowment) with 1-click sign-in.",
+            "whyItHelps": "Judges and engineers jump straight into live multi-agent rooms with zero wallet extension friction.",
+            "cursorTarget": [
+              340,
+              380
+            ]
+          },
+          {
+            "badge": "STEP 02 · CENTER AGENT STREAM",
+            "title": "Mention @ada, @kronos, @theo, @lia, @mira, @zen",
+            "image": "photos/look-1-butter.jpg",
+            "metric": "6 LIVE TEE AGENTS",
+            "whatItIs": "Shared real-time stream where human teammates and 6 specialized NEAR AI agents collaborate.",
+            "whyItHelps": "Tag any agent with @ in plain English to quote swaps, audit enclave policies, or render motion.",
+            "cursorTarget": [
+              680,
+              440
+            ]
+          },
+          {
+            "badge": "STEP 03 · RIGHT TELEMETRY RAIL",
+            "title": "Live NEP-413, 1Click & Block #277,497,700 Inspector",
+            "image": "photos/friends-photo.jpg",
+            "metric": "BLOCK #277,497,700",
+            "whatItIs": "3-column Ocelli dark-glass inspector displaying real-time RPC block height, solver spreads, and TDX state.",
+            "whyItHelps": "Verify every hardware attestation and on-chain receipt side-by-side with your team chat.",
+            "cursorTarget": [
+              980,
+              360
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch3_act3",
+      "chapter": 3,
+      "chapter_title": "Ch 3 · 1Click Cross-Chain Solver Auctions",
+      "kind": "act",
+      "act": 3,
+      "start_frame": 2100,
+      "duration_frames": 360
+    },
+    {
+      "id": "v_ch3_1click",
+      "chapter": 3,
+      "chapter_title": "Ch 3 · 1Click Cross-Chain Solver Auctions",
+      "kind": "showcase",
+      "start_frame": 2460,
+      "duration_frames": 780,
+      "showcase": {
+        "chapterBadge": "CHAPTER 03 · FEATURE 1 STEP-BY-STEP",
+        "headline": "NEAR Intents 1Click Cross-Chain Solver Auctions",
+        "accent": "#38BDF8",
+        "bgStyle": "cobalt",
+        "steps": [
+          {
+            "badge": "STEP 01 · PROMPT @ADA SWAP",
+            "title": "Post '1,250 USDC -> wNEAR' in #near-intents-arena",
+            "image": "photos/look-1-butter.jpg",
+            "metric": "1,250 USDC INTENT",
+            "whatItIs": "Type a natural-language swap intent to @ada directly inside #near-intents-arena.",
+            "whyItHelps": "Eliminates manual bridge hops and slippage guesswork by broadcasting one signed intent.",
+            "cursorTarget": [
+              580,
+              520
+            ]
+          },
+          {
+            "badge": "STEP 02 · SOLVER AUCTION +16 BPS",
+            "title": "1Click Beats Wintermute (+16 bps · 358.1357 wNEAR)",
+            "image": "photos/thumb-pier.jpg",
+            "metric": "358.1357 wNEAR",
+            "whatItIs": "1click.chaindefuser.com competes against wintermute-intent.near and rhea-liquidity.near in real time.",
+            "whyItHelps": "Multi-solver competition wins you +16 bps more output (358.1357 wNEAR) automatically.",
+            "cursorTarget": [
+              760,
+              390
+            ]
+          },
+          {
+            "badge": "STEP 03 · 22S NEP-297 SETTLEMENT",
+            "title": "Atomic Settlement in 22s + Signed NEP-297 Log",
+            "image": "photos/garment-cobalt-overshirt.jpg",
+            "metric": "22S · NEP-297 LOG",
+            "whatItIs": "Winning solver settles cross-chain in 22 seconds at Block #277,497,700 with NEP-297 EVENT_JSON.",
+            "whyItHelps": "Your channel receives an immutable, accounting-ready receipt with zero manual reconciliation.",
+            "cursorTarget": [
+              840,
+              480
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch4_act6",
+      "chapter": 4,
+      "chapter_title": "Ch 4 · OutLayer Intel TDX $25/tx Guard",
+      "kind": "act",
       "act": 6,
-      "name": "OutLayer TDX \u00b7 Stop-Motion",
-      "style": "molote",
-      "bpm": 120.0,
-      "start_sec": 31.5,
-      "end_sec": 38.0,
-      "start_frame": 1890,
+      "start_frame": 3240,
       "duration_frames": 390
     },
     {
-      "id": "t7_one",
+      "id": "v_ch4_outlayer",
+      "chapter": 4,
+      "chapter_title": "Ch 4 · OutLayer Intel TDX $25/tx Guard",
+      "kind": "showcase",
+      "start_frame": 3630,
+      "duration_frames": 810,
+      "showcase": {
+        "chapterBadge": "CHAPTER 04 · FEATURE 2 STEP-BY-STEP",
+        "headline": "OutLayer Intel TDX Hardware Enclave Spend Guard",
+        "accent": "#F59E0B",
+        "bgStyle": "amber",
+        "steps": [
+          {
+            "badge": "STEP 01 · $25.00/TX ENCLAVE CAP",
+            "title": "Lock Per-Tx Ceiling in wasm32-wasip2 Intel TDX",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "$25.00/TX POLICY",
+            "whatItIs": "Configure the BenchoSloshSlider spend cap at $25.00/tx inside an OutLayer Intel TDX enclave.",
+            "whyItHelps": "Private keys stay sealed inside hardware enclave memory and never touch the Node server.",
+            "cursorTarget": [
+              640,
+              410
+            ]
+          },
+          {
+            "badge": "STEP 02 · $12 SAFE NEP-413 PASS",
+            "title": "Approve $12.00 Safe Intent in 4ms (NEP-413)",
+            "image": "photos/friends-photo.jpg",
+            "metric": "$12.00 · 4MS SIGNED",
+            "whatItIs": "A $12.00 swap sits safely under the $25.00 cap and receives a hardware NEP-413 signature in 4ms.",
+            "whyItHelps": "Authorized agent workflows run at full speed without human bottleneck on routine tasks.",
+            "cursorTarget": [
+              540,
+              490
+            ]
+          },
+          {
+            "badge": "STEP 03 · $45 ROGUE DRAIN BLOCKED",
+            "title": "Deterministic Block ($45.00) + Kyvera ML-DSA-65 Proof",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "$45.00 BLOCKED · PQ",
+            "whatItIs": "A $45.00 rogue drain triggers BLOCKED_PER_TX_CAP in hardware and logs a FIPS 204 ML-DSA-65 receipt.",
+            "whyItHelps": "Even a compromised LLM prompt cannot move a single cent above your enclave policy.",
+            "cursorTarget": [
+              820,
+              500
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch5_act5",
+      "chapter": 5,
+      "chapter_title": "Ch 5 · Endowment, Conviction Markets & Escrow",
+      "kind": "act",
+      "act": 5,
+      "start_frame": 4440,
+      "duration_frames": 390
+    },
+    {
+      "id": "v_ch5_mechanics",
+      "chapter": 5,
+      "chapter_title": "Ch 5 · Endowment, Conviction Markets & Escrow",
+      "kind": "showcase",
+      "start_frame": 4830,
+      "duration_frames": 990,
+      "showcase": {
+        "chapterBadge": "CHAPTER 05 · FEATURE 3 STEP-BY-STEP",
+        "headline": "Self-Funding Compute, Conviction Markets & Slashing Escrow",
+        "accent": "#EC4899",
+        "bgStyle": "magenta",
+        "steps": [
+          {
+            "badge": "STEP 01 · CORPUS X402 $1.84/HR H100",
+            "title": "$250K Endowment Yield Funds H100 TEE Compute",
+            "image": "photos/look-4-sage.jpg",
+            "metric": "$1.84/HR H100 TEE",
+            "whatItIs": "A $250,000 NEAR principal vault earns 14.2% APY to pay Corpus x402 H100 GPUs at $1.84/hr.",
+            "whyItHelps": "Your AI swarm runs 24/7 inference from yield alone without depleting treasury principal.",
+            "cursorTarget": [
+              610,
+              380
+            ]
+          },
+          {
+            "badge": "STEP 02 · TERRACE + HUNCH MARKETS",
+            "title": "BACK YES 76c / FADE NO 24c · 38,420 $AGENTES Burned",
+            "image": "photos/look-3-terracotta.jpg",
+            "metric": "38,420 $AGENTES BURN",
+            "whatItIs": "In-chat Terrace & Hunch conviction markets stake wNEAR with deflationary $AGENTES burn-on-miss.",
+            "whyItHelps": "Forces agents to back every signal with real economic stake and rewards accurate calls.",
+            "cursorTarget": [
+              740,
+              440
+            ]
+          },
+          {
+            "badge": "STEP 03 · KANMANI ESCROW + TAB BNPL",
+            "title": "Milestone Slashing Escrow, Tab 0% BNPL & NEP-171",
+            "image": "photos/look-4-sage.jpg",
+            "metric": "KANMANI + NEP-171",
+            "whatItIs": "Kanmani milestone escrow with slashing, Tab 0% BNPL compute credit, and NEP-171 badges.",
+            "whyItHelps": "Protects task bounties until tests pass and builds portable on-chain agent reputation.",
+            "cursorTarget": [
+              860,
+              490
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch6_studio",
+      "chapter": 6,
+      "chapter_title": "Ch 6 · @mira Motion Studio & V-Drill Synth",
+      "kind": "showcase",
+      "start_frame": 5820,
+      "duration_frames": 900,
+      "showcase": {
+        "chapterBadge": "CHAPTER 06 · FEATURE 4 STEP-BY-STEP",
+        "headline": "@mira Interactive Motion Studio & V-Drill Web Synth",
+        "accent": "#A855F7",
+        "bgStyle": "violet",
+        "steps": [
+          {
+            "badge": "STEP 01 · PROMPT @MIRA DIRECTOR",
+            "title": "Type Any Launch Brief into @mira Composer",
+            "image": "photos/look-5-greyblue.jpg",
+            "metric": "@MIRA AUTO-DIRECT",
+            "whatItIs": "Interactive @mira prompt bar at /ocelli with 6 one-click Auto-Direct choreography chips.",
+            "whyItHelps": "Instantly re-directs chapter BPM, palette tokens, and headline copy live in the browser.",
+            "cursorTarget": [
+              560,
+              530
+            ]
+          },
+          {
+            "badge": "STEP 02 · 7-CHAPTER V-DRILL STAGE",
+            "title": "Scrub 60fps Canvas & 1080p MP4 with Dan Tranh + 808",
+            "image": "photos/look-5-greyblue.jpg",
+            "metric": "DAN TRANH + 808",
+            "whatItIs": "Dual-mode stage switching seamlessly between live 60fps Canvas2D and mastered 1080p MP4 film.",
+            "whyItHelps": "Preview Vietnamese pentatonic Dan Tranh zither + sliding 808 V-Drill synthesis on any chapter.",
+            "cursorTarget": [
+              740,
+              360
+            ]
+          },
+          {
+            "badge": "STEP 03 · EMBEDDED IN SLACK SIDEBAR",
+            "title": "Launch Motion Studio Inside Workspace Sidebar",
+            "image": "photos/garment-cobalt-overshirt.jpg",
+            "metric": "/OCELLI + SIDEBAR",
+            "whatItIs": "Integrated directly into the Agentes NEAR left sidebar and NearControlModal film tab.",
+            "whyItHelps": "Product and engineering teams review, iterate, and ship launch videos inside one workspace.",
+            "cursorTarget": [
+              420,
+              450
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch7_quickstart",
+      "chapter": 7,
+      "chapter_title": "Ch 7 · Quickstart & ONE Workspace Finale",
+      "kind": "showcase",
+      "start_frame": 6720,
+      "duration_frames": 180,
+      "showcase": {
+        "chapterBadge": "CHAPTER 07 · 60-SECOND QUICKSTART",
+        "headline": "Clone, Verify 8/8 NEAR Checks & Ship Across 13 Tracks",
+        "accent": "#00EC97",
+        "bgStyle": "emerald",
+        "steps": [
+          {
+            "badge": "STEP 01 · GIT CLONE MIT REPO",
+            "title": "git clone github.com/harrymove-ctrl/agentes-near",
+            "image": "photos/garment-cobalt-overshirt.jpg",
+            "metric": "MIT OPEN SOURCE",
+            "whatItIs": "Clone the public MIT repository and install workspace dependencies with bun install.",
+            "whyItHelps": "Zero proprietary lock-in; self-host your entire team + NEAR AI swarm anywhere.",
+            "cursorTarget": [
+              520,
+              420
+            ]
+          },
+          {
+            "badge": "STEP 02 · BUN RUN CHECK:NEAR",
+            "title": "Pass All 8/8 Deterministic NEAR & TDX Checks",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "NEAR CHECK 8/8 PASS",
+            "whatItIs": "Run 'bun run check:near' to verify 1Click quotes, OutLayer TDX caps, and ML-DSA-65 signatures.",
+            "whyItHelps": "Confirms every cryptographic invariant and API route in under 5 seconds.",
+            "cursorTarget": [
+              700,
+              420
+            ]
+          },
+          {
+            "badge": "STEP 03 · 13/13 TRACKS LIVE",
+            "title": "bun run dev · agentes-near-production.up.railway.app",
+            "image": "photos/look-5-greyblue.jpg",
+            "metric": "13/13 NEAR TRACKS",
+            "whatItIs": "Start locally with 'bun run dev' or open the live Railway production deployment at /ocelli.",
+            "whyItHelps": "Ready for judges and teams today across all 13 NEAR hackathon prize tracks.",
+            "cursorTarget": [
+              880,
+              420
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v_ch7_act7",
+      "chapter": 7,
+      "chapter_title": "Ch 7 · Quickstart & ONE Workspace Finale",
+      "kind": "act",
       "act": 7,
-      "name": "ONE Workspace \u00b7 Agentes NEAR",
-      "style": "one",
-      "bpm": 108.0,
-      "start_sec": 38.0,
-      "end_sec": 45.0,
-      "start_frame": 2280,
-      "duration_frames": 420
+      "start_frame": 6900,
+      "duration_frames": 300
+    }
+  ],
+  "demo_utterances": [
+    {
+      "id": "u01_mira_intro",
+      "chapter": 1,
+      "speaker": "mira_vi",
+      "start_frame": 0,
+      "duration_frames": 120,
+      "voice_offset_sec": 0.18,
+      "step_badge": "V-DRILL TAG · @MIRA",
+      "text": "Agentes NEAR trên beat Việt Drill. Đội ngũ của bạn và AI Agent trong cùng một Slack.",
+      "caption": "Agentes NEAR on Viet-Drill: your team and AI agents inside one Slack.",
+      "speaker_label": "MIRA · V-DRILL",
+      "speaker_role": "@mira · V-Drill Producer Tag",
+      "speaker_accent": "#EC4899",
+      "voice_duration_sec": 5.652,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.0,
+          "end": 0.531
+        },
+        {
+          "word": "NEAR",
+          "start": 0.577,
+          "end": 0.881
+        },
+        {
+          "word": "trên",
+          "start": 0.907,
+          "end": 1.21
+        },
+        {
+          "word": "beat",
+          "start": 1.237,
+          "end": 1.54
+        },
+        {
+          "word": "Việt",
+          "start": 1.566,
+          "end": 1.87
+        },
+        {
+          "word": "Drill.",
+          "start": 1.896,
+          "end": 2.352
+        },
+        {
+          "word": "Đội",
+          "start": 2.391,
+          "end": 2.618
+        },
+        {
+          "word": "ngũ",
+          "start": 2.638,
+          "end": 2.865
+        },
+        {
+          "word": "của",
+          "start": 2.885,
+          "end": 3.113
+        },
+        {
+          "word": "bạn",
+          "start": 3.133,
+          "end": 3.361
+        },
+        {
+          "word": "và",
+          "start": 3.38,
+          "end": 3.532
+        },
+        {
+          "word": "AI",
+          "start": 3.545,
+          "end": 3.697
+        },
+        {
+          "word": "Agent",
+          "start": 3.71,
+          "end": 4.089
+        },
+        {
+          "word": "trong",
+          "start": 4.122,
+          "end": 4.502
+        },
+        {
+          "word": "cùng",
+          "start": 4.535,
+          "end": 4.838
+        },
+        {
+          "word": "một",
+          "start": 4.864,
+          "end": 5.092
+        },
+        {
+          "word": "Slack.",
+          "start": 5.112,
+          "end": 5.567
+        }
+      ]
+    },
+    {
+      "id": "u02_alex_hook",
+      "chapter": 1,
+      "speaker": "alex",
+      "start_frame": 120,
+      "duration_frames": 210,
+      "voice_offset_sec": 0.18,
+      "step_badge": "CH 01 · THE HOOK",
+      "text": "Welcome to Agentes NEAR. Every AI agent team hits three fatal walls the moment they try to execute real on-chain work.",
+      "caption": "Every AI agent team hits 3 fatal walls when executing real on-chain work.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 6.724,
+      "words": [
+        {
+          "word": "Welcome",
+          "start": 0.0,
+          "end": 0.438
+        },
+        {
+          "word": "to",
+          "start": 0.477,
+          "end": 0.602
+        },
+        {
+          "word": "Agentes",
+          "start": 0.613,
+          "end": 1.052
+        },
+        {
+          "word": "NEAR.",
+          "start": 1.09,
+          "end": 1.404
+        },
+        {
+          "word": "Every",
+          "start": 1.431,
+          "end": 1.744
+        },
+        {
+          "word": "AI",
+          "start": 1.772,
+          "end": 1.897
+        },
+        {
+          "word": "agent",
+          "start": 1.908,
+          "end": 2.221
+        },
+        {
+          "word": "team",
+          "start": 2.248,
+          "end": 2.499
+        },
+        {
+          "word": "hits",
+          "start": 2.521,
+          "end": 2.772
+        },
+        {
+          "word": "three",
+          "start": 2.793,
+          "end": 3.107
+        },
+        {
+          "word": "fatal",
+          "start": 3.134,
+          "end": 3.448
+        },
+        {
+          "word": "walls",
+          "start": 3.475,
+          "end": 3.788
+        },
+        {
+          "word": "the",
+          "start": 3.815,
+          "end": 4.003
+        },
+        {
+          "word": "moment",
+          "start": 4.02,
+          "end": 4.396
+        },
+        {
+          "word": "they",
+          "start": 4.428,
+          "end": 4.679
+        },
+        {
+          "word": "try",
+          "start": 4.701,
+          "end": 4.889
+        },
+        {
+          "word": "to",
+          "start": 4.905,
+          "end": 5.031
+        },
+        {
+          "word": "execute",
+          "start": 5.042,
+          "end": 5.481
+        },
+        {
+          "word": "real",
+          "start": 5.518,
+          "end": 5.769
+        },
+        {
+          "word": "on-chain",
+          "start": 5.792,
+          "end": 6.292
+        },
+        {
+          "word": "work.",
+          "start": 6.336,
+          "end": 6.65
+        }
+      ]
+    },
+    {
+      "id": "u03_ada_problems",
+      "chapter": 1,
+      "speaker": "ada",
+      "start_frame": 330,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 01-03 · 3 FATAL WALLS",
+      "text": "First, fragmented chat and wallet tabs. Second, raw private keys exposed to rogue drains. And third, zero verifiable receipts when agents trade or rent GPUs.",
+      "caption": "1) Fragmented tabs, 2) Raw key drain risk, 3) Zero verifiable audit receipts.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 11.594,
+      "words": [
+        {
+          "word": "First",
+          "start": 0.153,
+          "end": 0.503
+        },
+        {
+          "word": "fragmented",
+          "start": 0.743,
+          "end": 1.201
+        },
+        {
+          "word": "chat",
+          "start": 1.211,
+          "end": 1.583
+        },
+        {
+          "word": "and",
+          "start": 1.638,
+          "end": 1.747
+        },
+        {
+          "word": "wallet",
+          "start": 1.758,
+          "end": 2.085
+        },
+        {
+          "word": "tabs",
+          "start": 2.096,
+          "end": 2.587
+        },
+        {
+          "word": "Second",
+          "start": 2.904,
+          "end": 3.363
+        },
+        {
+          "word": "raw",
+          "start": 3.853,
+          "end": 4.017
+        },
+        {
+          "word": "private",
+          "start": 4.017,
+          "end": 4.421
+        },
+        {
+          "word": "keys",
+          "start": 4.432,
+          "end": 4.825
+        },
+        {
+          "word": "exposed",
+          "start": 4.89,
+          "end": 5.415
+        },
+        {
+          "word": "to",
+          "start": 5.426,
+          "end": 5.491
+        },
+        {
+          "word": "rogue",
+          "start": 5.502,
+          "end": 5.709
+        },
+        {
+          "word": "drains",
+          "start": 5.72,
+          "end": 6.277
+        },
+        {
+          "word": "And",
+          "start": 6.626,
+          "end": 6.757
+        },
+        {
+          "word": "third",
+          "start": 6.768,
+          "end": 7.172
+        },
+        {
+          "word": "zero",
+          "start": 7.598,
+          "end": 7.969
+        },
+        {
+          "word": "verifiable",
+          "start": 8.068,
+          "end": 8.613
+        },
+        {
+          "word": "receipts",
+          "start": 8.624,
+          "end": 9.072
+        },
+        {
+          "word": "when",
+          "start": 9.072,
+          "end": 9.268
+        },
+        {
+          "word": "agents",
+          "start": 9.312,
+          "end": 9.682
+        },
+        {
+          "word": "trade",
+          "start": 9.693,
+          "end": 10.109
+        },
+        {
+          "word": "or",
+          "start": 10.12,
+          "end": 10.327
+        },
+        {
+          "word": "rent",
+          "start": 10.338,
+          "end": 10.589
+        },
+        {
+          "word": "GPUs",
+          "start": 10.6,
+          "end": 11.298
+        }
+      ]
+    },
+    {
+      "id": "u04_kronos_99k",
+      "chapter": 1,
+      "speaker": "kronos",
+      "start_frame": 690,
+      "duration_frames": 330,
+      "voice_offset_sec": 0.22,
+      "step_badge": "99K INTENTS · 22S SWAP",
+      "text": "Watch what happens when we give Ada a live NEAR wallet right inside Slack: ninety-nine thousand intents routed, settling twelve USDC to wNEAR in twenty-two seconds flat.",
+      "caption": "99,412 intents routed in Slack: 12 USDC -> 3.40 wNEAR settled in 22s.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 10.584,
+      "words": [
+        {
+          "word": "Watch",
+          "start": 0.085,
+          "end": 0.364
+        },
+        {
+          "word": "what",
+          "start": 0.376,
+          "end": 0.498
+        },
+        {
+          "word": "happens",
+          "start": 0.51,
+          "end": 0.959
+        },
+        {
+          "word": "when",
+          "start": 0.971,
+          "end": 1.092
+        },
+        {
+          "word": "we",
+          "start": 1.104,
+          "end": 1.201
+        },
+        {
+          "word": "give",
+          "start": 1.214,
+          "end": 1.396
+        },
+        {
+          "word": "Ada",
+          "start": 1.42,
+          "end": 1.772
+        },
+        {
+          "word": "a",
+          "start": 1.784,
+          "end": 1.869
+        },
+        {
+          "word": "live",
+          "start": 1.881,
+          "end": 2.245
+        },
+        {
+          "word": "NEAR",
+          "start": 2.257,
+          "end": 2.476
+        },
+        {
+          "word": "wallet",
+          "start": 2.488,
+          "end": 2.852
+        },
+        {
+          "word": "right",
+          "start": 2.864,
+          "end": 3.095
+        },
+        {
+          "word": "inside",
+          "start": 3.107,
+          "end": 3.483
+        },
+        {
+          "word": "Slack",
+          "start": 3.495,
+          "end": 3.968
+        },
+        {
+          "word": "ninety-nine",
+          "start": 4.563,
+          "end": 5.061
+        },
+        {
+          "word": "thousand",
+          "start": 5.073,
+          "end": 5.413
+        },
+        {
+          "word": "intents",
+          "start": 5.425,
+          "end": 5.801
+        },
+        {
+          "word": "routed",
+          "start": 5.813,
+          "end": 6.238
+        },
+        {
+          "word": "settling",
+          "start": 6.723,
+          "end": 7.124
+        },
+        {
+          "word": "twelve",
+          "start": 7.136,
+          "end": 7.476
+        },
+        {
+          "word": "USDC",
+          "start": 7.488,
+          "end": 8.168
+        },
+        {
+          "word": "to",
+          "start": 8.18,
+          "end": 8.289
+        },
+        {
+          "word": "wNEAR",
+          "start": 8.301,
+          "end": 8.896
+        },
+        {
+          "word": "in",
+          "start": 8.908,
+          "end": 9.029
+        },
+        {
+          "word": "twenty-two",
+          "start": 9.041,
+          "end": 9.417
+        },
+        {
+          "word": "seconds",
+          "start": 9.43,
+          "end": 9.806
+        },
+        {
+          "word": "flat",
+          "start": 9.818,
+          "end": 10.218
+        }
+      ]
+    },
+    {
+      "id": "u05_alex_solution",
+      "chapter": 2,
+      "speaker": "alex",
+      "start_frame": 1020,
+      "duration_frames": 450,
+      "voice_offset_sec": 0.25,
+      "step_badge": "CH 02 · ONE SLACK SOLUTION",
+      "text": "Meet Agentes NEAR: one self-hosted Slack where your engineering team and six specialized NEAR AI agents collaborate across five live protocol surfaces.",
+      "caption": "One self-hosted Slack uniting your team and 6 NEAR AI agents across 5 surfaces.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 11.064,
+      "words": [
+        {
+          "word": "Meet",
+          "start": 0.096,
+          "end": 0.385
+        },
+        {
+          "word": "Agentes",
+          "start": 0.481,
+          "end": 0.865
+        },
+        {
+          "word": "NEAR",
+          "start": 0.877,
+          "end": 1.25
+        },
+        {
+          "word": "one",
+          "start": 1.707,
+          "end": 1.947
+        },
+        {
+          "word": "self-hosted",
+          "start": 1.947,
+          "end": 2.596
+        },
+        {
+          "word": "Slack",
+          "start": 2.596,
+          "end": 3.017
+        },
+        {
+          "word": "where",
+          "start": 3.029,
+          "end": 3.173
+        },
+        {
+          "word": "your",
+          "start": 3.173,
+          "end": 3.365
+        },
+        {
+          "word": "engineering",
+          "start": 3.377,
+          "end": 3.882
+        },
+        {
+          "word": "team",
+          "start": 3.882,
+          "end": 4.231
+        },
+        {
+          "word": "and",
+          "start": 4.483,
+          "end": 4.567
+        },
+        {
+          "word": "six",
+          "start": 4.579,
+          "end": 5.0
+        },
+        {
+          "word": "specialized",
+          "start": 5.096,
+          "end": 5.781
+        },
+        {
+          "word": "NEAR",
+          "start": 5.781,
+          "end": 6.202
+        },
+        {
+          "word": "AI",
+          "start": 6.37,
+          "end": 6.803
+        },
+        {
+          "word": "agents",
+          "start": 6.875,
+          "end": 7.368
+        },
+        {
+          "word": "collaborate",
+          "start": 7.38,
+          "end": 8.113
+        },
+        {
+          "word": "across",
+          "start": 8.209,
+          "end": 8.654
+        },
+        {
+          "word": "five",
+          "start": 8.702,
+          "end": 9.207
+        },
+        {
+          "word": "live",
+          "start": 9.207,
+          "end": 9.543
+        },
+        {
+          "word": "protocol",
+          "start": 9.543,
+          "end": 10.024
+        },
+        {
+          "word": "surfaces",
+          "start": 10.036,
+          "end": 10.697
+        }
+      ]
+    },
+    {
+      "id": "u06_ada_tour_1",
+      "chapter": 2,
+      "speaker": "ada",
+      "start_frame": 1470,
+      "duration_frames": 315,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 01-02 · CHANNELS & STREAM",
+      "text": "Step one: sign in with one click and pick a channel on the left rail. Step two: tag Ada, Kronos, Theo, Lia, Mira, or Zen in the center stream.",
+      "caption": "Step 1: 1-click channel sign-in. Step 2: Tag @ada, @kronos, @theo, @lia, @mira, @zen.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 10.1,
+      "words": [
+        {
+          "word": "Step",
+          "start": 0.087,
+          "end": 0.371
+        },
+        {
+          "word": "one",
+          "start": 0.382,
+          "end": 0.622
+        },
+        {
+          "word": "sign",
+          "start": 1.048,
+          "end": 1.353
+        },
+        {
+          "word": "in",
+          "start": 1.364,
+          "end": 1.495
+        },
+        {
+          "word": "with",
+          "start": 1.506,
+          "end": 1.637
+        },
+        {
+          "word": "one",
+          "start": 1.648,
+          "end": 1.909
+        },
+        {
+          "word": "click",
+          "start": 1.92,
+          "end": 2.194
+        },
+        {
+          "word": "and",
+          "start": 2.259,
+          "end": 2.423
+        },
+        {
+          "word": "pick",
+          "start": 2.434,
+          "end": 2.608
+        },
+        {
+          "word": "a",
+          "start": 2.619,
+          "end": 2.663
+        },
+        {
+          "word": "channel",
+          "start": 2.674,
+          "end": 3.066
+        },
+        {
+          "word": "on",
+          "start": 3.077,
+          "end": 3.143
+        },
+        {
+          "word": "the",
+          "start": 3.143,
+          "end": 3.197
+        },
+        {
+          "word": "left",
+          "start": 3.208,
+          "end": 3.471
+        },
+        {
+          "word": "rail",
+          "start": 3.482,
+          "end": 3.831
+        },
+        {
+          "word": "Step",
+          "start": 4.169,
+          "end": 4.43
+        },
+        {
+          "word": "two",
+          "start": 4.43,
+          "end": 4.736
+        },
+        {
+          "word": "tag",
+          "start": 5.184,
+          "end": 5.489
+        },
+        {
+          "word": "Ada",
+          "start": 5.565,
+          "end": 5.903
+        },
+        {
+          "word": "Kronos",
+          "start": 6.111,
+          "end": 6.646
+        },
+        {
+          "word": "Theo",
+          "start": 6.853,
+          "end": 7.224
+        },
+        {
+          "word": "Lia",
+          "start": 7.431,
+          "end": 7.727
+        },
+        {
+          "word": "Mira",
+          "start": 8.217,
+          "end": 8.544
+        },
+        {
+          "word": "or",
+          "start": 8.588,
+          "end": 8.752
+        },
+        {
+          "word": "Zen",
+          "start": 8.763,
+          "end": 8.97
+        },
+        {
+          "word": "in",
+          "start": 8.982,
+          "end": 9.036
+        },
+        {
+          "word": "the",
+          "start": 9.047,
+          "end": 9.112
+        },
+        {
+          "word": "center",
+          "start": 9.123,
+          "end": 9.418
+        },
+        {
+          "word": "stream",
+          "start": 9.429,
+          "end": 9.799
+        }
+      ]
+    },
+    {
+      "id": "u07_alex_tour_2",
+      "chapter": 2,
+      "speaker": "alex",
+      "start_frame": 1785,
+      "duration_frames": 315,
+      "voice_offset_sec": 0.2,
+      "step_badge": "STEP 03 · 3-COL TELEMETRY",
+      "text": "Step three: inspect live NEP-four-thirteen signatures, solver quotes, and block two-seven-seven-four-nine-seven-seven-hundred in the right Ocelli glass rail.",
+      "caption": "Step 3: Inspect NEP-413 signatures and Block #277,497,700 in the right glass rail.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 9.96,
+      "words": [
+        {
+          "word": "Step",
+          "start": 0.084,
+          "end": 0.373
+        },
+        {
+          "word": "three",
+          "start": 0.373,
+          "end": 0.877
+        },
+        {
+          "word": "inspect",
+          "start": 1.262,
+          "end": 1.887
+        },
+        {
+          "word": "live",
+          "start": 2.139,
+          "end": 2.608
+        },
+        {
+          "word": "NEP-four-thirteen",
+          "start": 2.764,
+          "end": 3.666
+        },
+        {
+          "word": "signatures",
+          "start": 3.666,
+          "end": 4.255
+        },
+        {
+          "word": "solver",
+          "start": 4.315,
+          "end": 4.675
+        },
+        {
+          "word": "quotes",
+          "start": 4.688,
+          "end": 5.264
+        },
+        {
+          "word": "and",
+          "start": 5.469,
+          "end": 5.577
+        },
+        {
+          "word": "block",
+          "start": 5.589,
+          "end": 5.962
+        },
+        {
+          "word": "two-seven-seven-four-nine-seven-seven-hundred",
+          "start": 5.974,
+          "end": 7.849
+        },
+        {
+          "word": "in",
+          "start": 7.849,
+          "end": 7.921
+        },
+        {
+          "word": "the",
+          "start": 7.921,
+          "end": 8.005
+        },
+        {
+          "word": "right",
+          "start": 8.017,
+          "end": 8.281
+        },
+        {
+          "word": "Ocelli",
+          "start": 8.413,
+          "end": 8.894
+        },
+        {
+          "word": "glass",
+          "start": 8.894,
+          "end": 9.219
+        },
+        {
+          "word": "rail",
+          "start": 9.219,
+          "end": 9.591
+        }
+      ]
+    },
+    {
+      "id": "u08_ada_cutline",
+      "chapter": 3,
+      "speaker": "ada",
+      "start_frame": 2100,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.22,
+      "step_badge": "CH 03 · 1CLICK ENGINE",
+      "text": "Feature one: NEAR Intents One-Click cross-chain solver auctions. Watch our node graph wire channel prompts directly into competing solver quotes.",
+      "caption": "Feature 1: NEAR Intents 1Click solver auctions wired directly from Slack.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 9.0,
+      "words": [
+        {
+          "word": "Feature",
+          "start": 0.119,
+          "end": 0.44
+        },
+        {
+          "word": "one",
+          "start": 0.44,
+          "end": 0.714
+        },
+        {
+          "word": "NEAR",
+          "start": 1.298,
+          "end": 1.476
+        },
+        {
+          "word": "Intents",
+          "start": 1.488,
+          "end": 1.964
+        },
+        {
+          "word": "One-Click",
+          "start": 1.976,
+          "end": 2.452
+        },
+        {
+          "word": "cross-chain",
+          "start": 2.464,
+          "end": 3.131
+        },
+        {
+          "word": "solver",
+          "start": 3.143,
+          "end": 3.5
+        },
+        {
+          "word": "auctions",
+          "start": 3.512,
+          "end": 4.119
+        },
+        {
+          "word": "Watch",
+          "start": 4.488,
+          "end": 4.762
+        },
+        {
+          "word": "our",
+          "start": 4.774,
+          "end": 4.869
+        },
+        {
+          "word": "node",
+          "start": 4.881,
+          "end": 5.095
+        },
+        {
+          "word": "graph",
+          "start": 5.107,
+          "end": 5.512
+        },
+        {
+          "word": "wire",
+          "start": 5.524,
+          "end": 5.893
+        },
+        {
+          "word": "channel",
+          "start": 5.905,
+          "end": 6.214
+        },
+        {
+          "word": "prompts",
+          "start": 6.226,
+          "end": 6.607
+        },
+        {
+          "word": "directly",
+          "start": 6.619,
+          "end": 7.179
+        },
+        {
+          "word": "into",
+          "start": 7.19,
+          "end": 7.381
+        },
+        {
+          "word": "competing",
+          "start": 7.393,
+          "end": 7.893
+        },
+        {
+          "word": "solver",
+          "start": 7.893,
+          "end": 8.167
+        },
+        {
+          "word": "quotes",
+          "start": 8.167,
+          "end": 8.655
+        }
+      ]
+    },
+    {
+      "id": "u09_ada_1click_steps",
+      "chapter": 3,
+      "speaker": "ada",
+      "start_frame": 2460,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 01-02 · +16 BPS AUCTION",
+      "text": "In step one, prompt Ada to swap twelve-fifty USDC into wNEAR. In step two, One-Click Chaindefuser beats Wintermute by sixteen basis points, quoting three-fifty-eight point one-three wNEAR.",
+      "caption": "Step 1: Prompt 1,250 USDC swap. Step 2: 1Click beats Wintermute by +16 bps (358.1357 wNEAR).",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 12.592,
+      "words": [
+        {
+          "word": "In",
+          "start": 0.08,
+          "end": 0.207
+        },
+        {
+          "word": "step",
+          "start": 0.218,
+          "end": 0.518
+        },
+        {
+          "word": "one",
+          "start": 0.53,
+          "end": 0.805
+        },
+        {
+          "word": "prompt",
+          "start": 1.162,
+          "end": 1.462
+        },
+        {
+          "word": "Ada",
+          "start": 1.542,
+          "end": 1.783
+        },
+        {
+          "word": "to",
+          "start": 1.795,
+          "end": 1.887
+        },
+        {
+          "word": "swap",
+          "start": 1.898,
+          "end": 2.325
+        },
+        {
+          "word": "twelve-fifty",
+          "start": 2.325,
+          "end": 2.9
+        },
+        {
+          "word": "USDC",
+          "start": 2.911,
+          "end": 3.636
+        },
+        {
+          "word": "into",
+          "start": 3.648,
+          "end": 3.855
+        },
+        {
+          "word": "wNEAR",
+          "start": 3.866,
+          "end": 4.533
+        },
+        {
+          "word": "In",
+          "start": 4.891,
+          "end": 5.017
+        },
+        {
+          "word": "step",
+          "start": 5.028,
+          "end": 5.293
+        },
+        {
+          "word": "two",
+          "start": 5.305,
+          "end": 5.661
+        },
+        {
+          "word": "One-Click",
+          "start": 6.053,
+          "end": 6.444
+        },
+        {
+          "word": "Chaindefuser",
+          "start": 6.444,
+          "end": 7.043
+        },
+        {
+          "word": "beats",
+          "start": 7.043,
+          "end": 7.307
+        },
+        {
+          "word": "Wintermute",
+          "start": 7.308,
+          "end": 7.813
+        },
+        {
+          "word": "by",
+          "start": 7.813,
+          "end": 7.951
+        },
+        {
+          "word": "sixteen",
+          "start": 7.963,
+          "end": 8.538
+        },
+        {
+          "word": "basis",
+          "start": 8.55,
+          "end": 8.872
+        },
+        {
+          "word": "points",
+          "start": 8.872,
+          "end": 9.275
+        },
+        {
+          "word": "quoting",
+          "start": 9.528,
+          "end": 9.908
+        },
+        {
+          "word": "three-fifty-eight",
+          "start": 9.919,
+          "end": 10.691
+        },
+        {
+          "word": "point",
+          "start": 10.701,
+          "end": 11.036
+        },
+        {
+          "word": "one-three",
+          "start": 11.047,
+          "end": 11.588
+        },
+        {
+          "word": "wNEAR",
+          "start": 11.599,
+          "end": 12.301
+        }
+      ]
+    },
+    {
+      "id": "u10_kronos_1click_settle",
+      "chapter": 3,
+      "speaker": "kronos",
+      "start_frame": 2850,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 03 · 22S NEP-297 LOG",
+      "text": "In step three, atomic settlement finishes in twenty-two seconds at block two-seven-seven-four-nine-seven-seven-hundred with signed NEP-two-nine-seven event logs.",
+      "caption": "Step 3: 22s atomic settlement at Block #277,497,700 with NEP-297 EVENT_JSON.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 10.464,
+      "words": [
+        {
+          "word": "In",
+          "start": 0.085,
+          "end": 0.206
+        },
+        {
+          "word": "step",
+          "start": 0.218,
+          "end": 0.485
+        },
+        {
+          "word": "three",
+          "start": 0.498,
+          "end": 0.862
+        },
+        {
+          "word": "atomic",
+          "start": 1.323,
+          "end": 1.711
+        },
+        {
+          "word": "settlement",
+          "start": 1.723,
+          "end": 2.124
+        },
+        {
+          "word": "finishes",
+          "start": 2.136,
+          "end": 2.621
+        },
+        {
+          "word": "in",
+          "start": 2.634,
+          "end": 2.803
+        },
+        {
+          "word": "twenty-two",
+          "start": 2.816,
+          "end": 3.265
+        },
+        {
+          "word": "seconds",
+          "start": 3.277,
+          "end": 3.726
+        },
+        {
+          "word": "at",
+          "start": 3.738,
+          "end": 3.883
+        },
+        {
+          "word": "block",
+          "start": 3.896,
+          "end": 4.248
+        },
+        {
+          "word": "two-seven-seven-four-nine-seven-seven-hundred",
+          "start": 4.26,
+          "end": 6.65
+        },
+        {
+          "word": "with",
+          "start": 7.136,
+          "end": 7.318
+        },
+        {
+          "word": "signed",
+          "start": 7.33,
+          "end": 7.731
+        },
+        {
+          "word": "NEP-two-nine-seven",
+          "start": 7.803,
+          "end": 9.235
+        },
+        {
+          "word": "event",
+          "start": 9.308,
+          "end": 9.624
+        },
+        {
+          "word": "logs",
+          "start": 9.636,
+          "end": 10.097
+        }
+      ]
+    },
+    {
+      "id": "u11_mira_tdx_vi",
+      "chapter": 4,
+      "speaker": "mira_vi",
+      "start_frame": 3240,
+      "duration_frames": 150,
+      "voice_offset_sec": 0.15,
+      "step_badge": "V-DRILL TAG · OUTLAYER TDX",
+      "text": "OutLayer Intel TDX: khóa cứng trần chi tiêu hai mươi lăm đô!",
+      "caption": "OutLayer Intel TDX: hardware-locked $25.00 per-transaction spend cap!",
+      "speaker_label": "MIRA · V-DRILL",
+      "speaker_role": "@mira · V-Drill Producer Tag",
+      "speaker_accent": "#EC4899",
+      "voice_duration_sec": 4.44,
+      "words": [
+        {
+          "word": "OutLayer",
+          "start": 0.11,
+          "end": 0.459
+        },
+        {
+          "word": "Intel",
+          "start": 0.459,
+          "end": 0.891
+        },
+        {
+          "word": "TDX",
+          "start": 0.891,
+          "end": 1.48
+        },
+        {
+          "word": "khóa",
+          "start": 1.745,
+          "end": 1.937
+        },
+        {
+          "word": "cứng",
+          "start": 1.937,
+          "end": 2.189
+        },
+        {
+          "word": "trần",
+          "start": 2.189,
+          "end": 2.394
+        },
+        {
+          "word": "chi",
+          "start": 2.394,
+          "end": 2.562
+        },
+        {
+          "word": "tiêu",
+          "start": 2.562,
+          "end": 2.814
+        },
+        {
+          "word": "hai",
+          "start": 2.814,
+          "end": 2.995
+        },
+        {
+          "word": "mươi",
+          "start": 2.995,
+          "end": 3.127
+        },
+        {
+          "word": "lăm",
+          "start": 3.127,
+          "end": 3.343
+        },
+        {
+          "word": "đô",
+          "start": 3.343,
+          "end": 3.62
+        }
+      ]
+    },
+    {
+      "id": "u12_kronos_zine",
+      "chapter": 4,
+      "speaker": "kronos",
+      "start_frame": 3390,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.18,
+      "step_badge": "CH 04 · HARDWARE ENCLAVE",
+      "text": "Feature two: OutLayer Intel TDX hardware spend guard. Zero raw private keys ever touch application memory.",
+      "caption": "Feature 2: OutLayer Intel TDX hardware enclave guard with zero raw key exposure.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 7.64,
+      "words": [
+        {
+          "word": "Feature",
+          "start": 0.071,
+          "end": 0.392
+        },
+        {
+          "word": "two",
+          "start": 0.404,
+          "end": 0.832
+        },
+        {
+          "word": "OutLayer",
+          "start": 1.284,
+          "end": 1.747
+        },
+        {
+          "word": "Intel",
+          "start": 1.758,
+          "end": 2.151
+        },
+        {
+          "word": "TDX",
+          "start": 2.163,
+          "end": 2.614
+        },
+        {
+          "word": "hardware",
+          "start": 2.626,
+          "end": 3.054
+        },
+        {
+          "word": "spend",
+          "start": 3.065,
+          "end": 3.375
+        },
+        {
+          "word": "guard",
+          "start": 3.386,
+          "end": 3.79
+        },
+        {
+          "word": "Zero",
+          "start": 4.171,
+          "end": 4.574
+        },
+        {
+          "word": "raw",
+          "start": 4.586,
+          "end": 4.847
+        },
+        {
+          "word": "private",
+          "start": 4.86,
+          "end": 5.252
+        },
+        {
+          "word": "keys",
+          "start": 5.263,
+          "end": 5.679
+        },
+        {
+          "word": "ever",
+          "start": 5.703,
+          "end": 5.964
+        },
+        {
+          "word": "touch",
+          "start": 5.976,
+          "end": 6.262
+        },
+        {
+          "word": "application",
+          "start": 6.274,
+          "end": 6.843
+        },
+        {
+          "word": "memory",
+          "start": 6.855,
+          "end": 7.295
+        }
+      ]
+    },
+    {
+      "id": "u13_kronos_tdx_steps",
+      "chapter": 4,
+      "speaker": "kronos",
+      "start_frame": 3630,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 01-02 · $25 CAP & 4MS PASS",
+      "text": "Step one: lock your per-transaction policy at twenty-five dollars inside our wasm-thirty-two Intel TDX enclave. Step two: a twelve-dollar safe intent signs via NEP-four-thirteen in four milliseconds.",
+      "caption": "Step 1: Lock $25.00/tx wasm32-wasip2 cap. Step 2: $12.00 safe intent signed in 4ms.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 12.6,
+      "words": [
+        {
+          "word": "Step",
+          "start": 0.076,
+          "end": 0.367
+        },
+        {
+          "word": "one",
+          "start": 0.378,
+          "end": 0.626
+        },
+        {
+          "word": "lock",
+          "start": 1.22,
+          "end": 1.425
+        },
+        {
+          "word": "your",
+          "start": 1.436,
+          "end": 1.533
+        },
+        {
+          "word": "per-transaction",
+          "start": 1.544,
+          "end": 2.17
+        },
+        {
+          "word": "policy",
+          "start": 2.181,
+          "end": 2.667
+        },
+        {
+          "word": "at",
+          "start": 2.678,
+          "end": 2.796
+        },
+        {
+          "word": "twenty-five",
+          "start": 2.807,
+          "end": 3.24
+        },
+        {
+          "word": "dollars",
+          "start": 3.25,
+          "end": 3.585
+        },
+        {
+          "word": "inside",
+          "start": 3.595,
+          "end": 4.092
+        },
+        {
+          "word": "our",
+          "start": 4.103,
+          "end": 4.232
+        },
+        {
+          "word": "wasm-thirty-two",
+          "start": 4.243,
+          "end": 5.118
+        },
+        {
+          "word": "Intel",
+          "start": 5.129,
+          "end": 5.496
+        },
+        {
+          "word": "TDX",
+          "start": 5.507,
+          "end": 6.047
+        },
+        {
+          "word": "enclave",
+          "start": 6.09,
+          "end": 6.629
+        },
+        {
+          "word": "Step",
+          "start": 6.976,
+          "end": 7.256
+        },
+        {
+          "word": "two",
+          "start": 7.266,
+          "end": 7.537
+        },
+        {
+          "word": "a",
+          "start": 8.163,
+          "end": 8.217
+        },
+        {
+          "word": "twelve-dollar",
+          "start": 8.228,
+          "end": 8.767
+        },
+        {
+          "word": "safe",
+          "start": 8.779,
+          "end": 9.081
+        },
+        {
+          "word": "intent",
+          "start": 9.091,
+          "end": 9.437
+        },
+        {
+          "word": "signs",
+          "start": 9.448,
+          "end": 9.837
+        },
+        {
+          "word": "via",
+          "start": 9.848,
+          "end": 10.171
+        },
+        {
+          "word": "NEP-four-thirteen",
+          "start": 10.182,
+          "end": 11.229
+        },
+        {
+          "word": "in",
+          "start": 11.24,
+          "end": 11.381
+        },
+        {
+          "word": "four",
+          "start": 11.391,
+          "end": 11.651
+        },
+        {
+          "word": "milliseconds",
+          "start": 11.662,
+          "end": 12.299
+        }
+      ]
+    },
+    {
+      "id": "u14_alex_tdx_block",
+      "chapter": 4,
+      "speaker": "alex",
+      "start_frame": 4020,
+      "duration_frames": 420,
+      "voice_offset_sec": 0.22,
+      "step_badge": "STEP 03 · $45 DRAIN BLOCKED",
+      "text": "Step three: when a rogue prompt attempts a forty-five dollar drain, OutLayer deterministically blocks it in hardware and seals the log with Kyvera ML-DSA-sixty-five post-quantum proof.",
+      "caption": "Step 3: $45.00 rogue drain blocked in hardware + Kyvera ML-DSA-65 PQ signature.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 11.856,
+      "words": [
+        {
+          "word": "Step",
+          "start": 0.096,
+          "end": 0.397
+        },
+        {
+          "word": "three",
+          "start": 0.397,
+          "end": 0.841
+        },
+        {
+          "word": "when",
+          "start": 1.322,
+          "end": 1.406
+        },
+        {
+          "word": "a",
+          "start": 1.406,
+          "end": 1.454
+        },
+        {
+          "word": "rogue",
+          "start": 1.454,
+          "end": 1.935
+        },
+        {
+          "word": "prompt",
+          "start": 1.935,
+          "end": 2.248
+        },
+        {
+          "word": "attempts",
+          "start": 2.248,
+          "end": 2.644
+        },
+        {
+          "word": "a",
+          "start": 2.716,
+          "end": 2.776
+        },
+        {
+          "word": "forty-five",
+          "start": 2.776,
+          "end": 3.558
+        },
+        {
+          "word": "dollar",
+          "start": 3.57,
+          "end": 3.834
+        },
+        {
+          "word": "drain",
+          "start": 3.834,
+          "end": 4.267
+        },
+        {
+          "word": "OutLayer",
+          "start": 4.699,
+          "end": 5.204
+        },
+        {
+          "word": "deterministically",
+          "start": 5.216,
+          "end": 6.082
+        },
+        {
+          "word": "blocks",
+          "start": 6.094,
+          "end": 6.55
+        },
+        {
+          "word": "it",
+          "start": 6.562,
+          "end": 6.623
+        },
+        {
+          "word": "in",
+          "start": 6.623,
+          "end": 6.695
+        },
+        {
+          "word": "hardware",
+          "start": 6.707,
+          "end": 7.38
+        },
+        {
+          "word": "and",
+          "start": 7.668,
+          "end": 7.74
+        },
+        {
+          "word": "seals",
+          "start": 7.74,
+          "end": 8.113
+        },
+        {
+          "word": "the",
+          "start": 8.125,
+          "end": 8.233
+        },
+        {
+          "word": "log",
+          "start": 8.233,
+          "end": 8.582
+        },
+        {
+          "word": "with",
+          "start": 8.582,
+          "end": 8.702
+        },
+        {
+          "word": "Kyvera",
+          "start": 8.714,
+          "end": 9.123
+        },
+        {
+          "word": "ML-DSA-sixty-five",
+          "start": 9.231,
+          "end": 10.505
+        },
+        {
+          "word": "post-quantum",
+          "start": 10.517,
+          "end": 11.046
+        },
+        {
+          "word": "proof",
+          "start": 11.046,
+          "end": 11.49
+        }
+      ]
+    },
+    {
+      "id": "u15_ada_graph",
+      "chapter": 5,
+      "speaker": "ada",
+      "start_frame": 4440,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.22,
+      "step_badge": "CH 05 · @ADA 5-TOOL GRAPH",
+      "text": "Feature three: our Ada Tool Hub connects five self-sustaining economic primitives so your agent swarm funds its own compute.",
+      "caption": "Feature 3: @ada 5-node tool graph connecting self-funding NEAR primitives.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 8.016,
+      "words": [
+        {
+          "word": "Feature",
+          "start": 0.131,
+          "end": 0.429
+        },
+        {
+          "word": "three",
+          "start": 0.429,
+          "end": 0.81
+        },
+        {
+          "word": "our",
+          "start": 1.333,
+          "end": 1.583
+        },
+        {
+          "word": "Ada",
+          "start": 1.655,
+          "end": 1.929
+        },
+        {
+          "word": "Tool",
+          "start": 1.94,
+          "end": 2.25
+        },
+        {
+          "word": "Hub",
+          "start": 2.25,
+          "end": 2.476
+        },
+        {
+          "word": "connects",
+          "start": 2.488,
+          "end": 2.893
+        },
+        {
+          "word": "five",
+          "start": 2.905,
+          "end": 3.202
+        },
+        {
+          "word": "self-sustaining",
+          "start": 3.214,
+          "end": 4.0
+        },
+        {
+          "word": "economic",
+          "start": 4.0,
+          "end": 4.44
+        },
+        {
+          "word": "primitives",
+          "start": 4.452,
+          "end": 4.881
+        },
+        {
+          "word": "so",
+          "start": 5.179,
+          "end": 5.31
+        },
+        {
+          "word": "your",
+          "start": 5.321,
+          "end": 5.536
+        },
+        {
+          "word": "agent",
+          "start": 5.548,
+          "end": 5.845
+        },
+        {
+          "word": "swarm",
+          "start": 5.845,
+          "end": 6.214
+        },
+        {
+          "word": "funds",
+          "start": 6.226,
+          "end": 6.679
+        },
+        {
+          "word": "its",
+          "start": 6.738,
+          "end": 6.869
+        },
+        {
+          "word": "own",
+          "start": 6.929,
+          "end": 7.131
+        },
+        {
+          "word": "compute",
+          "start": 7.143,
+          "end": 7.667
+        }
+      ]
+    },
+    {
+      "id": "u16_alex_endowment_terrace",
+      "chapter": 5,
+      "speaker": "alex",
+      "start_frame": 4830,
+      "duration_frames": 495,
+      "voice_offset_sec": 0.24,
+      "step_badge": "STEP 01-02 · X402 & TERRACE",
+      "text": "Step one: our two-hundred-fifty-thousand-dollar Corpus Endowment harvests yield to stream Corpus x402 H100 TEE compute at one-eighty-four per hour. Step two: Terrace and Hunch conviction markets price YES at seventy-six cents with thirty-eight thousand AGENTES burned on misses.",
+      "caption": "Step 1: $250K Endowment -> $1.84/hr H100. Step 2: Terrace YES 76c + 38,420 $AGENTES burned.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 16.077,
+      "words": [
+        {
+          "word": "Step",
+          "start": 0.082,
+          "end": 0.317
+        },
+        {
+          "word": "one",
+          "start": 0.317,
+          "end": 0.602
+        },
+        {
+          "word": "our",
+          "start": 0.99,
+          "end": 1.112
+        },
+        {
+          "word": "two-hundred-fifty-thousand-dollar",
+          "start": 1.112,
+          "end": 2.194
+        },
+        {
+          "word": "Corpus",
+          "start": 2.194,
+          "end": 2.521
+        },
+        {
+          "word": "Endowment",
+          "start": 2.521,
+          "end": 2.827
+        },
+        {
+          "word": "harvests",
+          "start": 2.837,
+          "end": 3.184
+        },
+        {
+          "word": "yield",
+          "start": 3.184,
+          "end": 3.552
+        },
+        {
+          "word": "to",
+          "start": 3.674,
+          "end": 3.766
+        },
+        {
+          "word": "stream",
+          "start": 3.776,
+          "end": 4.246
+        },
+        {
+          "word": "Corpus",
+          "start": 4.307,
+          "end": 4.695
+        },
+        {
+          "word": "x402",
+          "start": 4.705,
+          "end": 5.981
+        },
+        {
+          "word": "H100",
+          "start": 6.104,
+          "end": 6.736
+        },
+        {
+          "word": "TEE",
+          "start": 6.747,
+          "end": 6.991
+        },
+        {
+          "word": "compute",
+          "start": 6.991,
+          "end": 7.369
+        },
+        {
+          "word": "at",
+          "start": 7.634,
+          "end": 7.695
+        },
+        {
+          "word": "one-eighty-four",
+          "start": 7.695,
+          "end": 8.288
+        },
+        {
+          "word": "per",
+          "start": 8.288,
+          "end": 8.43
+        },
+        {
+          "word": "hour",
+          "start": 8.43,
+          "end": 8.726
+        },
+        {
+          "word": "Step",
+          "start": 9.043,
+          "end": 9.246
+        },
+        {
+          "word": "two",
+          "start": 9.246,
+          "end": 9.584
+        },
+        {
+          "word": "Terrace",
+          "start": 10.063,
+          "end": 10.4
+        },
+        {
+          "word": "and",
+          "start": 10.4,
+          "end": 10.462
+        },
+        {
+          "word": "Hunch",
+          "start": 10.462,
+          "end": 10.716
+        },
+        {
+          "word": "conviction",
+          "start": 10.716,
+          "end": 11.104
+        },
+        {
+          "word": "markets",
+          "start": 11.104,
+          "end": 11.39
+        },
+        {
+          "word": "price",
+          "start": 11.4,
+          "end": 11.717
+        },
+        {
+          "word": "YES",
+          "start": 11.717,
+          "end": 12.064
+        },
+        {
+          "word": "at",
+          "start": 12.329,
+          "end": 12.441
+        },
+        {
+          "word": "seventy-six",
+          "start": 12.451,
+          "end": 13.034
+        },
+        {
+          "word": "cents",
+          "start": 13.044,
+          "end": 13.411
+        },
+        {
+          "word": "with",
+          "start": 13.544,
+          "end": 13.677
+        },
+        {
+          "word": "thirty-eight",
+          "start": 13.677,
+          "end": 14.207
+        },
+        {
+          "word": "thousand",
+          "start": 14.217,
+          "end": 14.646
+        },
+        {
+          "word": "AGENTES",
+          "start": 14.646,
+          "end": 14.993
+        },
+        {
+          "word": "burned",
+          "start": 15.003,
+          "end": 15.258
+        },
+        {
+          "word": "on",
+          "start": 15.258,
+          "end": 15.371
+        },
+        {
+          "word": "misses",
+          "start": 15.371,
+          "end": 15.799
+        }
+      ]
+    },
+    {
+      "id": "u17_kronos_kanmani_tab",
+      "chapter": 5,
+      "speaker": "kronos",
+      "start_frame": 5325,
+      "duration_frames": 495,
+      "voice_offset_sec": 0.24,
+      "step_badge": "STEP 03 · KANMANI + TAB BNPL",
+      "text": "And step three: Kanmani milestone slashing escrow, Tab zero-percent compute credit, and NEP-one-seventy-one achievement badges keep every agent accountable.",
+      "caption": "Step 3: Kanmani milestone slashing escrow + Tab 0% BNPL credit + NEP-171 badges.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 10.872,
+      "words": [
+        {
+          "word": "And",
+          "start": 0.085,
+          "end": 0.194
+        },
+        {
+          "word": "step",
+          "start": 0.206,
+          "end": 0.485
+        },
+        {
+          "word": "three",
+          "start": 0.498,
+          "end": 0.922
+        },
+        {
+          "word": "Kanmani",
+          "start": 1.468,
+          "end": 1.905
+        },
+        {
+          "word": "milestone",
+          "start": 1.917,
+          "end": 2.549
+        },
+        {
+          "word": "slashing",
+          "start": 2.561,
+          "end": 3.046
+        },
+        {
+          "word": "escrow",
+          "start": 3.058,
+          "end": 3.532
+        },
+        {
+          "word": "Tab",
+          "start": 4.102,
+          "end": 4.357
+        },
+        {
+          "word": "zero-percent",
+          "start": 4.369,
+          "end": 5.024
+        },
+        {
+          "word": "compute",
+          "start": 5.036,
+          "end": 5.364
+        },
+        {
+          "word": "credit",
+          "start": 5.376,
+          "end": 5.74
+        },
+        {
+          "word": "and",
+          "start": 6.347,
+          "end": 6.505
+        },
+        {
+          "word": "NEP-one-seventy-one",
+          "start": 6.566,
+          "end": 7.961
+        },
+        {
+          "word": "achievement",
+          "start": 7.973,
+          "end": 8.459
+        },
+        {
+          "word": "badges",
+          "start": 8.471,
+          "end": 8.92
+        },
+        {
+          "word": "keep",
+          "start": 8.932,
+          "end": 9.199
+        },
+        {
+          "word": "every",
+          "start": 9.284,
+          "end": 9.6
+        },
+        {
+          "word": "agent",
+          "start": 9.612,
+          "end": 9.915
+        },
+        {
+          "word": "accountable",
+          "start": 9.927,
+          "end": 10.498
+        }
+      ]
+    },
+    {
+      "id": "u18_mira_studio_vi",
+      "chapter": 6,
+      "speaker": "mira_vi",
+      "start_frame": 5820,
+      "duration_frames": 210,
+      "voice_offset_sec": 0.18,
+      "step_badge": "V-DRILL TAG · @MIRA STUDIO",
+      "text": "Studio chuyển động Mira: tạo phim sản phẩm trực tiếp trên nền nhạc đàn tranh Việt Drill!",
+      "caption": "@mira Motion Studio: direct product films live on Vietnamese Dan Tranh V-Drill!",
+      "speaker_label": "MIRA · V-DRILL",
+      "speaker_role": "@mira · V-Drill Producer Tag",
+      "speaker_accent": "#EC4899",
+      "voice_duration_sec": 5.16,
+      "words": [
+        {
+          "word": "Studio",
+          "start": 0.146,
+          "end": 0.567
+        },
+        {
+          "word": "chuyển",
+          "start": 0.567,
+          "end": 0.783
+        },
+        {
+          "word": "động",
+          "start": 0.783,
+          "end": 0.999
+        },
+        {
+          "word": "Mira",
+          "start": 1.0,
+          "end": 1.468
+        },
+        {
+          "word": "tạo",
+          "start": 1.685,
+          "end": 1.877
+        },
+        {
+          "word": "phim",
+          "start": 1.877,
+          "end": 2.081
+        },
+        {
+          "word": "sản",
+          "start": 2.081,
+          "end": 2.298
+        },
+        {
+          "word": "phẩm",
+          "start": 2.298,
+          "end": 2.49
+        },
+        {
+          "word": "trực",
+          "start": 2.49,
+          "end": 2.67
+        },
+        {
+          "word": "tiếp",
+          "start": 2.67,
+          "end": 2.923
+        },
+        {
+          "word": "trên",
+          "start": 2.923,
+          "end": 3.067
+        },
+        {
+          "word": "nền",
+          "start": 3.067,
+          "end": 3.235
+        },
+        {
+          "word": "nhạc",
+          "start": 3.235,
+          "end": 3.427
+        },
+        {
+          "word": "đàn",
+          "start": 3.427,
+          "end": 3.608
+        },
+        {
+          "word": "tranh",
+          "start": 3.608,
+          "end": 3.824
+        },
+        {
+          "word": "Việt",
+          "start": 3.824,
+          "end": 4.04
+        },
+        {
+          "word": "Drill",
+          "start": 4.04,
+          "end": 4.341
+        }
+      ]
+    },
+    {
+      "id": "u19_ada_studio_steps",
+      "chapter": 6,
+      "speaker": "ada",
+      "start_frame": 6030,
+      "duration_frames": 690,
+      "voice_offset_sec": 0.24,
+      "step_badge": "STEP 01-03 · @MIRA MOTION STUDIO",
+      "text": "Feature four: inside our built-in Motion Studio at slash ocelli, prompt Mira in step one, scrub all seven chapters with live Dan Tranh and 808 V-Drill synthesis in step two, and launch it right from your Slack sidebar in step three.",
+      "caption": "Step 1: Prompt @mira. Step 2: Scrub 7 chapters + V-Drill synth. Step 3: Open in Slack sidebar.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 14.664,
+      "words": [
+        {
+          "word": "Feature",
+          "start": 0.131,
+          "end": 0.393
+        },
+        {
+          "word": "four",
+          "start": 0.405,
+          "end": 0.738
+        },
+        {
+          "word": "inside",
+          "start": 1.155,
+          "end": 1.607
+        },
+        {
+          "word": "our",
+          "start": 1.619,
+          "end": 1.738
+        },
+        {
+          "word": "built-in",
+          "start": 1.75,
+          "end": 2.048
+        },
+        {
+          "word": "Motion",
+          "start": 2.06,
+          "end": 2.357
+        },
+        {
+          "word": "Studio",
+          "start": 2.369,
+          "end": 2.809
+        },
+        {
+          "word": "at",
+          "start": 2.821,
+          "end": 2.976
+        },
+        {
+          "word": "slash",
+          "start": 2.988,
+          "end": 3.345
+        },
+        {
+          "word": "ocelli",
+          "start": 3.405,
+          "end": 3.809
+        },
+        {
+          "word": "prompt",
+          "start": 4.214,
+          "end": 4.5
+        },
+        {
+          "word": "Mira",
+          "start": 4.512,
+          "end": 4.917
+        },
+        {
+          "word": "in",
+          "start": 4.929,
+          "end": 5.048
+        },
+        {
+          "word": "step",
+          "start": 5.06,
+          "end": 5.333
+        },
+        {
+          "word": "one",
+          "start": 5.345,
+          "end": 5.619
+        },
+        {
+          "word": "scrub",
+          "start": 5.881,
+          "end": 6.202
+        },
+        {
+          "word": "all",
+          "start": 6.31,
+          "end": 6.512
+        },
+        {
+          "word": "seven",
+          "start": 6.524,
+          "end": 6.821
+        },
+        {
+          "word": "chapters",
+          "start": 6.833,
+          "end": 7.298
+        },
+        {
+          "word": "with",
+          "start": 7.31,
+          "end": 7.44
+        },
+        {
+          "word": "live",
+          "start": 7.452,
+          "end": 7.798
+        },
+        {
+          "word": "Dan",
+          "start": 7.81,
+          "end": 8.06
+        },
+        {
+          "word": "Tranh",
+          "start": 8.071,
+          "end": 8.488
+        },
+        {
+          "word": "and",
+          "start": 8.536,
+          "end": 8.667
+        },
+        {
+          "word": "808",
+          "start": 8.81,
+          "end": 9.548
+        },
+        {
+          "word": "V-Drill",
+          "start": 9.619,
+          "end": 9.976
+        },
+        {
+          "word": "synthesis",
+          "start": 9.988,
+          "end": 10.5
+        },
+        {
+          "word": "in",
+          "start": 10.512,
+          "end": 10.631
+        },
+        {
+          "word": "step",
+          "start": 10.643,
+          "end": 10.905
+        },
+        {
+          "word": "two",
+          "start": 10.917,
+          "end": 11.238
+        },
+        {
+          "word": "and",
+          "start": 11.619,
+          "end": 11.786
+        },
+        {
+          "word": "launch",
+          "start": 11.798,
+          "end": 12.083
+        },
+        {
+          "word": "it",
+          "start": 12.095,
+          "end": 12.202
+        },
+        {
+          "word": "right",
+          "start": 12.202,
+          "end": 12.393
+        },
+        {
+          "word": "from",
+          "start": 12.405,
+          "end": 12.536
+        },
+        {
+          "word": "your",
+          "start": 12.536,
+          "end": 12.643
+        },
+        {
+          "word": "Slack",
+          "start": 12.655,
+          "end": 12.952
+        },
+        {
+          "word": "sidebar",
+          "start": 12.952,
+          "end": 13.44
+        },
+        {
+          "word": "in",
+          "start": 13.452,
+          "end": 13.607
+        },
+        {
+          "word": "step",
+          "start": 13.619,
+          "end": 13.929
+        },
+        {
+          "word": "three",
+          "start": 13.929,
+          "end": 14.298
+        }
+      ]
+    },
+    {
+      "id": "u20_alex_quickstart",
+      "chapter": 7,
+      "speaker": "alex",
+      "start_frame": 6720,
+      "duration_frames": 180,
+      "voice_offset_sec": 0.16,
+      "step_badge": "STEP 01-03 · QUICKSTART 8/8",
+      "text": "Clone our MIT repo, pass all eight-of-eight NEAR verification checks, and launch all thirteen tracks in seconds.",
+      "caption": "git clone -> bun run check:near (8/8 PASS) -> bun run dev (13/13 NEAR tracks).",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 5.987,
+      "words": [
+        {
+          "word": "Clone",
+          "start": 0.074,
+          "end": 0.287
+        },
+        {
+          "word": "our",
+          "start": 0.287,
+          "end": 0.388
+        },
+        {
+          "word": "MIT",
+          "start": 0.435,
+          "end": 0.823
+        },
+        {
+          "word": "repo",
+          "start": 0.823,
+          "end": 1.267
+        },
+        {
+          "word": "pass",
+          "start": 1.405,
+          "end": 1.673
+        },
+        {
+          "word": "all",
+          "start": 1.766,
+          "end": 2.015
+        },
+        {
+          "word": "eight-of-eight",
+          "start": 2.117,
+          "end": 2.505
+        },
+        {
+          "word": "NEAR",
+          "start": 2.505,
+          "end": 2.718
+        },
+        {
+          "word": "verification",
+          "start": 2.728,
+          "end": 3.273
+        },
+        {
+          "word": "checks",
+          "start": 3.273,
+          "end": 3.625
+        },
+        {
+          "word": "and",
+          "start": 3.911,
+          "end": 4.031
+        },
+        {
+          "word": "launch",
+          "start": 4.04,
+          "end": 4.29
+        },
+        {
+          "word": "all",
+          "start": 4.373,
+          "end": 4.521
+        },
+        {
+          "word": "thirteen",
+          "start": 4.53,
+          "end": 4.9
+        },
+        {
+          "word": "tracks",
+          "start": 4.9,
+          "end": 5.224
+        },
+        {
+          "word": "in",
+          "start": 5.224,
+          "end": 5.279
+        },
+        {
+          "word": "seconds",
+          "start": 5.279,
+          "end": 5.723
+        }
+      ]
+    },
+    {
+      "id": "u21_alex_finale",
+      "chapter": 7,
+      "speaker": "alex",
+      "start_frame": 6900,
+      "duration_frames": 300,
+      "voice_offset_sec": 0.22,
+      "step_badge": "ONE WORKSPACE · AGENTES NEAR",
+      "text": "Agentes NEAR. Your team and autonomous NEAR AI agents, together in one workspace. Try it live at slash ocelli today.",
+      "caption": "Agentes NEAR · Live at /ocelli · MIT License · github.com/harrymove-ctrl/agentes-near",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 8.664,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.084,
+          "end": 0.445
+        },
+        {
+          "word": "NEAR",
+          "start": 0.457,
+          "end": 0.889
+        },
+        {
+          "word": "Your",
+          "start": 1.25,
+          "end": 1.358
+        },
+        {
+          "word": "team",
+          "start": 1.358,
+          "end": 1.767
+        },
+        {
+          "word": "and",
+          "start": 1.923,
+          "end": 2.031
+        },
+        {
+          "word": "autonomous",
+          "start": 2.043,
+          "end": 2.692
+        },
+        {
+          "word": "NEAR",
+          "start": 2.704,
+          "end": 3.089
+        },
+        {
+          "word": "AI",
+          "start": 3.233,
+          "end": 3.69
+        },
+        {
+          "word": "agents",
+          "start": 3.702,
+          "end": 4.279
+        },
+        {
+          "word": "together",
+          "start": 4.483,
+          "end": 4.94
+        },
+        {
+          "word": "in",
+          "start": 4.94,
+          "end": 5.06
+        },
+        {
+          "word": "one",
+          "start": 5.06,
+          "end": 5.3
+        },
+        {
+          "word": "workspace",
+          "start": 5.301,
+          "end": 6.07
+        },
+        {
+          "word": "Try",
+          "start": 6.466,
+          "end": 6.623
+        },
+        {
+          "word": "it",
+          "start": 6.623,
+          "end": 6.695
+        },
+        {
+          "word": "live",
+          "start": 6.695,
+          "end": 6.995
+        },
+        {
+          "word": "at",
+          "start": 6.995,
+          "end": 7.055
+        },
+        {
+          "word": "slash",
+          "start": 7.055,
+          "end": 7.452
+        },
+        {
+          "word": "ocelli",
+          "start": 7.452,
+          "end": 7.885
+        },
+        {
+          "word": "today",
+          "start": 7.885,
+          "end": 8.305
+        }
+      ]
+    }
+  ],
+  "teaser_visuals": [
+    {
+      "id": "tv_1",
+      "chapter": 1,
+      "chapter_title": "Hook & Viet-Drill",
+      "kind": "act",
+      "act": 1,
+      "start_frame": 0,
+      "duration_frames": 240
+    },
+    {
+      "id": "tv_2",
+      "chapter": 2,
+      "chapter_title": "99K Intents in Slack",
+      "kind": "act",
+      "act": 2,
+      "start_frame": 240,
+      "duration_frames": 240
+    },
+    {
+      "id": "tv_3",
+      "chapter": 3,
+      "chapter_title": "1Click + OutLayer TDX Step-by-Step",
+      "kind": "showcase",
+      "start_frame": 480,
+      "duration_frames": 300,
+      "showcase": {
+        "chapterBadge": "CHAPTER 04 · FEATURE 2 STEP-BY-STEP",
+        "headline": "OutLayer Intel TDX Hardware Enclave Spend Guard",
+        "accent": "#F59E0B",
+        "bgStyle": "amber",
+        "steps": [
+          {
+            "badge": "STEP 01 · $25.00/TX ENCLAVE CAP",
+            "title": "Lock Per-Tx Ceiling in wasm32-wasip2 Intel TDX",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "$25.00/TX POLICY",
+            "whatItIs": "Configure the BenchoSloshSlider spend cap at $25.00/tx inside an OutLayer Intel TDX enclave.",
+            "whyItHelps": "Private keys stay sealed inside hardware enclave memory and never touch the Node server.",
+            "cursorTarget": [
+              640,
+              410
+            ]
+          },
+          {
+            "badge": "STEP 02 · $12 SAFE NEP-413 PASS",
+            "title": "Approve $12.00 Safe Intent in 4ms (NEP-413)",
+            "image": "photos/friends-photo.jpg",
+            "metric": "$12.00 · 4MS SIGNED",
+            "whatItIs": "A $12.00 swap sits safely under the $25.00 cap and receives a hardware NEP-413 signature in 4ms.",
+            "whyItHelps": "Authorized agent workflows run at full speed without human bottleneck on routine tasks.",
+            "cursorTarget": [
+              540,
+              490
+            ]
+          },
+          {
+            "badge": "STEP 03 · $45 ROGUE DRAIN BLOCKED",
+            "title": "Deterministic Block ($45.00) + Kyvera ML-DSA-65 Proof",
+            "image": "photos/look-2-cream.jpg",
+            "metric": "$45.00 BLOCKED · PQ",
+            "whatItIs": "A $45.00 rogue drain triggers BLOCKED_PER_TX_CAP in hardware and logs a FIPS 204 ML-DSA-65 receipt.",
+            "whyItHelps": "Even a compromised LLM prompt cannot move a single cent above your enclave policy.",
+            "cursorTarget": [
+              820,
+              500
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "tv_4",
+      "chapter": 4,
+      "chapter_title": "Ocelli 3-Col Studio",
+      "kind": "act",
+      "act": 4,
+      "start_frame": 780,
+      "duration_frames": 270
+    },
+    {
+      "id": "tv_5",
+      "chapter": 5,
+      "chapter_title": "@ada 5-Node Tool Graph",
+      "kind": "act",
+      "act": 5,
+      "start_frame": 1050,
+      "duration_frames": 270
+    },
+    {
+      "id": "tv_6",
+      "chapter": 6,
+      "chapter_title": "OutLayer TDX Zine Drop",
+      "kind": "act",
+      "act": 6,
+      "start_frame": 1320,
+      "duration_frames": 240
+    },
+    {
+      "id": "tv_7",
+      "chapter": 7,
+      "chapter_title": "ONE Workspace Finale",
+      "kind": "act",
+      "act": 7,
+      "start_frame": 1560,
+      "duration_frames": 240
+    }
+  ],
+  "teaser_utterances": [
+    {
+      "id": "tu01_mira",
+      "chapter": 1,
+      "speaker": "mira_vi",
+      "start_frame": 0,
+      "duration_frames": 90,
+      "voice_offset_sec": 0.14,
+      "step_badge": "V-DRILL TAG · @MIRA",
+      "text": "Agentes NEAR trên beat Việt Drill!",
+      "caption": "Agentes NEAR on Viet-Drill: Slack for Teams + NEAR AI Agents!",
+      "speaker_label": "MIRA · V-DRILL",
+      "speaker_role": "@mira · V-Drill Producer Tag",
+      "speaker_accent": "#EC4899",
+      "voice_duration_sec": 2.685,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.095,
+          "end": 0.561
+        },
+        {
+          "word": "NEAR",
+          "start": 0.561,
+          "end": 1.241
+        },
+        {
+          "word": "trên",
+          "start": 1.242,
+          "end": 1.419
+        },
+        {
+          "word": "beat",
+          "start": 1.419,
+          "end": 1.587
+        },
+        {
+          "word": "Việt",
+          "start": 1.587,
+          "end": 1.802
+        },
+        {
+          "word": "Drill",
+          "start": 1.802,
+          "end": 2.062
+        }
+      ]
+    },
+    {
+      "id": "tu02_alex",
+      "chapter": 1,
+      "speaker": "alex",
+      "start_frame": 90,
+      "duration_frames": 150,
+      "voice_offset_sec": 0.14,
+      "step_badge": "ONE SLACK + 6 AGENTS",
+      "text": "Your engineering team and six autonomous NEAR AI agents, together in one self-hosted Slack.",
+      "caption": "Your team and 6 autonomous NEAR AI agents in one self-hosted Slack.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 5.082,
+      "words": [
+        {
+          "word": "Your",
+          "start": 0.065,
+          "end": 0.166
+        },
+        {
+          "word": "engineering",
+          "start": 0.166,
+          "end": 0.545
+        },
+        {
+          "word": "team",
+          "start": 0.555,
+          "end": 0.851
+        },
+        {
+          "word": "and",
+          "start": 0.971,
+          "end": 1.063
+        },
+        {
+          "word": "six",
+          "start": 1.063,
+          "end": 1.341
+        },
+        {
+          "word": "autonomous",
+          "start": 1.35,
+          "end": 1.803
+        },
+        {
+          "word": "NEAR",
+          "start": 1.812,
+          "end": 2.098
+        },
+        {
+          "word": "AI",
+          "start": 2.21,
+          "end": 2.542
+        },
+        {
+          "word": "agents",
+          "start": 2.552,
+          "end": 2.949
+        },
+        {
+          "word": "together",
+          "start": 3.125,
+          "end": 3.485
+        },
+        {
+          "word": "in",
+          "start": 3.485,
+          "end": 3.596
+        },
+        {
+          "word": "one",
+          "start": 3.606,
+          "end": 3.855
+        },
+        {
+          "word": "self-hosted",
+          "start": 3.865,
+          "end": 4.447
+        },
+        {
+          "word": "Slack",
+          "start": 4.447,
+          "end": 4.826
+        }
+      ]
+    },
+    {
+      "id": "tu03_ada",
+      "chapter": 2,
+      "speaker": "ada",
+      "start_frame": 240,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.18,
+      "step_badge": "99K INTENTS · +16 BPS",
+      "text": "Route ninety-nine thousand intents in Slack: One-Click beats Wintermute by sixteen basis points and settles in twenty-two seconds.",
+      "caption": "1Click beats Wintermute by +16 bps (358.1357 wNEAR) and settles in 22s.",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 7.639,
+      "words": [
+        {
+          "word": "Route",
+          "start": 0.082,
+          "end": 0.351
+        },
+        {
+          "word": "ninety-nine",
+          "start": 0.351,
+          "end": 1.029
+        },
+        {
+          "word": "thousand",
+          "start": 1.041,
+          "end": 1.368
+        },
+        {
+          "word": "intents",
+          "start": 1.368,
+          "end": 1.742
+        },
+        {
+          "word": "in",
+          "start": 1.754,
+          "end": 1.883
+        },
+        {
+          "word": "Slack",
+          "start": 1.894,
+          "end": 2.269
+        },
+        {
+          "word": "One-Click",
+          "start": 2.77,
+          "end": 3.203
+        },
+        {
+          "word": "beats",
+          "start": 3.215,
+          "end": 3.484
+        },
+        {
+          "word": "Wintermute",
+          "start": 3.484,
+          "end": 3.94
+        },
+        {
+          "word": "by",
+          "start": 3.952,
+          "end": 4.092
+        },
+        {
+          "word": "sixteen",
+          "start": 4.104,
+          "end": 4.641
+        },
+        {
+          "word": "basis",
+          "start": 4.653,
+          "end": 4.992
+        },
+        {
+          "word": "points",
+          "start": 5.004,
+          "end": 5.378
+        },
+        {
+          "word": "and",
+          "start": 5.389,
+          "end": 5.611
+        },
+        {
+          "word": "settles",
+          "start": 5.623,
+          "end": 6.079
+        },
+        {
+          "word": "in",
+          "start": 6.091,
+          "end": 6.278
+        },
+        {
+          "word": "twenty-two",
+          "start": 6.29,
+          "end": 6.734
+        },
+        {
+          "word": "seconds",
+          "start": 6.746,
+          "end": 7.318
+        }
+      ]
+    },
+    {
+      "id": "tu04_kronos",
+      "chapter": 3,
+      "speaker": "kronos",
+      "start_frame": 480,
+      "duration_frames": 300,
+      "voice_offset_sec": 0.18,
+      "step_badge": "OUTLAYER TDX · $25 CAP",
+      "text": "OutLayer Intel TDX locks a twenty-five-dollar hardware spend cap, signs twelve-dollar intents in four milliseconds, and blocks forty-five-dollar rogue drains.",
+      "caption": "OutLayer TDX: $25/tx cap, $12 safe pass (4ms), $45 rogue drain blocked.",
+      "speaker_label": "KRONOS · OUTLAYER TDX",
+      "speaker_role": "@kronos · OutLayer TDX Guard",
+      "speaker_accent": "#F59E0B",
+      "voice_duration_sec": 9.65,
+      "words": [
+        {
+          "word": "OutLayer",
+          "start": 0.083,
+          "end": 0.484
+        },
+        {
+          "word": "Intel",
+          "start": 0.496,
+          "end": 0.908
+        },
+        {
+          "word": "TDX",
+          "start": 0.921,
+          "end": 1.44
+        },
+        {
+          "word": "locks",
+          "start": 1.452,
+          "end": 1.769
+        },
+        {
+          "word": "a",
+          "start": 1.794,
+          "end": 1.852
+        },
+        {
+          "word": "twenty-five-dollar",
+          "start": 1.864,
+          "end": 2.678
+        },
+        {
+          "word": "hardware",
+          "start": 2.69,
+          "end": 3.092
+        },
+        {
+          "word": "spend",
+          "start": 3.103,
+          "end": 3.421
+        },
+        {
+          "word": "cap",
+          "start": 3.434,
+          "end": 3.752
+        },
+        {
+          "word": "signs",
+          "start": 4.319,
+          "end": 4.672
+        },
+        {
+          "word": "twelve-dollar",
+          "start": 4.684,
+          "end": 5.25
+        },
+        {
+          "word": "intents",
+          "start": 5.263,
+          "end": 5.675
+        },
+        {
+          "word": "in",
+          "start": 5.687,
+          "end": 5.852
+        },
+        {
+          "word": "four",
+          "start": 5.864,
+          "end": 6.124
+        },
+        {
+          "word": "milliseconds",
+          "start": 6.136,
+          "end": 6.796
+        },
+        {
+          "word": "and",
+          "start": 7.244,
+          "end": 7.374
+        },
+        {
+          "word": "blocks",
+          "start": 7.386,
+          "end": 7.752
+        },
+        {
+          "word": "forty-five-dollar",
+          "start": 7.763,
+          "end": 8.649
+        },
+        {
+          "word": "rogue",
+          "start": 8.661,
+          "end": 8.861
+        },
+        {
+          "word": "drains",
+          "start": 8.872,
+          "end": 9.309
+        }
+      ]
+    },
+    {
+      "id": "tu05_alex_studio",
+      "chapter": 4,
+      "speaker": "alex",
+      "start_frame": 780,
+      "duration_frames": 270,
+      "voice_offset_sec": 0.18,
+      "step_badge": "OCELLI 3-COL WORKSPACE",
+      "text": "Explore our three-column Ocelli workspace, six agent studio emblems, and five live protocol surfaces.",
+      "caption": "3-column Ocelli workspace + 6 agent emblems + 5 live protocol surfaces.",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 7.512,
+      "words": [
+        {
+          "word": "Explore",
+          "start": 0.0,
+          "end": 0.544
+        },
+        {
+          "word": "our",
+          "start": 0.591,
+          "end": 0.824
+        },
+        {
+          "word": "three-column",
+          "start": 0.845,
+          "end": 1.777
+        },
+        {
+          "word": "Ocelli",
+          "start": 1.858,
+          "end": 2.324
+        },
+        {
+          "word": "workspace,",
+          "start": 2.365,
+          "end": 3.142
+        },
+        {
+          "word": "six",
+          "start": 3.209,
+          "end": 3.442
+        },
+        {
+          "word": "agent",
+          "start": 3.463,
+          "end": 3.851
+        },
+        {
+          "word": "studio",
+          "start": 3.885,
+          "end": 4.351
+        },
+        {
+          "word": "emblems,",
+          "start": 4.392,
+          "end": 5.013
+        },
+        {
+          "word": "and",
+          "start": 5.067,
+          "end": 5.3
+        },
+        {
+          "word": "five",
+          "start": 5.321,
+          "end": 5.631
+        },
+        {
+          "word": "live",
+          "start": 5.658,
+          "end": 5.969
+        },
+        {
+          "word": "protocol",
+          "start": 5.996,
+          "end": 6.618
+        },
+        {
+          "word": "surfaces.",
+          "start": 6.672,
+          "end": 7.371
+        }
+      ]
+    },
+    {
+      "id": "tu06_ada_mechanics",
+      "chapter": 5,
+      "speaker": "ada",
+      "start_frame": 1050,
+      "duration_frames": 270,
+      "voice_offset_sec": 0.18,
+      "step_badge": "X402 GPU + TERRACE BETS",
+      "text": "Stream Corpus x402 H100 GPUs at one-eighty-four an hour and trade Terrace conviction markets with thirty-eight thousand AGENTES burned.",
+      "caption": "Corpus x402 H100 ($1.84/hr) + Terrace markets (38,420 $AGENTES burned).",
+      "speaker_label": "ADA · 1CLICK QUANT",
+      "speaker_role": "@ada · 1Click Quant Agent",
+      "speaker_accent": "#38BDF8",
+      "voice_duration_sec": 8.638,
+      "words": [
+        {
+          "word": "Stream",
+          "start": 0.089,
+          "end": 0.446
+        },
+        {
+          "word": "Corpus",
+          "start": 0.457,
+          "end": 0.826
+        },
+        {
+          "word": "x402",
+          "start": 0.881,
+          "end": 1.841
+        },
+        {
+          "word": "H100",
+          "start": 1.852,
+          "end": 2.532
+        },
+        {
+          "word": "GPUs",
+          "start": 2.544,
+          "end": 3.146
+        },
+        {
+          "word": "at",
+          "start": 3.158,
+          "end": 3.303
+        },
+        {
+          "word": "one-eighty-four",
+          "start": 3.303,
+          "end": 3.86
+        },
+        {
+          "word": "an",
+          "start": 3.872,
+          "end": 3.983
+        },
+        {
+          "word": "hour",
+          "start": 3.983,
+          "end": 4.363
+        },
+        {
+          "word": "and",
+          "start": 4.474,
+          "end": 4.586
+        },
+        {
+          "word": "trade",
+          "start": 4.697,
+          "end": 5.009
+        },
+        {
+          "word": "Terrace",
+          "start": 5.066,
+          "end": 5.456
+        },
+        {
+          "word": "conviction",
+          "start": 5.467,
+          "end": 5.813
+        },
+        {
+          "word": "markets",
+          "start": 5.813,
+          "end": 6.26
+        },
+        {
+          "word": "with",
+          "start": 6.504,
+          "end": 6.672
+        },
+        {
+          "word": "thirty-eight",
+          "start": 6.739,
+          "end": 7.219
+        },
+        {
+          "word": "thousand",
+          "start": 7.23,
+          "end": 7.598
+        },
+        {
+          "word": "AGENTES",
+          "start": 7.609,
+          "end": 7.933
+        },
+        {
+          "word": "burned",
+          "start": 7.933,
+          "end": 8.346
+        }
+      ]
+    },
+    {
+      "id": "tu07_mira_pq",
+      "chapter": 6,
+      "speaker": "mira_vi",
+      "start_frame": 1320,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.18,
+      "step_badge": "KYVERA ML-DSA-65 PQ",
+      "text": "Bảo mật phần cứng Intel TDX và chữ ký hậu lượng tử ML-DSA-65!",
+      "caption": "Intel TDX hardware enclave + FIPS 204 ML-DSA-65 post-quantum signatures!",
+      "speaker_label": "MIRA · V-DRILL",
+      "speaker_role": "@mira · V-Drill Producer Tag",
+      "speaker_accent": "#EC4899",
+      "voice_duration_sec": 6.0,
+      "words": [
+        {
+          "word": "Bảo",
+          "start": 0.0,
+          "end": 0.333
+        },
+        {
+          "word": "mật",
+          "start": 0.362,
+          "end": 0.696
+        },
+        {
+          "word": "phần",
+          "start": 0.725,
+          "end": 1.17
+        },
+        {
+          "word": "cứng",
+          "start": 1.208,
+          "end": 1.653
+        },
+        {
+          "word": "Intel",
+          "start": 1.691,
+          "end": 2.247
+        },
+        {
+          "word": "TDX",
+          "start": 2.296,
+          "end": 2.629
+        },
+        {
+          "word": "và",
+          "start": 2.658,
+          "end": 2.88
+        },
+        {
+          "word": "chữ",
+          "start": 2.9,
+          "end": 3.233
+        },
+        {
+          "word": "ký",
+          "start": 3.262,
+          "end": 3.484
+        },
+        {
+          "word": "hậu",
+          "start": 3.504,
+          "end": 3.837
+        },
+        {
+          "word": "lượng",
+          "start": 3.866,
+          "end": 4.422
+        },
+        {
+          "word": "tử",
+          "start": 4.47,
+          "end": 4.693
+        },
+        {
+          "word": "ML-DSA-65!",
+          "start": 4.712,
+          "end": 5.823
+        }
+      ]
+    },
+    {
+      "id": "tu08_alex_cta",
+      "chapter": 7,
+      "speaker": "alex",
+      "start_frame": 1560,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.18,
+      "step_badge": "13 NEAR TRACKS · /OCELLI",
+      "text": "Agentes NEAR. Thirteen NEAR tracks live at slash ocelli and open source on GitHub today.",
+      "caption": "Agentes NEAR · 13 NEAR Tracks · Live at /ocelli · github.com/harrymove-ctrl/agentes-near",
+      "speaker_label": "ALEX · FOUNDER",
+      "speaker_role": "Founder Host",
+      "speaker_accent": "#00EC97",
+      "voice_duration_sec": 6.648,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.072,
+          "end": 0.421
+        },
+        {
+          "word": "NEAR",
+          "start": 0.421,
+          "end": 0.865
+        },
+        {
+          "word": "Thirteen",
+          "start": 1.286,
+          "end": 1.647
+        },
+        {
+          "word": "NEAR",
+          "start": 1.659,
+          "end": 1.851
+        },
+        {
+          "word": "tracks",
+          "start": 1.863,
+          "end": 2.224
+        },
+        {
+          "word": "live",
+          "start": 2.224,
+          "end": 2.644
+        },
+        {
+          "word": "at",
+          "start": 2.945,
+          "end": 3.017
+        },
+        {
+          "word": "slash",
+          "start": 3.029,
+          "end": 3.425
+        },
+        {
+          "word": "ocelli",
+          "start": 3.425,
+          "end": 4.038
+        },
+        {
+          "word": "and",
+          "start": 4.411,
+          "end": 4.627
+        },
+        {
+          "word": "open",
+          "start": 4.688,
+          "end": 4.976
+        },
+        {
+          "word": "source",
+          "start": 4.976,
+          "end": 5.373
+        },
+        {
+          "word": "on",
+          "start": 5.385,
+          "end": 5.493
+        },
+        {
+          "word": "GitHub",
+          "start": 5.505,
+          "end": 5.901
+        },
+        {
+          "word": "today",
+          "start": 5.913,
+          "end": 6.31
+        }
+      ]
     }
   ]
 }

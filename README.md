@@ -10,7 +10,7 @@ Built at **NEAR HACKATHON** (`2026-11-01` to `2026-11-14`).
 | --- | --- | --- |
 | Live Railway App | https://agentes-near-production.up.railway.app/ocelli | Public `/ocelli` landing page and 1-click workspace entry |
 | Public Repository | https://github.com/harrymove-ctrl/agentes-near | Root MIT `LICENSE` plus upstream `NOTICE` attribution |
-| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v2.0.0 | 1080p 60fps 7-act motion showcase (`AgentesNearDemo`, 80s) and X teaser (`AgentesNearXTeaser`, 45s) |
+| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v2.0.0 | 1080p 30fps 4-minute narrated product promotion talk and step-by-step feature film (`AgentesNearDemo`, 240s) and X teaser (`AgentesNearXTeaser`, 60s) with 4 neural voices and Vietnamese Dan Tranh + 808 V-Drill score |
 | Hackathon Spec | [HACKATHON.md](HACKATHON.md) | Official NEAR HACKATHON rules, tracks, and API reference |
 | Submission Packet | [SUBMISSION.md](SUBMISSION.md) | Track rationale, X post draft, and `POST /api/applications` template |
 
@@ -59,7 +59,7 @@ Designed for automated screeners (`Claude Code`, `Codex` per `HACKATHON.md` Q-01
 | Step | Do X | See Y |
 | --- | --- | --- |
 | 1 | Open `/ocelli` (or `/welcome`) in the browser | Animated Bayer `DitherScene` hero (`horizon`, `aurora`, `plasma`, `waves`, `dither-orb`), floating 4-pane interactive window, unified 7-chapter `AgentMotionStudio`, 13 NEAR tracks matrix, and zero JS page errors |
-| 2 | Scroll to **Motion Studio** (`#motion-studio`) on `/ocelli`, prompt `@mira` in the AI Video Director bar, click chapters in the 80.0s Master Timeline (`01 Kinetic Hook` through `07 ONE Workspace Finale`), switch between `Interactive 60fps Agent Canvas` and `Watch 1080p60 Master Film (MP4)`, and toggle the melodic drill Web Audio synth | Unified 80s Agentes NEAR product film updates live on canvas or plays the 1080p60 MP4 (`/video/agentes-near-demo.mp4` and `/video/agentes-near-x-teaser.mp4`) with sliding 808 glides and triplet drill hi-hats |
+| 2 | Scroll to **Motion Studio** (`#motion-studio`) on `/ocelli`, prompt `@mira` in the AI Video Director bar, click chapters in the 240.0s (4:00) Master Timeline (`01 Problem & 99K Hook` through `07 Quickstart & ONE Lockup`), switch between `Interactive 60fps Agent Canvas` and `Watch 1080p60 Master Film (MP4)`, and toggle the Viet-Drill + 808 Web Audio synth | Unified 4-minute Agentes NEAR narrated product film updates live on canvas with `STEP 01 / 02 / 03` explainers and 4-voice karaoke HUD (`ALEX`, `@ada`, `@kronos`, `@mira`) or plays the 1080p MP4 (`/video/agentes-near-demo.mp4` and `/video/agentes-near-x-teaser.mp4`) with Vietnamese Dan Tranh harmonics and sliding 808 glides |
 | 3 | Click **Simulate $45.00 Rogue Drain** in the `/ocelli` window (`OutLayer TDX Guard` tab) or call `POST /api/near/enclave-test` with `{"amountUsd":45,"capUsd":25}` | HTTP `200` JSON response with `allowed: false`, `decision: "BLOCKED_PER_TX_CAP"`, hardware policy rejection reason, and `[BLOCK]` badge |
 | 4 | Click **Run $12.00 Safe Intent** (`POST /api/near/enclave-test` with `{"amountUsd":12,"capUsd":25}`) | HTTP `200` JSON response with `allowed: true`, SHA-256 `NEP-413` (`tag = 2147484061`) receipt payload, and `[PASS]` badge |
 | 5 | Click **1-Click Enter Workspace** (as `Harry Phan` via `POST /api/auth/zen-demo-login`) | Redirect into `/` -> `/org/...` Slack workspace showing `#near-intents-arena`, `#compute-endowment`, `#outlayer-tee-vault`, and `Updates` |
