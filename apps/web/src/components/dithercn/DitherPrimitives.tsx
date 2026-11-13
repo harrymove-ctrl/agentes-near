@@ -233,6 +233,62 @@ function DitherSparklineCanvas({
   );
 }
 
+export interface DitherSparklineProps {
+  series: number[];
+  tone?: DitherColorTone;
+  label?: string;
+  valueText?: string;
+  className?: string;
+}
+
+export function DitherSparkline({
+  series,
+  tone = "mint",
+  label,
+  valueText,
+  className,
+}: DitherSparklineProps) {
+  return (
+    <div
+      className={joinClasses("dcn-sparkline-widget", className)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 10,
+      }}
+    >
+      {(label || valueText) && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {label && (
+            <span
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: 11,
+                color: "rgba(186, 200, 232, 0.78)",
+              }}
+            >
+              {label}
+            </span>
+          )}
+          {valueText && (
+            <strong
+              style={{
+                fontFamily: "var(--font-mono, monospace)",
+                fontSize: 13,
+                color: "#f4f6fb",
+              }}
+            >
+              {valueText}
+            </strong>
+          )}
+        </div>
+      )}
+      <DitherSparklineCanvas series={series} tone={tone} />
+    </div>
+  );
+}
+
 export function DitherStatCard({
   label,
   value,
@@ -693,6 +749,7 @@ export interface DitherTabItem {
   id: string;
   label: string;
   badge?: string | number;
+  testId?: string;
 }
 
 export interface DitherTabsProps {
@@ -727,6 +784,7 @@ export function DitherTabs({
             type="button"
             role="tab"
             className="dcn-tab"
+            data-testid={item.testId ?? `tab-${item.id}`}
             aria-selected={selected}
             onClick={() => onChange(item.id)}
           >

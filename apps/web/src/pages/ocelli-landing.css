@@ -1194,6 +1194,403 @@
   text-decoration: underline;
 }
 
+/* Sticky Navbar Scroll Offset Fix */
+#motion-studio,
+#demo-window,
+#winner-mechanics,
+#tracks,
+#enclave,
+#telemetry,
+#agent-stream,
+#architecture,
+#faq {
+  scroll-margin-top: 96px;
+}
+
+#motion-studio {
+  padding-top: 84px;
+}
+
+.oc-nav {
+  max-width: 1210px;
+}
+
+.oc-nav-links {
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.oc-nav-link {
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+/* Prominent Play With 808 Drill Sound Hero CTA in AgentMotionStudio */
+.ams-sound-hero-cta {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid #a855f7;
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px -6px rgba(219, 39, 119, 0.65);
+  transition: transform 140ms ease, filter 140ms ease;
+}
+
+.ams-sound-hero-cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.ams-sound-hero-cta[aria-pressed="true"] {
+  border-color: #00ec97;
+  background: #00ec97;
+  color: #051c12;
+  box-shadow: 0 6px 18px -6px rgba(0, 236, 151, 0.65);
+}
+
+/* Ocelli 3-Column macOS Dark Glass Live Workspace (.oc-live-ws) */
+.oc-live-ws {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) 280px;
+  gap: 12px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.oc-live-ws__left,
+.oc-live-ws__right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(8, 12, 22, 0.88);
+  border: 1px solid rgba(168, 192, 240, 0.16);
+  min-width: 0;
+}
+
+.oc-live-ws__org {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(168, 192, 240, 0.14);
+}
+
+.oc-live-ws__org strong {
+  font-size: 12.5px;
+  color: #ffffff;
+}
+
+.oc-live-ws__org span {
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  color: #6ef7be;
+}
+
+.oc-live-ws__group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.oc-live-ws__heading {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #8ea6d8;
+  margin-bottom: 2px;
+}
+
+.oc-live-ws__chan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(214, 224, 245, 0.84);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.oc-live-ws__chan[data-active="true"],
+.oc-live-ws__chan:hover {
+  background: rgba(91, 142, 255, 0.16);
+  border-color: rgba(91, 142, 255, 0.32);
+  color: #ffffff;
+}
+
+.oc-live-ws__chan small {
+  font-size: 9.5px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: rgba(0, 236, 151, 0.16);
+  color: #6ef7be;
+}
+
+.oc-live-ws__agent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+}
+
+.oc-live-ws__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.oc-live-ws__agent-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.oc-live-ws__agent-meta strong {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  color: #f4f6fb;
+}
+
+.oc-live-ws__agent-meta small {
+  font-size: 10px;
+  color: rgba(186, 200, 232, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oc-live-ws__center {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.oc-live-ws__stream-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(8, 12, 22, 0.85);
+  border: 1px solid rgba(168, 192, 240, 0.16);
+  font-size: 12.5px;
+  color: #dbe4f8;
+}
+
+.oc-live-ws__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(11, 16, 29, 0.92);
+  border: 1px solid rgba(168, 192, 240, 0.18);
+  min-width: 0;
+}
+
+.oc-live-ws__card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.oc-live-ws__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+.oc-live-ws__mono {
+  margin-left: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: #93b2ff;
+}
+
+.oc-live-ws__burn-pill {
+  margin-left: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.16);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.34);
+}
+
+.oc-live-ws__text {
+  margin: 0;
+  font-size: 12.5px;
+  color: rgba(214, 224, 245, 0.86);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.oc-live-ws__solvers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.oc-live-ws__solver-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(91, 142, 255, 0.28);
+  color: #c7d9ff;
+}
+
+.oc-live-ws__video-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(5, 8, 15, 0.92);
+  border: 1px solid rgba(168, 192, 240, 0.2);
+}
+
+.oc-live-ws__video-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #93b2ff;
+}
+
+.oc-live-ws__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 7px;
+  display: block;
+  background: #05070d;
+  object-fit: cover;
+}
+
+.oc-live-ws__studio-jump {
+  width: 100%;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 236, 151, 0.4);
+  background: rgba(0, 236, 151, 0.14);
+  color: #6ef7be;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.oc-live-ws__studio-jump:hover {
+  background: #00ec97;
+  color: #051c12;
+}
+
+.oc-live-ws__telemetry-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(5, 8, 15, 0.78);
+  border: 1px solid rgba(168, 192, 240, 0.14);
+}
+
+.oc-live-ws__pq-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: rgba(0, 236, 151, 0.1);
+  border: 1px solid rgba(0, 236, 151, 0.28);
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: #a9f9d6;
+}
+
+/* Monad Metropolis -> NEAR Winner Mechanics Grid */
+.oc-winner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 16px;
+}
+
+.oc-winner-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.oc-winner-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+  color: #ffffff;
+}
+
+.oc-winner-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.oc-winner-note {
+  margin: 6px 0 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: rgba(196, 210, 240, 0.8);
+}
+
+.oc-winner-burn-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  color: #fde68a;
+}
+
 @media (max-width: 1040px) {
   .oc-nav-links {
     display: none;
@@ -1207,6 +1604,9 @@
   }
   .dl-body {
     padding: 12px;
+  }
+  .oc-live-ws {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1237,5 +1637,8 @@
   }
   .dl-chrome {
     padding: 10px 12px;
+  }
+  .oc-winner-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -1473,6 +1473,23 @@ export function AgentMotionStudio() {
         </div>
 
         <div className="ams-mode-meta">
+          <button
+            type="button"
+            data-testid="ams-hero-sound-cta"
+            className="ams-sound-hero-cta"
+            aria-pressed={soundOn}
+            onClick={() => {
+              if (!soundOn) {
+                toggleSound();
+              } else {
+                toggleSound();
+              }
+              setIsPlaying(true);
+            }}
+          >
+            {soundOn ? "🔊 808 Drill Sound Active" : "▶ Play With 808 Drill Sound"}
+          </button>
+
           {stageMode === "canvas" ? (
             <button
               type="button"

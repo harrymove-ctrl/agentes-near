@@ -10,7 +10,7 @@ import {
 } from "@agenteschat/ui";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BenchoSloshSlider,
   DitherGauge,
@@ -20,7 +20,7 @@ import {
 } from "@/components/dithercn";
 import "./near-modal.css";
 
-type NearTab = "enclave" | "markets" | "endowment";
+export type NearTab = "enclave" | "markets" | "endowment" | "film";
 
 interface SolverBid {
   solver: string;
@@ -237,13 +237,20 @@ export function NearControlModal({
   open,
   onOpenChange,
   orgId,
+  initialTab,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   orgId: string;
+  initialTab?: NearTab;
 }) {
   const qc = useQueryClient();
-  const [tab, setTab] = useState<NearTab>("enclave");
+  const [tab, setTab] = useState<NearTab>(initialTab ?? "enclave");
+  useEffect(() => {
+    if (open && initialTab) {
+      setTab(initialTab);
+    }
+  }, [open, initialTab]);
   const [capUsd, setCapUsd] = useState<number>(25);
   const [selectedAgent, setSelectedAgent] = useState<"ada" | "theo" | "lia" | "kronos">("ada");
   const [quotePairIdx, setQuotePairIdx] = useState(0);
@@ -472,6 +479,7 @@ export function NearControlModal({
                 label: "Corpus Endowment",
                 count: endowment ? Math.round(endowment.runwayHours) : undefined,
               },
+              { value: "film", label: "Promo Film (80s)" },
             ]}
           >
             <TabPanel value="enclave">
@@ -1004,6 +1012,75 @@ export function NearControlModal({
                         </Chip>
                       </div>
                     ))}
+                  </div>
+                </MdxcnFrame>
+              </div>
+            </TabPanel>
+
+            <TabPanel value="film">
+              <div className="near-modal__panel" data-testid="near-film-panel">
+                <MdxcnFrame
+                  title="AGENTES NEAR · 80s 1080p60 MASTER PROMO FILM"
+                  badge="7 CHAPTERS · 808 DRILL SCORE"
+                  tone="purple"
+                >
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 10,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <p className="near-modal__lead" style={{ margin: 0 }}>
+                        Watch the unified 80s 1080p @ 60fps product film directed by <strong>@mira</strong> covering
+                        NEAR Intents 1Click, OutLayer Intel TDX, Terrace conviction markets, and Corpus x402 compute.
+                      </p>
+                      <a
+                        href="/ocelli#motion-studio"
+                        className="near-modal__ocelli-link"
+                        data-testid="near-film-studio-link"
+                        onClick={() => onOpenChange(false)}
+                      >
+                        <Icon name="globe" size={14} />
+                        <span>Open Interactive Motion Studio (/ocelli#motion-studio)</span>
+                      </a>
+                    </div>
+
+                    <div
+                      style={{
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        border: "1px solid var(--ac-line)",
+                        background: "#05070e",
+                      }}
+                    >
+                      {/* biome-ignore lint/a11y/useMediaCaption: Hackathon product demo video */}
+                      <video
+                        src="/video/agentes-near-demo.mp4"
+                        poster="/screenshots/motion-studio.png"
+                        controls
+                        playsInline
+                        preload="metadata"
+                        data-testid="near-film-video"
+                        style={{ width: "100%", display: "block", maxHeight: 420 }}
+                      />
+                    </div>
+
+                    <div className="near-result-box__meta">
+                      <span>Resolution: 1920x1080 @ 60fps</span>
+                      <span>Audio: Melodic 808 Drill (-14 LUFS)</span>
+                      <a
+                        href="/video/agentes-near-x-teaser.mp4"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "var(--ac-ink)", textDecoration: "underline" }}
+                      >
+                        45s X Launch Cut (MP4)
+                      </a>
+                    </div>
                   </div>
                 </MdxcnFrame>
               </div>

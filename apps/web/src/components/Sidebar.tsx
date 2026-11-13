@@ -154,7 +154,7 @@ import { sectionName, useSectionOrder } from "./SidebarOrder";
 import { SIDEBAR_TOOLS, SidebarSetupDialog, ToolList } from "./SidebarSetup";
 import { AgentGlow, AgentTrail, colorOf, MenuHorizon, SidebarHorizon, WorkspaceSky } from "./Sky";
 import { SetStatusDialog, useSaveStatus } from "./StatusDialog";
-import { NearControlModal } from "./NearControlModal";
+import { NearControlModal, type NearTab } from "./NearControlModal";
 import { ZenControlModal } from "./ZenControlModal";
 
 /** An agent's sky for its busy chip (`.sidebar__busy`): both themes, the CSS picks one. */
@@ -255,6 +255,7 @@ export function Sidebar() {
   const [customizing, setCustomizing] = useState(false);
   const [zenOpen, setZenOpen] = useState(false);
   const [nearOpen, setNearOpen] = useState(false);
+  const [nearInitialTab, setNearInitialTab] = useState<NearTab>("enclave");
   const navigate = useNavigate();
   const onProposals = useRouterState({ select: (r) => r.location.pathname.endsWith("/proposals") });
   const currentHref = useRouterState({ select: (r) => r.location.href });
@@ -266,7 +267,9 @@ export function Sidebar() {
       sp.delete("zen");
       changed = true;
     }
-    if (sp.get("near") === "1") {
+    const nearParam = sp.get("near");
+    if (nearParam === "1" || nearParam === "film") {
+      setNearInitialTab(nearParam === "film" ? "film" : "enclave");
       setNearOpen(true);
       sp.delete("near");
       changed = true;
@@ -613,11 +616,28 @@ export function Sidebar() {
           className="sidebar__item"
           title={rail ? "NEAR Intents & TEE" : undefined}
           data-testid="near-control-trigger"
-          onClick={() => setNearOpen(true)}
+          onClick={() => {
+            setNearInitialTab("enclave");
+            setNearOpen(true);
+          }}
         >
           <Icon name="bolt" />
           <span className="sidebar__item-label">NEAR Intents &amp; TEE</span>
           <CountChip className="sidebar__count">NEAR</CountChip>
+        </button>
+        <button
+          type="button"
+          className="sidebar__item"
+          title={rail ? "Motion Studio & 80s Film" : undefined}
+          data-testid="sidebar-motion-studio-trigger"
+          onClick={() => {
+            setNearInitialTab("film");
+            setNearOpen(true);
+          }}
+        >
+          <Icon name="layers" />
+          <span className="sidebar__item-label">Motion Studio &amp; 80s Film</span>
+          <CountChip className="sidebar__count">80s</CountChip>
         </button>
         <Link
           to="/ocelli"
@@ -995,7 +1015,12 @@ export function Sidebar() {
         withChannel={newCategory?.withChannel}
       />
       <SidebarSetupDialog open={customizing} onClose={() => setCustomizing(false)} />
-      <NearControlModal open={nearOpen} onOpenChange={setNearOpen} orgId={orgId} />
+      <NearControlModal
+        open={nearOpen}
+        onOpenChange={setNearOpen}
+        orgId={orgId}
+        initialTab={nearInitialTab}
+      />
       <ZenControlModal open={zenOpen} onOpenChange={setZenOpen} orgId={orgId} />
       {groupDialog && <GroupNameDialog purpose={groupDialog} onClose={() => setGroupDialog(null)} />}
       {deletingGroup && <DeleteGroupDialog group={deletingGroup} onClose={() => setDeletingGroup(null)} />}
@@ -2281,7 +2306,15 @@ function useWorkspaceLook() {
           sub: null,
           personal: true,
         }
-      : { leading: <OrgMark logo={o.logo} size={mark} />, name: o.name, sub: null, personal: false };
+      : {
+          leading: <OrgMark logo={o.logo} size={mark} />,
+          name: o.name === "CommandOSS" || o.name.startsWith("CommandOSS") ? "Agentes NEAR" : o.name,
+          sub:
+            o.name === "CommandOSS" || o.name.startsWith("CommandOSS")
+              ? "Autonomous Slack · 13 NEAR Tracks"
+              : null,
+          personal: false,
+        };
 }
 
 /**
@@ -2404,6 +2437,9 @@ function WorkspaceMenu({ summary }: { summary: string | null }) {
   const dir = useDirectory(org.id);
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
+  const isNearWorkspace = org.name === "CommandOSS" || org.name.startsWith("CommandOSS");
+  const displayTitle = isNearWorkspace ? "Agentes NEAR" : org.name;
+  const displaySubtitle = isNearWorkspace ? "Autonomous Slack · 13 NEAR Tracks" : summary;
   return (
     <>
       <button
@@ -2411,13 +2447,13 @@ function WorkspaceMenu({ summary }: { summary: string | null }) {
         type="button"
         className="sidebar__org-button"
         aria-haspopup="dialog"
-        aria-label={t("shell.workspaceMenuOf", { name: org.name })}
+        aria-label={t("shell.workspaceMenuOf", { name: displayTitle })}
         onClick={() => setOpen(true)}
       >
         <OrgMark logo={org.logo} className="sidebar__org-mark" />
         <span className="sidebar__org-text">
-          <span className="sidebar__org-name">{org.name}</span>
-          {summary && <span className="sidebar__org-meta">{summary}</span>}
+          <span className="sidebar__org-name">{displayTitle}</span>
+          {displaySubtitle && <span className="sidebar__org-meta">{displaySubtitle}</span>}
         </span>
         <Icon name="chevronDown" size={16} />
       </button>
@@ -2428,10 +2464,10 @@ function WorkspaceMenu({ summary }: { summary: string | null }) {
         closeLabel={t("common.close")}
         backdrop={<MenuHorizon />}
         mark={<OrgMark logo={org.logo} size={82} />}
-        title={org.name}
+        title={displayTitle}
         meta={
           <>
-            {summary}
+            {displaySubtitle}
             {/* The agents the summary counts: the right hand isn't one of them, so no face beside "0 agents". */}
             {dir.agents.some((a) => !isRightHand(a)) && (
               <span className="sidebar__menu-crew">

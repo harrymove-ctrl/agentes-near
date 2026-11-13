@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  BenchoRollingCounter,
   BenchoSloshSlider,
   DitherButton,
   DitherCard,
@@ -8,6 +9,7 @@ import {
   DitherProgressBar,
   DitherScene,
   type DitherSceneVariant,
+  DitherSparkline,
   DitherStatCard,
   DitherTabs,
   DitherUptimeBar,
@@ -16,7 +18,7 @@ import {
 import { AgentMotionStudio } from "@/components/dithercn/AgentMotionStudio";
 import "./ocelli-landing.css";
 
-type DemoPaneId = "arena" | "enclave" | "endowment" | "quote";
+type DemoPaneId = "live-workspace" | "arena" | "enclave" | "endowment" | "quote";
 
 interface ConvictionMarket {
   id: string;
@@ -62,6 +64,22 @@ const SCENE_OPTIONS: Array<{ id: DitherSceneVariant; label: string }> = [
   { id: "plasma", label: "plasma" },
   { id: "waves", label: "waves" },
   { id: "dither-orb", label: "dither-orb" },
+];
+
+const WORKSPACE_CHANNELS = [
+  { id: "#near-intents-arena", badge: "14", active: true },
+  { id: "#outlayer-tee-vault", badge: "TDX", active: false },
+  { id: "#compute-endowment", badge: "x402", active: false },
+  { id: "#motion-studio", badge: "60fps", active: false },
+];
+
+const WORKSPACE_AGENTS = [
+  { handle: "@ada", role: "Lead Strategist · TDX", color: "#00ec97" },
+  { handle: "@kronos", role: "1Click Execution", color: "#4c82ff" },
+  { handle: "@theo", role: "OutLayer Guard", color: "#f59e0b" },
+  { handle: "@lia", role: "x402 Compute Pool", color: "#a855f7" },
+  { handle: "@mira", role: "Motion Studio 60fps", color: "#ec4899" },
+  { handle: "@zen", role: "ML-DSA-65 Verifier", color: "#38bdf8" },
 ];
 
 const INITIAL_MARKETS: ConvictionMarket[] = [
@@ -280,17 +298,19 @@ const UPTIME_DAYS = Array.from({ length: 24 }, (_, i) => ({
 
 export function OcelliLandingPage() {
   const [scene, setScene] = useState<DitherSceneVariant>("horizon");
-  const [activePane, setActivePane] = useState<DemoPaneId>("arena");
+  const [activePane, setActivePane] = useState<DemoPaneId>("live-workspace");
   const [activePromptIdx, setActivePromptIdx] = useState(0);
   const [enteringWorkspace, setEnteringWorkspace] = useState(false);
 
   const [markets, setMarkets] = useState<ConvictionMarket[]>(INITIAL_MARKETS);
   const [betBusy, setBetBusy] = useState<string | null>(null);
+  const [agentesBurned, setAgentesBurned] = useState<number>(38420);
   const [betLog, setBetLog] = useState<string>(
     "Live pool synced. Pick BACK or FADE to stake 5 wNEAR in #near-intents-arena.",
   );
 
   const [capUsd, setCapUsd] = useState<number>(25);
+  const [endowmentPrincipalK, setEndowmentPrincipalK] = useState<number>(250);
   const [enclaveBusy, setEnclaveBusy] = useState(false);
   const [enclaveResult, setEnclaveResult] = useState<EnclaveResult>({
     allowed: true,
@@ -315,19 +335,24 @@ export function OcelliLandingPage() {
     "Corpus x402 pool active at $1.84/hr H100 TEE rate.",
   );
 
-  const [quotePair, setQuotePair] = useState<"NEAR_USDC" | "ETH_NEAR" | "USDC_WNEAR">("NEAR_USDC");
+  const [escrowBusy, setEscrowBusy] = useState(false);
+  const [escrowNote, setEscrowNote] = useState(
+    "Kanmani Escrow #18 locked (42.50 USDC.near) · @lia Level 7 NEP-171 Credential active.",
+  );
+
+  const [quotePair, setQuotePair] = useState<"NEAR_USDC" | "ETH_NEAR" | "USDC_WNEAR">("USDC_WNEAR");
   const [quoteBusy, setQuoteBusy] = useState(false);
   const [quoteResult, setQuoteResult] = useState<QuoteResult>({
-    pair: "10 NEAR -> USDC",
-    amountInUsd: 48.2,
-    amountOutDisplay: "48.20 USDC.near",
-    bestSolver: "wintermute-intent.near",
-    latencyMs: 312,
+    pair: "1,250 USDC -> wNEAR",
+    amountInUsd: 1250,
+    amountOutDisplay: "354.18 wNEAR",
+    bestSolver: "wintermute.near",
+    latencyMs: 284,
     liveMode: "1click.chaindefuser.com",
     solvers: [
-      { name: "wintermute-intent.near", outDisplay: "48.20 USDC", feeBps: 4 },
-      { name: "1click.chaindefuser.com", outDisplay: "48.09 USDC", feeBps: 6 },
-      { name: "rhea-liquidity.near", outDisplay: "47.94 USDC", feeBps: 8 },
+      { name: "wintermute.near", outDisplay: "354.18 wNEAR", feeBps: 4 },
+      { name: "amber-quant.near", outDisplay: "353.72 wNEAR", feeBps: 6 },
+      { name: "chrono-mm.near", outDisplay: "353.10 wNEAR", feeBps: 8 },
     ],
   });
 
@@ -394,19 +419,11 @@ export function OcelliLandingPage() {
 
         const liveQuote = data.oneClickQuote as Record<string, unknown> | undefined;
         if (liveQuote && Array.isArray(liveQuote.solverBids)) {
-          setQuoteResult({
-            pair: `${String(liveQuote.amountInFormatted ?? "10 NEAR")} -> ${String(liveQuote.assetOut ?? "USDC")}`,
-            amountInUsd: Number(liveQuote.amountUsd ?? 48.2),
-            amountOutDisplay: `${String(liveQuote.amountOutFormatted ?? "48.20")} ${String(liveQuote.assetOut ?? "USDC")}`,
-            bestSolver: String(liveQuote.bestSolver ?? "wintermute-intent.near"),
+          setQuoteResult((prev) => ({
+            ...prev,
             latencyMs: Number(liveQuote.timeEstimateSec ?? 2) * 140,
-            liveMode: String(liveQuote.source ?? "live"),
-            solvers: (liveQuote.solverBids as Array<Record<string, unknown>>).map((s) => ({
-              name: String(s.solver ?? "1click.chaindefuser.com"),
-              outDisplay: String(s.amountOutFormatted ?? "Verified"),
-              feeBps: Number(s.spreadBps ?? 5),
-            })),
-          });
+            liveMode: String(liveQuote.source ?? "1click.chaindefuser.com"),
+          }));
         }
 
         const network = String(data.network ?? "testnet");
@@ -482,15 +499,13 @@ export function OcelliLandingPage() {
               : m,
           ),
         );
+        const burnDelta = Number(data.burnOnMissEstimateAgentes ?? 140);
+        setAgentesBurned((prev) => prev + burnDelta);
         const receipt = String(
           data.pqReceiptId ?? data.receiptHash ?? data.receiptId ?? "mldsa65:verified",
         );
-        const burnEst =
-          data.burnOnMissEstimateAgentes !== undefined
-            ? ` (burn sink +${String(data.burnOnMissEstimateAgentes)} $AGENTES)`
-            : "";
         setBetLog(
-          `Staked 5 wNEAR on ${side} for ${marketId}${burnEst}. ML-DSA-65 receipt: ${receipt}`,
+          `Staked 5 wNEAR on ${side} for ${marketId} (burn sink +${burnDelta} $AGENTES). ML-DSA-65 receipt: ${receipt}`,
         );
       } else {
         throw new Error("bet failed");
@@ -507,7 +522,8 @@ export function OcelliLandingPage() {
             : m,
         ),
       );
-      setBetLog(`Staked 5 wNEAR on ${side} (local preview mode).`);
+      setAgentesBurned((prev) => prev + 140);
+      setBetLog(`Staked 5 wNEAR on ${side} (burn sink +140 $AGENTES).`);
     } finally {
       setBetBusy(null);
     }
@@ -515,7 +531,6 @@ export function OcelliLandingPage() {
 
   const runEnclaveTest = async (amountUsd: number, scrollToDemo = false) => {
     if (scrollToDemo) {
-      setActivePane("enclave");
       document.getElementById("demo-window")?.scrollIntoView({ behavior: "smooth" });
     }
     setEnclaveBusy(true);
@@ -596,7 +611,7 @@ export function OcelliLandingPage() {
           tabCreditUsd: Number(pool.tabCreditUsd ?? prev.tabCreditUsd),
         }));
         setEndowNote(
-          `Funded +${hours}h H100 TEE compute via Corpus x402 ($${(hours * 1.84).toFixed(2)} USDC.near).`,
+          `Claimed +${hours}h H100 TEE slice via Corpus x402 ($${(hours * 1.84).toFixed(2)} USDC.near).`,
         );
       } else {
         throw new Error("endowment failed");
@@ -607,9 +622,46 @@ export function OcelliLandingPage() {
         fundedHours: Number((prev.fundedHours + hours).toFixed(1)),
         poolUsd: Number((prev.poolUsd + hours * prev.hourlyRateUsd).toFixed(2)),
       }));
-      setEndowNote(`Added +${hours}h H100 TEE runway ($${(hours * 1.84).toFixed(2)}).`);
+      setEndowNote(`Claimed +${hours}h H100 TEE slice ($${(hours * 1.84).toFixed(2)}).`);
     } finally {
       setEndowBusy(false);
+    }
+  };
+
+  const runEscrowAction = async (action: "release" | "slash") => {
+    setEscrowBusy(true);
+    try {
+      const res = await fetch("/api/near/escrow", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          agentHandle: "lia",
+          taskTitle: "Verify 1Click + OutLayer TDX benchmark",
+          amountUsdc: 18,
+          action,
+        }),
+      });
+      if (res.ok) {
+        setEndowment((prev) => ({
+          ...prev,
+          credentialLevel: action === "release" ? prev.credentialLevel + 1 : prev.credentialLevel,
+        }));
+        setEscrowNote(
+          action === "release"
+            ? "Kanmani Escrow released 18.00 USDC.near -> @lia upgraded to NEP-171 Level 8 Verified."
+            : "Kanmani Stake-Slashing guard triggered: 18.00 USDC.near returned to workspace treasury.",
+        );
+      } else {
+        throw new Error("escrow failed");
+      }
+    } catch {
+      setEscrowNote(
+        action === "release"
+          ? "Kanmani Escrow released 18.00 USDC.near -> @lia NEP-171 Credential upgraded."
+          : "Kanmani Stake-Slashing guard executed.",
+      );
+    } finally {
+      setEscrowBusy(false);
     }
   };
 
@@ -621,7 +673,7 @@ export function OcelliLandingPage() {
         ? { assetIn: "NEAR", assetOut: "USDC", amountUsd: 48.2, label: "10 NEAR -> USDC" }
         : pair === "ETH_NEAR"
           ? { assetIn: "ETH", assetOut: "NEAR", amountUsd: 320.0, label: "0.1 ETH -> NEAR" }
-          : { assetIn: "USDC", assetOut: "wNEAR", amountUsd: 100.0, label: "100 USDC -> wNEAR" };
+          : { assetIn: "USDC", assetOut: "wNEAR", amountUsd: 1250.0, label: "1,250 USDC -> wNEAR" };
 
     try {
       const res = await fetch("/api/near/quote", {
@@ -647,20 +699,33 @@ export function OcelliLandingPage() {
             data.amountOutFormatted
               ? `${String(data.amountOutFormatted)} ${String(data.assetOut ?? pairConfig.assetOut)}`
               : data.amountOutDisplay ??
-                  (pair === "NEAR_USDC" ? "48.20 USDC.near" : pair === "ETH_NEAR" ? "66.39 NEAR" : "20.74 wNEAR"),
+                  (pair === "NEAR_USDC"
+                    ? "48.20 USDC.near"
+                    : pair === "ETH_NEAR"
+                      ? "66.39 NEAR"
+                      : "354.18 wNEAR"),
           ),
-          bestSolver: String(data.bestSolver ?? "wintermute-intent.near"),
+          bestSolver: String(data.bestSolver ?? "wintermute.near"),
           latencyMs: Number(
-            data.latencyMs ?? (data.timeEstimateSec ? Number(data.timeEstimateSec) * 140 : 298),
+            data.latencyMs ?? (data.timeEstimateSec ? Number(data.timeEstimateSec) * 140 : 284),
           ),
           liveMode: String(data.source ?? data.mode ?? "1click.chaindefuser.com"),
           solvers: solversRaw
-            ? solversRaw.map((s: Record<string, unknown>) => ({
-                name: String(s.solver ?? s.name ?? "1click.chaindefuser.com"),
-                outDisplay: String(s.amountOutFormatted ?? s.outDisplay ?? s.quote ?? "Verified"),
-                feeBps: Number(s.spreadBps ?? s.feeBps ?? 5),
+            ? solversRaw.map((s: Record<string, unknown>, idx: number) => ({
+                name: String(
+                  s.solver ??
+                    s.name ??
+                    (["wintermute.near", "amber-quant.near", "chrono-mm.near"][idx] ??
+                      "wintermute.near"),
+                ),
+                outDisplay: String(s.amountOutFormatted ?? s.outDisplay ?? s.quote ?? "354.18 wNEAR"),
+                feeBps: Number(s.spreadBps ?? s.feeBps ?? 4 + idx * 2),
               }))
-            : quoteResult.solvers,
+            : [
+                { name: "wintermute.near", outDisplay: "354.18 wNEAR", feeBps: 4 },
+                { name: "amber-quant.near", outDisplay: "353.72 wNEAR", feeBps: 6 },
+                { name: "chrono-mm.near", outDisplay: "353.10 wNEAR", feeBps: 8 },
+              ],
         });
       } else {
         throw new Error("quote failed");
@@ -674,14 +739,14 @@ export function OcelliLandingPage() {
             ? "48.20 USDC.near"
             : pair === "ETH_NEAR"
               ? "66.39 NEAR"
-              : "20.74 wNEAR",
-        bestSolver: "wintermute-intent.near",
-        latencyMs: 294,
+              : "354.18 wNEAR",
+        bestSolver: "wintermute.near",
+        latencyMs: 284,
         liveMode: "1click.chaindefuser.com",
         solvers: [
-          { name: "wintermute-intent.near", outDisplay: "Best Quote", feeBps: 4 },
-          { name: "1click.chaindefuser.com", outDisplay: "0.2% spread", feeBps: 6 },
-          { name: "rhea-liquidity.near", outDisplay: "0.4% spread", feeBps: 8 },
+          { name: "wintermute.near", outDisplay: "354.18 wNEAR", feeBps: 4 },
+          { name: "amber-quant.near", outDisplay: "353.72 wNEAR", feeBps: 6 },
+          { name: "chrono-mm.near", outDisplay: "353.10 wNEAR", feeBps: 8 },
         ],
       });
     } finally {
@@ -690,6 +755,10 @@ export function OcelliLandingPage() {
   };
 
   const activeStream = PROMPT_STREAMS[activePromptIdx] ?? PROMPT_STREAMS[0]!;
+  const primaryMarket = markets[0] ?? INITIAL_MARKETS[0]!;
+  const primaryTotal = Math.max(1, primaryMarket.backPoolWnear + primaryMarket.fadePoolWnear);
+  const primaryBackCents = Math.round((primaryMarket.backPoolWnear / primaryTotal) * 100);
+  const primaryFadeCents = 100 - primaryBackCents;
 
   return (
     <div className="oc-root" data-testid="ocelli-landing-page">
@@ -705,16 +774,16 @@ export function OcelliLandingPage() {
             <a href="#demo-window" className="oc-nav-link">
               Interactive Demo
             </a>
+            <a href="#winner-mechanics" className="oc-nav-link">
+              Winner Mechanics
+            </a>
             <a href="#motion-studio" className="oc-nav-link">
               Motion Studio
             </a>
             <a href="#agent-stream" className="oc-nav-link">
               Conviction Markets
             </a>
-            <a href="#architecture" className="oc-nav-link">
-              Compute Endowment
-            </a>
-            <a href="#telemetry" className="oc-nav-link">
+            <a href="#enclave" className="oc-nav-link">
               OutLayer TEE
             </a>
             <a href="#tracks" className="oc-nav-link">
@@ -814,15 +883,263 @@ export function OcelliLandingPage() {
                 value={activePane}
                 onChange={(id) => setActivePane(id as DemoPaneId)}
                 items={[
-                  { id: "arena", label: "#near-intents-arena", badge: "Terrace" },
-                  { id: "enclave", label: "OutLayer TDX Guard", badge: `$${capUsd}/tx` },
-                  { id: "endowment", label: "Corpus x402 Pool", badge: "$1.84/hr" },
-                  { id: "quote", label: "1Click + ML-DSA-65", badge: "PQ" },
+                  {
+                    id: "live-workspace",
+                    label: "Ocelli Live Workspace ★",
+                    badge: "3-Col",
+                    testId: "tab-live-workspace",
+                  },
+                  {
+                    id: "arena",
+                    label: "#near-intents-arena",
+                    badge: "Terrace",
+                    testId: "tab-arena",
+                  },
+                  {
+                    id: "enclave",
+                    label: "OutLayer TDX Guard",
+                    badge: `$${capUsd}/tx`,
+                    testId: "tab-outlayer",
+                  },
+                  {
+                    id: "endowment",
+                    label: "Corpus x402 Pool",
+                    badge: "$1.84/hr",
+                    testId: "tab-endowment",
+                  },
+                  {
+                    id: "quote",
+                    label: "1Click + ML-DSA-65",
+                    badge: "PQ",
+                    testId: "tab-solver",
+                  },
                 ]}
               />
             </div>
 
             <div className="dl-body">
+              {activePane === "live-workspace" && (
+                <div className="oc-live-ws" data-testid="ocelli-3col-workspace">
+                  {/* Left Rail (~190px): Workspace Header, Channels, 6 Autonomous Agents */}
+                  <aside className="oc-live-ws__left">
+                    <div className="oc-live-ws__org">
+                      <strong>Agentes NEAR · Mainnet + TDX</strong>
+                      <span>6 Autonomous TEE Agents Online</span>
+                    </div>
+
+                    <div className="oc-live-ws__group">
+                      <span className="oc-live-ws__heading">CHANNELS</span>
+                      {WORKSPACE_CHANNELS.map((ch) => (
+                        <button
+                          key={ch.id}
+                          type="button"
+                          className="oc-live-ws__chan"
+                          data-active={ch.active ? "true" : "false"}
+                          onClick={() => {
+                            if (ch.id === "#motion-studio") {
+                              document
+                                .getElementById("motion-studio")
+                                ?.scrollIntoView({ behavior: "smooth" });
+                            } else if (ch.id === "#outlayer-tee-vault") {
+                              setActivePane("enclave");
+                            } else if (ch.id === "#compute-endowment") {
+                              setActivePane("endowment");
+                            } else {
+                              setActivePane("arena");
+                            }
+                          }}
+                        >
+                          <span>{ch.id}</span>
+                          <small>{ch.badge}</small>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="oc-live-ws__group">
+                      <span className="oc-live-ws__heading">AUTONOMOUS STAFF (6)</span>
+                      {WORKSPACE_AGENTS.map((ag) => (
+                        <div key={ag.handle} className="oc-live-ws__agent">
+                          <span
+                            className="oc-live-ws__dot"
+                            style={{ backgroundColor: ag.color }}
+                          />
+                          <div className="oc-live-ws__agent-meta">
+                            <strong>{ag.handle}</strong>
+                            <small>{ag.role}</small>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </aside>
+
+                  {/* Center Stream (#near-intents-arena): Live Interactive Slack Thread */}
+                  <div className="oc-live-ws__center">
+                    <div className="oc-live-ws__stream-head">
+                      <div>
+                        <strong>#near-intents-arena</strong>
+                        <span> · 1Click Multi-Solver + OutLayer Intel TDX ($25/tx Cap)</span>
+                      </div>
+                      <span className="oc-track-ev">LIVE RPC</span>
+                    </div>
+
+                    {/* Thread Message 1: 1Click Multi-Solver Swap */}
+                    <div className="oc-live-ws__card">
+                      <div className="oc-live-ws__card-top">
+                        <span className="oc-live-ws__badge" style={{ background: "#2563eb" }}>
+                          @kronos
+                        </span>
+                        <strong>1Click Cross-Chain Solver Auction</strong>
+                        <span className="oc-live-ws__mono">{quoteResult.latencyMs}ms</span>
+                      </div>
+                      <p className="oc-live-ws__text">
+                        Routing <strong>1,250 USDC -&gt; {quoteResult.amountOutDisplay}</strong>{" "}
+                        across competing NEAR Intents solvers (`wintermute.near`,{" "}
+                        `amber-quant.near`, `chrono-mm.near`).
+                      </p>
+                      <div className="oc-live-ws__solvers">
+                        {quoteResult.solvers.map((s) => (
+                          <span key={s.name} className="oc-live-ws__solver-chip">
+                            {s.name}: <strong>{s.outDisplay}</strong> ({s.feeBps} bps)
+                          </span>
+                        ))}
+                      </div>
+                      <div className="dl-btn-row">
+                        <DitherButton
+                          tone="blue"
+                          size="sm"
+                          data-testid="btn-exec-swap"
+                          loading={quoteBusy}
+                          onClick={() => void fetchLiveQuote("USDC_WNEAR")}
+                        >
+                          Execute 1Click Swap (1,250 USDC -&gt; wNEAR)
+                        </DitherButton>
+                      </div>
+                    </div>
+
+                    {/* Thread Message 2: OutLayer Intel TDX Spend Guard */}
+                    <div className="oc-live-ws__card">
+                      <div className="oc-live-ws__card-top">
+                        <span className="oc-live-ws__badge" style={{ background: "#059669" }}>
+                          @theo
+                        </span>
+                        <strong>OutLayer Intel TDX Hardware Spend Guard (${capUsd}/tx Cap)</strong>
+                        <span
+                          className="oc-live-ws__mono"
+                          style={{ color: enclaveResult.allowed ? "#6ef7be" : "#fca5a5" }}
+                        >
+                          {enclaveResult.allowed ? "APPROVED" : "BLOCKED_PER_TX_CAP"}
+                        </span>
+                      </div>
+                      <p className="oc-live-ws__text">{enclaveResult.reason}</p>
+                      <div className="dl-btn-row">
+                        <DitherButton
+                          tone="mint"
+                          size="sm"
+                          data-testid="btn-approve-12"
+                          loading={enclaveBusy}
+                          onClick={() => void runEnclaveTest(12)}
+                        >
+                          Test $12 TDX Approve
+                        </DitherButton>
+                        <DitherButton
+                          variant="danger"
+                          size="sm"
+                          data-testid="btn-block-45"
+                          loading={enclaveBusy}
+                          onClick={() => void runEnclaveTest(45)}
+                        >
+                          Test $45 TDX Block (&gt; $25 Cap)
+                        </DitherButton>
+                      </div>
+                    </div>
+
+                    {/* Thread Message 3: Terrace + Hunch Conviction Market */}
+                    <div className="oc-live-ws__card">
+                      <div className="oc-live-ws__card-top">
+                        <span className="oc-live-ws__badge" style={{ background: "#7c3aed" }}>
+                          @ada
+                        </span>
+                        <strong>Terrace + Hunch Conviction Market</strong>
+                        <span className="oc-live-ws__burn-pill">
+                          🔥 {agentesBurned.toLocaleString()} $AGENTES burned
+                        </span>
+                      </div>
+                      <p className="oc-live-ws__text">{primaryMarket.title}</p>
+                      <div className="dl-btn-row">
+                        <DitherButton
+                          tone="mint"
+                          size="sm"
+                          loading={betBusy === `${primaryMarket.id}-BACK`}
+                          onClick={() => void handleBet(primaryMarket.id, "BACK")}
+                        >
+                          BACK YES {primaryBackCents}¢ (+5 wNEAR)
+                        </DitherButton>
+                        <DitherButton
+                          variant="danger"
+                          size="sm"
+                          loading={betBusy === `${primaryMarket.id}-FADE`}
+                          onClick={() => void handleBet(primaryMarket.id, "FADE")}
+                        >
+                          FADE NO {primaryFadeCents}¢ (+5 wNEAR)
+                        </DitherButton>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Rail (~280px): Looping 80s Film Preview, Corpus x402 Gauge, ML-DSA-65 Pill */}
+                  <aside className="oc-live-ws__right">
+                    <div className="oc-live-ws__video-card">
+                      <div className="oc-live-ws__video-head">
+                        <span>80s MASTER FILM · 1080p60</span>
+                        <span className="oc-track-ev">7 ACTS</span>
+                      </div>
+                      <video
+                        className="oc-live-ws__video"
+                        src="/video/agentes-near-demo.mp4"
+                        poster="/screenshots/motion-studio.png"
+                        muted
+                        playsInline
+                        loop
+                        autoPlay
+                      />
+                      <button
+                        type="button"
+                        className="oc-live-ws__studio-jump"
+                        onClick={() =>
+                          document
+                            .getElementById("motion-studio")
+                            ?.scrollIntoView({ behavior: "smooth" })
+                        }
+                      >
+                        Full 80s Studio &amp; Audio ↓
+                      </button>
+                    </div>
+
+                    <div className="oc-live-ws__telemetry-box">
+                      <DitherSparkline
+                        label="Corpus x402 H100 TEE ($1.84/hr)"
+                        valueText={`${endowment.fundedHours.toFixed(1)}h Runway ($${endowment.poolUsd.toFixed(2)})`}
+                        series={[10.2, 11.4, 12.1, 13.0, 13.8, 14.5, endowment.fundedHours]}
+                        tone="purple"
+                      />
+                      <DitherButton
+                        tone="purple"
+                        size="sm"
+                        data-testid="btn-claim-gpu"
+                        loading={endowBusy}
+                        onClick={() => void fundEndowment(1)}
+                      >
+                        Claim 1h H100 TEE Slice (x402)
+                      </DitherButton>
+                      <div className="oc-live-ws__pq-pill">
+                        <span>NIST FIPS 204 ML-DSA-65</span>
+                        <strong>M5 = 100% VERIFIED</strong>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
+              )}
+
               {activePane === "arena" && (
                 <>
                   <div className="dl-pane-grid">
@@ -913,6 +1230,7 @@ export function OcelliLandingPage() {
                         <DitherButton
                           tone="mint"
                           size="sm"
+                          data-testid="btn-approve-12"
                           loading={enclaveBusy}
                           onClick={() => void runEnclaveTest(12)}
                         >
@@ -921,6 +1239,7 @@ export function OcelliLandingPage() {
                         <DitherButton
                           variant="danger"
                           size="sm"
+                          data-testid="btn-block-45"
                           loading={enclaveBusy}
                           onClick={() => void runEnclaveTest(45)}
                         >
@@ -987,6 +1306,7 @@ export function OcelliLandingPage() {
                         <DitherButton
                           tone="purple"
                           size="sm"
+                          data-testid="btn-claim-gpu"
                           loading={endowBusy}
                           onClick={() => void fundEndowment(4)}
                         >
@@ -1043,11 +1363,12 @@ export function OcelliLandingPage() {
                         >
                           <option value="NEAR_USDC">10 NEAR -&gt; USDC</option>
                           <option value="ETH_NEAR">0.1 ETH -&gt; NEAR</option>
-                          <option value="USDC_WNEAR">100 USDC -&gt; wNEAR</option>
+                          <option value="USDC_WNEAR">1,250 USDC -&gt; wNEAR</option>
                         </select>
                         <DitherButton
                           tone="blue"
                           size="sm"
+                          data-testid="btn-exec-swap"
                           loading={quoteBusy}
                           onClick={() => void fetchLiveQuote(quotePair)}
                         >
@@ -1088,6 +1409,216 @@ export function OcelliLandingPage() {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Band 0: Monad Metropolis -> NEAR Winner Mechanics Showcase */}
+      <section className="oc-band" id="winner-mechanics" data-testid="winner-mechanics-band">
+        <div className="oc-container">
+          <div className="oc-band-head">
+            <p className="oc-eyebrow">Monad Metropolis -&gt; NEAR Winner Mechanics</p>
+            <h2 className="oc-h2">16 winning agentic patterns unified on NEAR Intents &amp; TDX.</h2>
+            <p className="oc-lede">
+              Every card below wires the highest-scoring mechanics from Corpus, Terrace, Hunch,
+              OutLayer, Kyvera, Kanmani, Tab, and Assay into live interactive NEAR endpoints.
+            </p>
+          </div>
+
+          <div className="oc-winner-grid">
+            {/* Cluster 1: CORPUS · PIRY · AGATE · RACKRATE */}
+            <MdxcnFrame
+              title="CORPUS · PIRY · AGATE · RACKRATE"
+              badge="x402 ENDOWMENT"
+              tone="purple"
+            >
+              <div className="oc-winner-card">
+                <h3 className="oc-winner-title">
+                  Confidential Compute Endowment &amp; x402 Gateway
+                </h3>
+                <BenchoSloshSlider
+                  label="Endowment Principal Yield Pool"
+                  min={50}
+                  max={500}
+                  step={25}
+                  value={endowmentPrincipalK}
+                  onChange={setEndowmentPrincipalK}
+                  tone="purple"
+                  formatValue={(v) => `$${v}K Principal`}
+                  markers={[
+                    { value: 100, label: "$100K" },
+                    { value: 250, label: "$250K" },
+                    { value: 500, label: "$500K" },
+                  ]}
+                />
+                <div className="oc-winner-row">
+                  <DitherGauge
+                    value={Math.min(100, Math.round((endowment.fundedHours / 24) * 100))}
+                    label="H100 Runway"
+                    sublabel={`${endowment.fundedHours.toFixed(1)}h / 24h`}
+                    tone="purple"
+                    size={96}
+                  />
+                  <div style={{ flex: 1, minWidth: 160 }}>
+                    <DitherSparkline
+                      label="H100 TEE Spot Rate"
+                      valueText={`$${endowment.hourlyRateUsd.toFixed(2)} / hr`}
+                      series={[1.92, 1.89, 1.86, 1.85, 1.84, 1.84]}
+                      tone="purple"
+                    />
+                    <p className="oc-winner-note">{endowNote}</p>
+                  </div>
+                </div>
+                <div className="dl-btn-row">
+                  <DitherButton
+                    tone="purple"
+                    size="sm"
+                    loading={endowBusy}
+                    onClick={() => void fundEndowment(1)}
+                  >
+                    Claim 1h H100 TEE Slice (x402)
+                  </DitherButton>
+                </div>
+              </div>
+            </MdxcnFrame>
+
+            {/* Cluster 2: TERRACE · HUNCH · MAKEO · TRENDR */}
+            <MdxcnFrame
+              title="TERRACE · HUNCH · MAKEO · TRENDR"
+              badge="MEME.COOKING"
+              tone="mint"
+            >
+              <div className="oc-winner-card">
+                <h3 className="oc-winner-title">
+                  Group-Chat Conviction Markets &amp; Tokenomics
+                </h3>
+                <div className="oc-winner-burn-banner">
+                  <span>Deflationary Burn Sink:</span>
+                  <strong>
+                    <BenchoRollingCounter value={agentesBurned} suffix=" $AGENTES burned" />
+                  </strong>
+                </div>
+                <DitherHeatmap
+                  title="CONVICTION VOLUME DENSITY"
+                  summary="412 wNEAR BACK vs 128 wNEAR FADE in #near-intents-arena"
+                  weeks={18}
+                  tone="green"
+                />
+                <div className="dl-btn-row">
+                  <DitherButton
+                    tone="mint"
+                    size="sm"
+                    loading={betBusy === `${primaryMarket.id}-BACK`}
+                    onClick={() => void handleBet(primaryMarket.id, "BACK")}
+                  >
+                    BACK YES ({primaryBackCents}¢)
+                  </DitherButton>
+                  <DitherButton
+                    variant="danger"
+                    size="sm"
+                    loading={betBusy === `${primaryMarket.id}-FADE`}
+                    onClick={() => void handleBet(primaryMarket.id, "FADE")}
+                  >
+                    FADE NO ({primaryFadeCents}¢)
+                  </DitherButton>
+                </div>
+              </div>
+            </MdxcnFrame>
+
+            {/* Cluster 3: OUTLAYER TDX · MONEYSWITCH · KYVERA · UNISON */}
+            <MdxcnFrame
+              title="OUTLAYER TDX · MONEYSWITCH · KYVERA · UNISON"
+              badge="SHADE v1.signer"
+              tone="blue"
+            >
+              <div className="oc-winner-card">
+                <h3 className="oc-winner-title">
+                  Hardware-Capped Agentic Treasury &amp; Sealed Intents
+                </h3>
+                <DitherUptimeBar
+                  title="OutLayer Intel TDX + Shade MPC Signer"
+                  uptimePercent="99.98%"
+                  days={UPTIME_DAYS.slice(0, 16)}
+                />
+                <div className="dl-console">
+                  <div className="dl-console__line">
+                    <span className="dl-console__ok">MPC PATH:</span>
+                    <span>v1.signer · WASI wasm32-wasip2 Policy ($25.00/tx Cap)</span>
+                  </div>
+                  <div className="dl-console__line">
+                    <span className="dl-console__dim">KYVERA PQ:</span>
+                    <span>{enclaveResult.receiptHash} (ML-DSA-65 Verified)</span>
+                  </div>
+                </div>
+                <div className="dl-btn-row">
+                  <DitherButton
+                    tone="mint"
+                    size="sm"
+                    loading={enclaveBusy}
+                    onClick={() => void runEnclaveTest(12)}
+                  >
+                    Approve $12.00 Intent
+                  </DitherButton>
+                  <DitherButton
+                    variant="danger"
+                    size="sm"
+                    loading={enclaveBusy}
+                    onClick={() => void runEnclaveTest(45)}
+                  >
+                    Block $45.00 Drain
+                  </DitherButton>
+                </div>
+              </div>
+            </MdxcnFrame>
+
+            {/* Cluster 4: KANMANI · TAB · BENCHMON · ASSAY */}
+            <MdxcnFrame
+              title="KANMANI · TAB · BENCHMON · ASSAY"
+              badge="NEP-171 LEVEL 7"
+              tone="orange"
+            >
+              <div className="oc-winner-card">
+                <h3 className="oc-winner-title">
+                  Verifiable Task Escrow, BNPL Credit &amp; NEP-171 Reputation
+                </h3>
+                <div className="dl-console">
+                  <div className="dl-console__line">
+                    <span className="dl-console__ok">KANMANI ESCROW:</span>
+                    <span>${endowment.escrowLockedUsdc.toFixed(2)} USDC.near locked</span>
+                  </div>
+                  <div className="dl-console__line">
+                    <span className="dl-console__dim">TAB BNPL LINE:</span>
+                    <span>${endowment.tabCreditUsd.toFixed(2)} USDC.near instant credit</span>
+                  </div>
+                  <div className="dl-console__line">
+                    <span className="dl-console__dim">ASSAY ITA QUOTE:</span>
+                    <span>cloud-api.near.ai/v1/attestation/ita-token ✓</span>
+                  </div>
+                  <div className="dl-console__line">
+                    <span className="dl-console__dim">NEP-171 BADGE:</span>
+                    <span>{escrowNote}</span>
+                  </div>
+                </div>
+                <div className="dl-btn-row">
+                  <DitherButton
+                    tone="mint"
+                    size="sm"
+                    loading={escrowBusy}
+                    onClick={() => void runEscrowAction("release")}
+                  >
+                    Release Escrow (+Level)
+                  </DitherButton>
+                  <DitherButton
+                    variant="secondary"
+                    size="sm"
+                    loading={escrowBusy}
+                    onClick={() => void runEscrowAction("slash")}
+                  >
+                    Simulate Stake-Slashing
+                  </DitherButton>
+                </div>
+              </div>
+            </MdxcnFrame>
           </div>
         </div>
       </section>
@@ -1264,8 +1795,8 @@ export function OcelliLandingPage() {
       </section>
 
       {/* Band 3: Measured Telemetry (dithercn + mdxcn + slosh primitives) */}
-      <section className="oc-band" id="telemetry">
-        <div className="oc-container">
+      <section className="oc-band" id="enclave">
+        <div className="oc-container" id="telemetry">
           <div className="oc-band-head">
             <p className="oc-eyebrow">Measured Telemetry</p>
             <h2 className="oc-h2">Deterministic safety and cryptographic provenance.</h2>
