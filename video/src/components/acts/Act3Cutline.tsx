@@ -7,7 +7,7 @@ interface ActProps {
 }
 
 /**
- * Act 3 (20..30s): "Cutline 1.0" — 10s Node-to-Timeline Flow (116 BPM)
+ * Act 3 (20..30s): "Agentes 2.0" — 10s Intent-to-Timeline Flow (116 BPM)
  * Strict flat palette: Navy #16233F, Bone #F2EEE5, Magenta #C2185B, Sun #F2B01E
  */
 export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
@@ -16,13 +16,8 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
   const actualDur = durationInFrames / fps;
   const t = (frame / fps) * (10.0 / actualDur);
 
-  // Giant cropped "CUT" drifting behind
+  // Giant cropped "SHIP" drifting behind
   const cutDriftX = -120 + t * 28;
-
-  // Phase A (0..4.4s): Node graph + cursor Run click + magenta connections + RUNNING -> DONE ✓
-  // Phase B (4.4..5.9s): Camera push-through zoom + magenta block wipe
-  // Phase C (5.9..8.1s): Paper unfold into 3-track timeline + sunset-pier preview monitor + v1.0 stamp
-  // Phase D (8.1..10.0s): Final poster (CUT, Cutline 1.0, Instrument Serif Italic "released")
 
   if (t < 4.8) {
     const c1 = expoOut(clamp01(t / 0.32));
@@ -48,7 +43,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
           filter: zoomPush > 0.1 ? `blur(${Math.round(zoomPush * 8)}px)` : undefined,
         }}
       >
-        {/* Giant Cropped CUT Background */}
+        {/* Giant Cropped SHIP Background */}
         <div
           style={{
             position: "absolute",
@@ -61,7 +56,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             userSelect: "none",
           }}
         >
-          CUT
+          SHIP
         </div>
 
         {/* SVG Magenta Connections */}
@@ -96,7 +91,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
           />
         </svg>
 
-        {/* Left Node Cards: Thumbnails + Waveform */}
+        {/* Left Node Cards: Live Agentes NEAR Thumbnails + Waveform */}
         <div
           style={{
             position: "absolute",
@@ -121,12 +116,12 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             )}
           </div>
           <div style={{ marginTop: 14, display: "flex", justifyContent: "space-between", fontFamily: MONO, fontSize: 13 }}>
-            <span style={{ color: "#F2B01E" }}>CLIP BANK · 3 TAKES</span>
-            <span>60 FPS</span>
+            <span style={{ color: "#F2B01E" }}>WORKSPACE · 3 CHANNELS</span>
+            <span>LIVE TEE</span>
           </div>
         </div>
 
-        {/* Waveform Card + URBAN RHYTHMS */}
+        {/* Waveform Card + 1CLICK + TDX GUARD */}
         <div
           style={{
             position: "absolute",
@@ -142,10 +137,10 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontFamily: INTER_TIGHT, fontSize: 22, fontWeight: 800, color: "#16233F" }}>
-              URBAN RHYTHMS
+              1CLICK + TDX GUARD
             </span>
             <span style={{ fontFamily: MONO, fontSize: 13, fontWeight: 700, color: "#C2185B" }}>
-              116 BPM
+              $25 CAP
             </span>
           </div>
           <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 5, height: 52 }}>
@@ -165,7 +160,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
           </div>
         </div>
 
-        {/* Navy-on-Sun "C" Sticker */}
+        {/* Navy-on-Sun "A" Sticker */}
         <div
           style={{
             position: "absolute",
@@ -185,7 +180,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             transform: "rotate(-8deg)",
           }}
         >
-          C
+          A
         </div>
 
         {/* Central Run Hub Node */}
@@ -202,9 +197,9 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             boxShadow: "12px 12px 0px #F2B01E",
           }}
         >
-          <div style={{ fontFamily: MONO, fontSize: 12, color: "#F2B01E" }}>CUTLINE ENGINE</div>
+          <div style={{ fontFamily: MONO, fontSize: 12, color: "#F2B01E" }}>AGENTES ENGINE</div>
           <div style={{ marginTop: 6, fontFamily: INTER_TIGHT, fontSize: 28, fontWeight: 800 }}>
-            Beat Sync Graph
+            Intent Execution
           </div>
           <div style={{ marginTop: 18, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div
@@ -233,7 +228,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
               ) : null}
             </div>
             <span style={{ fontFamily: MONO, fontSize: 18, fontWeight: 700, color: "#F2EEE5" }}>
-              {isDone ? "24/24" : runClicked ? `${Math.round(wire1 * 24)}/24` : "00/24"}
+              {isDone ? "13/13" : runClicked ? `${Math.round(wire1 * 13)}/13` : "00/13"}
             </span>
           </div>
         </div>
@@ -259,7 +254,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             />
           </div>
           <div style={{ marginTop: 12, fontFamily: MONO, fontSize: 13, fontWeight: 700, color: "#16233F" }}>
-            MASTER SEQUENCE · 1920x1080
+            AGENTES NEAR · LIVE WORKSPACE
           </div>
         </div>
 
@@ -290,7 +285,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // 5.6..8.2s: Paper unfold into 3-track timeline + sunset-pier preview monitor + "v1.0" stamp
+  // 5.6..8.2s: Paper unfold into 3-track timeline + live Agentes NEAR preview monitor + "v2.0" stamp
   if (t < 8.2) {
     const unfold = expoOut(clamp01((t - 5.6) / 0.55));
     const playheadPct = clamp01((t - 5.8) / 2.2);
@@ -310,7 +305,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
           overflow: "hidden",
         }}
       >
-        {/* Sunset Pier Preview Monitor */}
+        {/* Live Agentes NEAR Workspace Monitor */}
         <div
           style={{
             display: "flex",
@@ -355,10 +350,10 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
 
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MONO, fontSize: 16, color: "#F2B01E", letterSpacing: "0.08em" }}>
-              TIMELINE UNFOLD · 116 BPM
+              INTENT TIMELINE · 116 BPM
             </div>
             <div style={{ marginTop: 12, fontFamily: ANTON, fontSize: 108, lineHeight: 0.9, color: "#F2EEE5" }}>
-              CUTLINE
+              AGENTES
             </div>
             {t >= 7.35 ? (
               <div
@@ -374,13 +369,13 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
                   transform: `scale(${stamp}) rotate(-4deg)`,
                 }}
               >
-                v1.0
+                v2.0
               </div>
             ) : null}
           </div>
         </div>
 
-        {/* 3-Track Timeline Editor */}
+        {/* 3-Track Intent & Enclave Timeline Editor */}
         <div
           style={{
             position: "relative",
@@ -405,12 +400,12 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
             }}
           />
           {[
-            { label: "V1", color: "#16233F", widths: ["26%", "34%", "36%"] },
-            { label: "FX", color: "#C2185B", widths: ["18%", "42%", "32%"] },
-            { label: "AUD", color: "#F2B01E", widths: ["94%"] },
+            { label: "1CLK", color: "#16233F", widths: ["26%", "34%", "36%"] },
+            { label: "TDX", color: "#C2185B", widths: ["18%", "42%", "32%"] },
+            { label: "PQ", color: "#F2B01E", widths: ["94%"] },
           ].map((tr) => (
             <div key={tr.label} style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-              <span style={{ width: 48, fontFamily: MONO, fontSize: 14, fontWeight: 700, color: "#16233F" }}>
+              <span style={{ width: 54, fontFamily: MONO, fontSize: 14, fontWeight: 700, color: "#16233F" }}>
                 {tr.label}
               </span>
               <div style={{ flex: 1, display: "flex", gap: 10 }}>
@@ -433,7 +428,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // 8.2..10.0s: Final Poster ("CUT", "Cutline 1.0", Instrument Serif Italic "released")
+  // 8.2..10.0s: Final Poster ("SHIP", "Agentes 2.0", Instrument Serif Italic "released")
   const p = expoOut(clamp01((t - 8.2) / 0.45));
   return (
     <div
@@ -458,7 +453,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
           transform: `scale(${0.92 + 0.08 * p})`,
         }}
       >
-        CUT
+        SHIP
       </div>
       <div
         style={{
@@ -469,7 +464,7 @@ export const Act3Cutline: React.FC<ActProps> = ({ durationInFrames }) => {
         }}
       >
         <div style={{ fontFamily: ANTON, fontSize: 168, lineHeight: 0.92, color: "#F2EEE5" }}>
-          Cutline 1.0
+          Agentes 2.0
         </div>
         <div
           style={{

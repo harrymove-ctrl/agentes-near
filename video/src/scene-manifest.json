@@ -8,7 +8,7 @@
     {
       "id": "act1_moving",
       "act": 1,
-      "name": "Things Are Moving",
+      "name": "Things Are Moving \u00b7 Agentes NEAR",
       "style": "wave",
       "bpm": 97.0,
       "start_sec": 0.0,
@@ -19,7 +19,7 @@
     {
       "id": "act2_yapp",
       "act": 2,
-      "name": "Yapp 99K Counter",
+      "name": "Agentes NEAR \u00b7 99K Intents",
       "style": "yapp",
       "bpm": 104.0,
       "start_sec": 12.0,
@@ -30,7 +30,7 @@
     {
       "id": "act3_cutline",
       "act": 3,
-      "name": "Cutline 1.0",
+      "name": "Agentes 2.0 \u00b7 Intent Engine",
       "style": "cutline",
       "bpm": 116.0,
       "start_sec": 20.0,
@@ -41,7 +41,7 @@
     {
       "id": "act4_fitting",
       "act": 4,
-      "name": "Fitting Lookbook",
+      "name": "Agentes Studio \u00b7 5 Surfaces",
       "style": "fitting",
       "bpm": 120.0,
       "start_sec": 30.0,
@@ -52,7 +52,7 @@
     {
       "id": "act5_graph",
       "act": 5,
-      "name": "AI Assistant Tool Graph",
+      "name": "@ada Tool Hub \u00b7 5 Tools",
       "style": "graph",
       "bpm": 118.0,
       "start_sec": 45.0,
@@ -63,7 +63,7 @@
     {
       "id": "act6_molote",
       "act": 6,
-      "name": "Molote Parche 2",
+      "name": "OutLayer TDX \u00b7 Stop-Motion",
       "style": "molote",
       "bpm": 120.0,
       "start_sec": 55.0,
@@ -74,7 +74,7 @@
     {
       "id": "act7_one_lockup",
       "act": 7,
-      "name": "ONE design & Agentes NEAR",
+      "name": "ONE Workspace \u00b7 Agentes NEAR",
       "style": "one",
       "bpm": 108.0,
       "start_sec": 67.0,
@@ -87,7 +87,7 @@
     {
       "id": "t1_moving",
       "act": 1,
-      "name": "Things Are Moving",
+      "name": "Things Are Moving \u00b7 Agentes NEAR",
       "style": "wave",
       "bpm": 97.0,
       "start_sec": 0.0,
@@ -98,7 +98,7 @@
     {
       "id": "t2_yapp",
       "act": 2,
-      "name": "Yapp 99K",
+      "name": "Agentes NEAR \u00b7 99K Intents",
       "style": "yapp",
       "bpm": 104.0,
       "start_sec": 6.5,
@@ -109,7 +109,7 @@
     {
       "id": "t3_cutline",
       "act": 3,
-      "name": "Cutline 1.0",
+      "name": "Agentes 2.0 \u00b7 Intent Engine",
       "style": "cutline",
       "bpm": 116.0,
       "start_sec": 13.0,
@@ -120,7 +120,7 @@
     {
       "id": "t4_fitting",
       "act": 4,
-      "name": "Fitting Lookbook",
+      "name": "Agentes Studio \u00b7 5 Surfaces",
       "style": "fitting",
       "bpm": 120.0,
       "start_sec": 19.5,
@@ -131,7 +131,7 @@
     {
       "id": "t5_graph",
       "act": 5,
-      "name": "AI Tool Graph",
+      "name": "@ada Tool Hub \u00b7 5 Tools",
       "style": "graph",
       "bpm": 118.0,
       "start_sec": 26.0,
@@ -142,7 +142,7 @@
     {
       "id": "t6_molote",
       "act": 6,
-      "name": "Molote Parche 2",
+      "name": "OutLayer TDX \u00b7 Stop-Motion",
       "style": "molote",
       "bpm": 120.0,
       "start_sec": 31.5,
@@ -153,7 +153,7 @@
     {
       "id": "t7_one",
       "act": 7,
-      "name": "ONE & Agentes NEAR",
+      "name": "ONE Workspace \u00b7 Agentes NEAR",
       "style": "one",
       "bpm": 108.0,
       "start_sec": 38.0,

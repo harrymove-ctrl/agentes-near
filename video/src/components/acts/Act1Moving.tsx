@@ -1,6 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig } from "remotion";
-import { ANTON, INTER_TIGHT, SERIF_ITALIC, clamp01, expoOut, quartOut } from "./shared";
+import { ANTON, INTER_TIGHT, SERIF_ITALIC, clamp01, expoOut } from "./shared";
 
 interface ActProps {
   durationInFrames: number;
@@ -14,7 +14,7 @@ const PALETTES = [
 ];
 
 /**
- * Act 1 (0..12s): "Things Are Moving" — 97 BPM Kinetic Type Wave
+ * Act 1 (0..12s): "Things Are Moving · Agentes NEAR" — 97 BPM Kinetic Type Wave
  * - Full-frame wavy text rows riding synced sine wave (green L->R, 1 pink R->L)
  * - Every beat (0.6185s @ 97 BPM) flips bg & type to tone-on-tone pair
  * - Spinning concentric rings of ONE large letter size sitting baseline-to-baseline
@@ -32,18 +32,13 @@ export const Act1Moving: React.FC<ActProps> = ({ durationInFrames }) => {
   const beatPunch = 1 + 0.045 * Math.exp(-beatFrac * 8.5);
   const pal = PALETTES[beatIdx % PALETTES.length];
 
-  // Phase 1 (0..4.2s): Full-frame wavy text rows
-  // Phase 2 (4.2..7.2s): Spinning concentric baseline-to-baseline letter rings
-  // Phase 3 (7.2..9.6s): Beat-snapping rows + character letter ripple
-  // Phase 4 (9.6..12.0s): 3 stacked full-frame lines with beat punches
-
   if (t < 4.2) {
     const rows = [
-      { text: "THINGS ARE MOVING · NEAR INTENTS · ", pink: false, dir: 1 },
-      { text: "AGENTES NEAR · AUTONOMOUS SWARMS · ", pink: false, dir: 1 },
-      { text: "OUTLAYER INTEL TDX · ZERO KEYS · ", pink: true, dir: -1 },
-      { text: "ONE CLICK SETTLEMENT · 1CLICK SOLVERS · ", pink: false, dir: 1 },
-      { text: "TERRACE CONVICTION · ML-DSA-65 · ", pink: false, dir: 1 },
+      { text: "THINGS ARE MOVING · AGENTES NEAR · ", pink: false, dir: 1 },
+      { text: "YOUR TEAM + AI AGENTS · ONE SLACK · ", pink: false, dir: 1 },
+      { text: "OUTLAYER INTEL TDX · $25 SPEND CAP · ", pink: true, dir: -1 },
+      { text: "1CLICK MULTI-SOLVER · ZERO KEY LEAKS · ", pink: false, dir: 1 },
+      { text: "TERRACE CONVICTION · ML-DSA-65 PQ · ", pink: false, dir: 1 },
     ];
 
     return (
@@ -148,7 +143,7 @@ export const Act1Moving: React.FC<ActProps> = ({ durationInFrames }) => {
     const localT = t - 7.2;
     const snapIdx = Math.floor(localT / beatDur);
     const pSnap = PALETTES[(beatIdx + 2) % PALETTES.length];
-    const words = ["KINETIC", "AUTONOMOUS", "VERIFIABLE"];
+    const words = ["AUTONOMOUS", "SELF-HOSTED", "VERIFIABLE"];
 
     return (
       <div
@@ -181,7 +176,7 @@ export const Act1Moving: React.FC<ActProps> = ({ durationInFrames }) => {
                     key={cIdx}
                     style={{
                       fontFamily: ANTON,
-                      fontSize: 225,
+                      fontSize: 218,
                       lineHeight: 0.9,
                       color: wIdx === 1 ? pSnap.accent : pSnap.ink,
                       transform: `translateY(${rippleY}px)`,

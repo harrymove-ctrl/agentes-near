@@ -747,22 +747,121 @@
   gap: 14px;
 }
 
-.ams-autodirect {
+.ams-mode-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
   padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(10, 14, 24, 0.92);
+  border: 1px solid rgba(168, 192, 240, 0.22);
+}
+
+.ams-mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(5, 8, 16, 0.9);
+  border: 1px solid rgba(168, 192, 240, 0.18);
+  flex-wrap: wrap;
+}
+
+.ams-mode-btn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: rgba(214, 224, 245, 0.78);
+  font-size: 12.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.ams-mode-btn[aria-selected="true"] {
+  background: #00ec97;
+  color: #051c12;
+}
+
+.ams-mode-meta,
+.ams-mp4-variants {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ams-flow-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(91, 142, 255, 0.35);
+  background: rgba(91, 142, 255, 0.12);
+  color: #c7d9ff;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ams-flow-pill[aria-pressed="true"] {
+  border-color: rgba(0, 236, 151, 0.45);
+  background: rgba(0, 236, 151, 0.14);
+  color: #82f9c8;
+}
+
+.ams-autodirect {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 12px 14px;
   border-radius: 14px;
   background: rgba(12, 16, 28, 0.86);
   border: 1px solid rgba(168, 192, 240, 0.18);
 }
 
+.ams-mira-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .ams-autodirect__label {
   font-family: var(--font-mono, monospace);
   font-size: 11.5px;
-  font-weight: 650;
-  color: #7ca7ff;
+  font-weight: 700;
+  color: #00ec97;
+  white-space: nowrap;
+}
+
+.ams-mira-input {
+  flex: 1 1 240px;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(168, 192, 240, 0.26);
+  background: #060911;
+  color: #f4f6fb;
+  font-size: 12.5px;
+}
+
+.ams-mira-submit {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid #00ec97;
+  background: #00ec97;
+  color: #051c12;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
   white-space: nowrap;
 }
 
@@ -771,6 +870,83 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.ams-master-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(9, 13, 22, 0.92);
+  border: 1px solid rgba(168, 192, 240, 0.2);
+}
+
+.ams-master-timeline__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+}
+
+.ams-master-timeline__title {
+  color: #93b2ff;
+  font-weight: 700;
+}
+
+.ams-master-timeline__clock {
+  color: #dbe4f8;
+  font-variant-numeric: tabular-nums;
+}
+
+.ams-master-segments {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ams-master-seg {
+  position: relative;
+  min-width: 68px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(168, 192, 240, 0.2);
+  background: rgba(18, 24, 40, 0.9);
+  color: #dbe4f8;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ams-master-seg[data-active="true"] {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.ams-master-seg__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  opacity: 0.34;
+  pointer-events: none;
+  transition: width 80ms linear;
+}
+
+.ams-master-seg__label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ams-prompt-chip {
@@ -871,6 +1047,32 @@
   aspect-ratio: 16 / 9;
   display: block;
   background: #080b12;
+}
+
+.ams-video-stage {
+  position: relative;
+  width: 100%;
+  background: #080b12;
+}
+
+.ams-video-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(8, 11, 18, 0.92);
+  color: #dbe4f8;
+  font-size: 13px;
+}
+
+.ams-video-fallback p {
+  margin: 0;
+  max-width: 440px;
 }
 
 .ams-stage-meta {

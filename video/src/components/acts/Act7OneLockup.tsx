@@ -7,19 +7,17 @@ interface ActProps {
 }
 
 /**
- * Act 7 (67..80s): "ONE design" 5s Logo Sting @ 108 BPM + Final Agentes NEAR SaaS Lockup
+ * Act 7 (67..80s): "ONE workspace · Agentes NEAR" 5s Sting @ 108 BPM + Final Agentes NEAR Lockup
  * - First 5s (relative t 0..5.0s): Charcoal #1E1E1E, Off-White #F5F3EE, Violet #5B3FD6, Tomato #E5483A
  *   - Cursor "you" sweeps in -> draws circle + handles -> duplicates circle+rect+triangle w/ Layers panel
  *   - Shapes morph into Anton O N E -> panels slide out -> cursor clicks ✓ (0.1s silence before 3.3s hit)
- *   - Tomato block wipe flips canvas to #5B3FD6 with ONE, "design" italic + "STUDIO 2026"
+ *   - Tomato block wipe flips canvas to #5B3FD6 with ONE, "workspace" italic + "AGENTES NEAR 2026"
  * - Final 8s (relative t 5.0..13.0s): Reveals Agentes NEAR Motion Editor + Slack for Teams & AI Agents lockup!
  */
 export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const actualDur = durationInFrames / fps;
-  // In 13s Demo act -> 0..5s ONE sting, 5..13s Agentes NEAR lockup
-  // In 7s Teaser act -> 0..3.6s ONE sting, 3.6..7.0s Agentes NEAR lockup
   const isTeaser = actualDur < 9.0;
   const stingDur = isTeaser ? 3.6 : 5.0;
   const tSting = (frame / fps) * (5.0 / stingDur);
@@ -67,7 +65,7 @@ export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
                 ONE
               </span>
               <span style={{ fontFamily: SERIF_ITALIC, fontStyle: "italic", fontSize: 164, color: "#F5F3EE" }}>
-                design
+                workspace
               </span>
             </div>
             <div
@@ -83,7 +81,7 @@ export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
                 letterSpacing: "0.18em",
               }}
             >
-              STUDIO 2026
+              AGENTES NEAR 2026
             </div>
           </div>
         </div>
@@ -108,7 +106,7 @@ export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
             position: "absolute",
             left: 56 - panelsOut * 420,
             top: 90,
-            width: 300,
+            width: 310,
             backgroundColor: "#1E1E1E",
             color: "#F5F3EE",
             borderRadius: 18,
@@ -116,8 +114,8 @@ export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
             boxShadow: "0 20px 44px rgba(0,0,0,0.22)",
           }}
         >
-          <div style={{ fontFamily: MONO, fontSize: 13, color: "#A3A39E", marginBottom: 14 }}>LAYERS</div>
-          {["O · Circle Vector", "N · Rect Frame", "E · Triangle Path"].map((ly, idx) => (
+          <div style={{ fontFamily: MONO, fontSize: 13, color: "#A3A39E", marginBottom: 14 }}>AGENTES LAYERS</div>
+          {["O · Team Channels", "N · OutLayer Agents", "E · Motion Studio"].map((ly, idx) => (
             <div
               key={ly}
               style={{
@@ -150,7 +148,7 @@ export const Act7OneLockup: React.FC<ActProps> = ({ durationInFrames }) => {
             transform: `translateY(${-panelsOut * 20}px)`,
           }}
         >
-          ✓ Render
+          ✓ Launch
         </div>
 
         {/* 3 Morphing Shapes -> Anton O N E */}

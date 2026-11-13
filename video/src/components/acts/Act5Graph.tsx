@@ -1,18 +1,18 @@
 import React from "react";
 import { Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { INTER_TIGHT, MONO, clamp01, expoOut, quartOut } from "./shared";
+import { INTER_TIGHT, MONO, clamp01, expoOut } from "./shared";
 
 interface ActProps {
   durationInFrames: number;
 }
 
 /**
- * Act 5 (45..55s): "AI Assistant Tool Graph"
+ * Act 5 (45..55s): "Agentes NEAR @ada Tool Graph"
  * Clean dark #0D1017 UI:
- * - Assistant bar rises -> connector expands into central hub
- * - 5 tool nodes ([Images], [1Click Swap], [OutLayer TDX], [Terrace Bet], [x402 Compute]) burst outward
+ * - Assistant bar rises -> connector expands into central @ada Tool Hub
+ * - 5 tool nodes ([Motion Studio], [1Click Swap], [OutLayer TDX], [Terrace Bet], [x402 Compute]) burst outward
  * - Glowing pulses travel along every line
- * - [Images] opens into detailed preview card with live visual preview & description
+ * - [Motion Studio] opens into detailed preview card with live Agentes NEAR screenshots & ML-DSA-65 proof
  */
 export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
@@ -30,14 +30,14 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
   const hubY = 470 - cardOpen * 70;
 
   const nodes = [
-    { id: "images", label: "[Images]", sub: "Lookbook + Plates", x: 380, y: 260, accent: "#5AA8FF" },
+    { id: "studio", label: "[Motion Studio]", sub: "7 Acts · 1080p 60fps", x: 380, y: 260, accent: "#5AA8FF" },
     { id: "swap", label: "[1Click Swap]", sub: "Multi-Solver Route", x: 350, y: 650, accent: "#00EC97" },
     { id: "tdx", label: "[OutLayer TDX]", sub: "$25/tx Cap Guard", x: 960, y: 170, accent: "#00EC97" },
     { id: "bet", label: "[Terrace Bet]", sub: "wNEAR Conviction", x: 1540, y: 260, accent: "#F2B01E" },
     { id: "x402", label: "[x402 Compute]", sub: "$1.84/hr H100", x: 1550, y: 650, accent: "#FF4FA3" },
   ];
 
-  const promptText = "Agentes NEAR: orchestrate 1Click swap under $25 TDX cap & render Lookbook";
+  const promptText = "@ada: route 12 USDC -> wNEAR under $25 TDX cap & launch Motion Studio";
   const typedLen = Math.min(promptText.length, Math.floor(clamp01(t / 1.3) * promptText.length));
 
   return (
@@ -118,7 +118,7 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
           }}
         >
           <div style={{ fontFamily: MONO, fontSize: 12, color: "#00EC97", letterSpacing: "0.08em" }}>
-            DEEPSEEK-V4.1 TEE · ORCHESTRATOR
+            DEEPSEEK-V4.1 TEE · AGENTES NEAR
           </div>
           <div style={{ marginTop: 6, fontFamily: INTER_TIGHT, fontSize: 28, fontWeight: 800, color: "#F4F6FB" }}>
             @ada Tool Hub
@@ -130,8 +130,8 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
       {nodes.map((nd, idx) => {
         const nx = hubX + (nd.x - hubX) * burst;
         const ny = hubY + (nd.y - hubY) * burst;
-        const isImages = idx === 0;
-        const glow = isImages && cardOpen > 0.2 ? `0 0 42px ${nd.accent}66` : "0 14px 32px rgba(0,0,0,0.45)";
+        const isFirst = idx === 0;
+        const glow = isFirst && cardOpen > 0.2 ? `0 0 42px ${nd.accent}66` : "0 14px 32px rgba(0,0,0,0.45)";
         return (
           <div
             key={nd.id}
@@ -155,7 +155,7 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
         );
       })}
 
-      {/* Detailed [Images] Preview Card Opening Smoothly */}
+      {/* Detailed [Motion Studio] Preview Card Opening Smoothly */}
       {t >= 5.2 ? (
         <div
           style={{
@@ -174,7 +174,7 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontFamily: MONO, fontSize: 14, fontWeight: 700, color: "#5AA8FF" }}>
-              [Images] · LIVE ASSET OUTPUT
+              [Motion Studio] · LIVE WORKSPACE OUTPUT
             </span>
             <span style={{ fontFamily: MONO, fontSize: 12, color: "#00EC97" }}>ML-DSA-65 SIGNED</span>
           </div>
@@ -183,11 +183,11 @@ export const Act5Graph: React.FC<ActProps> = ({ durationInFrames }) => {
               <Img src={staticFile("photos/look-1-butter.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <div style={{ height: 190, borderRadius: 12, overflow: "hidden" }}>
-              <Img src={staticFile("photos/look-3-terracotta.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <Img src={staticFile("photos/look-2-cream.jpg")} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </div>
           <div style={{ marginTop: 14, fontFamily: INTER_TIGHT, fontSize: 18, fontWeight: 600, color: "#F4F6FB" }}>
-            Campaign lookbook plates rendered inside OutLayer enclave with verified x402 compute receipt.
+            Live Agentes NEAR workspace & OutLayer TDX enclave verified with post-quantum ML-DSA-65 receipt.
           </div>
         </div>
       ) : null}

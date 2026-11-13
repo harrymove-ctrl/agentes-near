@@ -7,9 +7,13 @@
 .data
 .claude
 coverage
-docs
-deploy
-video
+/docs
+/deploy
+/video
+!/apps/web/public/video
+!/apps/web/public/video/**
+!/apps/web/public/screenshots
+!/apps/web/public/screenshots/**
 *.log
 # Backups as SELF_HOSTING.md takes them.
 *.dump

@@ -1092,15 +1092,16 @@ export function OcelliLandingPage() {
         </div>
       </section>
 
-      {/* Interactive Agent Video Editor (7 Beat-Synced Motion Choreographies) */}
+      {/* Unified 80s 7-Chapter Agentes NEAR Product Film & @mira AI Video Director */}
       <section className="oc-band oc-band--tinted" id="motion-studio">
         <div className="oc-container">
           <div className="oc-band-head">
-            <p className="oc-eyebrow">Programmatic Agent Video Editor</p>
-            <h2 className="oc-h2">Direct 7 beat-synced motion acts live in your browser.</h2>
+            <p className="oc-eyebrow">Unified 80s Product Film · @mira AI Video Agent</p>
+            <h2 className="oc-h2">Direct the 7-chapter Agentes NEAR promo film live in 60fps.</h2>
             <p className="oc-lede">
-              Pick an AI Auto-Direct prompt or switch across all 7 kinetic motion presets,
-              edit the headline in real time, scrub frame by frame, and toggle Web Audio beat synth.
+              Prompt @mira to customize headlines, jump across all 7 chapters on the 80s master
+              timeline, switch between the live 60fps Canvas2D engine and the 1080p60 Master MP4,
+              and toggle the melodic 808 drill beat synth.
             </p>
           </div>
 

@@ -7,7 +7,7 @@ interface ActProps {
 }
 
 /**
- * Act 2 (12..20s): "Yapp" — 8s Viral Post & Giant 99K Like Counter (104 BPM)
+ * Act 2 (12..20s): "Agentes NEAR 99K Intent Counter" — 8s Viral Slack Post & 99K Counter (104 BPM)
  * Strict flat palette: #111111, #F7F7F2, #D81B78, #3DA35D (zero gradients!)
  */
 export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
@@ -18,13 +18,13 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
 
   // 0..1.5s: cropped Anton counter rolling from 0 + rounded post card slams in (expo-out 0.3s)
   const cardSlam = expoOut(clamp01(t / 0.32));
-  const typedText = "Launch day. Please act ";
+  const typedText = "We gave @ada a NEAR wallet in Slack. Act ";
   const italicWord = "normal.";
   const totalChars = typedText.length + italicWord.length;
   const typedCount =
     t < 1.45 ? 0 : Math.min(totalChars, Math.floor(clamp01((t - 1.45) / 1.15) * totalChars));
 
-  // Counter value: 0 -> 12 (0..1.5s) -> 40K (1.5..3.0s) -> 99K (3.0..4.5s)
+  // Counter value: 0 -> 14 (0..1.5s) -> 40K (1.5..3.0s) -> 99K (3.0..4.5s)
   let counterText = "00";
   if (t < 1.5) {
     counterText = String(Math.round(quartOut(t / 1.5) * 14)).padStart(2, "0");
@@ -49,7 +49,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
   const replySlam = expoOut(clamp01((t - 4.8) / 0.25));
   const magentaWipe = quartOut(clamp01((t - 4.82) / 0.35));
   const topTagStamp = expoOut(clamp01((t - 5.35) / 0.2));
-  const replyText = "Too late. We're excited.";
+  const replyText = "Settled 12 USDC -> 3.40 wNEAR in 22s.";
   const replyChars =
     t < 5.05 ? 0 : Math.min(replyText.length, Math.floor(clamp01((t - 5.05) / 0.4) * replyText.length));
 
@@ -65,10 +65,10 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
     typedCount > typedText.length ? italicWord.slice(0, typedCount - typedText.length) : "";
 
   const reactions = [
-    { at: 2.05, label: "♥", x: 640, y: 270, bg: "#D81B78" },
-    { at: 2.35, label: "👍", x: 820, y: 230, bg: "#3DA35D" },
-    { at: 2.65, label: "♥", x: 960, y: 290, bg: "#D81B78" },
-    { at: 3.25, label: "🔥", x: 1120, y: 210, bg: "#111111" },
+    { at: 2.05, label: "⚡ 1Click", x: 620, y: 270, bg: "#D81B78" },
+    { at: 2.35, label: "🛡️ $25 TDX", x: 830, y: 230, bg: "#3DA35D" },
+    { at: 2.65, label: "♥ 99K", x: 1020, y: 290, bg: "#D81B78" },
+    { at: 3.25, label: "🔥 PQ", x: 1180, y: 210, bg: "#111111" },
   ];
 
   const avatars = [
@@ -99,7 +99,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
         }}
       />
 
-      {/* Giant Cropped Anton Like Counter */}
+      {/* Giant Cropped Anton Intent Counter */}
       <div
         style={{
           position: "absolute",
@@ -135,7 +135,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
               backgroundColor: rx.bg,
               color: "#F7F7F2",
               fontFamily: INTER_TIGHT,
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: 800,
               border: "3px solid #111111",
             }}
@@ -145,7 +145,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
         );
       })}
 
-      {/* Avatar Cards Piling Around at 99K */}
+      {/* Agent Identity Cards Piling Around at 99K */}
       {avatars.map((av, i) => {
         const p = expoOut(clamp01((t - av.at) / 0.25));
         if (t < av.at) return null;
@@ -156,12 +156,12 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
               position: "absolute",
               left: av.x,
               top: av.y,
-              width: 118,
-              height: 118,
+              width: 124,
+              height: 124,
               borderRadius: 18,
               border: "4px solid #111111",
               overflow: "hidden",
-              backgroundColor: "#F7F7F2",
+              backgroundColor: "#111111",
               transform: `translate(-50%, -50%) rotate(${av.rot}deg) scale(${p})`,
             }}
           >
@@ -173,13 +173,13 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
         );
       })}
 
-      {/* Main Post Card */}
+      {/* Main Agentes NEAR Channel Post Card */}
       <div
         style={{
           position: "absolute",
           left: postX,
           top: postY,
-          width: 780,
+          width: 790,
           transform: `translate(-50%, -50%) scale(${postScale})`,
           backgroundColor: "#F7F7F2",
           border: "5px solid #111111",
@@ -206,10 +206,10 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
           </div>
           <div>
             <div style={{ fontFamily: INTER_TIGHT, fontSize: 30, fontWeight: 800, color: "#111111" }}>
-              Sam Rivera
+              Harry Phan · Agentes NEAR
             </div>
             <div style={{ fontFamily: INTER_TIGHT, fontSize: 20, fontWeight: 600, color: "#555550" }}>
-              @sam · #near-intents-arena
+              @harry.near · #near-intents-arena
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
           style={{
             marginTop: 26,
             fontFamily: INTER_TIGHT,
-            fontSize: 48,
+            fontSize: 44,
             fontWeight: 700,
             lineHeight: 1.15,
             color: "#111111",
@@ -231,14 +231,14 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
               fontFamily: SERIF_ITALIC,
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: 56,
+              fontSize: 54,
               color: "#D81B78",
             }}
           >
             {visibleItalic}
           </span>
           {t >= 1.45 && t < 2.85 ? (
-            <span style={{ display: "inline-block", width: 4, height: 46, backgroundColor: "#111111", marginLeft: 4 }} />
+            <span style={{ display: "inline-block", width: 4, height: 44, backgroundColor: "#111111", marginLeft: 4 }} />
           ) : null}
         </div>
 
@@ -255,19 +255,19 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
             color: "#111111",
           }}
         >
-          <span>{t >= 3.9 ? "99,412 LIKES" : `${counterText} LIKES`}</span>
-          <span style={{ color: "#3DA35D" }}>14.2K REPOSTS</span>
+          <span>{t >= 3.9 ? "99,412 INTENTS ROUTED" : `${counterText} INTENTS`}</span>
+          <span style={{ color: "#3DA35D" }}>OUTLAYER TDX · $25 CAP</span>
         </div>
       </div>
 
-      {/* Tilted Reply Sticker (slams in at 4.8s after hard silence cut!) */}
+      {/* Tilted @ada Reply Sticker (slams in at 4.8s after hard silence cut!) */}
       {t >= 4.8 ? (
         <div
           style={{
             position: "absolute",
             left: 1140 - pullBack * 40,
             top: 760 - pullBack * 30,
-            width: 640,
+            width: 670,
             transform: `translate(-50%, -50%) rotate(${-3.5 + pullBack * 1.5}deg) scale(${0.75 + 0.25 * replySlam})`,
             backgroundColor: "#111111",
             color: "#F7F7F2",
@@ -314,7 +314,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
               />
             </div>
             <div style={{ fontFamily: INTER_TIGHT, fontSize: 22, fontWeight: 700, color: "#3DA35D" }}>
-              @ada · Agentes NEAR
+              @ada · OutLayer Intel TDX Enclave
             </div>
           </div>
 
@@ -322,7 +322,7 @@ export const Act2Yapp: React.FC<ActProps> = ({ durationInFrames }) => {
             style={{
               marginTop: 14,
               fontFamily: INTER_TIGHT,
-              fontSize: 40,
+              fontSize: 38,
               fontWeight: 800,
               color: "#F7F7F2",
             }}

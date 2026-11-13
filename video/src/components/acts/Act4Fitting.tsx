@@ -7,9 +7,9 @@ interface ActProps {
 }
 
 /**
- * Act 4 (30..45s): "Fitting" — 15s Lookbook Launch (60fps)
+ * Act 4 (30..45s): "Agentes NEAR Studio Showcase" — 15s Product Launch (60fps)
  * Warm paper #EEE9E0 + subtle Cobalt #2E4BFF (top-right) & Butter #F3D36B (bottom-left) soft blurs,
- * Ink #141414, grotesk + uppercase mono labels across all 11 beats!
+ * Ink #141414, grotesk + uppercase mono labels across all 11 beats with real Agentes NEAR UI!
  */
 export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
   const frame = useCurrentFrame();
@@ -49,7 +49,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     </div>
   );
 
-  // Beat 1 (0..1.2s): "fitting" + cobalt dot + yellow BETA
+  // Beat 1 (0..1.2s): "agentes" + cobalt dot + yellow NEAR badge
   if (t < 1.2) {
     const p = expoOut(clamp01(t / 0.4));
     return (
@@ -67,7 +67,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
           }}
         >
           <span style={{ fontFamily: INTER_TIGHT, fontSize: 132, fontWeight: 800, color: "#141414", letterSpacing: "-0.04em" }}>
-            fitting
+            agentes
           </span>
           <span style={{ width: 28, height: 28, borderRadius: "50%", backgroundColor: "#2E4BFF", marginTop: 48 }} />
           <span
@@ -82,14 +82,14 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
               marginBottom: 56,
             }}
           >
-            BETA
+            NEAR
           </span>
         </div>
       </PaperBase>
     );
   }
 
-  // Beat 2 (1.2..3.0s): "One garment. Every look." + tilted paper garment & 5 mini looks
+  // Beat 2 (1.2..3.0s): "One Slack. Every agent." + tilted real workspace plate & 3 mini screens
   if (t < 3.0) {
     const localT = t - 1.2;
     const wipe = quartOut(clamp01((localT - 0.3) / 0.45));
@@ -99,7 +99,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
         <div style={{ position: "absolute", inset: "110px 100px", display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", gap: 48 }}>
           <div>
             <div style={{ fontFamily: INTER_TIGHT, fontSize: 88, fontWeight: 800, lineHeight: 1.02, color: "#141414" }}>
-              One garment.
+              One Slack.
             </div>
             <div style={{ position: "relative", display: "inline-block", marginTop: 12, padding: "4px 18px" }}>
               <div
@@ -112,7 +112,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                 }}
               />
               <span style={{ position: "relative", fontFamily: INTER_TIGHT, fontSize: 88, fontWeight: 800, color: wipe > 0.4 ? "#EEE9E0" : "#141414" }}>
-                Every look.
+                Every agent.
               </span>
             </div>
           </div>
@@ -187,7 +187,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 4 (4.0..5.6s): 3 white 20px panels GARMENT / MODELS / SCENES + cursor drop
+  // Beat 4 (4.0..5.6s): 3 white 20px panels WORKSPACE / AI AGENTS / SCENES + cursor drop
   if (t < 5.6) {
     const p = expoOut(clamp01((t - 4.0) / 0.45));
     const cDrop = quartOut(clamp01((t - 4.4) / 0.7));
@@ -195,9 +195,9 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
       <PaperBase>
         <div style={{ position: "absolute", inset: "110px 96px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 28 }}>
           {[
-            { tag: "01 · GARMENT", title: "Cobalt Wool Overshirt", img: "photos/garment-cobalt-overshirt.jpg" },
-            { tag: "02 · MODELS", title: "6 Editorial Talent", img: "photos/model-1.jpg" },
-            { tag: "03 · SCENES", title: "5 Studio Backdrops", img: "photos/look-1-butter.jpg" },
+            { tag: "01 · WORKSPACE", title: "Self-Hosted Channels", img: "photos/garment-cobalt-overshirt.jpg" },
+            { tag: "02 · AI AGENTS", title: "6 Autonomous Swarms", img: "photos/model-1.jpg" },
+            { tag: "03 · SCENES", title: "5 Product Surfaces", img: "photos/look-1-butter.jpg" },
           ].map((panel, i) => (
             <div
               key={panel.tag}
@@ -230,7 +230,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 5 (5.6..7.0s): 3x2 MODELS grid selecting 1, 3, 5 (3 SELECTED)
+  // Beat 5 (5.6..7.0s): 3x2 AGENTS grid selecting @ada, @theo, @mira (3 SELECTED)
   if (t < 7.0) {
     const localT = t - 5.6;
     const selectedSet = new Set([
@@ -242,7 +242,9 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
       <PaperBase>
         <div style={{ position: "absolute", inset: "90px 160px", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-            <span style={{ fontFamily: MONO, fontSize: 18, fontWeight: 700, color: "#141414" }}>MODELS · SELECT TALENT</span>
+            <span style={{ fontFamily: MONO, fontSize: 18, fontWeight: 700, color: "#141414" }}>
+              AI AGENTS · SELECT AUTONOMOUS SWARM
+            </span>
             <span
               style={{
                 padding: "8px 18px",
@@ -274,7 +276,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                 >
                   <Img
                     src={staticFile(`photos/model-${n}.jpg`)}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
                   />
                   {sel ? (
                     <div
@@ -307,14 +309,14 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 6 (7.0..8.2s): Whip-pan SCENES (Butter, Blush, Terracotta, Sage — 3 selected)
+  // Beat 6 (7.0..8.2s): Whip-pan SURFACES (INTENTS, TERRACE, OUTLAYER, X402 GPU — 3 selected)
   if (t < 8.2) {
     const pan = expoOut(clamp01((t - 7.0) / 0.45));
     const scenes = [
-      { name: "BUTTER", hex: "#F3D36B", sel: true },
-      { name: "BLUSH", hex: "#F2B5C4", sel: false },
-      { name: "TERRACOTTA", hex: "#D96B43", sel: true },
-      { name: "SAGE", hex: "#94B49F", sel: true },
+      { name: "1CLICK INTENTS", hex: "#F3D36B", sel: true },
+      { name: "TERRACE BETS", hex: "#F2B5C4", sel: false },
+      { name: "OUTLAYER TDX", hex: "#D96B43", sel: true },
+      { name: "CORPUS X402", hex: "#94B49F", sel: true },
     ];
     return (
       <PaperBase>
@@ -329,7 +331,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
           }}
         >
           <div style={{ fontFamily: MONO, fontSize: 18, fontWeight: 700, color: "#141414", marginBottom: 24 }}>
-            SCENES · 3 PAPER BACKDROPS SELECTED
+            SURFACES · 3 PROTOCOL MODULES SELECTED
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, height: 520 }}>
             {scenes.map((sc) => (
@@ -372,7 +374,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 7 (8.2..9.4s): "Create lookbook" press + cobalt rings
+  // Beat 7 (8.2..9.4s): "Launch Agent Swarm" press + cobalt rings
   if (t < 9.4) {
     const localT = t - 8.2;
     const press = localT >= 0.35 ? 0.94 + 0.06 * expoOut((localT - 0.35) / 0.25) : 1;
@@ -387,7 +389,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                 key={idx}
                 style={{
                   position: "absolute",
-                  width: 380 + rp * 540,
+                  width: 440 + rp * 540,
                   height: 120 + rp * 540,
                   borderRadius: 999,
                   border: "4px solid #2E4BFF",
@@ -409,26 +411,26 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
               boxShadow: "0 24px 60px rgba(46,75,255,0.35)",
             }}
           >
-            Create lookbook
+            Launch Agent Swarm
           </div>
-          <CursorArrow x={1020} y={550} color="#141414" scale={1.2} />
+          <CursorArrow x={1050} y={550} color="#141414" scale={1.2} />
         </div>
       </PaperBase>
     );
   }
 
-  // Beat 8 (9.4..11.0s): Grid reveal under paper veil + "A whole campaign. / In minutes."
+  // Beat 8 (9.4..11.0s): Grid reveal under paper veil + "A whole team + swarm. / In one click."
   if (t < 11.0) {
     const veil = quartOut(clamp01((t - 9.4) / 0.75));
     return (
       <PaperBase>
         <div style={{ position: "absolute", inset: "90px 100px", display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 40, alignItems: "center" }}>
           <div>
-            <div style={{ fontFamily: INTER_TIGHT, fontSize: 78, fontWeight: 800, lineHeight: 1.02, color: "#141414" }}>
-              A whole campaign.
+            <div style={{ fontFamily: INTER_TIGHT, fontSize: 74, fontWeight: 800, lineHeight: 1.02, color: "#141414" }}>
+              A whole team + swarm.
             </div>
-            <div style={{ marginTop: 10, fontFamily: INTER_TIGHT, fontSize: 78, fontWeight: 800, color: "#2E4BFF" }}>
-              In minutes.
+            <div style={{ marginTop: 10, fontFamily: INTER_TIGHT, fontSize: 74, fontWeight: 800, color: "#2E4BFF" }}>
+              In one click.
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, opacity: veil }}>
@@ -443,7 +445,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 9 (11.0..12.6s): 5 looks arc fan-out + "Download all"
+  // Beat 9 (11.0..12.6s): 5 real screen plates arc fan-out + "Open Live Workspace (/ocelli)"
   if (t < 12.6) {
     const fan = expoOut(clamp01((t - 11.0) / 0.55));
     const looks = [
@@ -495,16 +497,21 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
               fontWeight: 700,
             }}
           >
-            Download all (5 RAW + 4K)
+            Open Live Workspace (/ocelli · 13 NEAR Tracks)
           </div>
         </div>
       </PaperBase>
     );
   }
 
-  // Beat 10 (12.6..14.0s): 3 3D-tilted white phones ("Wool Overshirt", COBALT · $148, Add to bag)
+  // Beat 10 (12.6..14.0s): 3 3D-tilted white mobile studio frames ("Agentes NEAR", OUTLAYER · $25 CAP, Execute Intent)
   if (t < 14.0) {
     const p = expoOut(clamp01((t - 12.6) / 0.45));
+    const cards = [
+      { lk: "look-1-butter.jpg", title: "1Click Swap", sub: "12 USDC -> 3.40 wNEAR", cta: "Execute Intent" },
+      { lk: "look-2-cream.jpg", title: "OutLayer TDX", sub: "HARDWARE · $25 CAP", cta: "Enclave Verified" },
+      { lk: "look-5-greyblue.jpg", title: "Motion Studio", sub: "7 ACTS · 1080P 60FPS", cta: "Open /ocelli" },
+    ];
     return (
       <PaperBase>
         <div
@@ -518,9 +525,9 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
             perspective: 1400,
           }}
         >
-          {["look-1-butter.jpg", "look-3-terracotta.jpg", "look-5-greyblue.jpg"].map((lk, i) => (
+          {cards.map((c, i) => (
             <div
-              key={lk}
+              key={c.lk}
               style={{
                 width: 330,
                 height: 670,
@@ -536,14 +543,14 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
               }}
             >
               <div style={{ height: 450, borderRadius: 26, overflow: "hidden" }}>
-                <Img src={staticFile(`photos/${lk}`)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <Img src={staticFile(`photos/${c.lk}`)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div>
                 <div style={{ fontFamily: INTER_TIGHT, fontSize: 22, fontWeight: 800, color: "#141414" }}>
-                  Wool Overshirt
+                  {c.title}
                 </div>
                 <div style={{ fontFamily: MONO, fontSize: 14, color: "#2E4BFF", fontWeight: 700, marginTop: 4 }}>
-                  COBALT · $148
+                  {c.sub}
                 </div>
                 <div
                   style={{
@@ -558,7 +565,7 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                     fontWeight: 700,
                   }}
                 >
-                  Add to bag
+                  {c.cta}
                 </div>
               </div>
             </div>
@@ -568,13 +575,13 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
     );
   }
 
-  // Beat 11 (14.0..15.0s): "fitting." + BETA + FITTING.STUDIO
+  // Beat 11 (14.0..15.0s): "agentes." + NEAR + AGENTES.NEAR · /OCELLI
   return (
     <PaperBase>
       <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <span style={{ fontFamily: INTER_TIGHT, fontSize: 136, fontWeight: 800, color: "#141414", letterSpacing: "-0.04em" }}>
-            fitting<span style={{ color: "#2E4BFF" }}>.</span>
+            agentes<span style={{ color: "#2E4BFF" }}>.</span>
           </span>
           <span
             style={{
@@ -588,11 +595,11 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
               marginBottom: 56,
             }}
           >
-            BETA
+            NEAR
           </span>
         </div>
         <div style={{ marginTop: 8, fontFamily: MONO, fontSize: 20, letterSpacing: "0.18em", color: "#141414" }}>
-          FITTING.STUDIO
+          AGENTES.NEAR · /OCELLI
         </div>
       </div>
     </PaperBase>

@@ -76,7 +76,7 @@ const TornPaperEdge: React.FC<{ fill: string; flip?: boolean }> = ({ fill, flip 
 );
 
 /**
- * Act 6 (55..67s): "MOLOTE PARCHE 2" — 12s Paper Collage Stop-Motion @ 120 BPM, 12fps On-Twos!
+ * Act 6 (55..67s): "Agentes NEAR · OutLayer TDX Vault" — 12s Paper Collage Stop-Motion @ 120 BPM, 12fps On-Twos!
  * Strict palette: #F05A28, #3BA55C, #141414, Cream #F6F0E2, Kraft #C89D66
  * Quantized strictly to 12fps (`Math.floor(frame / 5)`).
  */
@@ -100,12 +100,12 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
     />
   );
 
-  // Beat 1 (0..3s): Orange + Kraft collage + stars + speaker + MOLOTE / PARCHE 2 tape
+  // Beat 1 (0..3s): Orange + Kraft collage + stars + TDX Vault cutout + AGENTES NEAR / OUTLAYER TDX tape
   if (t < 3.0) {
     const step = Math.floor(t * 4);
     const wiggle = (step % 2 === 0 ? 1 : -1) * 1.8;
-    const c1 = Math.floor((t - 0.5) * 14);
-    const c2 = Math.floor((t - 1.2) * 14);
+    const c1 = Math.floor((t - 0.3) * 16);
+    const c2 = Math.floor((t - 1.0) * 16);
 
     return (
       <div style={{ position: "absolute", inset: 0, backgroundColor: "#F05A28", overflow: "hidden" }}>
@@ -148,11 +148,11 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
           </div>
         ))}
 
-        {/* White-bordered Speaker Cutout */}
+        {/* White-bordered OutLayer TDX Vault Cutout */}
         <div
           style={{
             position: "absolute",
-            left: 1140,
+            left: 1190,
             top: 520,
             width: 540,
             height: 540,
@@ -164,31 +164,31 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
         </div>
 
         {/* Embossed Label-Maker Tapes */}
-        <div style={{ position: "absolute", left: 160, top: 340, display: "flex", flexDirection: "column", gap: 22 }}>
-          <LabelTape text="MOLOTE" charsVisible={c1} rotate={-3} fontSize={72} />
-          <LabelTape text="PARCHE 2" charsVisible={c2} rotate={2} fontSize={58} />
+        <div style={{ position: "absolute", left: 130, top: 340, display: "flex", flexDirection: "column", gap: 22 }}>
+          <LabelTape text="AGENTES NEAR" charsVisible={c1} rotate={-3} fontSize={58} />
+          <LabelTape text="OUTLAYER TDX" charsVisible={c2} rotate={2} fontSize={52} />
         </div>
       </div>
     );
   }
 
-  // Beat 2 (3..6s): Cream + multi-paper L O U D + speaker + stepped waves + 360° SOUND
+  // Beat 2 (3..6s): Cream + multi-paper S A F E + TDX Vault + stepped pulses + $25/TX CAP · $45 BLOCKED
   if (t < 6.0) {
     const localT = t - 3.0;
     const step = Math.floor(localT * 4);
     const wavePulse = 1 + (step % 2) * 0.14;
     const letters = [
-      { ch: "L", bg: "#F05A28", fg: "#F6F0E2", rot: -5 },
-      { ch: "O", bg: "#3BA55C", fg: "#F6F0E2", rot: 4 },
-      { ch: "U", bg: "#C89D66", fg: "#141414", rot: -3 },
-      { ch: "D", bg: "#141414", fg: "#F6F0E2", rot: 5 },
+      { ch: "S", bg: "#F05A28", fg: "#F6F0E2", rot: -5 },
+      { ch: "A", bg: "#3BA55C", fg: "#F6F0E2", rot: 4 },
+      { ch: "F", bg: "#C89D66", fg: "#141414", rot: -3 },
+      { ch: "E", bg: "#141414", fg: "#F6F0E2", rot: 5 },
     ];
     return (
       <div style={{ position: "absolute", inset: 0, backgroundColor: "#F6F0E2", overflow: "hidden" }}>
         <HalftoneOverlay />
         <TornPaperEdge fill="#3BA55C" flip />
 
-        {/* Multi-paper L O U D */}
+        {/* Multi-paper S A F E */}
         <div style={{ position: "absolute", left: 120, top: 180, display: "flex", gap: 20 }}>
           {letters.map((lt, idx) => (
             <div
@@ -213,7 +213,7 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
           ))}
         </div>
 
-        {/* Stepped Sound Waves + Speaker */}
+        {/* Stepped Enclave Waves + TDX Vault */}
         <div
           style={{
             position: "absolute",
@@ -244,13 +244,13 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
         </div>
 
         <div style={{ position: "absolute", left: 130, bottom: 160 }}>
-          <LabelTape text="360° SOUND" charsVisible={Math.floor(localT * 14)} rotate={-2} fontSize={44} />
+          <LabelTape text="$25/TX CAP · $45 BLOCKED" charsVisible={Math.floor(localT * 18)} rotate={-2} fontSize={40} />
         </div>
       </div>
     );
   }
 
-  // Beat 3 (6..9s): Green + taped friends photo + speech bubbles + 24H BATTERY / SPLASHPROOF
+  // Beat 3 (6..9s): Green + taped live workspace Polaroid + "Zero key leaks!" + 1CLICK SOLVERS / ML-DSA-65 PQ
   if (t < 9.0) {
     const localT = t - 6.0;
     const step = Math.floor(localT * 4);
@@ -259,11 +259,11 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
         <HalftoneOverlay />
         <TornPaperEdge fill="#F05A28" />
 
-        {/* Taped Friends Polaroid */}
+        {/* Taped Live Agentes NEAR Polaroid */}
         <div
           style={{
             position: "absolute",
-            left: 160,
+            left: 140,
             top: 170,
             width: 820,
             backgroundColor: "#F6F0E2",
@@ -304,7 +304,7 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
         </div>
 
         {/* Speech Bubbles + Label Tape Specs */}
-        <div style={{ position: "absolute", right: 140, top: 240, display: "flex", flexDirection: "column", gap: 34, alignItems: "flex-end" }}>
+        <div style={{ position: "absolute", right: 120, top: 240, display: "flex", flexDirection: "column", gap: 34, alignItems: "flex-end" }}>
           <div
             style={{
               padding: "22px 34px",
@@ -319,16 +319,16 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
               transform: `rotate(${step % 2 === 0 ? 2 : -1}deg)`,
             }}
           >
-            All night long!
+            Zero key leaks!
           </div>
-          <LabelTape text="24H BATTERY" charsVisible={Math.floor(localT * 14)} rotate={-3} fontSize={44} />
-          <LabelTape text="SPLASHPROOF" charsVisible={Math.floor((localT - 0.6) * 14)} rotate={2} fontSize={44} />
+          <LabelTape text="1CLICK SOLVERS" charsVisible={Math.floor(localT * 15)} rotate={-3} fontSize={42} />
+          <LabelTape text="ML-DSA-65 PQ" charsVisible={Math.floor((localT - 0.6) * 15)} rotate={2} fontSize={42} />
         </div>
       </div>
     );
   }
 
-  // Beat 4 (9..12s): Orange + cream band + DROP + 11.21 + small speaker + ONLY 500 UNITS
+  // Beat 4 (9..12s): Orange + cream band + SHIP + v2.0 + TDX Vault + 13 NEAR TRACKS
   const localT = t - 9.0;
   const step = Math.floor(localT * 4);
   return (
@@ -354,10 +354,10 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
       >
         <div>
           <div style={{ fontFamily: MONO, fontSize: 32, fontWeight: 700, color: "#3BA55C", letterSpacing: "0.14em" }}>
-            DROP
+            SHIP
           </div>
           <div style={{ fontFamily: ANTON, fontSize: 220, lineHeight: 0.88, color: "#141414" }}>
-            11.21
+            v2.0
           </div>
         </div>
         <div style={{ width: 290, height: 290, transform: `rotate(${step % 2 === 0 ? 6 : -4}deg)` }}>
@@ -366,7 +366,7 @@ export const Act6Molote: React.FC<ActProps> = ({ durationInFrames }) => {
       </div>
 
       <div style={{ position: "absolute", left: "50%", bottom: 110, transform: "translateX(-50%)" }}>
-        <LabelTape text="ONLY 500 UNITS" charsVisible={Math.floor(localT * 16)} rotate={-2} fontSize={44} />
+        <LabelTape text="13 NEAR TRACKS" charsVisible={Math.floor(localT * 16)} rotate={-2} fontSize={44} />
       </div>
     </div>
   );

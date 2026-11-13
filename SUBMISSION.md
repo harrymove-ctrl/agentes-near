@@ -8,7 +8,7 @@ Prepared for **Agentes NEAR** (`https://github.com/harrymove-ctrl/agentes-near`)
 | --- | --- | --- |
 | Public GitHub Repo | `https://github.com/harrymove-ctrl/agentes-near` with root `LICENSE` | Live & pushed (`harrymove-ctrl`) |
 | Hosted Live URL | `https://agentes-near-production.up.railway.app/ocelli` | Live on Railway (HTTP 200) |
-| Demo Video | Under 3:00 1080p 60fps MP4 (`AgentesNearDemo` 80s + `AgentesNearXTeaser` 45s, 7 full-bleed motion acts) | Rendered & QA verified (`v2.0.0` release assets) |
+| Demo Video | Under 3:00 1080p 60fps MP4 (`AgentesNearDemo` 80s + `AgentesNearXTeaser` 45s, 7 unified Agentes NEAR chapters with melodic drill score) | Rendered & QA verified (`v2.0.0` release assets + `/video/*.mp4`) |
 | X Demo Post | Published manually by human lead with video attached | Ready to paste below |
 | API Submission | `POST https://nearhackathon.com/api/applications` confirmed explicitly by human | Never auto-submitted |
 
