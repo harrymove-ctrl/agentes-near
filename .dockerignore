@@ -10,8 +10,7 @@ coverage
 /docs
 /deploy
 /video
-!/apps/web/public/video
-!/apps/web/public/video/**
+apps/web/public/video/*.mp4
 !/apps/web/public/screenshots
 !/apps/web/public/screenshots/**
 *.log
