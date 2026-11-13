@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 """
-Verifies rendered 60 FPS Agentes NEAR MP4s (ffprobe + loudnorm) and builds
-a 16-frame 4x4 QA contact sheet at video/out/contact-sheet.png (plus teaser sheet).
+Verifies rendered 60 FPS Agentes NEAR Phase 2 MP4s (ffprobe + loudnorm) and builds
+16-frame 4x4 QA contact sheets sampling all 7 choreographed motion acts.
 """
 
 import json
@@ -103,18 +103,19 @@ def main() -> None:
     d_info = probe_mp4(demo)
     t_info = probe_mp4(teaser)
 
-    # 16 evenly spaced & scene-keyed timestamps across 94.0s demo
+    # Sample all 7 acts across 80.0s demo
     demo_ts = [
-        1.5, 5.5, 9.5, 14.5,
-        20.0, 26.5, 33.0, 39.5,
-        45.5, 51.5, 57.5, 63.0,
-        69.5, 76.5, 84.5, 91.0,
+        1.2, 5.2, 10.6, 13.8,   # Act 1 (wave, ring, stacked) + Act 2 (Yapp typing)
+        16.4, 18.8, 22.5, 27.2, # Act 2 (99K + reply) + Act 3 (Cutline nodes + timeline)
+        31.8, 36.2, 41.6, 43.4, # Act 4 (Fitting lookbook, models, fan-out, phones)
+        48.5, 52.8, 59.8, 76.0, # Act 5 (AI graph + preview), Act 6 (Molote), Act 7 (Lockup)
     ]
+    # Sample all 7 acts across 45.0s teaser
     teaser_ts = [
-        1.2, 3.8, 6.2, 8.8,
-        11.5, 13.8, 16.5, 19.5,
-        21.8, 24.5, 27.5, 29.8,
-        32.5, 36.0, 40.5, 43.2,
+        1.2, 4.0, 7.8, 11.4,
+        14.6, 17.8, 20.8, 24.4,
+        27.8, 30.2, 32.8, 36.2,
+        39.2, 40.6, 42.5, 44.0,
     ]
 
     cs_demo = OUT_DIR / "contact-sheet.png"

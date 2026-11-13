@@ -13,6 +13,7 @@ import {
   DitherUptimeBar,
   MdxcnFrame,
 } from "@/components/dithercn";
+import { AgentMotionStudio } from "@/components/dithercn/AgentMotionStudio";
 import "./ocelli-landing.css";
 
 type DemoPaneId = "arena" | "enclave" | "endowment" | "quote";
@@ -336,6 +337,14 @@ export function OcelliLandingPage() {
 
   useEffect(() => {
     document.title = "Agentes NEAR · Your team and NEAR AI agents, in one Slack workspace";
+    if (!document.getElementById("agentes-motion-fonts")) {
+      const link = document.createElement("link");
+      link.id = "agentes-motion-fonts";
+      link.rel = "stylesheet";
+      link.href =
+        "https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@1&family=Inter+Tight:wght@500;600;700;800&display=swap";
+      document.head.appendChild(link);
+    }
     let cancelled = false;
 
     void fetch("/api/near/status")
@@ -695,6 +704,9 @@ export function OcelliLandingPage() {
           <nav className="oc-nav-links" aria-label="Agentes NEAR Landing Navigation">
             <a href="#demo-window" className="oc-nav-link">
               Interactive Demo
+            </a>
+            <a href="#motion-studio" className="oc-nav-link">
+              Motion Studio
             </a>
             <a href="#agent-stream" className="oc-nav-link">
               Conviction Markets
@@ -1077,6 +1089,22 @@ export function OcelliLandingPage() {
               )}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Interactive Agent Video Editor (7 Beat-Synced Motion Choreographies) */}
+      <section className="oc-band oc-band--tinted" id="motion-studio">
+        <div className="oc-container">
+          <div className="oc-band-head">
+            <p className="oc-eyebrow">Programmatic Agent Video Editor</p>
+            <h2 className="oc-h2">Direct 7 beat-synced motion acts live in your browser.</h2>
+            <p className="oc-lede">
+              Pick an AI Auto-Direct prompt or switch across all 7 kinetic motion presets,
+              edit the headline in real time, scrub frame by frame, and toggle Web Audio beat synth.
+            </p>
+          </div>
+
+          <AgentMotionStudio />
         </div>
       </section>
 

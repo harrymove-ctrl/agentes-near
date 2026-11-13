@@ -10,7 +10,7 @@ Built at **NEAR HACKATHON** (`2026-11-01` to `2026-11-14`).
 | --- | --- | --- |
 | Live Railway App | https://agentes-near-production.up.railway.app/ocelli | Public `/ocelli` landing page and 1-click workspace entry |
 | Public Repository | https://github.com/harrymove-ctrl/agentes-near | Root MIT `LICENSE` plus upstream `NOTICE` attribution |
-| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v1.0.0 | 1080p 60fps walkthrough (`AgentesNearDemo`, 94s) and X teaser (`AgentesNearXTeaser`, 45s) |
+| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v2.0.0 | 1080p 60fps 7-act motion showcase (`AgentesNearDemo`, 80s) and X teaser (`AgentesNearXTeaser`, 45s) |
 | Hackathon Spec | [HACKATHON.md](HACKATHON.md) | Official NEAR HACKATHON rules, tracks, and API reference |
 | Submission Packet | [SUBMISSION.md](SUBMISSION.md) | Track rationale, X post draft, and `POST /api/applications` template |
 
@@ -58,12 +58,13 @@ Designed for automated screeners (`Claude Code`, `Codex` per `HACKATHON.md` Q-01
 
 | Step | Do X | See Y |
 | --- | --- | --- |
-| 1 | Open `/ocelli` (or `/welcome`) in the browser | Animated Bayer `DitherScene` hero (`horizon`, `aurora`, `plasma`, `waves`, `dither-orb`), floating 4-pane interactive window, 13 NEAR tracks matrix, and zero JS page errors |
-| 2 | Click **Simulate $45.00 Rogue Drain** in the `/ocelli` window (`OutLayer TDX Guard` tab) or call `POST /api/near/enclave-test` with `{"amountUsd":45,"capUsd":25}` | HTTP `200` JSON response with `allowed: false`, `decision: "BLOCKED_PER_TX_CAP"`, hardware policy rejection reason, and `[BLOCK]` badge |
-| 3 | Click **Run $12.00 Safe Intent** (`POST /api/near/enclave-test` with `{"amountUsd":12,"capUsd":25}`) | HTTP `200` JSON response with `allowed: true`, SHA-256 `NEP-413` (`tag = 2147484061`) receipt payload, and `[PASS]` badge |
-| 4 | Click **1-Click Enter Workspace** (as `Harry Phan` via `POST /api/auth/zen-demo-login`) | Redirect into `/` -> `/org/...` Slack workspace showing `#near-intents-arena`, `#compute-endowment`, `#outlayer-tee-vault`, and `Updates` |
-| 5 | Click **NEAR Intents & TEE** in the sidebar (or append `?near=1` to the workspace URL) | `NearControlModal` opens with `Enclave & Intents` (`BenchoSloshSlider`), `Terrace Markets` (`BACK` / `FADE`), and `Corpus Endowment` (`x402` GPU hours + `Kanmani` escrow) |
-| 6 | Trigger a `BACK` bet (`POST /api/near/bet`) and fund `+4h` GPU compute (`POST /api/near/endowment`) | Pool balances and live `ML-DSA-65` receipts update immediately and persist in embedded PGlite |
+| 1 | Open `/ocelli` (or `/welcome`) in the browser | Animated Bayer `DitherScene` hero (`horizon`, `aurora`, `plasma`, `waves`, `dither-orb`), floating 4-pane interactive window, 7-preset `AgentMotionStudio`, 13 NEAR tracks matrix, and zero JS page errors |
+| 2 | Scroll to **Motion Studio** (`#motion-studio`) on `/ocelli`, pick an Auto-Direct prompt chip (`Viral 99K Counter`, `Node Flow Unfold`, `Paper Stop-Motion Drop`), edit the live headline, drag the timeline scrubber, and toggle Web Audio synth | All 7 choreographed motion presets (`Things Are Moving` 97 BPM, `Yapp 99K Counter` 104 BPM, `Cutline Flow Diagram` 116 BPM, `Fitting Lookbook` 60fps, `AI Tool Graph`, `Molote Parche 2` 120 BPM, `ONE design Sting` 108 BPM) update live on canvas with beat-synced audio |
+| 3 | Click **Simulate $45.00 Rogue Drain** in the `/ocelli` window (`OutLayer TDX Guard` tab) or call `POST /api/near/enclave-test` with `{"amountUsd":45,"capUsd":25}` | HTTP `200` JSON response with `allowed: false`, `decision: "BLOCKED_PER_TX_CAP"`, hardware policy rejection reason, and `[BLOCK]` badge |
+| 4 | Click **Run $12.00 Safe Intent** (`POST /api/near/enclave-test` with `{"amountUsd":12,"capUsd":25}`) | HTTP `200` JSON response with `allowed: true`, SHA-256 `NEP-413` (`tag = 2147484061`) receipt payload, and `[PASS]` badge |
+| 5 | Click **1-Click Enter Workspace** (as `Harry Phan` via `POST /api/auth/zen-demo-login`) | Redirect into `/` -> `/org/...` Slack workspace showing `#near-intents-arena`, `#compute-endowment`, `#outlayer-tee-vault`, and `Updates` |
+| 6 | Click **NEAR Intents & TEE** in the sidebar (or append `?near=1` to the workspace URL) | `NearControlModal` opens with `Enclave & Intents` (`BenchoSloshSlider`), `Terrace Markets` (`BACK` / `FADE`), and `Corpus Endowment` (`x402` GPU hours + `Kanmani` escrow) |
+| 7 | Trigger a `BACK` bet (`POST /api/near/bet`) and fund `+4h` GPU compute (`POST /api/near/endowment`) | Pool balances and live `ML-DSA-65` receipts update immediately and persist in embedded PGlite |
 
 ## Selected NEAR HACKATHON Tracks
 
@@ -90,6 +91,7 @@ Captured via headless Playwright against the production Vite bundle served by th
 | Surface | Viewport | Screenshot |
 | --- | --- | --- |
 | `/ocelli` Landing Hero & `.dl-win` | `1280x800` | ![Ocelli Desktop](docs/screenshots/ocelli-desktop.png) |
+| `/ocelli#motion-studio` Interactive 7-Preset Studio | `1280x800` | ![Agent Motion Studio](docs/screenshots/motion-studio.png) |
 | `/ocelli` Mobile Responsive Hero | `390x844` | ![Ocelli Mobile](docs/screenshots/ocelli-mobile.png) |
 | `#near-intents-arena` Slack Workspace | `1280x800` | ![Workspace Channel](docs/screenshots/workspace-near.png) |
 | `NearControlModal` (`?near=1`) `$45` Rogue Drain Block | `1280x800` | ![Enclave Guard Modal](docs/screenshots/enclave-guard.png) |
