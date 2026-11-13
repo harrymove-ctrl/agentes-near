@@ -1086,11 +1086,11 @@ export function OcelliLandingPage() {
                     </div>
                   </div>
 
-                  {/* Right Rail (~280px): Looping 4:00 Film Preview, Corpus x402 Gauge, ML-DSA-65 Pill */}
+                  {/* Right Rail (~280px): Looping 90s Film Preview, Corpus x402 Gauge, ML-DSA-65 Pill */}
                   <aside className="oc-live-ws__right">
                     <div className="oc-live-ws__video-card">
                       <div className="oc-live-ws__video-head">
-                        <span>4:00 NARRATED MASTER FILM (240s · V-DRILL)</span>
+                        <span>90s 60FPS SHOWREEL + 3D FLY-OVER FILM (V-DRILL BEAT)</span>
                         <span className="oc-track-ev">7 ACTS</span>
                       </div>
                       <video
@@ -1111,7 +1111,7 @@ export function OcelliLandingPage() {
                             ?.scrollIntoView({ behavior: "smooth" })
                         }
                       >
-                        4:00 Narrated Master Film (240s · V-Drill) ↓
+                        90s Showreel + 3D Fly-Over Film (V-Drill Beat) ↓
                       </button>
                     </div>
 
@@ -1623,16 +1623,16 @@ export function OcelliLandingPage() {
         </div>
       </section>
 
-      {/* 4:00 Narrated Master Film (240s · V-Drill) & @mira AI Video Director */}
+      {/* 90s Showreel + 3D Fly-Over Film (V-Drill Beat) & @mira AI Video Director */}
       <section className="oc-band oc-band--tinted" id="motion-studio">
         <div className="oc-container">
           <div className="oc-band-head">
-            <p className="oc-eyebrow">4:00 Narrated Master Film (240s · V-Drill) · @mira AI Director</p>
+            <p className="oc-eyebrow">90s 60fps Showreel & 3D Fly-Over Film (V-Drill Beat) · @mira AI Director</p>
             <h2 className="oc-h2">Direct the 7-chapter Agentes NEAR promo talk &amp; step-by-step demo.</h2>
             <p className="oc-lede">
-              Prompt @mira to customize headlines, jump across all 7 chapters on the 4-minute
-              (240.0s) master timeline, switch between the live 60fps Canvas2D engine and the
-              4:00 Narrated Master Film (MP4), and play the Vietnamese Dan Tranh + 808 V-Drill synth.
+              Prompt @mira to customize headlines and jump across all 7 chapters on the 90-second
+              (1:30) showreel timeline, switch between the live 60fps Canvas2D engine and the
+              90s Showreel + 3D Fly-Over Film (MP4), and play the Dan Tranh + 808 V-Drill Beat instrumental.
             </p>
           </div>
 

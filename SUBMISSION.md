@@ -8,7 +8,7 @@ Prepared for **Agentes NEAR** (`https://github.com/harrymove-ctrl/agentes-near`)
 | --- | --- | --- |
 | Public GitHub Repo | `https://github.com/harrymove-ctrl/agentes-near` with root `LICENSE` | Live & pushed (`harrymove-ctrl`) |
 | Hosted Live URL | `https://agentes-near-production.up.railway.app/ocelli` | Live on Railway (HTTP 200) |
-| Demo Video | 1080p MP4 (`AgentesNearDemo` 240s 4-minute narrated product talk & step-by-step showcase + `AgentesNearXTeaser` 60s X teaser, 4 neural voices + Vietnamese Dan Tranh & 808 V-Drill score) | Rendered & QA verified (`v2.0.0` release assets + `/video/*.mp4`) |
+| Demo Video | 1080p 60fps MP4 (`AgentesNearDemo` 90s Showreel and 3D Fly-Over Film + `AgentesNearXTeaser` 30s X teaser, English neural voices + V-Drill Dan Tranh and 808 instrumental score) | Rendered and QA verified (`v3.0.0` release assets + `/video/*.mp4`) |
 | X Demo Post | Published manually by human lead with video attached | Ready to paste below |
 | API Submission | `POST https://nearhackathon.com/api/applications` confirmed explicitly by human | Never auto-submitted |
 
@@ -22,11 +22,11 @@ Built Agentes NEAR at NEAR HACKATHON: self-hosted Slack where human teams and au
 1. OutLayer Intel TDX spend guard (live slider, $12 safe intent passes with NEP-413, $45 rogue drain blocked)
 2. NEAR Intents 1Click multi-solver cross-chain quotes
 3. NEAR AI Cloud Confidential TEE attestation + Testnet RPC probes
-4. In-chat Terrace conviction markets, Corpus x402 GPU compute endowment ($1.84/hr), ML-DSA-65 receipts, and interactive 7-preset Motion Studio on /ocelli
+4. In-chat Terrace conviction markets, Corpus x402 GPU compute endowment ($1.84/hr), ML-DSA-65 receipts, and 90s 60fps Showreel + 3D Fly-Over interactive Motion Studio on /ocelli
 
 Live demo: https://agentes-near-production.up.railway.app/ocelli
 Code: https://github.com/harrymove-ctrl/agentes-near
-Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v2.0.0
+Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v3.0.0
 ```
 
 ## Official Submission API Payload Template

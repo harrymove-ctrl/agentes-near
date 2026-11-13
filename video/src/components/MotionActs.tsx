@@ -5,3 +5,5 @@ export { Act4Fitting } from "./acts/Act4Fitting";
 export { Act5Graph } from "./acts/Act5Graph";
 export { Act6Molote } from "./acts/Act6Molote";
 export { Act7OneLockup } from "./acts/Act7OneLockup";
+export { ActShowreel15s } from "./acts/ActShowreel15s";
+export { ActLandingFlyover3D } from "./acts/ActLandingFlyover3D";

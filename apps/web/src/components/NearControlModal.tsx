@@ -479,7 +479,7 @@ export function NearControlModal({
                 label: "Corpus Endowment",
                 count: endowment ? Math.round(endowment.runwayHours) : undefined,
               },
-              { value: "film", label: "4:00 Narrated Master Film (240s · V-Drill)" },
+              { value: "film", label: "90s Showreel + 3D Fly-Over Film (V-Drill Beat)" },
             ]}
           >
             <TabPanel value="enclave">
@@ -1020,7 +1020,7 @@ export function NearControlModal({
             <TabPanel value="film">
               <div className="near-modal__panel" data-testid="near-film-panel">
                 <MdxcnFrame
-                  title="AGENTES NEAR · 4:00 NARRATED MASTER FILM (240s · V-DRILL)"
+                  title="AGENTES NEAR · 90s 60FPS SHOWREEL + 3D FLY-OVER FILM (V-DRILL BEAT)"
                   badge="7 CHAPTERS · DAN TRANH + 808 SCORE"
                   tone="purple"
                 >
@@ -1035,8 +1035,8 @@ export function NearControlModal({
                       }}
                     >
                       <p className="near-modal__lead" style={{ margin: 0 }}>
-                        Watch the 4:00 Narrated Master Film (240s · V-Drill) directed by <strong>@mira</strong> with
-                        4 neural voices (Alex, @ada, @kronos, @mira) covering NEAR Intents 1Click, OutLayer Intel TDX,
+                        Watch the 90s 60fps Showreel & 3D Fly-Over Film (V-Drill Beat) directed by <strong>@mira</strong> with
+                        3 English voices (Alex, @ada, @kronos) covering NEAR Intents 1Click, OutLayer Intel TDX,
                         Terrace conviction markets, and Corpus x402 compute.
                       </p>
                       <a
@@ -1071,15 +1071,15 @@ export function NearControlModal({
                     </div>
 
                     <div className="near-result-box__meta">
-                      <span>Duration: 4:00 (240.0s · 1920x1080)</span>
-                      <span>Audio: 4 Neural Voices + Dan Tranh V-Drill (-14 LUFS)</span>
+                      <span>Duration: 1:30 (90.0s · 1920x1080 · 60fps)</span>
+                      <span>Audio: 3 English Voices + Dan Tranh V-Drill Beat (-14 LUFS)</span>
                       <a
                         href="/video/agentes-near-x-teaser.mp4"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ color: "var(--ac-ink)", textDecoration: "underline" }}
                       >
-                        60s X Teaser Cut (MP4)
+                        30s X Teaser Cut (MP4 60fps)
                       </a>
                     </div>
                   </div>

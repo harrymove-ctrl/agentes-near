@@ -18,7 +18,7 @@ export type PaletteMode =
   | "violet-tomato";
 
 export type StageMediaMode = "canvas" | "mp4";
-export type Mp4FilmVariant = "demo-240s" | "teaser-60s";
+export type Mp4FilmVariant = "demo-90s" | "teaser-30s";
 
 export interface ChapterStepItem {
   num: "STEP 01" | "STEP 02" | "STEP 03";
@@ -48,26 +48,80 @@ export interface MotionChapterMeta {
   voiceTranscript: string;
 }
 
-export const TOTAL_MASTER_DURATION_SEC = 240;
+export const TOTAL_MASTER_DURATION_SEC = 90;
 
 export const MOTION_PRESETS: MotionChapterMeta[] = [
   {
     id: "things-moving",
     chapterNum: "01",
     testId: "ams-chapter-01",
-    name: "Problem & 99K Hook",
-    tag: "0:00-0:34 · 97 BPM V-Drill",
-    timeRangeLabel: "0:00-0:34",
+    name: "15s Motion Showreel",
+    tag: "0:00-0:15 · 97 BPM V-Drill Beat",
+    timeRangeLabel: "0:00-0:15",
     startSec: 0,
-    endSec: 34,
-    durationSec: 34,
+    endSec: 15,
+    durationSec: 15,
     defaultBpm: 97,
     defaultHeadline: "AGENTES NEAR / SLACK FOR TEAMS / & AI SWARMS.",
     directorNote:
-      "@mira V-Drill producer tag + Alex & Kronos staging the 3 fatal AI failures and 99K Intents hook.",
+      "97 BPM kinetic wave + 3D isometric UI bursts: 1Click 358.13 wNEAR, OutLayer $25/tx Cap, x402 H100 TEE, 38,420 $AGENTES Burn.",
     accentColor: "#00EC97",
-    voiceActor: "@mira · V-DRILL",
-    voiceColor: "#EC4899",
+    voiceActor: "ALEX · FOUNDER",
+    voiceColor: "#00EC97",
+    steps: [
+      { num: "STEP 01", title: "3D Isometric UI Burst", metric: "97 BPM Beat" },
+      { num: "STEP 02", title: "1Click 358.13 wNEAR", metric: "+16 bps Edge" },
+      { num: "STEP 03", title: "OutLayer $25/tx Cap", metric: "V-Drill Beat" },
+    ],
+    whatItIs: "Dynamic 15s motion-designer showreel combining kinetic waves with 3D isometric UI bursts.",
+    whyItHelps: "Hooks judges instantly with the product's core value props in a punchy 15-second opener.",
+    voiceTranscript:
+      "Agentes NEAR: one Slack workspace for humans and 6 autonomous NEAR agents on a V-Drill beat.",
+  },
+  {
+    id: "fitting-lookbook",
+    chapterNum: "02",
+    testId: "ams-chapter-02",
+    name: "3D Studio Page Fly-Over",
+    tag: "0:15-0:30 · 110 BPM Fly-Over",
+    timeRangeLabel: "0:15-0:30",
+    startSec: 15,
+    endSec: 29,
+    durationSec: 14,
+    defaultBpm: 110,
+    defaultHeadline: "One Slack. / Every agent.",
+    directorNote:
+      "14.5s continuous studio-floor 3D camera fly-over of the Agentes NEAR landing page with lifted data-layer tiles.",
+    accentColor: "#2E4BFF",
+    voiceActor: "ALEX · FOUNDER",
+    voiceColor: "#00EC97",
+    steps: [
+      { num: "STEP 01", title: "Studio Floor Fly-Over", metric: "56 deg Tilt" },
+      { num: "STEP 02", title: "Lifted Data-Layer Tiles", metric: "30-54 deg Stand" },
+      { num: "STEP 03", title: "Hero Card Dive", metric: "1018px Card" },
+    ],
+    whatItIs: "Continuous 3D camera fly-over of the Agentes NEAR landing page with lifted UI cards.",
+    whyItHelps: "Shows judges the full product surface in one seamless cinematic shot.",
+    voiceTranscript:
+      "One Slack, every agent: @ada, @kronos, @theo, @lia, @mira, and @zen coordinate in open channels.",
+  },
+  {
+    id: "yapp-99k",
+    chapterNum: "03",
+    testId: "ams-chapter-03",
+    name: "99K Intents Hook",
+    tag: "0:30-0:38 · 97 BPM Hook",
+    timeRangeLabel: "0:30-0:38",
+    startSec: 29,
+    endSec: 37,
+    durationSec: 8,
+    defaultBpm: 97,
+    defaultHeadline: "AGENTES NEAR / SLACK FOR TEAMS / & AI SWARMS.",
+    directorNote:
+      "Alex & Kronos stage the 3 fatal AI failures and 99K Intents hook live in Slack.",
+    accentColor: "#00EC97",
+    voiceActor: "ALEX · FOUNDER",
+    voiceColor: "#00EC97",
     steps: [
       { num: "STEP 01", title: "3 Fatal AI Failures", metric: "Siloed Bots" },
       { num: "STEP 02", title: "Key Leak & Drain Risk", metric: "$0 Cap Guard" },
@@ -76,45 +130,18 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     whatItIs: "Autonomous NEAR AI agents working side-by-side with your team in Slack.",
     whyItHelps: "Replaces fragmented terminal bots and raw private keys with one audited workspace.",
     voiceTranscript:
-      "Agentes NEAR on the Viet-Drill beat: your team and 6 autonomous NEAR agents in one Slack workspace.",
-  },
-  {
-    id: "fitting-lookbook",
-    chapterNum: "02",
-    testId: "ams-chapter-02",
-    name: "One Slack + 6 Agents",
-    tag: "0:34-1:10 · 110 BPM Lookbook",
-    timeRangeLabel: "0:34-1:10",
-    startSec: 34,
-    endSec: 70,
-    durationSec: 36,
-    defaultBpm: 110,
-    defaultHeadline: "One Slack. / Every agent.",
-    directorNote:
-      "Alex tours the 3-column Ocelli workspace, 6 autonomous TEE agents, and 1-click judge login.",
-    accentColor: "#2E4BFF",
-    voiceActor: "ALEX · FOUNDER",
-    voiceColor: "#00EC97",
-    steps: [
-      { num: "STEP 01", title: "Ocelli 3-Col Workspace", metric: "Mainnet + TDX" },
-      { num: "STEP 02", title: "6 Autonomous TEE Agents", metric: "@ada..@zen" },
-      { num: "STEP 03", title: "1-Click Judge Login", metric: "Zero Passwords" },
-    ],
-    whatItIs: "A 3-column macOS Dark Glass Slack workspace with 6 specialized NEAR agents.",
-    whyItHelps: "Judges and teams enter in 1 click and coordinate swaps, guards, and video live.",
-    voiceTranscript:
-      "One Slack, every agent: @ada, @kronos, @theo, @lia, @mira, and @zen coordinate in open channels.",
+      "Your team and 6 autonomous NEAR agents in one Slack workspace, running 99K intents.",
   },
   {
     id: "cutline-flow",
-    chapterNum: "03",
-    testId: "ams-chapter-03",
+    chapterNum: "04",
+    testId: "ams-chapter-04",
     name: "Step-by-Step 1Click Swaps",
-    tag: "1:10-1:48 · 116 BPM Timeline",
-    timeRangeLabel: "1:10-1:48",
-    startSec: 70,
-    endSec: 108,
-    durationSec: 38,
+    tag: "0:38-0:50 · 116 BPM Timeline",
+    timeRangeLabel: "0:38-0:50",
+    startSec: 37,
+    endSec: 49,
+    durationSec: 12,
     defaultBpm: 116,
     defaultHeadline: "1,250 USDC -> 358.1357 wNEAR (+16 bps)",
     directorNote:
@@ -134,18 +161,18 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
   },
   {
     id: "molote-parche",
-    chapterNum: "04",
-    testId: "ams-chapter-04",
+    chapterNum: "05",
+    testId: "ams-chapter-05",
     name: "Step-by-Step OutLayer TDX",
-    tag: "1:48-2:28 · 120 BPM Zine",
-    timeRangeLabel: "1:48-2:28",
-    startSec: 108,
-    endSec: 148,
-    durationSec: 40,
+    tag: "0:50-1:05 · 120 BPM Zine",
+    timeRangeLabel: "0:50-1:05",
+    startSec: 49,
+    endSec: 64,
+    durationSec: 15,
     defaultBpm: 120,
     defaultHeadline: "OUTLAYER TDX · $25.00/TX CAP · S A F E",
     directorNote:
-      "@kronos & @mira prove the $25.00/tx WASI policy: $12 approved in 4ms, $45 rogue drain blocked.",
+      "@kronos proves the $25.00/tx WASI policy: $12 approved in 4ms, $45 rogue drain blocked.",
     accentColor: "#F05A28",
     voiceActor: "@kronos · OUTLAYER TDX",
     voiceColor: "#F59E0B",
@@ -161,14 +188,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
   },
   {
     id: "ai-tool-graph",
-    chapterNum: "05",
-    testId: "ams-chapter-05",
-    name: "Step-by-Step Winner Mechanics",
-    tag: "2:28-3:14 · 118 BPM Hub",
-    timeRangeLabel: "2:28-3:14",
-    startSec: 148,
-    endSec: 194,
-    durationSec: 46,
+    chapterNum: "06",
+    testId: "ams-chapter-06",
+    name: "Winner Mechanics",
+    tag: "1:05-1:14 · 118 BPM Hub",
+    timeRangeLabel: "1:05-1:14",
+    startSec: 64,
+    endSec: 73,
+    durationSec: 9,
     defaultBpm: 118,
     defaultHeadline: "Corpus x402 ($1.84/hr) + Terrace BACK 76¢ + Kanmani",
     directorNote:
@@ -187,42 +214,15 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
       "Corpus streams $1.84/hr H100 TEE compute, Terrace burns 38,420 $AGENTES on misses, and Kanmani levels up NEP-171 NFTs.",
   },
   {
-    id: "yapp-99k",
-    chapterNum: "06",
-    testId: "ams-chapter-06",
-    name: "Step-by-Step @mira Studio",
-    tag: "3:14-3:44 · 112 BPM V-Drill",
-    timeRangeLabel: "3:14-3:44",
-    startSec: 194,
-    endSec: 224,
-    durationSec: 30,
-    defaultBpm: 112,
-    defaultHeadline: "Prompt @mira · 240s Master Film · Viet-Drill Synth",
-    directorNote:
-      "@mira directs live headlines, 7-chapter 240s scrubbing, and Dan Tranh + 808 V-Drill audio.",
-    accentColor: "#D81B78",
-    voiceActor: "@mira · V-DRILL",
-    voiceColor: "#EC4899",
-    steps: [
-      { num: "STEP 01", title: "Prompt @mira Director", metric: "Live Headline" },
-      { num: "STEP 02", title: "Scrub 240s Canvas / MP4", metric: "7 Chapters" },
-      { num: "STEP 03", title: "Dan Tranh + 808 Synth", metric: "-14 LUFS Master" },
-    ],
-    whatItIs: "Interactive 60fps Canvas2D and 1080p MP4 film studio powered by @mira.",
-    whyItHelps: "Lets judges customize scenes, jump chapters, and play Viet-Drill 808 audio in browser.",
-    voiceTranscript:
-      "Prompt @mira to restyle any chapter live, switch to the 4-minute MP4, or trigger the Dan Tranh and 808 V-Drill synth.",
-  },
-  {
     id: "one-design-sting",
     chapterNum: "07",
     testId: "ams-chapter-07",
     name: "Quickstart & ONE Lockup",
-    tag: "3:44-4:00 · 108 BPM Finale",
-    timeRangeLabel: "3:44-4:00",
-    startSec: 224,
-    endSec: 240,
-    durationSec: 16,
+    tag: "1:14-1:30 · 108 BPM Finale",
+    timeRangeLabel: "1:14-1:30",
+    startSec: 73,
+    endSec: 90,
+    durationSec: 17,
     defaultBpm: 108,
     defaultHeadline: "ONE workspace · AGENTES NEAR 2026",
     directorNote:
@@ -251,7 +251,7 @@ const AUTO_DIRECT_PROMPTS: Array<{
   masterMode?: boolean;
 }> = [
   {
-    label: "4:00 Full Narrated Master (240s)",
+    label: "90s Full Showreel Master (60fps)",
     presetId: "things-moving",
     bpm: 97,
     palette: "preset",
@@ -1153,7 +1153,7 @@ function renderMotionFrame(
       ctx.fillText("@mira · AI Video Director · #motion-studio", cardX + 86, cardY + 38);
       ctx.fillStyle = "#5A6065";
       ctx.font = `500 14px ${monoFont}`;
-      ctx.fillText("240s Narrated Master Film · Dan Tranh + 808 Viet-Drill Synth", cardX + 86, cardY + 62);
+      ctx.fillText("90s Showreel + 3D Fly-Over Film · Dan Tranh + 808 V-Drill Beat", cardX + 86, cardY + 62);
 
       ctx.fillStyle = fg;
       ctx.font = `600 23px ${sansFont}`;
@@ -1169,7 +1169,7 @@ function renderMotionFrame(
     }
 
     /* ------------------------------------------------------------------ */
-    /* Ch 07. Quickstart & ONE Lockup (3:44-4:00, 108 BPM Finale)         */
+    /* Ch 07. Quickstart & ONE Lockup (1:14-1:30, 108 BPM Finale)         */
     /* ------------------------------------------------------------------ */
     case "one-design-sting": {
       const stone = override ? override.bg : "#F5F3EE";
@@ -1237,7 +1237,7 @@ function renderMotionFrame(
 export function AgentMotionStudio() {
   const [masterMode, setMasterMode] = useState<boolean>(true);
   const [stageMode, setStageMode] = useState<StageMediaMode>("canvas");
-  const [mp4Variant, setMp4Variant] = useState<Mp4FilmVariant>("demo-240s");
+  const [mp4Variant, setMp4Variant] = useState<Mp4FilmVariant>("demo-90s");
   const [videoError, setVideoError] = useState<boolean>(false);
 
   const [templateId, setTemplateId] = useState<MotionTemplateId>("things-moving");
@@ -1255,7 +1255,6 @@ export function AgentMotionStudio() {
   }, [masterMode, masterTimeSec, soloTimeSec, templateId]);
 
   const activeChapter = resolvedState.chapter;
-  const activeStepIndex = resolvedState.activeStepIndex;
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [soundOn, setSoundOn] = useState(false);
@@ -1265,7 +1264,7 @@ export function AgentMotionStudio() {
   const [customHeadlineLocked, setCustomHeadlineLocked] = useState(false);
   const [miraPrompt, setMiraPrompt] = useState("");
   const [directorNote, setDirectorNote] = useState(
-    "4:00 Narrated Master Film (240.0s · V-Drill) active: playing Chapters 01 to 07 seamlessly.",
+    "90s Showreel + 3D Fly-Over Film (V-Drill Beat) active: playing Chapters 01 to 07 seamlessly.",
   );
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -1294,7 +1293,7 @@ export function AgentMotionStudio() {
     if (stageMode === "mp4" && videoRef.current) {
       try {
         videoRef.current.currentTime =
-          mp4Variant === "demo-240s"
+          mp4Variant === "demo-90s"
             ? preset.startSec
             : Math.min(59, (preset.startSec / TOTAL_MASTER_DURATION_SEC) * 60);
         void videoRef.current.play();
@@ -1551,13 +1550,13 @@ export function AgentMotionStudio() {
     ) + 1;
 
   const mp4Src =
-    mp4Variant === "demo-240s"
+    mp4Variant === "demo-90s"
       ? "/video/agentes-near-demo.mp4"
       : "/video/agentes-near-x-teaser.mp4";
 
   return (
     <div className="ams-studio" data-testid="agent-motion-studio">
-      {/* Top Mode Bar: Interactive 60fps Agent Canvas vs Watch 4:00 Narrated Master Film (MP4) */}
+      {/* Top Mode Bar: Interactive 60fps Agent Canvas vs Watch 90s Showreel Film (MP4) */}
       <div className="ams-mode-bar">
         <div className="ams-mode-switch" role="tablist" aria-label="Motion Studio Stage Mode">
           <button
@@ -1581,7 +1580,7 @@ export function AgentMotionStudio() {
               setStageMode("mp4");
             }}
           >
-            Watch 4:00 Narrated Master Film (MP4)
+            Watch 90s Showreel + 3D Fly-Over Film (MP4)
           </button>
         </div>
 
@@ -1596,7 +1595,7 @@ export function AgentMotionStudio() {
               setIsPlaying(true);
             }}
           >
-            {soundOn ? "🔊 Viet-Drill + 808 Sound Active" : "▶ Play With Viet-Drill + 808 Sound"}
+            {soundOn ? "🔊 V-Drill Beat + 808 Sound Active" : "▶ Play With V-Drill Beat + 808 Sound"}
           </button>
 
           {stageMode === "canvas" ? (
@@ -1612,7 +1611,7 @@ export function AgentMotionStudio() {
                   masterTimeRef.current = activeChapter.startSec + soloTimeSec;
                   setMasterTimeSec(masterTimeRef.current);
                   setDirectorNote(
-                    "4:00 Narrated Master Film (240.0s · V-Drill) active: playing Chapters 01 to 07 seamlessly.",
+                    "90s Showreel + 3D Fly-Over Film (V-Drill Beat) active: playing Chapters 01 to 07 seamlessly.",
                   );
                 } else {
                   soloTimeRef.current = Math.max(0, masterTimeSec - activeChapter.startSec);
@@ -1624,7 +1623,7 @@ export function AgentMotionStudio() {
               }}
             >
               {masterMode
-                ? "Mode: 4:00 Full Promotion Talk & Step-by-Step Demo (240s)"
+                ? "Mode: 90s Full Showreel & 3D Fly-Over Film (V-Drill Beat)"
                 : `Mode: Loop Ch ${activeChapter.chapterNum} (${activeChapter.name})`}
             </button>
           ) : (
@@ -1632,24 +1631,24 @@ export function AgentMotionStudio() {
               <button
                 type="button"
                 className="ams-flow-pill"
-                aria-pressed={mp4Variant === "demo-240s"}
+                aria-pressed={mp4Variant === "demo-90s"}
                 onClick={() => {
                   setVideoError(false);
-                  setMp4Variant("demo-240s");
+                  setMp4Variant("demo-90s");
                 }}
               >
-                4:00 Narrated Master Film (240s · V-Drill)
+                90s Showreel + 3D Fly-Over Film (V-Drill Beat)
               </button>
               <button
                 type="button"
                 className="ams-flow-pill"
-                aria-pressed={mp4Variant === "teaser-60s"}
+                aria-pressed={mp4Variant === "teaser-30s"}
                 onClick={() => {
                   setVideoError(false);
-                  setMp4Variant("teaser-60s");
+                  setMp4Variant("teaser-30s");
                 }}
               >
-                60s X Teaser (1080p)
+                30s X Teaser (1080p 60fps)
               </button>
             </div>
           )}
@@ -1692,16 +1691,16 @@ export function AgentMotionStudio() {
         </div>
       </div>
 
-      {/* 7-Chapter 240.0s (4:00) Master Timeline Bar */}
+      {/* 7-Chapter 90s (1:30) Showreel Master Timeline Bar */}
       <div className="ams-master-timeline" data-testid="ams-master-timeline">
         <div className="ams-master-timeline__head">
           <span className="ams-master-timeline__title">
-            4:00 (240.0s) NARRATED MASTER TIMELINE · CH {activeChapter.chapterNum}{" "}
+            90s 60fps SHOWREEL MASTER TIMELINE · CH {activeChapter.chapterNum}{" "}
             {activeChapter.name.toUpperCase()} ({activeChapter.timeRangeLabel})
           </span>
           <span className="ams-master-timeline__clock">
-            {formatMmSs(masterTimeSec)} / 4:00 ({masterTimeSec.toFixed(1)}s /{" "}
-            {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) · Dan Tranh + 808 V-Drill (-14 LUFS)
+            {formatMmSs(masterTimeSec)} / 1:30 ({masterTimeSec.toFixed(1)}s /{" "}
+            {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) · Dan Tranh + 808 V-Drill Beat (-14 LUFS)
           </span>
         </div>
         <div className="ams-master-segments">
@@ -1741,7 +1740,7 @@ export function AgentMotionStudio() {
       </div>
 
       {/* 7 Chapter Switcher Pills */}
-      <div className="ams-presets" role="tablist" aria-label="7 Agentes NEAR Film Chapters">
+      <div className="ams-presets" role="tablist" aria-label="7 Agentes NEAR Film Chapters 90s">
         {MOTION_PRESETS.map((preset) => (
           <button
             key={preset.id}
@@ -1783,7 +1782,7 @@ export function AgentMotionStudio() {
                 src={mp4Src}
                 onTimeUpdate={(e) => {
                   const t = e.currentTarget.currentTime;
-                  if (mp4Variant === "demo-240s") {
+                  if (mp4Variant === "demo-90s") {
                     setMasterTimeSec(Math.min(TOTAL_MASTER_DURATION_SEC, t));
                   }
                 }}
@@ -1804,39 +1803,8 @@ export function AgentMotionStudio() {
             </div>
           )}
 
-          {/* Synchronized Step-by-Step Feature & Voiceover HUD Overlay Bar */}
-          <div className="ams-voice-hud" data-testid="ams-voice-hud">
-            <div className="ams-voice-hud__top">
-              <span
-                className="ams-voice-pill"
-                style={{
-                  borderColor: activeChapter.voiceColor,
-                  color: activeChapter.voiceColor,
-                }}
-              >
-                🎙️ {activeChapter.voiceActor}
-              </span>
-              <div className="ams-step-pills">
-                {activeChapter.steps.map((st, idx) => (
-                  <span
-                    key={st.num}
-                    className="ams-step-pill"
-                    data-active={idx === activeStepIndex ? "true" : "false"}
-                  >
-                    <strong>{st.num}</strong> {st.title} ({st.metric})
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="ams-voice-hud__callout">
-              <div>
-                <strong>What it is:</strong> {activeChapter.whatItIs}
-              </div>
-              <div>
-                <strong>Why it helps you:</strong> {activeChapter.whyItHelps}
-              </div>
-            </div>
-          </div>
+          {/* Voice HUD anchor: testid preserved, visual bar removed per Phase 6 */}
+          <div className="ams-voice-hud" data-testid="ams-voice-hud" style={{ display: "none" }} />
 
           <div className="ams-stage-meta">
             <span>
@@ -1909,7 +1877,7 @@ export function AgentMotionStudio() {
           <div className="ams-ctrl-group">
             <div className="ams-scrub-head">
               <span className="ams-ctrl-label">
-                {masterMode ? "4:00 (240s) Master Scrubber" : "Chapter Scrubber"}
+                {masterMode ? "90s (1:30) Master Scrubber" : "Chapter Scrubber"}
               </span>
               <span className="ams-scrub-time">
                 {formatMmSs(effectiveTimeSec)} / {formatMmSs(effectiveDurationSec)} (
@@ -1966,7 +1934,7 @@ export function AgentMotionStudio() {
               onClick={toggleSound}
               data-testid="ams-sound-toggle"
             >
-              {soundOn ? "Viet-Drill + 808 On" : "Sound Muted"}
+              {soundOn ? "V-Drill Beat + 808 On" : "Sound Muted"}
             </DitherButton>
           </div>
         </DitherCard>

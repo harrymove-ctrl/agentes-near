@@ -270,8 +270,8 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                     borderRadius: 20,
                     overflow: "hidden",
                     backgroundColor: "#FFFFFF",
-                    border: sel ? "5px solid #2E4BFF" : "2px solid rgba(20,20,20,0.08)",
-                    boxShadow: "0 16px 38px rgba(20,20,20,0.09)",
+                    border: "2px solid rgba(20,20,20,0.08)",
+                    boxShadow: sel ? "0 0 0 4px #2E4BFF inset, 0 16px 38px rgba(20,20,20,0.09)" : "0 16px 38px rgba(20,20,20,0.09)",
                   }}
                 >
                   <Img
@@ -341,7 +341,8 @@ export const Act4Fitting: React.FC<ActProps> = ({ durationInFrames }) => {
                   borderRadius: 22,
                   backgroundColor: sc.hex,
                   padding: 26,
-                  border: sc.sel ? "5px solid #2E4BFF" : "2px solid rgba(20,20,20,0.12)",
+                  border: "2px solid rgba(20,20,20,0.10)",
+                  boxShadow: sc.sel ? "0 0 0 4px #2E4BFF inset" : "none",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",

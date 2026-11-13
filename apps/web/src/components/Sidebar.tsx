@@ -628,7 +628,7 @@ export function Sidebar() {
         <button
           type="button"
           className="sidebar__item"
-          title={rail ? "4:00 Narrated Master Film (240s · V-Drill)" : undefined}
+          title={rail ? "90s 60fps Showreel & 3D Fly-Over Film (V-Drill Beat)" : undefined}
           data-testid="sidebar-motion-studio-trigger"
           onClick={() => {
             setNearInitialTab("film");
@@ -636,8 +636,8 @@ export function Sidebar() {
           }}
         >
           <Icon name="layers" />
-          <span className="sidebar__item-label">4:00 Narrated Master Film</span>
-          <CountChip className="sidebar__count">4:00</CountChip>
+          <span className="sidebar__item-label">90s Showreel Film</span>
+          <CountChip className="sidebar__count">90s</CountChip>
         </button>
         <Link
           to="/ocelli"
