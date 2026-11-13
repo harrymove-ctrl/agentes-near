@@ -33,9 +33,39 @@ interface PrdNoteRow {
 
 const RELEASES: ReleaseEntry[] = [
   {
+    version: "0.4.0",
+    date: "November 13, 2026",
+    latest: true,
+    title: "Agentes NEAR: Ocelli landing, dithercn engine & NEAR TEE settlement",
+    epics: ["NEAR-1Click", "OutLayer-TDX", "x402-Endowment", "ML-DSA-65"],
+    groups: [
+      {
+        kind: "new",
+        label: "NEW",
+        items: [
+          {
+            lead: "Ocelli-inspired public landing page (/ocelli) with dithercn shaders.",
+            detail:
+              "Built a 60fps ordered Bayer 4x4/8x8 shader engine (horizon, aurora, plasma, waves, dither-orb) plus tactile DitherCard, DitherStatCard, DitherGauge, DitherProgressBar, DitherHeatmap, DitherUptimeBar, MdxcnFrame, and spring-damped BenchoSloshSlider primitives.",
+            codes: ["dithercn", "mdxcn", "slosh"],
+          },
+          {
+            lead: "Live NEAR Intents 1Click, OutLayer Intel TDX & Corpus x402 channels.",
+            detail:
+              "Added #near-intents-arena, #compute-endowment, and #outlayer-tee-vault with live BACK/FADE conviction markets, deterministic $45 rogue drain blocking under a $25/tx hardware cap, and $1.84/hr H100 TEE compute pool funding.",
+            codes: ["NEP-413", "NEP-171", "1Click"],
+          },
+        ],
+      },
+    ],
+    actions: [
+      { label: "Open workspace channels", target: "workspace" },
+      { label: "Inspect ML-DSA-65 ledger", target: "decisions" },
+    ],
+  },
+  {
     version: "0.3.0",
     date: "November 12, 2026",
-    latest: true,
     title: "CommandOSS roster, cleaner ZEN control & Updates log",
     epics: ["ZEN-E1", "ZEN-E2", "ZEN-F2.8", "M1"],
     groups: [
@@ -278,12 +308,12 @@ function UpdatesSkyCanvas() {
           const scaled = level * (SKY_PALETTE.length - 1);
           const baseIdx = Math.floor(scaled);
           const frac = scaled - baseIdx;
-          const threshold = (BAYER_4X4[y & 3][x & 3] + 0.5) / 16;
+          const threshold = ((BAYER_4X4[y & 3]?.[x & 3] ?? 0) + 0.5) / 16;
           const colorIdx = Math.min(
             SKY_PALETTE.length - 1,
             baseIdx + (frac > threshold ? 1 : 0),
           );
-          let [r, g, b] = SKY_PALETTE[colorIdx];
+          let [r, g, b] = SKY_PALETTE[colorIdx] ?? [5, 6, 10];
 
           // Pixel-dithered crescent moon at top right
           const mdx = x - moonX;
@@ -470,6 +500,9 @@ export function UpdatesPage() {
             >
               Decisions
             </button>
+            <a href="/ocelli" className="up-nav-link">
+              Landing
+            </a>
             <a href="#prd-coverage" className="up-nav-link">
               PRD Epics
             </a>

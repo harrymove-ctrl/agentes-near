@@ -18,6 +18,7 @@
     "check:licenses": "bun scripts/check-licenses.ts",
     "check:migrations": "bun scripts/check-migrations.ts",
     "check:geometry": "bun scripts/geometry/check.ts",
+    "check:near": "bun scripts/check-near.ts",
     "sync:unavailable": "bun scripts/unavailable-page.ts",
     "ci:local": "bash scripts/ci-local.sh",
     "db:generate": "cd packages/db && bunx drizzle-kit generate --name",

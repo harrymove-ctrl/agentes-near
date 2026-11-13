@@ -11,6 +11,7 @@ import {
   verifyZenLedger,
 } from "./ledger";
 import { ZEN_DEMO_PERSONAS } from "./seed";
+import { ensureNearTables, getNearStatus } from "../near/service";
 
 export function zenAppRoutes(deps: AppDeps) {
   const app = createAppRouter(deps);
@@ -21,11 +22,12 @@ export function zenAppRoutes(deps: AppDeps) {
     const user = c.get("user");
     await requirePermission(deps.db, user.id, orgId, "read");
 
-    const [verification, decisions, receipts, entities] = await Promise.all([
+    const [verification, decisions, receipts, entities, nearOverview] = await Promise.all([
       verifyZenLedger(deps.db, orgId),
       listZenDecisions(deps.db, orgId),
       listZenReceipts(deps.db, orgId, 30),
       listZenEntities(deps.db, orgId),
+      ensureNearTables(deps.db).then(() => getNearStatus(deps.db, { orgId })).catch(() => null),
     ]);
 
     return c.json({
@@ -37,6 +39,16 @@ export function zenAppRoutes(deps: AppDeps) {
       decisions,
       receipts,
       entities,
+      nearSummary: nearOverview
+        ? {
+            network: nearOverview.network,
+            endowmentRunwayHours: nearOverview.endowment.runwayHours,
+            walletsCount: nearOverview.wallets.length,
+            marketsCount: nearOverview.markets.length,
+            escrowsCount: nearOverview.escrows.length,
+            channels: ["near-intents-arena", "compute-endowment", "outlayer-tee-vault"],
+          }
+        : null,
     });
   });
 

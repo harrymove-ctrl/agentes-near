@@ -70,7 +70,14 @@ installSounds();
 
 /** A 401 anywhere means the session ended: back to sign-in, then here again. */
 function onUnauthorized() {
-  if (window.location.pathname.startsWith("/login") || window.location.pathname.startsWith("/updates")) return;
+  const path = window.location.pathname;
+  if (
+    path.startsWith("/login") ||
+    path.startsWith("/updates") ||
+    path.startsWith("/ocelli") ||
+    path.startsWith("/welcome")
+  )
+    return;
   const redirect = window.location.pathname + window.location.search;
   queryClient.clear();
   void router.navigate({ to: "/login", search: { redirect } });

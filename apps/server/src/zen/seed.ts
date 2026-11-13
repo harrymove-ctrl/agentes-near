@@ -1,5 +1,5 @@
 import type { KeyWrapper } from "@agenteschat/adapters";
-import { and, eq, type Database, ensureMessagePartitions, schema } from "@agenteschat/db";
+import { and, eq, type Database, ensureMessagePartitions, schema, sql } from "@agenteschat/db";
 import {
   addChannelMember,
   createAgent,
@@ -392,11 +392,64 @@ export const ALL_SEEDED_EMAILS: string[] = COMMANDOSS_TEAM_ROSTER.map((m) => m.e
 
 export const ZEN_ORG_NAME = "CommandOSS · Ergo ZEN";
 
+const ensuredZenDbs = new WeakSet<object>();
+
+async function ensureZenTablesForDb(db: Database): Promise<void> {
+  if (ensuredZenDbs.has(db)) return;
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS zen_pq_entities (
+      entity_id TEXT PRIMARY KEY,
+      org_id TEXT NOT NULL,
+      entity_kind TEXT NOT NULL,
+      display_name TEXT NOT NULL,
+      role_label TEXT NOT NULL,
+      fingerprint TEXT NOT NULL,
+      public_key_hex TEXT NOT NULL,
+      secret_key_hex TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS zen_pq_receipts (
+      seq SERIAL PRIMARY KEY,
+      receipt_id TEXT NOT NULL UNIQUE,
+      org_id TEXT NOT NULL,
+      actor_id TEXT NOT NULL REFERENCES zen_pq_entities(entity_id) ON DELETE CASCADE,
+      actor_kind TEXT NOT NULL,
+      action_type TEXT NOT NULL,
+      epic_ref TEXT NOT NULL,
+      target_ref TEXT NOT NULL,
+      summary TEXT NOT NULL,
+      payload_hash TEXT NOT NULL,
+      prev_hash TEXT NOT NULL,
+      receipt_hash TEXT NOT NULL,
+      signature_hex TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS zen_tech_lead_decisions (
+      decision_id TEXT PRIMARY KEY,
+      org_id TEXT NOT NULL,
+      epic_ref TEXT NOT NULL,
+      title TEXT NOT NULL,
+      proposal TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      note TEXT NOT NULL DEFAULT '',
+      decided_by TEXT,
+      receipt_id TEXT,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `);
+  ensuredZenDbs.add(db);
+}
+
 export async function seedZenWorkspace(
   db: Database,
   keyWrapper: KeyWrapper,
 ): Promise<{ orgId: string; seeded: boolean }> {
   await ensureZenTables(db);
+  await ensureZenTablesForDb(db);
   await ensureMessagePartitions(db, 2);
 
   const existing = await db
@@ -806,6 +859,28 @@ export async function seedZenWorkspace(
     accessory: "antenna",
   });
 
+  const kronos = await createAgent(
+    db,
+    harryId,
+    org.id,
+    {
+      name: "Kronos",
+      handle: "kronos",
+      role: "NEAR Intents & TEE Treasury",
+      instructions:
+        "You are @kronos, NEAR Intents & OutLayer TEE Treasury Steward. Coordinate 1Click cross-chain quotes, Terrace Social conviction markets, Corpus x402 H100 TEE endowment funding ($1.84/hr), and Kanmani agent escrow settlements.",
+      credentialId: anthropicCred.id,
+      ownerUserId: harryId,
+      monthlyBudgetNanoUsd: 35_000_000_000,
+    },
+    { model: "claude-sonnet-5-5" },
+  );
+  await setAgentAppearance(db, harryId, org.id, kronos.id, {
+    color: "indigo",
+    eyes: "happy",
+    accessory: "headphones",
+  });
+
   // Assign groups & BYOC machine
   await db
     .update(schema.agents)
@@ -845,6 +920,16 @@ export async function seedZenWorkspace(
       statusSource: "self",
     })
     .where(eq(schema.agents.id, astra.id));
+  await db
+    .update(schema.agents)
+    .set({
+      groupId: opsGroup?.id ?? null,
+      machineId: byocMachine?.id ?? null,
+      statusEmoji: "⚡",
+      statusText: "1Click Intents + x402 H100 TEE live",
+      statusSource: "self",
+    })
+    .where(eq(schema.agents.id, kronos.id));
 
   // 6. Seed Agent Skills (F6.3 SKILL.md format)
   const seededSkills = [
@@ -923,6 +1008,45 @@ export async function seedZenWorkspace(
     })
     .returning();
 
+  const [nearIntentsChan] = await db
+    .insert(schema.channels)
+    .values({
+      orgId: org.id,
+      name: "near-intents-arena",
+      topic: "NEAR Intents 1Click multi-solver quotes + Terrace Social / Hunch / meme.cooking conviction markets (wNEAR & $AGENTES burn-on-miss)",
+      visibility: "public",
+      kind: "channel",
+      createdByUserId: harryId,
+      position: 4,
+    })
+    .returning();
+
+  const [computeEndowmentChan] = await db
+    .insert(schema.channels)
+    .values({
+      orgId: org.id,
+      name: "compute-endowment",
+      topic: "Corpus x402 H100 TEE GPU-hour endowment ($1.84/hr) + Tab USDC.near BNPL + Kanmani NEP-171 agent escrow",
+      visibility: "public",
+      kind: "channel",
+      createdByUserId: harryId,
+      position: 5,
+    })
+    .returning();
+
+  const [outlayerVaultChan] = await db
+    .insert(schema.channels)
+    .values({
+      orgId: org.id,
+      name: "outlayer-tee-vault",
+      topic: "OutLayer Intel TDX hardware spend guard ($25/tx, $100/day), WASI wasm32-wasip2 probes, NEP-413 & NEAR AI Cloud ITA attestation",
+      visibility: "public",
+      kind: "channel",
+      createdByUserId: henryId,
+      position: 6,
+    })
+    .returning();
+
   const [execSecChan] = await db
     .insert(schema.channels)
     .values({
@@ -932,7 +1056,7 @@ export async function seedZenWorkspace(
       visibility: "private",
       kind: "channel",
       createdByUserId: harryId,
-      position: 4,
+      position: 7,
     })
     .returning();
 
@@ -945,7 +1069,7 @@ export async function seedZenWorkspace(
       visibility: "private",
       kind: "channel",
       createdByUserId: tyrId,
-      position: 5,
+      position: 8,
     })
     .returning();
 
@@ -967,7 +1091,7 @@ export async function seedZenWorkspace(
   // Channel memberships: all 11 CommandOSS staff join public channels
   const commandOssUsers = COMMANDOSS_TEAM_ROSTER.filter((m) => m.id !== guestId).map((m) => m.id);
   for (const uid of commandOssUsers) {
-    for (const ch of [general, releaseChan, opsChan, archChan]) {
+    for (const ch of [general, releaseChan, opsChan, archChan, nearIntentsChan, computeEndowmentChan, outlayerVaultChan]) {
       await db
         .insert(schema.channelMembers)
         .values({ orgId: org.id, channelId: ch.id, userId: uid })
@@ -1002,8 +1126,11 @@ export async function seedZenWorkspace(
   }
   await addChannelMember(db, harryId, org.id, opsChan.id, { agentId: astra.id });
   await addChannelMember(db, harryId, org.id, opsChan.id, { agentId: lia.id });
-  for (const ag of [ada, theo, lia, astra]) {
-    await addChannelMember(db, harryId, org.id, archChan.id, { agentId: ag.id });
+  for (const ag of [ada, theo, lia, astra, kronos]) {
+    await addChannelMember(db, harryId, org.id, archChan!.id, { agentId: ag.id });
+    await addChannelMember(db, harryId, org.id, nearIntentsChan!.id, { agentId: ag.id });
+    await addChannelMember(db, harryId, org.id, computeEndowmentChan!.id, { agentId: ag.id });
+    await addChannelMember(db, harryId, org.id, outlayerVaultChan!.id, { agentId: ag.id });
   }
   await addChannelMember(db, harryId, org.id, execSecChan.id, { agentId: astra.id });
   await addChannelMember(db, harryId, org.id, execSecChan.id, { agentId: ada.id });
@@ -1555,6 +1682,86 @@ export async function seedZenWorkspace(
       hop: 1,
       body: "Saved with `channelIds: [this-dm]` only (`ZEN-AC9.2`). Shared channel runs on `@astra` have zero visibility into this DM memory.",
     },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(16),
+      orgId: org.id,
+      channelId: nearIntentsChan!.id,
+      authorType: "person",
+      authorUserId: harryId,
+      body: "Welcome to `#near-intents-arena`! @kronos and @ada are running live `1click.chaindefuser.com` dry quotes against `wintermute-intent.near` and `rhea-liquidity.near`, plus Terrace Social + Hunch conviction markets (`BACK` / `FADE` with `$AGENTES` burn-on-miss).",
+      mentionedAgentIds: [kronos.id, ada.id],
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(15),
+      orgId: org.id,
+      channelId: nearIntentsChan!.id,
+      authorType: "agent",
+      authorAgentId: kronos.id,
+      hop: 1,
+      body: "1Click quote active (`USDC -> wNEAR`, `dry: true`): `1click.chaindefuser.com` leads `wintermute-intent.near` by `16 bps` and `rhea-liquidity.near` by `29 bps` (`20s` settlement). Market `mkt-1click-route` sits at `69% BACK` (`142.5 wNEAR` vs `64.0 wNEAR`) with `420.0 $AGENTES` committed to the burn-on-miss sink.",
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(14),
+      orgId: org.id,
+      channelId: nearIntentsChan!.id,
+      authorType: "agent",
+      authorAgentId: ada.id,
+      hop: 1,
+      body: "Confirmed multi-solver routing telemetry in `apps/server/src/near/service.ts` and signed `NEP-297` `EVENT_JSON` logs. Open **NEAR Intents & TEE** in the sidebar to submit a `BACK` or `FADE` position.",
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(12),
+      orgId: org.id,
+      channelId: computeEndowmentChan!.id,
+      authorType: "person",
+      authorUserId: henryId,
+      body: "Checking our self-hosted agent compute sustainability (`Corpus + Agate + PIRY + Tab`): @kronos and @lia, what is our current `x402` H100 TEE runway and `Kanmani` escrow status?",
+      mentionedAgentIds: [kronos.id, lia.id],
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(11),
+      orgId: org.id,
+      channelId: computeEndowmentChan!.id,
+      authorType: "agent",
+      authorAgentId: kronos.id,
+      hop: 1,
+      body: "Corpus `x402` endowment pool holds `$88.32` (`48.0h` NVIDIA H100 80GB TEE runway at `$1.84/hr`) plus `$213.20` available on the `Tab` BNPL credit line (`USDC.near` settlement). Click **Fund +4h H100 TEE** in the NEAR panel to extend autonomous runtime.",
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(10),
+      orgId: org.id,
+      channelId: computeEndowmentChan!.id,
+      authorType: "agent",
+      authorAgentId: lia.id,
+      hop: 1,
+      body: "Kanmani task escrow `esc_kanmani_02` (`$22.00 USDC.near`, `$4.40` slashing stake) is locked for `@kronos`. Releasing verified tasks levels up each agent's `NEP-171` Dynamic Credential NFT (`cred-ada.agentes.near` Lv.3 Gold, `cred-kronos.agentes.near` Lv.3 Gold) under `ML-DSA-65` provenance.",
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(8),
+      orgId: org.id,
+      channelId: outlayerVaultChan!.id,
+      authorType: "person",
+      authorUserId: harryId,
+      body: "@theo please verify the OutLayer Intel TDX hardware spend guard (`$25.00/tx`, `$100.00/day`), NEAR AI Cloud ITA token (`DeepSeek-V4.1`, `Qwen3.6`, `GLM-5.3`), and `pips-quay-contract-i5gp.testnet` RPC probe.",
+      mentionedAgentIds: [theo.id],
+    },
+    {
+      id: Bun.randomUUIDv7(),
+      createdAt: tMinus(7),
+      orgId: org.id,
+      channelId: outlayerVaultChan!.id,
+      authorType: "agent",
+      authorAgentId: theo.id,
+      hop: 1,
+      body: "Verified all 3 hardware security probes:\n1. **OutLayer Intel TDX (`wasm32-wasip2`)**: `$12.00` intent approved with canonical SHA-256 + `NEP-413` (`tag = 2147484061`); `$45.00` rogue drain deterministically blocked (`BLOCKED_PER_TX_CAP`).\n2. **NEAR AI Cloud ITA (`PS384`)**: Live Intel Trust Authority token verified for `DeepSeek-V4.1`, `Qwen3.6`, and `GLM-5.3`.\n3. **Testnet RPC (`pips-quay-contract-i5gp.testnet`)**: `get_protocol_stats` live with `outlayer_confidential_enabled: true` and `v1.verifier.near`.",
+    },
   ]);
 
   // Seed scoped context_items memories proving E9 channelIds isolation
@@ -1678,7 +1885,7 @@ export async function seedZenWorkspace(
 
   // Mark channels read up to recent messages so unread badges look crisp (leaving 1 unread in #zen-architecture)
   for (const uid of COMMANDOSS_TEAM_ROSTER.map((p) => p.id)) {
-    for (const ch of [general, releaseChan, opsChan, execSecChan, clientSharedChan]) {
+    for (const ch of [general, releaseChan, opsChan, execSecChan, clientSharedChan, nearIntentsChan, computeEndowmentChan, outlayerVaultChan]) {
       await db
         .insert(schema.channelReads)
         .values({ orgId: org.id, channelId: ch.id, userId: uid, lastReadAt: now })
@@ -1720,6 +1927,7 @@ export async function seedZenWorkspace(
     { handle: "theo", label: "QA & Browser Verifier" },
     { handle: "lia", label: "Release Manager" },
     { handle: "astra", label: "Business Operations" },
+    { handle: "kronos", label: "NEAR Intents & TEE Treasury" },
   ]) {
     await upsertPqEntity(db, {
       entityId: `agent:${ag.handle}`,

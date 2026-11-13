@@ -2,6 +2,7 @@ import type { AgentesModule } from "@agenteschat/modules";
 import { createModelProviders, PROVIDERS } from "@agenteschat/providers";
 import { allowsPrivateEndpoints, publicHttpsFetch } from "@agenteschat/engine";
 import { wrapWithZenDemoProviders } from "./demo-provider";
+import { ensureNearTables, getNearStatus } from "../near/service";
 import { seedZenWorkspace, ZEN_DEMO_PERSONAS } from "./seed";
 
 export const zenModule: AgentesModule = {
@@ -37,6 +38,8 @@ export const zenModule: AgentesModule = {
   },
   async onStart(ctx) {
     if (process.env.ZEN_DEMO_MODE === "false") return;
-    await seedZenWorkspace(ctx.db, ctx.adapters.keyWrapper);
+    const seeded = await seedZenWorkspace(ctx.db, ctx.adapters.keyWrapper);
+    await ensureNearTables(ctx.db);
+    await getNearStatus(ctx.db, { orgId: seeded.orgId }).catch(() => {});
   },
 };

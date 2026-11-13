@@ -610,18 +610,18 @@ export function AuthPage({
                 </>
               )}
 
-              {step === "email" && zenPersonas.data?.enabled && zenPersonas.data.personas.length > 0 && (
+              {step === "email" && zenPersonas.data?.enabled !== false && (
                 <div
                   data-testid="zen-persona-card"
                   style={{
                     border: "1px solid var(--ac-line)",
                     borderRadius: 12,
-                    padding: "12px 14px",
-                    marginBottom: 12,
+                    padding: "14px 16px",
+                    marginBottom: 14,
                     background: "var(--ac-surface)",
                     display: "flex",
                     flexDirection: "column",
-                    gap: 8,
+                    gap: 10,
                   }}
                 >
                   <div
@@ -633,37 +633,76 @@ export function AuthPage({
                       flexWrap: "wrap",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 600, fontSize: 13 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 650, fontSize: 13.5 }}>
                       <Icon name="shield" size={16} />
-                      <span>Ergo (Codename ZEN) · Instant PoC Sign-In</span>
+                      <span>1-Click Judge Auto-Login · Agentes NEAR</span>
                     </div>
-                    <a
-                      href="/updates"
-                      style={{ fontSize: 12, fontWeight: 550, color: "var(--ac-ink)", textDecoration: "underline" }}
-                    >
-                      Updates v0.3.0
-                    </a>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12 }}>
+                      <a
+                        href="/ocelli"
+                        data-testid="back-to-ocelli-link"
+                        style={{ fontWeight: 550, color: "var(--ac-ink)", textDecoration: "underline" }}
+                      >
+                        Back to Ocelli Landing (/ocelli)
+                      </a>
+                      <a
+                        href="/updates"
+                        style={{ fontWeight: 550, color: "var(--ac-ink-soft)", textDecoration: "underline" }}
+                      >
+                        Updates
+                      </a>
+                    </div>
                   </div>
-                  <p style={{ margin: 0, fontSize: 12, color: "var(--ac-ink-soft)" }}>
-                    Jump straight into <strong>{zenPersonas.data.workspace}</strong> (100% local PGlite + ML-DSA-65
-                    provenance) to review Epics E1..E16 and Tech Lead decisions D1..D9:
+                  <p style={{ margin: 0, fontSize: 12.25, lineHeight: 1.45, color: "var(--ac-ink-soft)" }}>
+                    Enter <strong>{zenPersonas.data?.workspace || "CommandOSS · Agentes NEAR"}</strong> in one click
+                    with zero passwords. Explore <code>#near-intents-arena</code>, <code>#compute-endowment</code>,{" "}
+                    <code>#outlayer-tee-vault</code>, and live <code>ML-DSA-65</code> provenance.
                   </p>
                   <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                    {zenPersonas.data.personas.map((p) => (
-                      <Button
-                        key={p.id}
-                        type="button"
-                        size="md"
-                        variant={p.handle === "harry" ? "primary" : "default"}
-                        block
-                        data-testid={`zen-login-${p.handle}`}
-                        loading={demoSigningIn === p.email}
-                        disabled={demoSigningIn !== null}
-                        onClick={() => void signInZenPersona(p.email)}
-                      >
-                        {p.name} · {p.roleBadge}
-                      </Button>
-                    ))}
+                    <Button
+                      type="button"
+                      size="md"
+                      variant="primary"
+                      block
+                      data-testid="zen-login-harry"
+                      loading={demoSigningIn === "harry.phan@commandoss.com"}
+                      disabled={demoSigningIn !== null}
+                      onClick={() => void signInZenPersona("harry.phan@commandoss.com")}
+                    >
+                      Enter Agentes NEAR Workspace as Harry Phan
+                    </Button>
+                    <Button
+                      type="button"
+                      size="md"
+                      variant="default"
+                      block
+                      data-testid="zen-login-henry"
+                      loading={demoSigningIn === "henry.nguyen@commandoss.com"}
+                      disabled={demoSigningIn !== null}
+                      onClick={() => void signInZenPersona("henry.nguyen@commandoss.com")}
+                    >
+                      Sign In as Henry Nguyen (Tech Lead)
+                    </Button>
+                    {(zenPersonas.data?.personas ?? [])
+                      .filter(
+                        (p) =>
+                          p.email !== "harry.phan@commandoss.com" && p.email !== "henry.nguyen@commandoss.com",
+                      )
+                      .map((p) => (
+                        <Button
+                          key={p.id}
+                          type="button"
+                          size="sm"
+                          variant="ghost"
+                          block
+                          data-testid={`zen-login-${p.handle}`}
+                          loading={demoSigningIn === p.email}
+                          disabled={demoSigningIn !== null}
+                          onClick={() => void signInZenPersona(p.email)}
+                        >
+                          {p.name} · {p.roleBadge}
+                        </Button>
+                      ))}
                   </div>
                 </div>
               )}

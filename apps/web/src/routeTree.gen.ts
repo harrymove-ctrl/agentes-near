@@ -16,6 +16,7 @@ import { Route as ConectandoRouteImport } from './routes/conectando'
 import { Route as ConectarRouteImport } from './routes/conectar'
 import { Route as DownloadRouteImport } from './routes/download'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OcelliRouteImport } from './routes/ocelli'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
@@ -25,6 +26,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as UpdatesRouteImport } from './routes/updates'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as DesktopConnectorRouteImport } from './routes/desktop.connector'
 import { Route as DesktopHandoverRouteImport } from './routes/desktop.handover'
 import { Route as DesktopSignInRouteImport } from './routes/desktop.sign-in'
@@ -103,6 +105,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OcelliRoute = OcelliRouteImport.update({
+  id: '/ocelli',
+  path: '/ocelli',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -146,6 +153,11 @@ const TermsRoute = TermsRouteImport.update({
 const UpdatesRoute = UpdatesRouteImport.update({
   id: '/updates',
   path: '/updates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DesktopConnectorRoute = DesktopConnectorRouteImport.update({
@@ -375,6 +387,7 @@ export interface FileRoutesByFullPath {
   '/conectar': typeof ConectarRoute
   '/download': typeof DownloadRoute
   '/login': typeof LoginRoute
+  '/ocelli': typeof OcelliRoute
   '/onboarding': typeof OnboardingRoute
   '/owner': typeof OwnerRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -384,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/termos': typeof TermosRoute
   '/terms': typeof TermsRoute
   '/updates': typeof UpdatesRoute
+  '/welcome': typeof WelcomeRoute
   '/desktop/connector': typeof DesktopConnectorRoute
   '/desktop/handover': typeof DesktopHandoverRoute
   '/desktop/sign-in': typeof DesktopSignInRoute
@@ -435,6 +449,7 @@ export interface FileRoutesByTo {
   '/conectar': typeof ConectarRoute
   '/download': typeof DownloadRoute
   '/login': typeof LoginRoute
+  '/ocelli': typeof OcelliRoute
   '/onboarding': typeof OnboardingRoute
   '/owner': typeof OwnerRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -444,6 +459,7 @@ export interface FileRoutesByTo {
   '/termos': typeof TermosRoute
   '/terms': typeof TermsRoute
   '/updates': typeof UpdatesRoute
+  '/welcome': typeof WelcomeRoute
   '/desktop/connector': typeof DesktopConnectorRoute
   '/desktop/handover': typeof DesktopHandoverRoute
   '/desktop/sign-in': typeof DesktopSignInRoute
@@ -495,6 +511,7 @@ export interface FileRoutesById {
   '/conectar': typeof ConectarRoute
   '/download': typeof DownloadRoute
   '/login': typeof LoginRoute
+  '/ocelli': typeof OcelliRoute
   '/onboarding': typeof OnboardingRoute
   '/owner': typeof OwnerRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -504,6 +521,7 @@ export interface FileRoutesById {
   '/termos': typeof TermosRoute
   '/terms': typeof TermsRoute
   '/updates': typeof UpdatesRoute
+  '/welcome': typeof WelcomeRoute
   '/desktop/connector': typeof DesktopConnectorRoute
   '/desktop/handover': typeof DesktopHandoverRoute
   '/desktop/sign-in': typeof DesktopSignInRoute
@@ -557,6 +575,7 @@ export interface FileRouteTypes {
     | '/conectar'
     | '/download'
     | '/login'
+    | '/ocelli'
     | '/onboarding'
     | '/owner'
     | '/privacidade'
@@ -566,6 +585,7 @@ export interface FileRouteTypes {
     | '/termos'
     | '/terms'
     | '/updates'
+    | '/welcome'
     | '/desktop/connector'
     | '/desktop/handover'
     | '/desktop/sign-in'
@@ -617,6 +637,7 @@ export interface FileRouteTypes {
     | '/conectar'
     | '/download'
     | '/login'
+    | '/ocelli'
     | '/onboarding'
     | '/owner'
     | '/privacidade'
@@ -626,6 +647,7 @@ export interface FileRouteTypes {
     | '/termos'
     | '/terms'
     | '/updates'
+    | '/welcome'
     | '/desktop/connector'
     | '/desktop/handover'
     | '/desktop/sign-in'
@@ -676,6 +698,7 @@ export interface FileRouteTypes {
     | '/conectar'
     | '/download'
     | '/login'
+    | '/ocelli'
     | '/onboarding'
     | '/owner'
     | '/privacidade'
@@ -685,6 +708,7 @@ export interface FileRouteTypes {
     | '/termos'
     | '/terms'
     | '/updates'
+    | '/welcome'
     | '/desktop/connector'
     | '/desktop/handover'
     | '/desktop/sign-in'
@@ -737,6 +761,7 @@ export interface RootRouteChildren {
   ConectarRoute: typeof ConectarRoute
   DownloadRoute: typeof DownloadRoute
   LoginRoute: typeof LoginRoute
+  OcelliRoute: typeof OcelliRoute
   OnboardingRoute: typeof OnboardingRoute
   OwnerRoute: typeof OwnerRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
@@ -746,6 +771,7 @@ export interface RootRouteChildren {
   TermosRoute: typeof TermosRoute
   TermsRoute: typeof TermsRoute
   UpdatesRoute: typeof UpdatesRoute
+  WelcomeRoute: typeof WelcomeRoute
   DesktopConnectorRoute: typeof DesktopConnectorRoute
   DesktopHandoverRoute: typeof DesktopHandoverRoute
   DesktopSignInRoute: typeof DesktopSignInRoute
@@ -804,6 +830,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ocelli': {
+      id: '/ocelli'
+      path: '/ocelli'
+      fullPath: '/ocelli'
+      preLoaderRoute: typeof OcelliRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -867,6 +900,13 @@ declare module '@tanstack/react-router' {
       path: '/updates'
       fullPath: '/updates'
       preLoaderRoute: typeof UpdatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/desktop/connector': {
@@ -1258,6 +1298,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConectarRoute: ConectarRoute,
   DownloadRoute: DownloadRoute,
   LoginRoute: LoginRoute,
+  OcelliRoute: OcelliRoute,
   OnboardingRoute: OnboardingRoute,
   OwnerRoute: OwnerRoute,
   PrivacidadeRoute: PrivacidadeRoute,
@@ -1267,6 +1308,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermosRoute: TermosRoute,
   TermsRoute: TermsRoute,
   UpdatesRoute: UpdatesRoute,
+  WelcomeRoute: WelcomeRoute,
   DesktopConnectorRoute: DesktopConnectorRoute,
   DesktopHandoverRoute: DesktopHandoverRoute,
   DesktopSignInRoute: DesktopSignInRoute,

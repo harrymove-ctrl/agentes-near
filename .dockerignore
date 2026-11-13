@@ -9,6 +9,7 @@
 coverage
 docs
 deploy
+video
 *.log
 # Backups as SELF_HOSTING.md takes them.
 *.dump

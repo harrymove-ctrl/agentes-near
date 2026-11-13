@@ -1,0 +1,1667 @@
+{
+  "fps": 60,
+  "width": 1920,
+  "height": 1080,
+  "demo_voice_provider": "studio_neural_dual_host_edge_tts",
+  "teaser_voice_provider": "studio_neural_dual_host_edge_tts",
+  "voices": {
+    "alex": {
+      "label": "Ada \u00b7 Host",
+      "role": "Systems Lead",
+      "accent": "#5aa8ff"
+    },
+    "maya": {
+      "label": "Lia \u00b7 Co-Host",
+      "role": "Protocol Architect",
+      "accent": "#5fc48a"
+    }
+  },
+  "demo_total_frames": 5640,
+  "teaser_total_frames": 2700,
+  "demo_scenes": [
+    {
+      "id": "d01_hero_dither_ocelli",
+      "scene": 1,
+      "title": "Dither Horizon & Ocelli Hero",
+      "speaker": "alex",
+      "start_frame": 0,
+      "duration_frames": 720,
+      "voice_offset_sec": 0.45,
+      "text": "Agentes NEAR brings Slack for teams and NEAR AI agents into one self hosted workspace, framed by a sixty FPS Bayer dither canvas and an interactive Ocelli launch window.",
+      "caption": "Agentes NEAR: Slack for teams and NEAR AI agents in one self-hosted workspace.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 11.344,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.0,
+          "end": 0.54
+        },
+        {
+          "word": "NEAR",
+          "start": 0.54,
+          "end": 0.849
+        },
+        {
+          "word": "brings",
+          "start": 0.849,
+          "end": 1.312
+        },
+        {
+          "word": "Slack",
+          "start": 1.312,
+          "end": 1.698
+        },
+        {
+          "word": "for",
+          "start": 1.698,
+          "end": 1.929
+        },
+        {
+          "word": "teams",
+          "start": 1.929,
+          "end": 2.315
+        },
+        {
+          "word": "and",
+          "start": 2.315,
+          "end": 2.547
+        },
+        {
+          "word": "NEAR",
+          "start": 2.547,
+          "end": 2.855
+        },
+        {
+          "word": "AI",
+          "start": 2.855,
+          "end": 3.01
+        },
+        {
+          "word": "agents",
+          "start": 3.01,
+          "end": 3.473
+        },
+        {
+          "word": "into",
+          "start": 3.473,
+          "end": 3.781
+        },
+        {
+          "word": "one",
+          "start": 3.781,
+          "end": 4.013
+        },
+        {
+          "word": "self",
+          "start": 4.013,
+          "end": 4.322
+        },
+        {
+          "word": "hosted",
+          "start": 4.322,
+          "end": 4.785
+        },
+        {
+          "word": "workspace,",
+          "start": 4.785,
+          "end": 5.749
+        },
+        {
+          "word": "framed",
+          "start": 5.749,
+          "end": 6.212
+        },
+        {
+          "word": "by",
+          "start": 6.212,
+          "end": 6.367
+        },
+        {
+          "word": "a",
+          "start": 6.367,
+          "end": 6.521
+        },
+        {
+          "word": "sixty",
+          "start": 6.521,
+          "end": 6.907
+        },
+        {
+          "word": "FPS",
+          "start": 6.907,
+          "end": 7.138
+        },
+        {
+          "word": "Bayer",
+          "start": 7.138,
+          "end": 7.524
+        },
+        {
+          "word": "dither",
+          "start": 7.524,
+          "end": 7.987
+        },
+        {
+          "word": "canvas",
+          "start": 7.987,
+          "end": 8.45
+        },
+        {
+          "word": "and",
+          "start": 8.45,
+          "end": 8.682
+        },
+        {
+          "word": "an",
+          "start": 8.682,
+          "end": 8.836
+        },
+        {
+          "word": "interactive",
+          "start": 8.836,
+          "end": 9.685
+        },
+        {
+          "word": "Ocelli",
+          "start": 9.685,
+          "end": 10.148
+        },
+        {
+          "word": "launch",
+          "start": 10.148,
+          "end": 10.611
+        },
+        {
+          "word": "window.",
+          "start": 10.611,
+          "end": 11.344
+        }
+      ]
+    },
+    {
+      "id": "d02_channels_judge_login",
+      "scene": 2,
+      "title": "Channels & 1-Click Judge Login",
+      "speaker": "maya",
+      "start_frame": 720,
+      "duration_frames": 1080,
+      "voice_offset_sec": 0.35,
+      "text": "Judges sign in with one click as Harry Phan and land inside live workspace channels: near intents arena, compute endowment, and outlayer tee vault, where Ada, Theo, Lia, and Kronos collaborate in real time.",
+      "caption": "1-click judge login -> #near-intents-arena, #compute-endowment, #outlayer-tee-vault.",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 13.656,
+      "words": [
+        {
+          "word": "Judges",
+          "start": 0.0,
+          "end": 0.425
+        },
+        {
+          "word": "sign",
+          "start": 0.425,
+          "end": 0.708
+        },
+        {
+          "word": "in",
+          "start": 0.708,
+          "end": 0.849
+        },
+        {
+          "word": "with",
+          "start": 0.849,
+          "end": 1.132
+        },
+        {
+          "word": "one",
+          "start": 1.132,
+          "end": 1.344
+        },
+        {
+          "word": "click",
+          "start": 1.344,
+          "end": 1.698
+        },
+        {
+          "word": "as",
+          "start": 1.698,
+          "end": 1.84
+        },
+        {
+          "word": "Harry",
+          "start": 1.84,
+          "end": 2.193
+        },
+        {
+          "word": "Phan",
+          "start": 2.193,
+          "end": 2.476
+        },
+        {
+          "word": "and",
+          "start": 2.476,
+          "end": 2.689
+        },
+        {
+          "word": "land",
+          "start": 2.689,
+          "end": 2.972
+        },
+        {
+          "word": "inside",
+          "start": 2.972,
+          "end": 3.396
+        },
+        {
+          "word": "live",
+          "start": 3.396,
+          "end": 3.679
+        },
+        {
+          "word": "workspace",
+          "start": 3.679,
+          "end": 4.316
+        },
+        {
+          "word": "channels:",
+          "start": 4.316,
+          "end": 5.13
+        },
+        {
+          "word": "near",
+          "start": 5.13,
+          "end": 5.413
+        },
+        {
+          "word": "intents",
+          "start": 5.413,
+          "end": 5.908
+        },
+        {
+          "word": "arena,",
+          "start": 5.908,
+          "end": 6.51
+        },
+        {
+          "word": "compute",
+          "start": 6.51,
+          "end": 7.005
+        },
+        {
+          "word": "endowment,",
+          "start": 7.005,
+          "end": 7.889
+        },
+        {
+          "word": "and",
+          "start": 7.889,
+          "end": 8.102
+        },
+        {
+          "word": "outlayer",
+          "start": 8.102,
+          "end": 8.668
+        },
+        {
+          "word": "tee",
+          "start": 8.668,
+          "end": 8.88
+        },
+        {
+          "word": "vault,",
+          "start": 8.88,
+          "end": 9.481
+        },
+        {
+          "word": "where",
+          "start": 9.481,
+          "end": 9.835
+        },
+        {
+          "word": "Ada,",
+          "start": 9.835,
+          "end": 10.295
+        },
+        {
+          "word": "Theo,",
+          "start": 10.295,
+          "end": 10.826
+        },
+        {
+          "word": "Lia,",
+          "start": 10.826,
+          "end": 11.286
+        },
+        {
+          "word": "and",
+          "start": 11.286,
+          "end": 11.498
+        },
+        {
+          "word": "Kronos",
+          "start": 11.498,
+          "end": 11.922
+        },
+        {
+          "word": "collaborate",
+          "start": 11.922,
+          "end": 12.701
+        },
+        {
+          "word": "in",
+          "start": 12.701,
+          "end": 12.842
+        },
+        {
+          "word": "real",
+          "start": 12.842,
+          "end": 13.125
+        },
+        {
+          "word": "time.",
+          "start": 13.125,
+          "end": 13.656
+        }
+      ]
+    },
+    {
+      "id": "d03_terrace_intents_1click",
+      "scene": 3,
+      "title": "Terrace Conviction & 1Click Intents",
+      "speaker": "alex",
+      "start_frame": 1800,
+      "duration_frames": 1080,
+      "voice_offset_sec": 0.35,
+      "text": "Inside near intents arena, Terrace Social and Hunch power in chat conviction markets. Stake wrapped NEAR to back or fade agent calls with AGENTES burn on miss, settled via live NEAR Intents One Click multi solver routing.",
+      "caption": "Terrace + Hunch conviction markets (wNEAR + $AGENTES burn) via NEAR Intents 1Click.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 14.448,
+      "words": [
+        {
+          "word": "Inside",
+          "start": 0.0,
+          "end": 0.445
+        },
+        {
+          "word": "near",
+          "start": 0.445,
+          "end": 0.741
+        },
+        {
+          "word": "intents",
+          "start": 0.741,
+          "end": 1.26
+        },
+        {
+          "word": "arena,",
+          "start": 1.26,
+          "end": 1.889
+        },
+        {
+          "word": "Terrace",
+          "start": 1.889,
+          "end": 2.408
+        },
+        {
+          "word": "Social",
+          "start": 2.408,
+          "end": 2.853
+        },
+        {
+          "word": "and",
+          "start": 2.853,
+          "end": 3.075
+        },
+        {
+          "word": "Hunch",
+          "start": 3.075,
+          "end": 3.445
+        },
+        {
+          "word": "power",
+          "start": 3.445,
+          "end": 3.816
+        },
+        {
+          "word": "in",
+          "start": 3.816,
+          "end": 3.964
+        },
+        {
+          "word": "chat",
+          "start": 3.964,
+          "end": 4.26
+        },
+        {
+          "word": "conviction",
+          "start": 4.26,
+          "end": 5.001
+        },
+        {
+          "word": "markets.",
+          "start": 5.001,
+          "end": 5.779
+        },
+        {
+          "word": "Stake",
+          "start": 5.779,
+          "end": 6.15
+        },
+        {
+          "word": "wrapped",
+          "start": 6.15,
+          "end": 6.668
+        },
+        {
+          "word": "NEAR",
+          "start": 6.668,
+          "end": 6.965
+        },
+        {
+          "word": "to",
+          "start": 6.965,
+          "end": 7.113
+        },
+        {
+          "word": "back",
+          "start": 7.113,
+          "end": 7.409
+        },
+        {
+          "word": "or",
+          "start": 7.409,
+          "end": 7.557
+        },
+        {
+          "word": "fade",
+          "start": 7.557,
+          "end": 7.854
+        },
+        {
+          "word": "agent",
+          "start": 7.854,
+          "end": 8.224
+        },
+        {
+          "word": "calls",
+          "start": 8.224,
+          "end": 8.595
+        },
+        {
+          "word": "with",
+          "start": 8.595,
+          "end": 8.891
+        },
+        {
+          "word": "AGENTES",
+          "start": 8.891,
+          "end": 9.41
+        },
+        {
+          "word": "burn",
+          "start": 9.41,
+          "end": 9.706
+        },
+        {
+          "word": "on",
+          "start": 9.706,
+          "end": 9.854
+        },
+        {
+          "word": "miss,",
+          "start": 9.854,
+          "end": 10.41
+        },
+        {
+          "word": "settled",
+          "start": 10.41,
+          "end": 10.929
+        },
+        {
+          "word": "via",
+          "start": 10.929,
+          "end": 11.151
+        },
+        {
+          "word": "live",
+          "start": 11.151,
+          "end": 11.447
+        },
+        {
+          "word": "NEAR",
+          "start": 11.447,
+          "end": 11.744
+        },
+        {
+          "word": "Intents",
+          "start": 11.744,
+          "end": 12.262
+        },
+        {
+          "word": "One",
+          "start": 12.262,
+          "end": 12.485
+        },
+        {
+          "word": "Click",
+          "start": 12.485,
+          "end": 12.855
+        },
+        {
+          "word": "multi",
+          "start": 12.855,
+          "end": 13.225
+        },
+        {
+          "word": "solver",
+          "start": 13.225,
+          "end": 13.67
+        },
+        {
+          "word": "routing.",
+          "start": 13.67,
+          "end": 14.448
+        }
+      ]
+    },
+    {
+      "id": "d04_outlayer_tdx_guard",
+      "scene": 4,
+      "title": "OutLayer Intel TDX Spend Guard",
+      "speaker": "maya",
+      "start_frame": 2880,
+      "duration_frames": 1080,
+      "voice_offset_sec": 0.35,
+      "text": "Every agent wallet runs inside an OutLayer Intel TDX hardware enclave. Tune the liquid slosh slider to twenty five dollars per transaction: a twelve dollar intent signs cleanly with NEP four thirteen, while a forty five dollar rogue drain fails closed.",
+      "caption": "OutLayer TDX cap $25/tx: $12.00 NEP-413 approved, $45.00 rogue drain blocked.",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 15.816,
+      "words": [
+        {
+          "word": "Every",
+          "start": 0.0,
+          "end": 0.353
+        },
+        {
+          "word": "agent",
+          "start": 0.353,
+          "end": 0.706
+        },
+        {
+          "word": "wallet",
+          "start": 0.706,
+          "end": 1.13
+        },
+        {
+          "word": "runs",
+          "start": 1.13,
+          "end": 1.412
+        },
+        {
+          "word": "inside",
+          "start": 1.412,
+          "end": 1.836
+        },
+        {
+          "word": "an",
+          "start": 1.836,
+          "end": 1.977
+        },
+        {
+          "word": "OutLayer",
+          "start": 1.977,
+          "end": 2.542
+        },
+        {
+          "word": "Intel",
+          "start": 2.542,
+          "end": 2.895
+        },
+        {
+          "word": "TDX",
+          "start": 2.895,
+          "end": 3.107
+        },
+        {
+          "word": "hardware",
+          "start": 3.107,
+          "end": 3.672
+        },
+        {
+          "word": "enclave.",
+          "start": 3.672,
+          "end": 4.413
+        },
+        {
+          "word": "Tune",
+          "start": 4.413,
+          "end": 4.695
+        },
+        {
+          "word": "the",
+          "start": 4.695,
+          "end": 4.907
+        },
+        {
+          "word": "liquid",
+          "start": 4.907,
+          "end": 5.331
+        },
+        {
+          "word": "slosh",
+          "start": 5.331,
+          "end": 5.684
+        },
+        {
+          "word": "slider",
+          "start": 5.684,
+          "end": 6.108
+        },
+        {
+          "word": "to",
+          "start": 6.108,
+          "end": 6.249
+        },
+        {
+          "word": "twenty",
+          "start": 6.249,
+          "end": 6.672
+        },
+        {
+          "word": "five",
+          "start": 6.672,
+          "end": 6.955
+        },
+        {
+          "word": "dollars",
+          "start": 6.955,
+          "end": 7.449
+        },
+        {
+          "word": "per",
+          "start": 7.449,
+          "end": 7.661
+        },
+        {
+          "word": "transaction:",
+          "start": 7.661,
+          "end": 8.685
+        },
+        {
+          "word": "a",
+          "start": 8.685,
+          "end": 8.826
+        },
+        {
+          "word": "twelve",
+          "start": 8.826,
+          "end": 9.25
+        },
+        {
+          "word": "dollar",
+          "start": 9.25,
+          "end": 9.673
+        },
+        {
+          "word": "intent",
+          "start": 9.673,
+          "end": 10.097
+        },
+        {
+          "word": "signs",
+          "start": 10.097,
+          "end": 10.45
+        },
+        {
+          "word": "cleanly",
+          "start": 10.45,
+          "end": 10.944
+        },
+        {
+          "word": "with",
+          "start": 10.944,
+          "end": 11.227
+        },
+        {
+          "word": "NEP",
+          "start": 11.227,
+          "end": 11.438
+        },
+        {
+          "word": "four",
+          "start": 11.438,
+          "end": 11.721
+        },
+        {
+          "word": "thirteen,",
+          "start": 11.721,
+          "end": 12.533
+        },
+        {
+          "word": "while",
+          "start": 12.533,
+          "end": 12.886
+        },
+        {
+          "word": "a",
+          "start": 12.886,
+          "end": 13.027
+        },
+        {
+          "word": "forty",
+          "start": 13.027,
+          "end": 13.38
+        },
+        {
+          "word": "five",
+          "start": 13.38,
+          "end": 13.662
+        },
+        {
+          "word": "dollar",
+          "start": 13.662,
+          "end": 14.086
+        },
+        {
+          "word": "rogue",
+          "start": 14.086,
+          "end": 14.439
+        },
+        {
+          "word": "drain",
+          "start": 14.439,
+          "end": 14.792
+        },
+        {
+          "word": "fails",
+          "start": 14.792,
+          "end": 15.145
+        },
+        {
+          "word": "closed.",
+          "start": 15.145,
+          "end": 15.816
+        }
+      ]
+    },
+    {
+      "id": "d05_corpus_kanmani_kyvera",
+      "scene": 5,
+      "title": "Corpus x402, Kanmani & Kyvera ML-DSA-65",
+      "speaker": "alex",
+      "start_frame": 3960,
+      "duration_frames": 960,
+      "voice_offset_sec": 0.35,
+      "text": "Corpus x402 streams one dollar eighty four per hour H100 TEE compute with Tab credit and Kanmani slashing escrow. Kyvera ML DSA sixty five signs every receipt, catching a single nibble tamper before exporting a secret free ergo bundle.",
+      "caption": "Corpus x402 ($1.84/hr H100 TEE), Tab BNPL, Kanmani escrow, Kyvera ML-DSA-65 proof.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 15.447,
+      "words": [
+        {
+          "word": "Corpus",
+          "start": 0.0,
+          "end": 0.449
+        },
+        {
+          "word": "x402",
+          "start": 0.449,
+          "end": 0.748
+        },
+        {
+          "word": "streams",
+          "start": 0.748,
+          "end": 1.272
+        },
+        {
+          "word": "one",
+          "start": 1.272,
+          "end": 1.496
+        },
+        {
+          "word": "dollar",
+          "start": 1.496,
+          "end": 1.945
+        },
+        {
+          "word": "eighty",
+          "start": 1.945,
+          "end": 2.394
+        },
+        {
+          "word": "four",
+          "start": 2.394,
+          "end": 2.693
+        },
+        {
+          "word": "per",
+          "start": 2.693,
+          "end": 2.917
+        },
+        {
+          "word": "hour",
+          "start": 2.917,
+          "end": 3.217
+        },
+        {
+          "word": "H100",
+          "start": 3.217,
+          "end": 3.516
+        },
+        {
+          "word": "TEE",
+          "start": 3.516,
+          "end": 3.74
+        },
+        {
+          "word": "compute",
+          "start": 3.74,
+          "end": 4.264
+        },
+        {
+          "word": "with",
+          "start": 4.264,
+          "end": 4.563
+        },
+        {
+          "word": "Tab",
+          "start": 4.563,
+          "end": 4.788
+        },
+        {
+          "word": "credit",
+          "start": 4.788,
+          "end": 5.236
+        },
+        {
+          "word": "and",
+          "start": 5.236,
+          "end": 5.461
+        },
+        {
+          "word": "Kanmani",
+          "start": 5.461,
+          "end": 5.984
+        },
+        {
+          "word": "slashing",
+          "start": 5.984,
+          "end": 6.583
+        },
+        {
+          "word": "escrow.",
+          "start": 6.583,
+          "end": 7.293
+        },
+        {
+          "word": "Kyvera",
+          "start": 7.293,
+          "end": 7.742
+        },
+        {
+          "word": "ML",
+          "start": 7.742,
+          "end": 7.892
+        },
+        {
+          "word": "DSA",
+          "start": 7.892,
+          "end": 8.116
+        },
+        {
+          "word": "sixty",
+          "start": 8.116,
+          "end": 8.49
+        },
+        {
+          "word": "five",
+          "start": 8.49,
+          "end": 8.79
+        },
+        {
+          "word": "signs",
+          "start": 8.79,
+          "end": 9.164
+        },
+        {
+          "word": "every",
+          "start": 9.164,
+          "end": 9.538
+        },
+        {
+          "word": "receipt,",
+          "start": 9.538,
+          "end": 10.323
+        },
+        {
+          "word": "catching",
+          "start": 10.323,
+          "end": 10.922
+        },
+        {
+          "word": "a",
+          "start": 10.922,
+          "end": 11.071
+        },
+        {
+          "word": "single",
+          "start": 11.071,
+          "end": 11.52
+        },
+        {
+          "word": "nibble",
+          "start": 11.52,
+          "end": 11.969
+        },
+        {
+          "word": "tamper",
+          "start": 11.969,
+          "end": 12.418
+        },
+        {
+          "word": "before",
+          "start": 12.418,
+          "end": 12.866
+        },
+        {
+          "word": "exporting",
+          "start": 12.866,
+          "end": 13.54
+        },
+        {
+          "word": "a",
+          "start": 13.54,
+          "end": 13.689
+        },
+        {
+          "word": "secret",
+          "start": 13.689,
+          "end": 14.138
+        },
+        {
+          "word": "free",
+          "start": 14.138,
+          "end": 14.437
+        },
+        {
+          "word": "ergo",
+          "start": 14.437,
+          "end": 14.737
+        },
+        {
+          "word": "bundle.",
+          "start": 14.737,
+          "end": 15.447
+        }
+      ]
+    },
+    {
+      "id": "d06_tracks_lockup",
+      "scene": 6,
+      "title": "13 NEAR Tracks & MIT Lockup",
+      "speaker": "maya",
+      "start_frame": 4920,
+      "duration_frames": 720,
+      "voice_offset_sec": 0.3,
+      "text": "Engineered across thirteen NEAR hackathon tracks with open MIT code and verifiable receipts. Explore Agentes NEAR on GitHub today.",
+      "caption": "13 NEAR Tracks \u00b7 MIT License \u00b7 github.com/harrymove-ctrl/agentes-near",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 9.024,
+      "words": [
+        {
+          "word": "Engineered",
+          "start": 0.0,
+          "end": 0.771
+        },
+        {
+          "word": "across",
+          "start": 0.771,
+          "end": 1.234
+        },
+        {
+          "word": "thirteen",
+          "start": 1.234,
+          "end": 1.851
+        },
+        {
+          "word": "NEAR",
+          "start": 1.851,
+          "end": 2.16
+        },
+        {
+          "word": "hackathon",
+          "start": 2.16,
+          "end": 2.854
+        },
+        {
+          "word": "tracks",
+          "start": 2.854,
+          "end": 3.317
+        },
+        {
+          "word": "with",
+          "start": 3.317,
+          "end": 3.625
+        },
+        {
+          "word": "open",
+          "start": 3.625,
+          "end": 3.934
+        },
+        {
+          "word": "MIT",
+          "start": 3.934,
+          "end": 4.165
+        },
+        {
+          "word": "code",
+          "start": 4.165,
+          "end": 4.473
+        },
+        {
+          "word": "and",
+          "start": 4.473,
+          "end": 4.705
+        },
+        {
+          "word": "verifiable",
+          "start": 4.705,
+          "end": 5.476
+        },
+        {
+          "word": "receipts.",
+          "start": 5.476,
+          "end": 6.363
+        },
+        {
+          "word": "Explore",
+          "start": 6.363,
+          "end": 6.903
+        },
+        {
+          "word": "Agentes",
+          "start": 6.903,
+          "end": 7.443
+        },
+        {
+          "word": "NEAR",
+          "start": 7.443,
+          "end": 7.751
+        },
+        {
+          "word": "on",
+          "start": 7.751,
+          "end": 7.906
+        },
+        {
+          "word": "GitHub",
+          "start": 7.906,
+          "end": 8.368
+        },
+        {
+          "word": "today.",
+          "start": 8.368,
+          "end": 9.024
+        }
+      ]
+    }
+  ],
+  "teaser_scenes": [
+    {
+      "id": "t01_hero",
+      "scene": 1,
+      "title": "Agentes NEAR Hero",
+      "speaker": "alex",
+      "start_frame": 0,
+      "duration_frames": 420,
+      "voice_offset_sec": 0.25,
+      "text": "Agentes NEAR: Slack for teams and NEAR AI agents in one self hosted workspace.",
+      "caption": "Agentes NEAR: Slack for Teams + NEAR AI Agents.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 6.456,
+      "words": [
+        {
+          "word": "Agentes",
+          "start": 0.0,
+          "end": 0.646
+        },
+        {
+          "word": "NEAR:",
+          "start": 0.646,
+          "end": 1.337
+        },
+        {
+          "word": "Slack",
+          "start": 1.337,
+          "end": 1.798
+        },
+        {
+          "word": "for",
+          "start": 1.798,
+          "end": 2.075
+        },
+        {
+          "word": "teams",
+          "start": 2.075,
+          "end": 2.536
+        },
+        {
+          "word": "and",
+          "start": 2.536,
+          "end": 2.813
+        },
+        {
+          "word": "NEAR",
+          "start": 2.813,
+          "end": 3.182
+        },
+        {
+          "word": "AI",
+          "start": 3.182,
+          "end": 3.366
+        },
+        {
+          "word": "agents",
+          "start": 3.366,
+          "end": 3.92
+        },
+        {
+          "word": "in",
+          "start": 3.92,
+          "end": 4.104
+        },
+        {
+          "word": "one",
+          "start": 4.104,
+          "end": 4.381
+        },
+        {
+          "word": "self",
+          "start": 4.381,
+          "end": 4.75
+        },
+        {
+          "word": "hosted",
+          "start": 4.75,
+          "end": 5.303
+        },
+        {
+          "word": "workspace.",
+          "start": 5.303,
+          "end": 6.456
+        }
+      ]
+    },
+    {
+      "id": "t02_channels",
+      "scene": 2,
+      "title": "Live Channels & Swarm",
+      "speaker": "maya",
+      "start_frame": 420,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.2,
+      "text": "Sign in with one click to watch Ada, Theo, Lia, and Kronos coordinate across live channels.",
+      "caption": "1-Click Judge Login \u00b7 @ada @theo @lia @kronos Live Channels.",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 6.696,
+      "words": [
+        {
+          "word": "Sign",
+          "start": 0.0,
+          "end": 0.311
+        },
+        {
+          "word": "in",
+          "start": 0.311,
+          "end": 0.467
+        },
+        {
+          "word": "with",
+          "start": 0.467,
+          "end": 0.779
+        },
+        {
+          "word": "one",
+          "start": 0.779,
+          "end": 1.012
+        },
+        {
+          "word": "click",
+          "start": 1.012,
+          "end": 1.401
+        },
+        {
+          "word": "to",
+          "start": 1.401,
+          "end": 1.557
+        },
+        {
+          "word": "watch",
+          "start": 1.557,
+          "end": 1.947
+        },
+        {
+          "word": "Ada,",
+          "start": 1.947,
+          "end": 2.453
+        },
+        {
+          "word": "Theo,",
+          "start": 2.453,
+          "end": 3.037
+        },
+        {
+          "word": "Lia,",
+          "start": 3.037,
+          "end": 3.543
+        },
+        {
+          "word": "and",
+          "start": 3.543,
+          "end": 3.776
+        },
+        {
+          "word": "Kronos",
+          "start": 3.776,
+          "end": 4.243
+        },
+        {
+          "word": "coordinate",
+          "start": 4.243,
+          "end": 5.022
+        },
+        {
+          "word": "across",
+          "start": 5.022,
+          "end": 5.489
+        },
+        {
+          "word": "live",
+          "start": 5.489,
+          "end": 5.801
+        },
+        {
+          "word": "channels.",
+          "start": 5.801,
+          "end": 6.696
+        }
+      ]
+    },
+    {
+      "id": "t03_terrace_intents",
+      "scene": 3,
+      "title": "Terrace & 1Click Intents",
+      "speaker": "alex",
+      "start_frame": 900,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.2,
+      "text": "Back or fade in chat conviction markets in wrapped NEAR, settled by NEAR Intents One Click solvers.",
+      "caption": "Terrace wNEAR Markets + NEAR Intents 1Click Multi-Solver Settlement.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 6.336,
+      "words": [
+        {
+          "word": "Back",
+          "start": 0.0,
+          "end": 0.288
+        },
+        {
+          "word": "or",
+          "start": 0.288,
+          "end": 0.432
+        },
+        {
+          "word": "fade",
+          "start": 0.432,
+          "end": 0.72
+        },
+        {
+          "word": "in",
+          "start": 0.72,
+          "end": 0.864
+        },
+        {
+          "word": "chat",
+          "start": 0.864,
+          "end": 1.152
+        },
+        {
+          "word": "conviction",
+          "start": 1.152,
+          "end": 1.872
+        },
+        {
+          "word": "markets",
+          "start": 1.872,
+          "end": 2.376
+        },
+        {
+          "word": "in",
+          "start": 2.376,
+          "end": 2.52
+        },
+        {
+          "word": "wrapped",
+          "start": 2.52,
+          "end": 3.024
+        },
+        {
+          "word": "NEAR,",
+          "start": 3.024,
+          "end": 3.564
+        },
+        {
+          "word": "settled",
+          "start": 3.564,
+          "end": 4.068
+        },
+        {
+          "word": "by",
+          "start": 4.068,
+          "end": 4.212
+        },
+        {
+          "word": "NEAR",
+          "start": 4.212,
+          "end": 4.5
+        },
+        {
+          "word": "Intents",
+          "start": 4.5,
+          "end": 5.004
+        },
+        {
+          "word": "One",
+          "start": 5.004,
+          "end": 5.22
+        },
+        {
+          "word": "Click",
+          "start": 5.22,
+          "end": 5.58
+        },
+        {
+          "word": "solvers.",
+          "start": 5.58,
+          "end": 6.336
+        }
+      ]
+    },
+    {
+      "id": "t04_outlayer_guard",
+      "scene": 4,
+      "title": "OutLayer TDX Guard",
+      "speaker": "maya",
+      "start_frame": 1380,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.2,
+      "text": "OutLayer Intel TDX limits approve a twelve dollar intent while blocking a forty five dollar rogue drain.",
+      "caption": "OutLayer TDX Guard ($25/tx): $12 NEP-413 Pass vs $45 Rogue Drain Blocked.",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 6.264,
+      "words": [
+        {
+          "word": "OutLayer",
+          "start": 0.0,
+          "end": 0.542
+        },
+        {
+          "word": "Intel",
+          "start": 0.542,
+          "end": 0.88
+        },
+        {
+          "word": "TDX",
+          "start": 0.88,
+          "end": 1.084
+        },
+        {
+          "word": "limits",
+          "start": 1.084,
+          "end": 1.49
+        },
+        {
+          "word": "approve",
+          "start": 1.49,
+          "end": 1.964
+        },
+        {
+          "word": "a",
+          "start": 1.964,
+          "end": 2.099
+        },
+        {
+          "word": "twelve",
+          "start": 2.099,
+          "end": 2.506
+        },
+        {
+          "word": "dollar",
+          "start": 2.506,
+          "end": 2.912
+        },
+        {
+          "word": "intent",
+          "start": 2.912,
+          "end": 3.318
+        },
+        {
+          "word": "while",
+          "start": 3.318,
+          "end": 3.657
+        },
+        {
+          "word": "blocking",
+          "start": 3.657,
+          "end": 4.199
+        },
+        {
+          "word": "a",
+          "start": 4.199,
+          "end": 4.334
+        },
+        {
+          "word": "forty",
+          "start": 4.334,
+          "end": 4.673
+        },
+        {
+          "word": "five",
+          "start": 4.673,
+          "end": 4.943
+        },
+        {
+          "word": "dollar",
+          "start": 4.943,
+          "end": 5.35
+        },
+        {
+          "word": "rogue",
+          "start": 5.35,
+          "end": 5.688
+        },
+        {
+          "word": "drain.",
+          "start": 5.688,
+          "end": 6.264
+        }
+      ]
+    },
+    {
+      "id": "t05_corpus_kyvera",
+      "scene": 5,
+      "title": "Corpus & ML-DSA-65",
+      "speaker": "alex",
+      "start_frame": 1860,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.2,
+      "text": "Corpus x402 funds H100 TEE compute, Kanmani enforces escrow, and ML DSA sixty five seals every receipt.",
+      "caption": "Corpus x402 ($1.84/hr) \u00b7 Kanmani Escrow \u00b7 Kyvera ML-DSA-65.",
+      "speaker_label": "Ada \u00b7 Host",
+      "speaker_role": "Systems Lead",
+      "voice_duration_sec": 8.164,
+      "words": [
+        {
+          "word": "Corpus",
+          "start": 0.0,
+          "end": 0.518
+        },
+        {
+          "word": "x402",
+          "start": 0.518,
+          "end": 0.864
+        },
+        {
+          "word": "funds",
+          "start": 0.864,
+          "end": 1.296
+        },
+        {
+          "word": "H100",
+          "start": 1.296,
+          "end": 1.641
+        },
+        {
+          "word": "TEE",
+          "start": 1.641,
+          "end": 1.901
+        },
+        {
+          "word": "compute,",
+          "start": 1.901,
+          "end": 2.808
+        },
+        {
+          "word": "Kanmani",
+          "start": 2.808,
+          "end": 3.412
+        },
+        {
+          "word": "enforces",
+          "start": 3.412,
+          "end": 4.103
+        },
+        {
+          "word": "escrow,",
+          "start": 4.103,
+          "end": 4.924
+        },
+        {
+          "word": "and",
+          "start": 4.924,
+          "end": 5.183
+        },
+        {
+          "word": "ML",
+          "start": 5.183,
+          "end": 5.356
+        },
+        {
+          "word": "DSA",
+          "start": 5.356,
+          "end": 5.615
+        },
+        {
+          "word": "sixty",
+          "start": 5.615,
+          "end": 6.047
+        },
+        {
+          "word": "five",
+          "start": 6.047,
+          "end": 6.393
+        },
+        {
+          "word": "seals",
+          "start": 6.393,
+          "end": 6.825
+        },
+        {
+          "word": "every",
+          "start": 6.825,
+          "end": 7.257
+        },
+        {
+          "word": "receipt.",
+          "start": 7.257,
+          "end": 8.164
+        }
+      ]
+    },
+    {
+      "id": "t06_tracks_lockup",
+      "scene": 6,
+      "title": "13 Tracks & MIT Lockup",
+      "speaker": "maya",
+      "start_frame": 2340,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.2,
+      "text": "Thirteen NEAR tracks. Open MIT source. Try Agentes NEAR now.",
+      "caption": "13 NEAR Tracks \u00b7 MIT License \u00b7 github.com/harrymove-ctrl/agentes-near",
+      "speaker_label": "Lia \u00b7 Co-Host",
+      "speaker_role": "Protocol Architect",
+      "voice_duration_sec": 5.256,
+      "words": [
+        {
+          "word": "Thirteen",
+          "start": 0.0,
+          "end": 0.719
+        },
+        {
+          "word": "NEAR",
+          "start": 0.719,
+          "end": 1.078
+        },
+        {
+          "word": "tracks.",
+          "start": 1.078,
+          "end": 1.932
+        },
+        {
+          "word": "Open",
+          "start": 1.932,
+          "end": 2.291
+        },
+        {
+          "word": "MIT",
+          "start": 2.291,
+          "end": 2.561
+        },
+        {
+          "word": "source.",
+          "start": 2.561,
+          "end": 3.414
+        },
+        {
+          "word": "Try",
+          "start": 3.414,
+          "end": 3.684
+        },
+        {
+          "word": "Agentes",
+          "start": 3.684,
+          "end": 4.313
+        },
+        {
+          "word": "NEAR",
+          "start": 4.313,
+          "end": 4.672
+        },
+        {
+          "word": "now.",
+          "start": 4.672,
+          "end": 5.256
+        }
+      ]
+    }
+  ]
+}

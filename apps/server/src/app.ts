@@ -83,6 +83,7 @@ import { type AppsRouteOptions, registerAppsRoot, registerOauthRoutes } from "./
 import { pushRelayRoutes } from "./routes/push-relay";
 import { registerWaitlist } from "./routes/waitlist";
 import { registerRoutineHooks, registerWebhookReceiver, webhookAdminRoutes } from "./routes/webhooks";
+import { nearAppRoutes, nearPublicRoutes } from "./near/routes";
 import { zenAppRoutes } from "./zen/routes";
 
 export interface AppOptions {
@@ -230,6 +231,7 @@ export function createApp(options: AppOptions) {
     api.route("/app", webhookAdminRoutes(deps));
     api.route("/app", githubAppRoutes(deps));
     api.route("/app", zenAppRoutes(deps));
+    api.route("/app", nearAppRoutes(deps));
     registerOauthRoutes(api, deps, { version, fetchDocument: options.appsFetchDocument });
     registerWebhookReceiver(api, deps);
     registerRoutineHooks(api, deps);
@@ -282,6 +284,9 @@ export function createApp(options: AppOptions) {
     if (!options.moduleContext) throw new Error(`module ${module.name} needs a moduleContext`);
     module.registerRoutes(api, options.moduleContext);
   }
+
+  // Public NEAR judge & Ocelli landing endpoints (/api/near/*) mounted before SPA fallback
+  api.route("/near", nearPublicRoutes({ db: options.services?.db }));
 
   api.doc31("/openapi.json", {
     openapi: "3.1.0",

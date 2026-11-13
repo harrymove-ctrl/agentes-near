@@ -154,6 +154,7 @@ import { sectionName, useSectionOrder } from "./SidebarOrder";
 import { SIDEBAR_TOOLS, SidebarSetupDialog, ToolList } from "./SidebarSetup";
 import { AgentGlow, AgentTrail, colorOf, MenuHorizon, SidebarHorizon, WorkspaceSky } from "./Sky";
 import { SetStatusDialog, useSaveStatus } from "./StatusDialog";
+import { NearControlModal } from "./NearControlModal";
 import { ZenControlModal } from "./ZenControlModal";
 
 /** An agent's sky for its busy chip (`.sidebar__busy`): both themes, the CSS picks one. */
@@ -253,14 +254,24 @@ export function Sidebar() {
   const [showArchived, setShowArchived] = useState(false);
   const [customizing, setCustomizing] = useState(false);
   const [zenOpen, setZenOpen] = useState(false);
+  const [nearOpen, setNearOpen] = useState(false);
   const navigate = useNavigate();
   const onProposals = useRouterState({ select: (r) => r.location.pathname.endsWith("/proposals") });
   const currentHref = useRouterState({ select: (r) => r.location.href });
   useEffect(() => {
     const sp = new URLSearchParams(window.location.search);
+    let changed = false;
     if (sp.get("zen") === "1") {
       setZenOpen(true);
       sp.delete("zen");
+      changed = true;
+    }
+    if (sp.get("near") === "1") {
+      setNearOpen(true);
+      sp.delete("near");
+      changed = true;
+    }
+    if (changed) {
       const next =
         window.location.pathname +
         (sp.toString() ? `?${sp.toString()}` : "") +
@@ -596,6 +607,26 @@ export function Sidebar() {
           <Icon name="bulb" />
           <span className="sidebar__item-label">Updates</span>
           <CountChip className="sidebar__count">v0.3</CountChip>
+        </Link>
+        <button
+          type="button"
+          className="sidebar__item"
+          title={rail ? "NEAR Intents & TEE" : undefined}
+          data-testid="near-control-trigger"
+          onClick={() => setNearOpen(true)}
+        >
+          <Icon name="bolt" />
+          <span className="sidebar__item-label">NEAR Intents &amp; TEE</span>
+          <CountChip className="sidebar__count">NEAR</CountChip>
+        </button>
+        <Link
+          to="/ocelli"
+          className="sidebar__item"
+          title={rail ? "Landing (Ocelli)" : undefined}
+          data-testid="sidebar-ocelli-link"
+        >
+          <Icon name="globe" />
+          <span className="sidebar__item-label">Landing (Ocelli)</span>
         </Link>
         <button
           type="button"
@@ -964,6 +995,7 @@ export function Sidebar() {
         withChannel={newCategory?.withChannel}
       />
       <SidebarSetupDialog open={customizing} onClose={() => setCustomizing(false)} />
+      <NearControlModal open={nearOpen} onOpenChange={setNearOpen} orgId={orgId} />
       <ZenControlModal open={zenOpen} onOpenChange={setZenOpen} orgId={orgId} />
       {groupDialog && <GroupNameDialog purpose={groupDialog} onClose={() => setGroupDialog(null)} />}
       {deletingGroup && <DeleteGroupDialog group={deletingGroup} onClose={() => setDeletingGroup(null)} />}

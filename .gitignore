@@ -25,3 +25,11 @@ docs/design/telas/
 
 # Translation work files (bun run i18n:missing)
 i18n-work/
+
+# Remotion video render intermediates and build cache
+video/node_modules/
+video/out/*.png
+video/out/chunks/
+video/out/*.mp4
+video/public/audio/*.wav
+

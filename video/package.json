@@ -1,0 +1,36 @@
+{
+  "name": "agentes-near-video",
+  "version": "1.0.0",
+  "description": "Agentes NEAR Remotion 60fps Launch Demo & X Teaser Studio",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "@remotion/tailwind-v4": "4.0.539",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.539",
+    "tailwindcss": "4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "19.2.7",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "typecheck": "tsc --noEmit",
+    "sound": "python3 scripts/generate_audio.py",
+    "render": "node scripts/render-videos.mjs",
+    "verify": "python3 scripts/verify-and-contact-sheets.py"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}
