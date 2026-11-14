@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { eq, schema } from "@agenteschat/db";
@@ -39,6 +39,8 @@ describe("NEAR Hackathon backend integration (PGlite + Live/Fallback Probes + Ho
 
     tempWebDir = mkdtempSync(join(tmpdir(), "agentes-near-web-"));
     writeFileSync(join(tempWebDir, "index.html"), "<html><body>SPA_FALLBACK</body></html>");
+    mkdirSync(join(tempWebDir, "video"), { recursive: true });
+    writeFileSync(join(tempWebDir, "video", "sample.mp4"), "0123456789abcdefghijklmnopqrstuvwxyz");
   });
 
   afterAll(async () => {
@@ -57,15 +59,14 @@ describe("NEAR Hackathon backend integration (PGlite + Live/Fallback Probes + Ho
     expect(handles).toContain("lia");
     expect(handles).toContain("kronos");
 
-    const users = await handle.db
-      .select({ id: schema.users.id, email: schema.users.email })
-      .from(schema.users);
+    const users = await handle.db.select({ id: schema.users.id, email: schema.users.email }).from(schema.users);
     const harry = users.find((u) => u.email === "harry.phan@commandoss.com");
     expect(harry).toBeDefined();
+    if (!harry) throw new Error("Expected seeded user harry.phan@commandoss.com");
     expect(ALL_SEEDED_EMAILS).toContain("harry.phan@commandoss.com");
     expect(ALL_SEEDED_EMAILS).toContain("henry.nguyen@commandoss.com");
 
-    const channels = await listChannels(handle.db, harry!.id, seededOrgId);
+    const channels = await listChannels(handle.db, harry.id, seededOrgId);
     const channelNames = channels.map((c) => c.name);
     expect(channelNames).toContain("near-intents-arena");
     expect(channelNames).toContain("compute-endowment");
@@ -282,8 +283,10 @@ describe("NEAR Hackathon backend integration (PGlite + Live/Fallback Probes + Ho
     };
     const providers = wrapWithZenDemoProviders(handle.db, { anthropic: dummyBase });
     const deltas: string[] = [];
+    const anthropicProvider = providers.anthropic;
+    if (!anthropicProvider) throw new Error("Expected wrapped anthropic provider");
 
-    const result = await providers.anthropic!.stream(
+    const result = await anthropicProvider.stream(
       {
         model: "claude-sonnet-4-6",
         maxTokens: 512,
@@ -312,5 +315,49 @@ describe("NEAR Hackathon backend integration (PGlite + Live/Fallback Probes + Ho
 
     const ledger = await verifyZenLedger(handle.db, seededOrgId);
     expect(ledger.ok).toBe(true);
+  });
+
+  test("10. /video/* serves HEAD, full 200, 206 Partial Content byte ranges, and 416 for bad ranges", async () => {
+    const app = createApp({
+      edition: "selfhost",
+      version: "test",
+      modules: [],
+      pingDatabase: async () => {},
+      webDir: tempWebDir,
+    });
+
+    const headRes = await app.request("http://localhost/video/sample.mp4", { method: "HEAD" });
+    expect(headRes.status).toBe(200);
+    expect(headRes.headers.get("accept-ranges")).toBe("bytes");
+    expect(headRes.headers.get("content-type")).toBe("video/mp4");
+    expect(headRes.headers.get("content-length")).toBe("36");
+
+    const rangeRes = await app.request("http://localhost/video/sample.mp4", {
+      headers: { range: "bytes=0-9" },
+    });
+    expect(rangeRes.status).toBe(206);
+    expect(rangeRes.headers.get("accept-ranges")).toBe("bytes");
+    expect(rangeRes.headers.get("content-range")).toBe("bytes 0-9/36");
+    expect(rangeRes.headers.get("content-length")).toBe("10");
+    expect(await rangeRes.text()).toBe("0123456789");
+
+    const openRangeRes = await app.request("http://localhost/video/sample.mp4", {
+      headers: { range: "bytes=10-" },
+    });
+    expect(openRangeRes.status).toBe(206);
+    expect(openRangeRes.headers.get("content-range")).toBe("bytes 10-35/36");
+    expect(await openRangeRes.text()).toBe("abcdefghijklmnopqrstuvwxyz");
+
+    const invalidRangeRes = await app.request("http://localhost/video/sample.mp4", {
+      headers: { range: "bytes=999-1000" },
+    });
+    expect(invalidRangeRes.status).toBe(416);
+    expect(invalidRangeRes.headers.get("content-range")).toBe("bytes */36");
+
+    const traversalRes = await app.request("http://localhost/video/..%2Findex.html");
+    expect(traversalRes.status).toBe(400);
+
+    const missingRes = await app.request("http://localhost/video/does-not-exist.mp4");
+    expect(missingRes.status).toBe(404);
   });
 });

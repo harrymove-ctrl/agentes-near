@@ -10,12 +10,7 @@ export type MotionTemplateId =
   | "yapp-99k"
   | "one-design-sting";
 
-export type PaletteMode =
-  | "preset"
-  | "near-mint"
-  | "cobalt-paper"
-  | "zine-vermilion"
-  | "violet-tomato";
+export type PaletteMode = "preset" | "near-mint" | "cobalt-paper" | "zine-vermilion" | "violet-tomato";
 
 export type StageMediaMode = "canvas" | "mp4";
 export type Mp4FilmVariant = "demo-90s" | "teaser-30s";
@@ -31,6 +26,7 @@ export interface MotionChapterMeta {
   chapterNum: string;
   testId: string;
   name: string;
+  shortName: string;
   tag: string;
   timeRangeLabel: string;
   startSec: number;
@@ -50,12 +46,21 @@ export interface MotionChapterMeta {
 
 export const TOTAL_MASTER_DURATION_SEC = 90;
 
-export const MOTION_PRESETS: MotionChapterMeta[] = [
+export const MOTION_PRESETS: [
+  MotionChapterMeta,
+  MotionChapterMeta,
+  MotionChapterMeta,
+  MotionChapterMeta,
+  MotionChapterMeta,
+  MotionChapterMeta,
+  MotionChapterMeta,
+] = [
   {
     id: "things-moving",
     chapterNum: "01",
     testId: "ams-chapter-01",
     name: "Tactile Pill & Wave Hook",
+    shortName: "Pill & Wave",
     tag: "0:00-0:10 · 120 BPM Warm Studio",
     timeRangeLabel: "0:00-0:10",
     startSec: 0,
@@ -75,14 +80,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Warm Studio Bone tactile elastic pill and opposite-sliding Canvas2D kinetic wave hook.",
     whyItHelps: "Leads with clear visual craft before stepping straight into live NEAR agent workflows.",
-    voiceTranscript:
-      "Six autonomous NEAR agents inside one Slack workspace, capped by Intel TDX.",
+    voiceTranscript: "Six autonomous NEAR agents inside one Slack workspace, capped by Intel TDX.",
   },
   {
     id: "fitting-lookbook",
     chapterNum: "02",
     testId: "ams-chapter-02",
     name: "3D Studio Page Fly-Over",
+    shortName: "3D Fly-Over",
     tag: "0:10-0:24 · 120 BPM Fly-Over",
     timeRangeLabel: "0:10-0:24",
     startSec: 10,
@@ -102,14 +107,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Continuous 3D camera fly-over of the live Agentes NEAR landing page on a studio floor.",
     whyItHelps: "Shows the complete product surface in one seamless spatial camera move without filler.",
-    voiceTranscript:
-      "Glide across live agent channels, lifted protocol tiles, and drop straight into one workspace.",
+    voiceTranscript: "Glide across live agent channels, lifted protocol tiles, and drop straight into one workspace.",
   },
   {
     id: "cutline-flow",
     chapterNum: "03",
     testId: "ams-chapter-03",
     name: "Cutline 4-Node Pipeline",
+    shortName: "Cutline Flow",
     tag: "0:24-0:36 · 120 BPM Flow",
     timeRangeLabel: "0:24-0:36",
     startSec: 24,
@@ -129,14 +134,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Four-node Cutline execution diagram tracing intents from chat prompt to post-quantum proof.",
     whyItHelps: "Clarifies how policy limits sit in silicon outside model weights or prompt memory.",
-    voiceTranscript:
-      "Every @mention routes through 1Click quotes, OutLayer TDX caps, and FIPS 204 receipts.",
+    voiceTranscript: "Every @mention routes through 1Click quotes, OutLayer TDX caps, and FIPS 204 receipts.",
   },
   {
     id: "yapp-99k",
     chapterNum: "04",
     testId: "ams-chapter-04",
     name: "1Click Solver Workspace",
+    shortName: "1Click Auction",
     tag: "0:36-0:50 · 120 BPM Auction",
     timeRangeLabel: "0:36-0:50",
     startSec: 36,
@@ -144,8 +149,7 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     durationSec: 14,
     defaultBpm: 120,
     defaultHeadline: "1,250 USDC -> 354.18 wNEAR (+16 bps)",
-    directorNote:
-      "Mention @kronos or @ada in #near-intents-arena to race live market makers in 22s finality.",
+    directorNote: "Mention @kronos or @ada in #near-intents-arena to race live market makers in 22s finality.",
     accentColor: "#067A4B",
     voiceActor: "@ada · 1CLICK QUANT",
     voiceColor: "#38BDF8",
@@ -156,14 +160,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Live NEAR Intents 1Click multi-solver auction racing market makers inside Slack.",
     whyItHelps: "Replaces opaque bot scripts with transparent live solver spreads and NEP-297 receipts.",
-    voiceTranscript:
-      "Mention @kronos in Slack to route 1,250 USDC across live solvers in 22 seconds.",
+    voiceTranscript: "Mention @kronos in Slack to route 1,250 USDC across live solvers in 22 seconds.",
   },
   {
     id: "molote-parche",
     chapterNum: "05",
     testId: "ams-chapter-05",
     name: "OutLayer TDX $25 Guard",
+    shortName: "TDX $25 Cap",
     tag: "0:50-1:06 · 120 BPM Silicon",
     timeRangeLabel: "0:50-1:06",
     startSec: 50,
@@ -171,8 +175,7 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     durationSec: 16,
     defaultBpm: 120,
     defaultHeadline: "OUTLAYER TDX · $25.00/TX CAP · S A F E",
-    directorNote:
-      "WASI hardware policy proves $12 safe intent approval in 42 ms while blocking $45 rogue drains.",
+    directorNote: "WASI hardware policy proves $12 safe intent approval in 42 ms while blocking $45 rogue drains.",
     accentColor: "#F05A28",
     voiceActor: "@kronos · OUTLAYER TDX",
     voiceColor: "#F59E0B",
@@ -183,14 +186,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Hardware-enforced $25.00 per-transaction ceiling inside OutLayer Intel TDX enclaves.",
     whyItHelps: "Even a compromised prompt can never spend past the live hardware slider cap.",
-    voiceTranscript:
-      "OutLayer Intel TDX signs safe $12 intents in 42 ms and deterministically blocks $45 drains.",
+    voiceTranscript: "OutLayer Intel TDX signs safe $12 intents in 42 ms and deterministically blocks $45 drains.",
   },
   {
     id: "ai-tool-graph",
     chapterNum: "06",
     testId: "ams-chapter-06",
     name: "x402 & Terrace Economy",
+    shortName: "x402 & Terrace",
     tag: "1:06-1:18 · 120 BPM Markets",
     timeRangeLabel: "1:06-1:18",
     startSec: 66,
@@ -210,14 +213,14 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     ],
     whatItIs: "Autonomous x402 H100 compute pools paired with live in-chat Terrace conviction markets.",
     whyItHelps: "Lets agent teams pay for verified TEE inference while pricing prediction accuracy on-chain.",
-    voiceTranscript:
-      "Agents fund $1.84 per hour H100 compute via x402 and price accuracy live in Terrace pools.",
+    voiceTranscript: "Agents fund $1.84 per hour H100 compute via x402 and price accuracy live in Terrace pools.",
   },
   {
     id: "one-design-sting",
     chapterNum: "07",
     testId: "ams-chapter-07",
     name: "KPI Proof & Studio Lockup",
+    shortName: "KPI Lockup",
     tag: "1:18-1:30 · 120 BPM Finale",
     timeRangeLabel: "1:18-1:30",
     startSec: 78,
@@ -335,14 +338,14 @@ function clamp01(v: number): number {
 
 function easeOutCubic(t: number): number {
   const c = clamp01(t);
-  return 1 - Math.pow(1 - c, 3);
+  return 1 - (1 - c) ** 3;
 }
 
 function easeOutBack(t: number): number {
   const c = clamp01(t);
   const c1 = 1.70158;
   const c3 = c1 + 1;
-  return 1 + c3 * Math.pow(c - 1, 3) + c1 * Math.pow(c - 1, 2);
+  return 1 + c3 * (c - 1) ** 3 + c1 * (c - 1) ** 2;
 }
 
 function formatMmSs(seconds: number): string {
@@ -352,14 +355,7 @@ function formatMmSs(seconds: number): string {
   return `${m}:${rem < 10 ? "0" : ""}${rem}`;
 }
 
-function drawRoundedRect(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number,
-) {
+function drawRoundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   const rad = Math.min(r, w / 2, h / 2);
   ctx.beginPath();
   ctx.moveTo(x + rad, y);
@@ -376,8 +372,7 @@ export function resolveChapterAtMasterTime(masterSec: number): {
   activeStepIndex: 0 | 1 | 2;
 } {
   const safeMaster = Number.isFinite(masterSec)
-    ? ((masterSec % TOTAL_MASTER_DURATION_SEC) + TOTAL_MASTER_DURATION_SEC) %
-      TOTAL_MASTER_DURATION_SEC
+    ? ((masterSec % TOTAL_MASTER_DURATION_SEC) + TOTAL_MASTER_DURATION_SEC) % TOTAL_MASTER_DURATION_SEC
     : 0;
   for (const ch of MOTION_PRESETS) {
     if (safeMaster >= ch.startSec && safeMaster < ch.endSec) {
@@ -387,7 +382,7 @@ export function resolveChapterAtMasterTime(masterSec: number): {
       return { chapter: ch, localSec, activeStepIndex };
     }
   }
-  const first = MOTION_PRESETS[0]!;
+  const first = MOTION_PRESETS[0];
   return { chapter: first, localSec: 0, activeStepIndex: 0 };
 }
 
@@ -696,11 +691,7 @@ function renderMotionFrame(
         ctx.textBaseline = "middle";
         ctx.fillStyle = studioEmerald;
         ctx.font = `700 13px ${monoFont}`;
-        ctx.fillText(
-          "AGENTES NEAR · 6 AUTONOMOUS AGENTS · OUTLAYER TDX",
-          leftX,
-          122 + yOff,
-        );
+        ctx.fillText("AGENTES NEAR · 6 AUTONOMOUS AGENTS · OUTLAYER TDX", leftX, 122 + yOff);
 
         const customParts = safeHeadline
           .split("/")
@@ -721,8 +712,8 @@ function renderMotionFrame(
           { word: "guard?", color: studioInk },
         ];
         const phaseIdx = progress < 0.17 ? 0 : progress < 0.34 ? 1 : 2;
-        const activeWord = cycleWords[phaseIdx] ?? cycleWords[0]!;
-        const localWordP = clamp01(((progress - phaseIdx * 0.17) / 0.08));
+        const activeWord = cycleWords[phaseIdx] ?? { word: customParts[2] ?? "make?", color: studioTerra };
+        const localWordP = clamp01((progress - phaseIdx * 0.17) / 0.08);
         const pillScale = 0.88 + 0.12 * easeOutBack(localWordP) + pulse * 0.03;
 
         ctx.font = `800 62px ${sansFont}`;
@@ -800,7 +791,7 @@ function renderMotionFrame(
         for (let r = 0; r < 5; r++) {
           ctx.fillStyle = r === 2 ? studioTerra : studioEmerald;
           const yBase = 88 + r * 86;
-          for (let x = -dimSpan + (r * 75) % dimSpan; x < w + dimSpan; x += dimSpan) {
+          for (let x = -dimSpan + ((r * 75) % dimSpan); x < w + dimSpan; x += dimSpan) {
             ctx.fillText(dimPhrase, x, yBase);
           }
         }
@@ -977,8 +968,9 @@ function renderMotionFrame(
       ];
 
       for (let i = 0; i < nodes.length - 1; i++) {
-        const a = nodes[i]!;
-        const b = nodes[i + 1]!;
+        const a = nodes[i];
+        const b = nodes[i + 1];
+        if (!a || !b) continue;
         const edgeP = clamp01((progress - i * 0.12) / 0.2);
         ctx.strokeStyle = edgeP >= 1 ? crimson : navy;
         ctx.lineWidth = 4;
@@ -1302,11 +1294,7 @@ function renderMotionFrame(
             ctx.fillText("Slack for Teams & Autonomous NEAR Swarms", w * 0.5, h * 0.52);
             ctx.fillStyle = "#00EC97";
             ctx.font = `700 15px ${monoFont}`;
-            ctx.fillText(
-              "bun run check:near (8/8 PASS) · 13/13 NEAR Tracks · /ocelli",
-              w * 0.5,
-              h * 0.68,
-            );
+            ctx.fillText("bun run check:near (8/8 PASS) · 13/13 NEAR Tracks · /ocelli", w * 0.5, h * 0.68);
           }
         }
       }
@@ -1334,7 +1322,7 @@ export function AgentMotionStudio() {
     if (masterMode) {
       return resolveChapterAtMasterTime(masterTimeSec);
     }
-    const ch = MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0]!;
+    const ch = MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0];
     const ratio = clamp01(soloTimeSec / Math.max(1, ch.durationSec));
     const activeStepIndex: 0 | 1 | 2 = ratio < 0.34 ? 0 : ratio < 0.67 ? 1 : 2;
     return { chapter: ch, localSec: soloTimeSec, activeStepIndex };
@@ -1344,9 +1332,9 @@ export function AgentMotionStudio() {
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [soundOn, setSoundOn] = useState(false);
-  const [bpm, setBpm] = useState(MOTION_PRESETS[0]!.defaultBpm);
+  const [bpm, setBpm] = useState(MOTION_PRESETS[0].defaultBpm);
   const [paletteMode, setPaletteMode] = useState<PaletteMode>("preset");
-  const [headline, setHeadline] = useState(MOTION_PRESETS[0]!.defaultHeadline);
+  const [headline, setHeadline] = useState(MOTION_PRESETS[0].defaultHeadline);
   const [customHeadlineLocked, setCustomHeadlineLocked] = useState(false);
   const [miraPrompt, setMiraPrompt] = useState("");
   const [directorNote, setDirectorNote] = useState(
@@ -1390,7 +1378,7 @@ export function AgentMotionStudio() {
   };
 
   const applyAutoDirect = (item: (typeof AUTO_DIRECT_PROMPTS)[number]) => {
-    const preset = MOTION_PRESETS.find((p) => p.id === item.presetId) ?? MOTION_PRESETS[0]!;
+    const preset = MOTION_PRESETS.find((p) => p.id === item.presetId) ?? MOTION_PRESETS[0];
     const nextMaster = item.masterMode ?? true;
     setMasterMode(nextMaster);
     setTemplateId(preset.id);
@@ -1399,9 +1387,7 @@ export function AgentMotionStudio() {
     setPaletteMode(item.palette);
     setHeadline(item.headline);
     setCustomHeadlineLocked(false);
-    setDirectorNote(
-      `@mira Auto-Direct: "${item.label}" -> Ch ${preset.chapterNum} ${preset.name} @ ${item.bpm} BPM`,
-    );
+    setDirectorNote(`@mira Auto-Direct: "${item.label}" -> Ch ${preset.chapterNum} ${preset.name} @ ${item.bpm} BPM`);
     masterTimeRef.current = preset.startSec;
     soloTimeRef.current = 0;
     lastBeatIndexRef.current = -1;
@@ -1418,11 +1404,11 @@ export function AgentMotionStudio() {
 
     let targetChapter = activeChapter;
     if (lower.includes("slack") || lower.includes("lookbook") || lower.includes("fly")) {
-      targetChapter = MOTION_PRESETS[1]!;
+      targetChapter = MOTION_PRESETS[1];
     } else if (lower.includes("cutline") || lower.includes("pipeline") || lower.includes("node")) {
-      targetChapter = MOTION_PRESETS[2]!;
+      targetChapter = MOTION_PRESETS[2];
     } else if (lower.includes("1click") || lower.includes("swap") || lower.includes("solver")) {
-      targetChapter = MOTION_PRESETS[3]!;
+      targetChapter = MOTION_PRESETS[3];
     } else if (
       lower.includes("tdx") ||
       lower.includes("outlayer") ||
@@ -1430,28 +1416,23 @@ export function AgentMotionStudio() {
       lower.includes("zine") ||
       lower.includes("safe")
     ) {
-      targetChapter = MOTION_PRESETS[4]!;
+      targetChapter = MOTION_PRESETS[4];
     } else if (
       lower.includes("winner") ||
       lower.includes("corpus") ||
       lower.includes("terrace") ||
       lower.includes("x402")
     ) {
-      targetChapter = MOTION_PRESETS[5]!;
+      targetChapter = MOTION_PRESETS[5];
     } else if (
       lower.includes("finale") ||
       lower.includes("kpi") ||
       lower.includes("trust") ||
       lower.includes("quickstart")
     ) {
-      targetChapter = MOTION_PRESETS[6]!;
-    } else if (
-      lower.includes("hook") ||
-      lower.includes("pill") ||
-      lower.includes("wave") ||
-      lower.includes("make")
-    ) {
-      targetChapter = MOTION_PRESETS[0]!;
+      targetChapter = MOTION_PRESETS[6];
+    } else if (lower.includes("hook") || lower.includes("pill") || lower.includes("wave") || lower.includes("make")) {
+      targetChapter = MOTION_PRESETS[0];
     }
 
     let nextPalette: PaletteMode = paletteMode;
@@ -1474,9 +1455,7 @@ export function AgentMotionStudio() {
     setMasterTimeSec(targetChapter.startSec);
     setSoloTimeSec(0);
     setIsPlaying(true);
-    setDirectorNote(
-      `@mira directed Ch ${targetChapter.chapterNum} (${targetChapter.name}) @ ${nextBpm} BPM: "${raw}"`,
-    );
+    setDirectorNote(`@mira directed Ch ${targetChapter.chapterNum} (${targetChapter.name}) @ ${nextBpm} BPM: "${raw}"`);
     setMiraPrompt("");
   };
 
@@ -1484,8 +1463,7 @@ export function AgentMotionStudio() {
     if (!soundOn) {
       try {
         const AudioCtx =
-          window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         if (!audioCtxRef.current && AudioCtx) {
           audioCtxRef.current = new AudioCtx();
         }
@@ -1519,9 +1497,7 @@ export function AgentMotionStudio() {
 
     const drawFrameAtCurrentState = () => {
       if (masterMode) {
-        const { chapter, localSec, activeStepIndex: stepIdx } = resolveChapterAtMasterTime(
-          masterTimeRef.current,
-        );
+        const { chapter, localSec, activeStepIndex: stepIdx } = resolveChapterAtMasterTime(masterTimeRef.current);
         const chapterHeadline = customHeadlineLocked ? headline : chapter.defaultHeadline;
         renderMotionFrame(
           ctx,
@@ -1536,8 +1512,7 @@ export function AgentMotionStudio() {
           stepIdx,
         );
       } else {
-        const soloChapter =
-          MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0]!;
+        const soloChapter = MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0];
         const ratio = clamp01(soloTimeRef.current / Math.max(1, soloChapter.durationSec));
         const stepIdx: 0 | 1 | 2 = ratio < 0.34 ? 0 : ratio < 0.67 ? 1 : 2;
         renderMotionFrame(
@@ -1561,8 +1536,7 @@ export function AgentMotionStudio() {
 
       if (isPlaying && !reducedMotion) {
         if (masterMode) {
-          const nextMaster =
-            Math.max(0, masterTimeRef.current + dt) % TOTAL_MASTER_DURATION_SEC;
+          const nextMaster = Math.max(0, masterTimeRef.current + dt) % TOTAL_MASTER_DURATION_SEC;
           masterTimeRef.current = nextMaster;
           setMasterTimeSec(nextMaster);
 
@@ -1577,10 +1551,7 @@ export function AgentMotionStudio() {
             setDirectorNote(chapter.directorNote);
           }
 
-          const beatIdx = Math.max(
-            0,
-            Math.floor(localSec / (60 / Math.max(60, chapter.defaultBpm))),
-          );
+          const beatIdx = Math.max(0, Math.floor(localSec / (60 / Math.max(60, chapter.defaultBpm))));
           if (beatIdx !== lastBeatIndexRef.current) {
             lastBeatIndexRef.current = beatIdx;
             if (soundOn && audioCtxRef.current) {
@@ -1588,8 +1559,7 @@ export function AgentMotionStudio() {
             }
           }
         } else {
-          const soloChapter =
-            MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0]!;
+          const soloChapter = MOTION_PRESETS.find((p) => p.id === templateId) ?? MOTION_PRESETS[0];
           const nextSolo = Math.max(0, (soloTimeRef.current + dt) % soloChapter.durationSec);
           soloTimeRef.current = nextSolo;
           setSoloTimeSec(nextSolo);
@@ -1621,34 +1591,28 @@ export function AgentMotionStudio() {
     return () => {
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [
-    bpm,
-    customHeadlineLocked,
-    headline,
-    isPlaying,
-    masterMode,
-    paletteMode,
-    soundOn,
-    stageMode,
-    templateId,
-  ]);
+  }, [bpm, customHeadlineLocked, headline, isPlaying, masterMode, paletteMode, soundOn, stageMode, templateId]);
 
   const effectiveTimeSec = masterMode ? masterTimeSec : soloTimeSec;
-  const effectiveDurationSec = masterMode
-    ? TOTAL_MASTER_DURATION_SEC
-    : activeChapter.durationSec;
+  const effectiveDurationSec = masterMode ? TOTAL_MASTER_DURATION_SEC : activeChapter.durationSec;
   const beatNumber =
     Math.floor(
-      (masterMode
-        ? Math.max(0, masterTimeSec - activeChapter.startSec)
-        : soloTimeSec) /
-        (60 / Math.max(60, bpm)),
+      (masterMode ? Math.max(0, masterTimeSec - activeChapter.startSec) : soloTimeSec) / (60 / Math.max(60, bpm)),
     ) + 1;
 
-  const mp4Src =
-    mp4Variant === "demo-90s"
-      ? "/video/agentes-near-demo.mp4"
-      : "/video/agentes-near-x-teaser.mp4";
+  const mp4Src = mp4Variant === "demo-90s" ? "/video/agentes-near-demo.mp4" : "/video/agentes-near-x-teaser.mp4";
+
+  const captionVttUrl = useMemo(() => {
+    const toVttTime = (sec: number) => {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `00:${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}.000`;
+    };
+    const cues = MOTION_PRESETS.map(
+      (ch) => `${toVttTime(ch.startSec)} --> ${toVttTime(ch.endSec)}\n[${ch.voiceActor}] ${ch.voiceTranscript}`,
+    ).join("\n\n");
+    return `data:text/vtt;charset=utf-8,${encodeURIComponent(`WEBVTT\n\n${cues}\n`)}`;
+  }, []);
 
   return (
     <div className="ams-studio" data-testid="agent-motion-studio">
@@ -1761,7 +1725,7 @@ export function AgentMotionStudio() {
             className="ams-mira-input"
             value={miraPrompt}
             onChange={(e) => setMiraPrompt(e.target.value)}
-            placeholder="Prompt @mira to direct headline, chapter, BPM, or palette (e.g. 'OutLayer $25 TDX guard at 120 BPM zine')..."
+            placeholder="Direct @mira: headline, BPM, or chapter..."
             aria-label="Prompt @mira AI Video Director"
           />
           <button type="submit" data-testid="ams-mira-submit" className="ams-mira-submit">
@@ -1791,12 +1755,12 @@ export function AgentMotionStudio() {
       <div className="ams-master-timeline" data-testid="ams-master-timeline">
         <div className="ams-master-timeline__head">
           <span className="ams-master-timeline__title">
-            90s 60fps AI VIDEO MAKER MASTER · CH {activeChapter.chapterNum}{" "}
-            {activeChapter.name.toUpperCase()} ({activeChapter.timeRangeLabel})
+            90s 60fps AI VIDEO MAKER MASTER · CH {activeChapter.chapterNum} {activeChapter.name.toUpperCase()} (
+            {activeChapter.timeRangeLabel})
           </span>
           <span className="ams-master-timeline__clock">
-            {formatMmSs(masterTimeSec)} / 1:30 ({masterTimeSec.toFixed(1)}s /{" "}
-            {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) · Kokoro Michael + 120 BPM V-Drill Beat (-14 LUFS)
+            {formatMmSs(masterTimeSec)} / 1:30 ({masterTimeSec.toFixed(1)}s / {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) ·
+            Kokoro Michael + 120 BPM V-Drill Beat (-14 LUFS)
           </span>
         </div>
         <div className="ams-master-segments">
@@ -1817,6 +1781,7 @@ export function AgentMotionStudio() {
                 data-active={isCurrent ? "true" : "false"}
                 style={{ flexGrow: ch.durationSec }}
                 onClick={() => selectPreset(ch)}
+                aria-label={`Jump to ${ch.chapterNum} ${ch.name} (${ch.timeRangeLabel})`}
                 title={`Jump to ${ch.chapterNum} ${ch.name} (${ch.timeRangeLabel})`}
               >
                 <span
@@ -1827,7 +1792,7 @@ export function AgentMotionStudio() {
                   }}
                 />
                 <span className="ams-master-seg__label">
-                  <strong>{ch.chapterNum}</strong> {ch.name}
+                  <strong>{ch.chapterNum}</strong> <span>{ch.shortName}</span>
                 </span>
               </button>
             );
@@ -1883,13 +1848,14 @@ export function AgentMotionStudio() {
                   }
                 }}
                 onError={() => setVideoError(true)}
-              />
+              >
+                <track kind="captions" srcLang="en" label="English Narration" src={captionVttUrl} default />
+              </video>
               {videoError && (
                 <div className="ams-video-fallback">
                   <p>
                     Master MP4 (`{mp4Src}`) is rendering or syncing to public assets. Switch to the{" "}
-                    <strong>Interactive 60fps Agent Canvas</strong> above to preview all 7 chapters
-                    live right now.
+                    <strong>Interactive 60fps Agent Canvas</strong> above to preview all 7 chapters live right now.
                   </p>
                   <DitherButton tone="mint" size="sm" onClick={() => setStageMode("canvas")}>
                     Return to Live 60fps Canvas
@@ -1904,8 +1870,8 @@ export function AgentMotionStudio() {
 
           <div className="ams-stage-meta">
             <span>
-              Ch {activeChapter.chapterNum} {activeChapter.name} ({activeChapter.timeRangeLabel}) ·
-              Beat #{beatNumber} ({bpm} BPM)
+              Ch {activeChapter.chapterNum} {activeChapter.name} ({activeChapter.timeRangeLabel}) · Beat #{beatNumber} (
+              {bpm} BPM)
             </span>
             <span>{directorNote}</span>
           </div>
@@ -1972,12 +1938,9 @@ export function AgentMotionStudio() {
 
           <div className="ams-ctrl-group">
             <div className="ams-scrub-head">
-              <span className="ams-ctrl-label">
-                {masterMode ? "90s (1:30) Master Scrubber" : "Chapter Scrubber"}
-              </span>
+              <span className="ams-ctrl-label">{masterMode ? "90s (1:30) Master Scrubber" : "Chapter Scrubber"}</span>
               <span className="ams-scrub-time">
-                {formatMmSs(effectiveTimeSec)} / {formatMmSs(effectiveDurationSec)} (
-                {effectiveTimeSec.toFixed(1)}s)
+                {formatMmSs(effectiveTimeSec)} / {formatMmSs(effectiveDurationSec)} ({effectiveTimeSec.toFixed(1)}s)
               </span>
             </div>
             <input

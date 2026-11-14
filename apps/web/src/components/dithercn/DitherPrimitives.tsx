@@ -1,10 +1,6 @@
 import type React from "react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import {
-  bayerThreshold,
-  DITHER_TONE_HEX,
-  type DitherColorTone,
-} from "./DitherEngine";
+import { bayerThreshold, DITHER_TONE_HEX, type DitherColorTone } from "./DitherEngine";
 
 function joinClasses(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(" ");
@@ -115,7 +111,7 @@ export function BenchoRollingCounter({
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const p = Math.min(1, elapsed / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
+      const eased = 1 - (1 - p) ** 3;
       const next = startVal + (value - startVal) * eased;
       currentRef.current = next;
       setDisplay(next);
@@ -167,9 +163,11 @@ export interface DitherStatCardProps {
 function DitherSparklineCanvas({
   series,
   tone,
+  className = "dcn-stat__spark",
 }: {
   series: number[];
   tone: DitherColorTone;
+  className?: string;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -227,7 +225,7 @@ function DitherSparklineCanvas({
   }, [series, tone]);
 
   return (
-    <div className="dcn-stat__spark" aria-hidden="true">
+    <div className={className} aria-hidden="true">
       <canvas ref={canvasRef} />
     </div>
   );
@@ -241,50 +239,16 @@ export interface DitherSparklineProps {
   className?: string;
 }
 
-export function DitherSparkline({
-  series,
-  tone = "mint",
-  label,
-  valueText,
-  className,
-}: DitherSparklineProps) {
+export function DitherSparkline({ series, tone = "mint", label, valueText, className }: DitherSparklineProps) {
   return (
-    <div
-      className={joinClasses("dcn-sparkline-widget", className)}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 10,
-      }}
-    >
+    <div className={joinClasses("dcn-sparkline-widget", className)}>
       {(label || valueText) && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {label && (
-            <span
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: 11,
-                color: "rgba(186, 200, 232, 0.78)",
-              }}
-            >
-              {label}
-            </span>
-          )}
-          {valueText && (
-            <strong
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: 13,
-                color: "#f4f6fb",
-              }}
-            >
-              {valueText}
-            </strong>
-          )}
+        <div className="dcn-sparkline-widget__meta">
+          {label && <span className="dcn-sparkline-widget__label">{label}</span>}
+          {valueText && <strong className="dcn-sparkline-widget__value">{valueText}</strong>}
         </div>
       )}
-      <DitherSparklineCanvas series={series} tone={tone} />
+      <DitherSparklineCanvas series={series} tone={tone} className="dcn-sparkline-widget__canvas" />
     </div>
   );
 }
@@ -304,11 +268,7 @@ export function DitherStatCard({
   className,
 }: DitherStatCardProps) {
   const sentiment =
-    deltaDirection === "neutral" || deltaGood === "neutral"
-      ? "neutral"
-      : deltaDirection === deltaGood
-        ? "good"
-        : "bad";
+    deltaDirection === "neutral" || deltaGood === "neutral" ? "neutral" : deltaDirection === deltaGood ? "good" : "bad";
 
   return (
     <div className={joinClasses("dcn-stat", className)} data-tone={tone}>
@@ -323,12 +283,7 @@ export function DitherStatCard({
 
       <div className="dcn-stat__value">
         {typeof value === "number" ? (
-          <BenchoRollingCounter
-            value={value}
-            prefix={prefix}
-            suffix={suffix}
-            decimals={decimals}
-          />
+          <BenchoRollingCounter value={value} prefix={prefix} suffix={suffix} decimals={decimals} />
         ) : (
           <span>
             {prefix}
@@ -378,12 +333,14 @@ export function DitherGauge({
   const activeCount = Math.round(ratio * segments);
   const cx = size / 2;
   const cy = size / 2;
-  const radius = size * 0.39;
-  const startAngle = -215;
-  const sweepAngle = 250;
+  const compact = size <= 118;
+  const radius = size * (compact ? 0.41 : 0.39);
   const accent = DITHER_TONE_HEX[tone].accent;
+  const innerDiam = Math.max(48, Math.round(size * 0.62));
 
   const blocks = useMemo(() => {
+    const startAngle = -215;
+    const sweepAngle = 250;
     const out: Array<{
       x: number;
       y: number;
@@ -406,39 +363,25 @@ export function DitherGauge({
       });
     }
     return out;
-  }, [activeCount, cx, cy, radius, segments, startAngle, sweepAngle]);
+  }, [activeCount, cx, cy, radius, segments]);
 
-  const displayValue =
-    valueText ?? (showPercent ? `${Math.round(ratio * 100)}%` : String(value));
+  const displayValue = valueText ?? (showPercent ? `${Math.round(ratio * 100)}%` : String(value));
 
   return (
-    <div
-      className={joinClasses("dcn-gauge", className)}
-      data-tone={tone}
-      role="meter"
-      aria-label={label}
-      aria-valuemin={0}
-      aria-valuemax={max}
-      aria-valuenow={value}
-    >
+    <div className={joinClasses("dcn-gauge", className)} data-tone={tone} data-compact={compact ? "true" : undefined}>
+      <meter className="dcn-sr-only" min={0} max={max} value={value} aria-label={label}>
+        {displayValue}
+      </meter>
       <div className="dcn-gauge__dial" style={{ width: size, height: size }}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
           {blocks.map((b, i) => {
-            const fill = b.active
-              ? accent
-              : "currentColor";
-            const opacity = b.isLead
-              ? 1
-              : b.active
-                ? 0.65 + (i / segments) * 0.35
-                : b.ditherStep === 0
-                  ? 0.24
-                  : 0.11;
-            const w = b.isLead ? 5 : 4;
-            const h = b.isLead ? 13 : 10;
+            const fill = b.active ? accent : "currentColor";
+            const opacity = b.isLead ? 1 : b.active ? 0.65 + (i / segments) * 0.35 : b.ditherStep === 0 ? 0.24 : 0.11;
+            const w = b.isLead ? (compact ? 4 : 5) : compact ? 3.5 : 4;
+            const h = b.isLead ? (compact ? 11 : 13) : compact ? 8.5 : 10;
             return (
               <rect
-                key={i}
+                key={`${b.angle.toFixed(2)}-${b.x.toFixed(1)}`}
                 x={b.x - w / 2}
                 y={b.y - h / 2}
                 width={w}
@@ -451,7 +394,7 @@ export function DitherGauge({
             );
           })}
         </svg>
-        <div className="dcn-gauge__center">
+        <div className="dcn-gauge__center" style={{ paddingInline: Math.max(8, (size - innerDiam) / 2 + 2) }}>
           <span className="dcn-gauge__val">{displayValue}</span>
           {sublabel && <span className="dcn-gauge__sub">{sublabel}</span>}
         </div>
@@ -501,9 +444,7 @@ export function DitherProgressBar({
       {(label || valueText) && (
         <div className="dcn-progress__head">
           <span className="dcn-progress__label">{label}</span>
-          <span className="dcn-progress__val">
-            {valueText ?? `${Math.round(pct)}%`}
-          </span>
+          <span className="dcn-progress__val">{valueText ?? `${Math.round(pct)}%`}</span>
         </div>
       )}
       <div className="dcn-progress__track" style={{ height }}>
@@ -545,8 +486,7 @@ function buildDefaultHeatmapCells(totalDays: number): DitherHeatmapDatum[] {
   for (let i = 0; i < totalDays; i++) {
     const wave = Math.sin(i * 0.21) + Math.cos(i * 0.08);
     const burst = (i * 37 + 13) % 19;
-    const count =
-      burst > 14 ? 7 + (burst % 4) : wave > 0.65 ? 4 : wave > 0 ? 2 : burst > 8 ? 1 : 0;
+    const count = burst > 14 ? 7 + (burst % 4) : wave > 0.65 ? 4 : wave > 0 ? 2 : burst > 8 ? 1 : 0;
     const dayOffset = totalDays - 1 - i;
     out.push({
       date: `T-${dayOffset}d`,
@@ -583,10 +523,7 @@ export function DitherHeatmap({
     return normalized;
   }, [data, totalCells]);
 
-  const maxCount = useMemo(
-    () => Math.max(1, ...cells.map((c) => c.count)),
-    [cells],
-  );
+  const maxCount = useMemo(() => Math.max(1, ...cells.map((c) => c.count)), [cells]);
   const [hovered, setHovered] = useState<DitherHeatmapDatum | null>(null);
 
   const levelOf = (count: number): 0 | 1 | 2 | 3 | 4 => {
@@ -606,13 +543,13 @@ export function DitherHeatmap({
       </div>
 
       <div className="dcn-heatmap__scroll">
-        <div className="dcn-heatmap__grid" role="grid" aria-label={title}>
+        <div className="dcn-heatmap__grid">
           {cells.map((cell, i) => {
             const level = levelOf(cell.count);
             const hint = cell.label ?? `${cell.date ?? `Day ${i + 1}`}: ${cell.count} events`;
             return (
               <button
-                key={i}
+                key={cell.date ?? hint}
                 type="button"
                 className="dcn-heatmap__cell"
                 data-level={level}
@@ -629,7 +566,7 @@ export function DitherHeatmap({
       <div className="dcn-heatmap__foot">
         <span>
           {hovered
-            ? hovered.label ?? `${hovered.date ?? "Selected"}: ${hovered.count} signed receipts`
+            ? (hovered.label ?? `${hovered.date ?? "Selected"}: ${hovered.count} signed receipts`)
             : "Hover any cell to inspect daily ledger density"}
         </span>
         <span className="dcn-heatmap__legend" aria-hidden="true">
@@ -681,9 +618,9 @@ export function DitherUptimeBar({
         <span className="dcn-uptime__pct">{uptimePercent}</span>
       </div>
       <div className="dcn-uptime__bars">
-        {days.map((day, idx) => (
+        {days.map((day) => (
           <button
-            key={`${day.label}-${idx}`}
+            key={day.label}
             type="button"
             className="dcn-uptime__bar"
             data-status={day.status}
@@ -707,8 +644,7 @@ export function DitherUptimeBar({
 /* 8. DitherButton                                                            */
 /* -------------------------------------------------------------------------- */
 
-export interface DitherButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface DitherButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   tone?: DitherColorTone;
@@ -761,21 +697,9 @@ export interface DitherTabsProps {
   className?: string;
 }
 
-export function DitherTabs({
-  items,
-  value,
-  onChange,
-  tone = "blue",
-  ariaLabel = "Tabs",
-  className,
-}: DitherTabsProps) {
+export function DitherTabs({ items, value, onChange, tone = "blue", ariaLabel = "Tabs", className }: DitherTabsProps) {
   return (
-    <div
-      className={joinClasses("dcn-tabs", className)}
-      data-tone={tone}
-      role="tablist"
-      aria-label={ariaLabel}
-    >
+    <div className={joinClasses("dcn-tabs", className)} data-tone={tone} role="tablist" aria-label={ariaLabel}>
       {items.map((item) => {
         const selected = item.id === value;
         return (
@@ -789,9 +713,7 @@ export function DitherTabs({
             onClick={() => onChange(item.id)}
           >
             <span>{item.label}</span>
-            {item.badge !== undefined && (
-              <span className="dcn-tab__badge">{item.badge}</span>
-            )}
+            {item.badge !== undefined && <span className="dcn-tab__badge">{item.badge}</span>}
           </button>
         );
       })}
@@ -827,16 +749,19 @@ export function MdxcnFrame({
   const [showCode, setShowCode] = useState(false);
 
   return (
-    <section
-      className={joinClasses("mdx-frame", className)}
-      data-tone={tone}
-      style={style}
-      aria-label={title}
-    >
-      <span className="mdx-frame__corner" data-pos="tl" aria-hidden="true">+</span>
-      <span className="mdx-frame__corner" data-pos="tr" aria-hidden="true">+</span>
-      <span className="mdx-frame__corner" data-pos="bl" aria-hidden="true">+</span>
-      <span className="mdx-frame__corner" data-pos="br" aria-hidden="true">+</span>
+    <section className={joinClasses("mdx-frame", className)} data-tone={tone} style={style} aria-label={title}>
+      <span className="mdx-frame__corner" data-pos="tl" aria-hidden="true">
+        +
+      </span>
+      <span className="mdx-frame__corner" data-pos="tr" aria-hidden="true">
+        +
+      </span>
+      <span className="mdx-frame__corner" data-pos="bl" aria-hidden="true">
+        +
+      </span>
+      <span className="mdx-frame__corner" data-pos="br" aria-hidden="true">
+        +
+      </span>
 
       <div className="mdx-frame__header">
         <span className="mdx-frame__title">[ {title} ]</span>
@@ -844,11 +769,7 @@ export function MdxcnFrame({
           <div className="mdx-frame__controls">
             {badge && <span className="mdx-frame__badge">{badge}</span>}
             {codeContent && (
-              <button
-                type="button"
-                className="mdx-frame__toggle"
-                onClick={() => setShowCode((v) => !v)}
-              >
+              <button type="button" className="mdx-frame__toggle" onClick={() => setShowCode((v) => !v)}>
                 {showCode ? codeLabels[0] : codeLabels[1]}
               </button>
             )}
@@ -856,11 +777,7 @@ export function MdxcnFrame({
         )}
       </div>
 
-      {showCode && codeContent ? (
-        <pre className="mdx-frame__code">{codeContent}</pre>
-      ) : (
-        children
-      )}
+      {showCode && codeContent ? <pre className="mdx-frame__code">{codeContent}</pre> : children}
     </section>
   );
 }
@@ -1030,12 +947,7 @@ export function BenchoSloshSlider({
         onKeyDown={handleKeyDown}
       >
         <div className="slosh-slider__liquid" style={{ width: `${pct}%` }}>
-          <svg
-            className="slosh-slider__wave"
-            viewBox="0 0 100 36"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
+          <svg className="slosh-slider__wave" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />

@@ -1,3 +1,4 @@
+import { resolve, sep } from "node:path";
 import { createFcmPushSender } from "@agenteschat/adapters";
 import { MisconfiguredError, requestLocale } from "@agenteschat/engine";
 import { helpDocsUrl } from "@agenteschat/i18n/help";
@@ -5,6 +6,7 @@ import { appLocale } from "@agenteschat/i18n/locale";
 import type { AgentesModule, Edition, ModuleContext } from "@agenteschat/modules";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
+import type { Context } from "hono";
 import { serveStatic } from "hono/bun";
 import { requestId } from "hono/request-id";
 import composeFile from "../../../docker-compose.yml" with { type: "text" };
@@ -15,6 +17,7 @@ import { apiBodyLimit } from "./http/body-limit";
 import { errorPages } from "./http/error-page";
 import { apiError, domainErrorResponse, routeOf, validationHook } from "./http/errors";
 import { createLogger, type Logger, loggedPath } from "./logger";
+import { nearAppRoutes, nearPublicRoutes } from "./near/routes";
 import { accessRoutes } from "./routes/app/access";
 import { accountRoutes } from "./routes/app/account";
 import { actionRoutes } from "./routes/app/actions";
@@ -83,7 +86,6 @@ import { type AppsRouteOptions, registerAppsRoot, registerOauthRoutes } from "./
 import { pushRelayRoutes } from "./routes/push-relay";
 import { registerWaitlist } from "./routes/waitlist";
 import { registerRoutineHooks, registerWebhookReceiver, webhookAdminRoutes } from "./routes/webhooks";
-import { nearAppRoutes, nearPublicRoutes } from "./near/routes";
 import { zenAppRoutes } from "./zen/routes";
 
 export interface AppOptions {
@@ -375,10 +377,122 @@ export function createApp(options: AppOptions) {
   );
 
   if (options.webDir) {
+    const resolvedWebDir = resolve(options.webDir);
+    const videoRoot = resolve(resolvedWebDir, "video");
+    const openRangeChunkBytes = 2 * 1024 * 1024;
+
+    const handleVideoRequest = async (c: Context) => {
+      const reqPath = c.req.path;
+      if (!reqPath.startsWith("/video/")) {
+        return c.notFound();
+      }
+      let rel = reqPath.slice("/video/".length);
+      try {
+        rel = decodeURIComponent(rel);
+      } catch {
+        return c.text("Invalid video path", 400);
+      }
+      if (!rel || rel.includes("..") || rel.includes("\\") || rel.includes("\0")) {
+        return c.text("Invalid video path", 400);
+      }
+      const filePath = resolve(videoRoot, rel);
+      if (filePath === videoRoot || !filePath.startsWith(`${videoRoot}${sep}`)) {
+        return c.text("Forbidden", 403);
+      }
+      const file = Bun.file(filePath);
+      if (!(await file.exists())) {
+        return c.text("Not found", 404, { "cache-control": "no-store" });
+      }
+      const totalSize = file.size;
+      const contentType = filePath.endsWith(".webm") ? "video/webm" : "video/mp4";
+      const baseHeaders: Record<string, string> = {
+        "accept-ranges": "bytes",
+        "content-type": contentType,
+        "cache-control": "public, max-age=3600",
+      };
+
+      if (c.req.method === "HEAD") {
+        return new Response(null, {
+          status: 200,
+          headers: {
+            ...baseHeaders,
+            "content-length": String(totalSize),
+          },
+        });
+      }
+
+      const rangeHeader = c.req.header("range");
+      if (!rangeHeader) {
+        return new Response(file, {
+          status: 200,
+          headers: {
+            ...baseHeaders,
+            "content-length": String(totalSize),
+          },
+        });
+      }
+
+      if (totalSize === 0) {
+        return new Response(null, {
+          status: 416,
+          headers: { "content-range": "bytes */0" },
+        });
+      }
+
+      const match = /^bytes=(\d*)-(\d*)$/i.exec(rangeHeader.trim());
+      const startRaw = match?.[1] ?? "";
+      const endRaw = match?.[2] ?? "";
+      if (!match || (startRaw === "" && endRaw === "")) {
+        return new Response(null, {
+          status: 416,
+          headers: { "content-range": `bytes */${totalSize}` },
+        });
+      }
+
+      let start: number;
+      let end: number;
+      if (startRaw === "") {
+        const suffixLen = Number.parseInt(endRaw, 10);
+        if (!Number.isFinite(suffixLen) || suffixLen <= 0) {
+          return new Response(null, {
+            status: 416,
+            headers: { "content-range": `bytes */${totalSize}` },
+          });
+        }
+        start = Math.max(0, totalSize - suffixLen);
+        end = totalSize - 1;
+      } else {
+        start = Number.parseInt(startRaw, 10);
+        if (endRaw === "") {
+          end = Math.min(start + openRangeChunkBytes - 1, totalSize - 1);
+        } else {
+          end = Math.min(Number.parseInt(endRaw, 10), totalSize - 1);
+        }
+      }
+
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || start >= totalSize || end < start) {
+        return new Response(null, {
+          status: 416,
+          headers: { "content-range": `bytes */${totalSize}` },
+        });
+      }
+
+      const chunkSize = end - start + 1;
+      return new Response(file.slice(start, end + 1), {
+        status: 206,
+        headers: {
+          ...baseHeaders,
+          "content-range": `bytes ${start}-${end}/${totalSize}`,
+          "content-length": String(chunkSize),
+        },
+      });
+    };
+
     const assets = serveStatic({ root: options.webDir });
     // Client-side routing: unknown non-API paths render the web app.
     const spa = serveStatic({ root: options.webDir, path: "index.html" });
     const isApi = (path: string) => path.startsWith("/api/");
+    app.on(["GET", "HEAD"], "/video/*", handleVideoRequest);
     // The runner bundle (ADR 0025): always revalidated, JavaScript, and never the SPA when missing.
     app.get("/runner/*", async (c) => {
       const res = await assets(c, async () => {});
