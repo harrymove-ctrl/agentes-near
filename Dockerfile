@@ -10,7 +10,7 @@ COPY . .
 
 RUN bun install --frozen-lockfile \
  && mkdir -p apps/web/public/video \
- && bun -e "const fs = await import('node:fs'); for (const f of ['agentes-near-demo.mp4', 'agentes-near-x-teaser.mp4']) { const p = 'apps/web/public/video/' + f; const r = await fetch('https://github.com/harrymove-ctrl/agentes-near/releases/download/v3.0.0/' + f); if (!r.ok) throw new Error('HTTP ' + r.status + ' fetching ' + f); const buf = await r.arrayBuffer(); if (buf.byteLength < 1000000) throw new Error('Download too small: ' + buf.byteLength + ' bytes for ' + f); await Bun.write(p, buf); console.log('Downloaded', f, buf.byteLength, 'bytes'); }" \
+ && bun -e "const fs = await import('node:fs'); for (const f of ['agentes-near-demo.mp4', 'agentes-near-x-teaser.mp4']) { const p = 'apps/web/public/video/' + f; const r = await fetch('https://github.com/harrymove-ctrl/agentes-near/releases/download/v4.0.0/' + f); if (!r.ok) throw new Error('HTTP ' + r.status + ' fetching ' + f); const buf = await r.arrayBuffer(); if (buf.byteLength < 1000000) throw new Error('Download too small: ' + buf.byteLength + ' bytes for ' + f); await Bun.write(p, buf); console.log('Downloaded', f, buf.byteLength, 'bytes'); }" \
  && bun run --filter '@agenteschat/web' build \
  && bun build apps/server/runner/main.ts --target=node --banner '#!/usr/bin/env node' --outfile apps/web/dist/runner/agentes-runner.mjs \
  && chmod +x /app/scripts/start-prod.sh \

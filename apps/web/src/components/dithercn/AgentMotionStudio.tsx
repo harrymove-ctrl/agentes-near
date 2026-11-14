@@ -251,7 +251,7 @@ const AUTO_DIRECT_PROMPTS: Array<{
   masterMode?: boolean;
 }> = [
   {
-    label: "90s Full Showreel Master (60fps)",
+    label: "Play 7-Chapter Canvas Master (90s 60fps)",
     presetId: "things-moving",
     bpm: 97,
     palette: "preset",
@@ -1153,7 +1153,7 @@ function renderMotionFrame(
       ctx.fillText("@mira · AI Video Director · #motion-studio", cardX + 86, cardY + 38);
       ctx.fillStyle = "#5A6065";
       ctx.font = `500 14px ${monoFont}`;
-      ctx.fillText("90s Showreel + 3D Fly-Over Film · Dan Tranh + 808 V-Drill Beat", cardX + 86, cardY + 62);
+      ctx.fillText("90s AI Video Maker Master · Kokoro Michael + 120 BPM V-Drill Beat", cardX + 86, cardY + 62);
 
       ctx.fillStyle = fg;
       ctx.font = `600 23px ${sansFont}`;
@@ -1236,7 +1236,7 @@ function renderMotionFrame(
 
 export function AgentMotionStudio() {
   const [masterMode, setMasterMode] = useState<boolean>(true);
-  const [stageMode, setStageMode] = useState<StageMediaMode>("canvas");
+  const [stageMode, setStageMode] = useState<StageMediaMode>("mp4");
   const [mp4Variant, setMp4Variant] = useState<Mp4FilmVariant>("demo-90s");
   const [videoError, setVideoError] = useState<boolean>(false);
 
@@ -1264,7 +1264,7 @@ export function AgentMotionStudio() {
   const [customHeadlineLocked, setCustomHeadlineLocked] = useState(false);
   const [miraPrompt, setMiraPrompt] = useState("");
   const [directorNote, setDirectorNote] = useState(
-    "90s Showreel + 3D Fly-Over Film (V-Drill Beat) active: playing Chapters 01 to 07 seamlessly.",
+    "90s AI Video Maker Master (13 scenes, 60fps) active alongside 7 interactive canvas chapters.",
   );
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -1295,7 +1295,7 @@ export function AgentMotionStudio() {
         videoRef.current.currentTime =
           mp4Variant === "demo-90s"
             ? preset.startSec
-            : Math.min(59, (preset.startSec / TOTAL_MASTER_DURATION_SEC) * 60);
+            : Math.min(29, (preset.startSec / TOTAL_MASTER_DURATION_SEC) * 30);
         void videoRef.current.play();
       } catch {
         // Ignore seek error before metadata loads
@@ -1556,7 +1556,7 @@ export function AgentMotionStudio() {
 
   return (
     <div className="ams-studio" data-testid="agent-motion-studio">
-      {/* Top Mode Bar: Interactive 60fps Agent Canvas vs Watch 90s Showreel Film (MP4) */}
+      {/* Top Mode Bar: Interactive 60fps Agent Canvas vs Watch 90s AI Video Maker Film (MP4) */}
       <div className="ams-mode-bar">
         <div className="ams-mode-switch" role="tablist" aria-label="Motion Studio Stage Mode">
           <button
@@ -1580,7 +1580,7 @@ export function AgentMotionStudio() {
               setStageMode("mp4");
             }}
           >
-            Watch 90s Showreel + 3D Fly-Over Film (MP4)
+            Watch 90s AI Video Maker Film (MP4)
           </button>
         </div>
 
@@ -1611,7 +1611,7 @@ export function AgentMotionStudio() {
                   masterTimeRef.current = activeChapter.startSec + soloTimeSec;
                   setMasterTimeSec(masterTimeRef.current);
                   setDirectorNote(
-                    "90s Showreel + 3D Fly-Over Film (V-Drill Beat) active: playing Chapters 01 to 07 seamlessly.",
+                    "90s AI Video Maker Master (13 scenes, 60fps) active alongside 7 interactive canvas chapters.",
                   );
                 } else {
                   soloTimeRef.current = Math.max(0, masterTimeSec - activeChapter.startSec);
@@ -1623,7 +1623,7 @@ export function AgentMotionStudio() {
               }}
             >
               {masterMode
-                ? "Mode: 90s Full Showreel & 3D Fly-Over Film (V-Drill Beat)"
+                ? "Mode: 7-Chapter Full Canvas Loop (90s @ 120 BPM)"
                 : `Mode: Loop Ch ${activeChapter.chapterNum} (${activeChapter.name})`}
             </button>
           ) : (
@@ -1637,7 +1637,7 @@ export function AgentMotionStudio() {
                   setMp4Variant("demo-90s");
                 }}
               >
-                90s Showreel + 3D Fly-Over Film (V-Drill Beat)
+                90s Master Cut (AI Video Maker v0.3.2)
               </button>
               <button
                 type="button"
@@ -1691,16 +1691,16 @@ export function AgentMotionStudio() {
         </div>
       </div>
 
-      {/* 7-Chapter 90s (1:30) Showreel Master Timeline Bar */}
+      {/* 7-Chapter Interactive Canvas & 90s (1:30) AI Video Maker Timeline Bar */}
       <div className="ams-master-timeline" data-testid="ams-master-timeline">
         <div className="ams-master-timeline__head">
           <span className="ams-master-timeline__title">
-            90s 60fps SHOWREEL MASTER TIMELINE · CH {activeChapter.chapterNum}{" "}
+            90s 60fps AI VIDEO MAKER MASTER · CH {activeChapter.chapterNum}{" "}
             {activeChapter.name.toUpperCase()} ({activeChapter.timeRangeLabel})
           </span>
           <span className="ams-master-timeline__clock">
             {formatMmSs(masterTimeSec)} / 1:30 ({masterTimeSec.toFixed(1)}s /{" "}
-            {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) · Dan Tranh + 808 V-Drill Beat (-14 LUFS)
+            {TOTAL_MASTER_DURATION_SEC.toFixed(1)}s) · Kokoro Michael + 120 BPM V-Drill Beat (-14 LUFS)
           </span>
         </div>
         <div className="ams-master-segments">

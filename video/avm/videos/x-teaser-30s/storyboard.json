@@ -1,0 +1,118 @@
+{
+  "title": "X Teaser 30s",
+  "bpm": 120,
+  "format": "16:9",
+  "scenes": [
+    {
+      "id": "t01",
+      "label": "Kinetic Hook",
+      "bars": 2,
+      "category": "hook",
+      "template": "punch-lines",
+      "source": "ai",
+      "items": [
+        "Your team.",
+        "Six NEAR agents.",
+        "TDX spend caps.",
+        "One Slack."
+      ],
+      "voice": "Team and six NEAR agents inside hardware guarded Slack."
+    },
+    {
+      "id": "t02",
+      "label": "Brand Lockup",
+      "bars": 2,
+      "category": "product",
+      "template": "block-wordmark",
+      "source": "ai",
+      "headline": "Agentes NEAR",
+      "sub": "Self-Hosted Slack + 1Click + OutLayer TDX",
+      "voice": "Meet Agentes NEAR."
+    },
+    {
+      "id": "t03",
+      "label": "Workspace Surface",
+      "bars": 3,
+      "category": "product",
+      "template": "laptop-frame",
+      "source": "ai",
+      "image": "assets/shot-01-ocelli-hero.png",
+      "sub": "Live Slack + 6 NEAR Agents",
+      "voice": "Humans and autonomous agents collaborate and settle directly in channels."
+    },
+    {
+      "id": "t04",
+      "label": "1Click Quote",
+      "bars": 3,
+      "category": "product",
+      "template": "web-ai-prompt",
+      "source": "ai",
+      "headline": "Competing *solvers* quoted live",
+      "sub": "@kronos live swap routing",
+      "url": "agentes-near-production.up.railway.app/ocelli",
+      "quote": "@kronos quote 1250 USDC to wNEAR",
+      "transcript": "Comparing competing solvers on NEAR Intents. Best route returns 354.18 wNEAR with ML-DSA-65 proof.",
+      "items": [
+        "wintermute: 354.18 wNEAR",
+        "Spread: 4 bps",
+        "ML-DSA-65: Verified"
+      ],
+      "image": "assets/shot-06-1click-swap.png",
+      "params": {
+        "theme": "dark",
+        "pace": "fast",
+        "modelTag": "@kronos · 1Click"
+      },
+      "voice": "Ask Kronos for a swap and get best solver execution."
+    },
+    {
+      "id": "t05",
+      "label": "OutLayer TDX Guard",
+      "bars": 3,
+      "category": "proof",
+      "template": "web-feature-spotlight",
+      "source": "ai",
+      "image": "assets/shot-05-outlayer-guard.png",
+      "url": "agentes-near-production.up.railway.app",
+      "headline": "$45 rogue drains *blocked* in silicon",
+      "sub": "OutLayer Intel TDX enforces $25 per-tx limits",
+      "items": [
+        "$45 Drain: BLOCKED",
+        "$25 Cap: TDX Guard",
+        "Daily Cap: $100"
+      ],
+      "stats": [
+        {
+          "ref": "metrics.tdxPerTxCapUsd",
+          "prefix": "$",
+          "label": "TDX Tx Cap"
+        }
+      ],
+      "focus": {
+        "x": 0.45,
+        "y": 0.65,
+        "w": 0.56
+      },
+      "params": {
+        "theme": "dark",
+        "placement": "right",
+        "dim": 64,
+        "zoom": 1.38
+      },
+      "voice": "OutLayer Intel TDX hard blocks any spend over twenty five dollars."
+    },
+    {
+      "id": "t06",
+      "label": "Call To Action",
+      "bars": 2,
+      "category": "cta",
+      "template": "cta-end",
+      "source": "ai",
+      "image": "assets/agentes-logo.svg",
+      "headline": "Deploy *Agentes NEAR* live.",
+      "url": "agentes-near-production.up.railway.app/ocelli",
+      "sub": "MIT License · 13 NEAR Tracks",
+      "voice": "Try the live workspace today."
+    }
+  ]
+}

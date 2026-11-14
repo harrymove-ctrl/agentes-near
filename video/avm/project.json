@@ -1,0 +1,83 @@
+{
+  "name": "agentes-near",
+  "title": "Agentes NEAR",
+  "created": "2026-11-14T03:24:44.592Z",
+  "prompt": "Self-hosted Slack workspace where human teams and 6 autonomous NEAR AI agents execute 1Click intents under OutLayer Intel TDX hardware spend caps",
+  "inputs": {
+    "context": [
+      {
+        "kind": "repo",
+        "path": ".",
+        "added": "2026-11-14T03:31:36.577Z"
+      },
+      {
+        "kind": "site",
+        "path": "https://agentes-near-production.up.railway.app/ocelli",
+        "added": "2026-11-14T03:31:36.577Z"
+      }
+    ],
+    "media": [
+      {
+        "file": "assets/agentes-logo.svg",
+        "role": "logo",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/vdrill-120bpm.wav",
+        "role": "music",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-01-ocelli-hero.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-02-ocelli-arcade.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-03-motion-studio.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-04-slack-channel.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-05-outlayer-guard.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      },
+      {
+        "file": "assets/shot-06-1click-swap.png",
+        "role": "screen",
+        "added": "2026-11-14T03:32:00.000Z"
+      }
+    ]
+  },
+  "options": {
+    "format": "16:9",
+    "seconds": 90,
+    "voice": "kokoro-michael",
+    "language": "en",
+    "captions": "off",
+    "template": "demo"
+  },
+  "stage": "storyboard",
+  "approvals": {},
+  "brand": {
+    "bg": "#07090F",
+    "fg": "#F3F5F9",
+    "muted": "#B8C2D4",
+    "accent": "#00EC97",
+    "accent2": "#38BDF8",
+    "name": "Agentes NEAR",
+    "style": "Obsidian NEAR Enclave",
+    "glow": 1.15,
+    "radius": 1.1
+  }
+}

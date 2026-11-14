@@ -1090,8 +1090,8 @@ export function OcelliLandingPage() {
                   <aside className="oc-live-ws__right">
                     <div className="oc-live-ws__video-card">
                       <div className="oc-live-ws__video-head">
-                        <span>90s 60FPS SHOWREEL + 3D FLY-OVER FILM (V-DRILL BEAT)</span>
-                        <span className="oc-track-ev">7 ACTS</span>
+                        <span>90s 60FPS AI VIDEO MAKER MASTER (V-DRILL BEAT)</span>
+                        <span className="oc-track-ev">13 SCENES</span>
                       </div>
                       <video
                         className="oc-live-ws__video"
@@ -1111,7 +1111,7 @@ export function OcelliLandingPage() {
                             ?.scrollIntoView({ behavior: "smooth" })
                         }
                       >
-                        90s Showreel + 3D Fly-Over Film (V-Drill Beat) ↓
+                        90s AI Video Maker Film + Interactive Canvas ↓
                       </button>
                     </div>
 
@@ -1623,16 +1623,16 @@ export function OcelliLandingPage() {
         </div>
       </section>
 
-      {/* 90s Showreel + 3D Fly-Over Film (V-Drill Beat) & @mira AI Video Director */}
+      {/* 90s AI Video Maker Master Film (120 BPM V-Drill Beat) & @mira Interactive Canvas */}
       <section className="oc-band oc-band--tinted" id="motion-studio">
         <div className="oc-container">
           <div className="oc-band-head">
-            <p className="oc-eyebrow">90s 60fps Showreel & 3D Fly-Over Film (V-Drill Beat) · @mira AI Director</p>
-            <h2 className="oc-h2">Direct the 7-chapter Agentes NEAR promo talk &amp; step-by-step demo.</h2>
+            <p className="oc-eyebrow">90s 60fps AI Video Maker Master (v0.3.2) · @mira Interactive Canvas</p>
+            <h2 className="oc-h2">Watch the 13-scene Agentes NEAR master film or direct the 60fps canvas.</h2>
             <p className="oc-lede">
-              Prompt @mira to customize headlines and jump across all 7 chapters on the 90-second
-              (1:30) showreel timeline, switch between the live 60fps Canvas2D engine and the
-              90s Showreel + 3D Fly-Over Film (MP4), and play the Dan Tranh + 808 V-Drill Beat instrumental.
+              Stream the 90-second (1:30) 60fps AI Video Maker cut or 30-second X teaser narrated by
+              Kokoro Michael over our 120 BPM Dan Tranh + 808 V-Drill beat (-14 LUFS), or toggle the
+              interactive 60fps Canvas2D sequencer powered by @mira.
             </p>
           </div>
 

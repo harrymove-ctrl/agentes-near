@@ -479,7 +479,7 @@ export function NearControlModal({
                 label: "Corpus Endowment",
                 count: endowment ? Math.round(endowment.runwayHours) : undefined,
               },
-              { value: "film", label: "90s Showreel + 3D Fly-Over Film (V-Drill Beat)" },
+              { value: "film", label: "90s AI Video Maker Master (120 BPM V-Drill)" },
             ]}
           >
             <TabPanel value="enclave">
@@ -1020,8 +1020,8 @@ export function NearControlModal({
             <TabPanel value="film">
               <div className="near-modal__panel" data-testid="near-film-panel">
                 <MdxcnFrame
-                  title="AGENTES NEAR · 90s 60FPS SHOWREEL + 3D FLY-OVER FILM (V-DRILL BEAT)"
-                  badge="7 CHAPTERS · DAN TRANH + 808 SCORE"
+                  title="AGENTES NEAR · 90s 60FPS AI VIDEO MAKER MASTER (120 BPM V-DRILL)"
+                  badge="13 SCENES · KOKORO MICHAEL + DAN TRANH 808"
                   tone="purple"
                 >
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1035,8 +1035,9 @@ export function NearControlModal({
                       }}
                     >
                       <p className="near-modal__lead" style={{ margin: 0 }}>
-                        Watch the 90s 60fps Showreel & 3D Fly-Over Film (V-Drill Beat) directed by <strong>@mira</strong> with
-                        3 English voices (Alex, @ada, @kronos) covering NEAR Intents 1Click, OutLayer Intel TDX,
+                        Watch the 90s 60fps master demo film authored in AI Video Maker (avm v0.3.2, 13 scenes,
+                        Obsidian NEAR Enclave theme) narrated by Kokoro Michael over an original 120 BPM Dan Tranh + 808
+                        V-Drill beat (-14 LUFS), covering NEAR Intents 1Click, OutLayer Intel TDX hardware spend caps,
                         Terrace conviction markets, and Corpus x402 compute.
                       </p>
                       <a
@@ -1071,8 +1072,8 @@ export function NearControlModal({
                     </div>
 
                     <div className="near-result-box__meta">
-                      <span>Duration: 1:30 (90.0s · 1920x1080 · 60fps)</span>
-                      <span>Audio: 3 English Voices + Dan Tranh V-Drill Beat (-14 LUFS)</span>
+                      <span>Duration: 1:30 (90.0s master + 30.0s X teaser · 1920x1080 · 60fps)</span>
+                      <span>Audio: Kokoro Michael + 120 BPM Dan Tranh V-Drill Beat (-14 LUFS)</span>
                       <a
                         href="/video/agentes-near-x-teaser.mp4"
                         target="_blank"
