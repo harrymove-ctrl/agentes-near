@@ -5,278 +5,72 @@
   "scenes": [
     {
       "id": "s01",
-      "label": "Agent Swarm Hook",
-      "bars": 3,
+      "label": "Tactile Studio Hook",
+      "bars": 5,
       "category": "hook",
-      "template": "orb-swarm",
+      "template": "custom",
       "source": "ai",
-      "items": [
-        "Your team",
-        "Six agents",
-        "NEAR 1Click",
-        "Intel TDX",
-        "Zero leakage",
-        "One Slack"
-      ],
-      "voice": "Human teams and six NEAR agents share one workspace."
+      "voice": "Your team and six NEAR agents, sharing one Slack workspace."
     },
     {
       "id": "s02",
-      "label": "The Production Gap",
-      "bars": 3,
-      "category": "problem",
-      "template": "problem-list",
+      "label": "3D Studio Page Fly-Over",
+      "bars": 7,
+      "category": "product",
+      "template": "custom",
+      "transition": "cut",
+      "image": "assets/shot-01-ocelli-hero.png",
       "source": "ai",
-      "headline": "Why AI agents *stall* before production",
-      "items": [
-        "No hardware spend caps",
-        "Brittle single solver routing",
-        "Opaque private agent logs",
-        "Fragmented external tools"
-      ],
-      "voice": "Unbounded keys, brittle swaps, and silos break production agents."
+      "voice": "Every channel, solver auction, and enclave guard lives inside one live console."
     },
     {
       "id": "s03",
-      "label": "Wordmark Reveal",
-      "bars": 2,
+      "label": "Execution Pipeline Diagram",
+      "bars": 6,
       "category": "product",
-      "template": "block-wordmark",
+      "template": "custom",
       "source": "ai",
-      "headline": "Agentes NEAR",
-      "sub": "Self-Hosted Slack + 1Click + OutLayer TDX",
-      "voice": "Meet Agentes NEAR, unified in one workspace."
+      "voice": "Mention an agent to route swaps behind deterministic hardware policy caps."
     },
     {
       "id": "s04",
-      "label": "Ocelli Surface",
-      "bars": 4,
+      "label": "Live 1Click Solver Auction",
+      "bars": 7,
       "category": "product",
-      "template": "laptop-frame",
+      "template": "custom",
+      "image": "assets/shot-06-1click-swap.png",
       "source": "ai",
-      "image": "assets/shot-01-ocelli-hero.png",
-      "sub": "Ocelli + Live NEAR Workspace",
-      "voice": "One self hosted console runs chat, solvers, and hardware custody together."
+      "voice": "Agents race live OneClick solvers for best execution inside your channel."
     },
     {
       "id": "s05",
-      "label": "Channel Orchestration",
-      "bars": 4,
-      "category": "product",
-      "template": "screen-flythrough",
+      "label": "OutLayer Intel TDX Guard",
+      "bars": 8,
+      "category": "proof",
+      "template": "custom",
+      "image": "assets/shot-05-outlayer-guard.png",
       "source": "ai",
-      "image": "assets/shot-04-slack-channel.png",
-      "headline": "Mention *agents* directly inside #near-intents-arena",
-      "focus": {
-        "x": 0.48,
-        "y": 0.62,
-        "w": 0.56
-      },
-      "voice": "Mention Kronos or Ada inside open channels to quote cross chain routes."
+      "voice": "OutLayer Intel TDX approves twelve dollar trades and blocks forty five dollar drains."
     },
     {
       "id": "s06",
-      "label": "1Click Multi-Solver",
-      "bars": 4,
+      "label": "Compute & Conviction Arena",
+      "bars": 6,
       "category": "product",
-      "template": "web-ai-prompt",
+      "template": "custom",
+      "image": "assets/shot-02-ocelli-arcade.png",
       "source": "ai",
-      "headline": "Competing *solvers* quoted live",
-      "sub": "1Click auction + NIST FIPS 204 ML-DSA-65 proof",
-      "url": "agentes-near-production.up.railway.app/ocelli",
-      "quote": "@kronos swap 1250 USDC to wNEAR with TDX proof",
-      "transcript": "Querying competing solvers across NEAR Intents. Winning fill settles 354.18 wNEAR with deterministic post quantum receipt.",
-      "items": [
-        "1click: 367.731 wNEAR",
-        "wintermute: 4 bps spread",
-        "ML-DSA-65: 100% verified",
-        "Channel: #near-intents-arena"
-      ],
-      "stats": [
-        {
-          "ref": "metrics.liveQuoteWnear",
-          "suffix": " wNEAR",
-          "label": "Best 1Click"
-        }
-      ],
-      "image": "assets/shot-06-1click-swap.png",
-      "params": {
-        "theme": "dark",
-        "pace": "normal",
-        "modelTag": "@kronos · 1Click"
-      },
-      "voice": "Agents query competing solvers together, settling with post quantum proof."
+      "voice": "Corpus compute streams H100 nodes while Terrace markets price agent accuracy."
     },
     {
       "id": "s07",
-      "label": "Settlement Trace",
-      "bars": 3,
-      "category": "product",
-      "template": "agent-steps",
-      "source": "ai",
-      "headline": "Verifiable *intent* execution pipeline",
-      "items": [
-        "Signing NEP-413 payload > Signed",
-        "Checking OutLayer TDX cap > $12 Pass",
-        "Routing 1Click solver bid > 4 bps",
-        "Verifying ML-DSA-65 ledger > 100% Valid"
-      ],
-      "sub": "Zero blind trust from chat to chain",
-      "voice": "Every message, quote, and settlement carries hardware verification."
-    },
-    {
-      "id": "s08",
-      "label": "Intel TDX Architecture",
-      "bars": 4,
-      "category": "product",
-      "template": "dimensional-drawing",
-      "source": "ai",
-      "headline": "OutLayer *Intel TDX* hardware guardrails",
-      "sub": "Silicon policy enforced outside agent weights",
-      "items": [
-        "Per Tx Guard: $25 hard cap enforced in silicon",
-        "Rogue Block: $45 drain rejected cleanly",
-        "Daily Ceiling: $100 rolling agent allowance",
-        "WASI Target: 4110 fuel deterministic sandbox"
-      ],
-      "stats": [
-        {
-          "ref": "metrics.tdxPerTxCapUsd",
-          "prefix": "$",
-          "label": "Per Tx Cap"
-        },
-        {
-          "ref": "metrics.tdxDailyCapUsd",
-          "prefix": "$",
-          "label": "Daily Limit"
-        }
-      ],
-      "params": {
-        "blueprint": "architecture-pipeline",
-        "theme": "brand",
-        "camera": "guided"
-      },
-      "voice": "Intel TDX enclaves enforce twenty five dollar caps before keys ever sign."
-    },
-    {
-      "id": "s09",
-      "label": "OutLayer TDX Proof",
-      "bars": 4,
-      "category": "proof",
-      "template": "web-feature-spotlight",
-      "source": "ai",
-      "image": "assets/shot-05-outlayer-guard.png",
-      "url": "agentes-near-production.up.railway.app",
-      "headline": "$45 rogue drains *blocked* at hardware",
-      "sub": "Live WASI fuel and NEP-413 rejection telemetry",
-      "items": [
-        "$45 Drain: BLOCKED",
-        "$25 Cap: ENFORCED",
-        "WASI Fuel: 4110"
-      ],
-      "stats": [
-        {
-          "ref": "metrics.tdxBlockedRogueUsd",
-          "prefix": "$",
-          "label": "Blocked Rogue"
-        }
-      ],
-      "focus": {
-        "x": 0.45,
-        "y": 0.65,
-        "w": 0.56
-      },
-      "params": {
-        "theme": "dark",
-        "placement": "right",
-        "dim": 64,
-        "zoom": 1.38
-      },
-      "voice": "Rogue forty five dollar transfers fail cleanly with cryptographic rejection receipts."
-    },
-    {
-      "id": "s10",
-      "label": "Endowment & Arena",
-      "bars": 4,
-      "category": "product",
-      "template": "web-browser-arc",
-      "source": "ai",
-      "headline": "Endowment compute & *conviction* markets",
-      "sub": "Self funding H100 inference at $1.84/hr paired with Terrace pools",
-      "url": "agentes.near/ocelli",
-      "items": [
-        "#near-intents-arena",
-        "Corpus x402 ($1.84/hr)",
-        "Terrace 85% BACK",
-        "Block #277602026"
-      ],
-      "image": "assets/shot-02-ocelli-arcade.png",
-      "focus": {
-        "x": 0.08,
-        "y": 0.45,
-        "w": 0.84
-      },
-      "params": {
-        "theme": "dark",
-        "sidebar": "hidden",
-        "entrance": "tilt-3d"
-      },
-      "voice": "Corpus x402 yields fund H100 inference while Terrace tracks accuracy."
-    },
-    {
-      "id": "s11",
-      "label": "Reproducible CLI Audit",
-      "bars": 4,
-      "category": "proof",
-      "template": "terminal-simulator",
-      "source": "ai",
-      "headline": "Reproducible *NEAR* endpoint verification",
-      "sub": "bun, docker, railway",
-      "code": "$ bun run check:near\n✓ Live Health + OutLayer TDX OK\n✓ 1Click Quote: 367.731 wNEAR (4 bps)\n✓ Enclave Guard: $12 PASS / $45 BLOCKED\n✓ Terrace Arena + x402 Pool: 8/8 PASS",
-      "voice": "One command verifies all eight live NEAR and OutLayer endpoints."
-    },
-    {
-      "id": "s12",
-      "label": "Measured Totals",
-      "bars": 3,
-      "category": "proof",
-      "template": "stats-counters",
-      "source": "ai",
-      "headline": "Measured across *one* unified runtime",
-      "stats": [
-        {
-          "ref": "counts.tracksCovered",
-          "label": "NEAR Tracks"
-        },
-        {
-          "ref": "counts.autonomousAgents",
-          "label": "AI Agents"
-        },
-        {
-          "ref": "metrics.tdxPerTxCapUsd",
-          "prefix": "$",
-          "label": "TDX Tx Cap"
-        },
-        {
-          "ref": "metrics.pqVerifyPct",
-          "suffix": "%",
-          "label": "PQ Verified"
-        }
-      ],
-      "voice": "Thirteen tracks, six agents, hardware spend caps, one hundred percent verified."
-    },
-    {
-      "id": "s13",
-      "label": "Deploy Live CTA",
-      "bars": 3,
+      "label": "Proof & Studio Lockup",
+      "bars": 6,
       "category": "cta",
-      "template": "cta-end",
+      "template": "custom",
+      "image": "assets/shot-03-motion-studio.png",
       "source": "ai",
-      "image": "assets/agentes-logo.svg",
-      "headline": "Deploy your *autonomous* NEAR team.",
-      "url": "agentes-near-production.up.railway.app/ocelli",
-      "sub": "MIT License · Live Sandbox · github.com/harrymove-ctrl/agentes-near",
-      "voice": "Try Agentes NEAR live today on Railway."
+      "voice": "Deploy Agentes NEAR live, verified with post quantum receipts."
     }
   ]
 }

@@ -8,7 +8,7 @@ Prepared for **Agentes NEAR** (`https://github.com/harrymove-ctrl/agentes-near`)
 | --- | --- | --- |
 | Public GitHub Repo | `https://github.com/harrymove-ctrl/agentes-near` with root `LICENSE` | Live & pushed (`harrymove-ctrl`) |
 | Hosted Live URL | `https://agentes-near-production.up.railway.app/ocelli` | Live on Railway (HTTP 200) |
-| Demo Video | AI Video Maker (`avm` v0.3.2) 1080p 60fps MP4 (`demo-90` 90.0s 13-scene master + `x-teaser-30s` 30.0s 6-scene X teaser, Kokoro Michael voice + 120 BPM Dan Tranh, Sao Truc, and 808 V-Drill beat at -14 LUFS) | Rendered and QA verified (`v4.0.0` release assets + `/video/*.mp4`) |
+| Demo Video | AI Video Maker (`avm` v5.0.0) 1080p 60fps MP4 (`demo-90` 90.0s 7-scene Warm Studio Bone + Obsidian Enclave master: tactile elastic pill + kinetic wave hook, continuous CSS-3D landing-page fly-over, Cutline 4-node pipeline, zoomed 1Click solver workspace, OutLayer Intel TDX `$25` guard, x402 + Terrace conviction arena, and KPI proof lockup, plus `x-teaser-30s` 30.0s 5-scene X teaser, Kokoro Michael voice + 120 BPM Dan Tranh, Sao Truc, and 808 V-Drill beat at -14 LUFS) | Rendered and QA verified (`v5.0.0` release assets + `/video/*.mp4`) |
 | X Demo Post | Published manually by human lead with video attached | Ready to paste below |
 | API Submission | `POST https://nearhackathon.com/api/applications` confirmed explicitly by human | Never auto-submitted |
 
@@ -26,7 +26,7 @@ Built Agentes NEAR at NEAR HACKATHON: self-hosted Slack where human teams and au
 
 Live demo: https://agentes-near-production.up.railway.app/ocelli
 Code: https://github.com/harrymove-ctrl/agentes-near
-Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v4.0.0
+Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v5.0.0
 ```
 
 ## Official Submission API Payload Template

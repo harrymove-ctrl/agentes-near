@@ -70,14 +70,14 @@
   "stage": "storyboard",
   "approvals": {},
   "brand": {
-    "bg": "#07090F",
-    "fg": "#F3F5F9",
-    "muted": "#B8C2D4",
-    "accent": "#00EC97",
-    "accent2": "#38BDF8",
+    "bg": "#F6F3EC",
+    "fg": "#12151C",
+    "muted": "#465061",
+    "accent": "#067A4B",
+    "accent2": "#BE3A1A",
     "name": "Agentes NEAR",
-    "style": "Obsidian NEAR Enclave",
-    "glow": 1.15,
-    "radius": 1.1
+    "style": "Warm Tactile Studio + Obsidian NEAR Enclave",
+    "glow": 0,
+    "radius": 1.15
   }
 }

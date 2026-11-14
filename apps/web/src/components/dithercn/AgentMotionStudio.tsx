@@ -55,190 +55,190 @@ export const MOTION_PRESETS: MotionChapterMeta[] = [
     id: "things-moving",
     chapterNum: "01",
     testId: "ams-chapter-01",
-    name: "15s Motion Showreel",
-    tag: "0:00-0:15 · 97 BPM V-Drill Beat",
-    timeRangeLabel: "0:00-0:15",
+    name: "Tactile Pill & Wave Hook",
+    tag: "0:00-0:10 · 120 BPM Warm Studio",
+    timeRangeLabel: "0:00-0:10",
     startSec: 0,
-    endSec: 15,
-    durationSec: 15,
-    defaultBpm: 97,
-    defaultHeadline: "AGENTES NEAR / SLACK FOR TEAMS / & AI SWARMS.",
+    endSec: 10,
+    durationSec: 10,
+    defaultBpm: 120,
+    defaultHeadline: "What will your / NEAR agents / make?",
     directorNote:
-      "97 BPM kinetic wave + 3D isometric UI bursts: 1Click 358.13 wNEAR, OutLayer $25/tx Cap, x402 H100 TEE, 38,420 $AGENTES Burn.",
-    accentColor: "#00EC97",
+      "Warm Studio Bone tactile pill hook (make? / swap? / guard?) into 2x opposite-sliding kinetic wave rows.",
+    accentColor: "#BE3A1A",
     voiceActor: "ALEX · FOUNDER",
     voiceColor: "#00EC97",
     steps: [
-      { num: "STEP 01", title: "3D Isometric UI Burst", metric: "97 BPM Beat" },
-      { num: "STEP 02", title: "1Click 358.13 wNEAR", metric: "+16 bps Edge" },
-      { num: "STEP 03", title: "OutLayer $25/tx Cap", metric: "V-Drill Beat" },
+      { num: "STEP 01", title: "Tactile Elastic Pill", metric: "120 BPM Spring" },
+      { num: "STEP 02", title: "Opposite Wave Rows", metric: "Canvas2D 60fps" },
+      { num: "STEP 03", title: "Obsidian Hook Lockup", metric: "6 Agents Ready" },
     ],
-    whatItIs: "Dynamic 15s motion-designer showreel combining kinetic waves with 3D isometric UI bursts.",
-    whyItHelps: "Hooks judges instantly with the product's core value props in a punchy 15-second opener.",
+    whatItIs: "Warm Studio Bone tactile elastic pill and opposite-sliding Canvas2D kinetic wave hook.",
+    whyItHelps: "Leads with clear visual craft before stepping straight into live NEAR agent workflows.",
     voiceTranscript:
-      "Agentes NEAR: one Slack workspace for humans and 6 autonomous NEAR agents on a V-Drill beat.",
+      "Six autonomous NEAR agents inside one Slack workspace, capped by Intel TDX.",
   },
   {
     id: "fitting-lookbook",
     chapterNum: "02",
     testId: "ams-chapter-02",
     name: "3D Studio Page Fly-Over",
-    tag: "0:15-0:30 · 110 BPM Fly-Over",
-    timeRangeLabel: "0:15-0:30",
-    startSec: 15,
-    endSec: 29,
+    tag: "0:10-0:24 · 120 BPM Fly-Over",
+    timeRangeLabel: "0:10-0:24",
+    startSec: 10,
+    endSec: 24,
     durationSec: 14,
-    defaultBpm: 110,
+    defaultBpm: 120,
     defaultHeadline: "One Slack. / Every agent.",
     directorNote:
-      "14.5s continuous studio-floor 3D camera fly-over of the Agentes NEAR landing page with lifted data-layer tiles.",
+      "Continuous 3D camera fly-over of the live /ocelli landing strip on a bright studio floor with 4 lifted agent logo tiles.",
     accentColor: "#2E4BFF",
     voiceActor: "ALEX · FOUNDER",
     voiceColor: "#00EC97",
     steps: [
-      { num: "STEP 01", title: "Studio Floor Fly-Over", metric: "56 deg Tilt" },
-      { num: "STEP 02", title: "Lifted Data-Layer Tiles", metric: "30-54 deg Stand" },
-      { num: "STEP 03", title: "Hero Card Dive", metric: "1018px Card" },
+      { num: "STEP 01", title: "Studio Floor Fly-Over", metric: "Zero Cuts" },
+      { num: "STEP 02", title: "4 Lifted Agent Tiles", metric: "Shallow DoF" },
+      { num: "STEP 03", title: "3-Column Slack Dive", metric: "Live Channel UI" },
     ],
-    whatItIs: "Continuous 3D camera fly-over of the Agentes NEAR landing page with lifted UI cards.",
-    whyItHelps: "Shows judges the full product surface in one seamless cinematic shot.",
+    whatItIs: "Continuous 3D camera fly-over of the live Agentes NEAR landing page on a studio floor.",
+    whyItHelps: "Shows the complete product surface in one seamless spatial camera move without filler.",
     voiceTranscript:
-      "One Slack, every agent: @ada, @kronos, @theo, @lia, @mira, and @zen coordinate in open channels.",
-  },
-  {
-    id: "yapp-99k",
-    chapterNum: "03",
-    testId: "ams-chapter-03",
-    name: "99K Intents Hook",
-    tag: "0:30-0:38 · 97 BPM Hook",
-    timeRangeLabel: "0:30-0:38",
-    startSec: 29,
-    endSec: 37,
-    durationSec: 8,
-    defaultBpm: 97,
-    defaultHeadline: "AGENTES NEAR / SLACK FOR TEAMS / & AI SWARMS.",
-    directorNote:
-      "Alex & Kronos stage the 3 fatal AI failures and 99K Intents hook live in Slack.",
-    accentColor: "#00EC97",
-    voiceActor: "ALEX · FOUNDER",
-    voiceColor: "#00EC97",
-    steps: [
-      { num: "STEP 01", title: "3 Fatal AI Failures", metric: "Siloed Bots" },
-      { num: "STEP 02", title: "Key Leak & Drain Risk", metric: "$0 Cap Guard" },
-      { num: "STEP 03", title: "99K Intents in Slack", metric: "22s Settlement" },
-    ],
-    whatItIs: "Autonomous NEAR AI agents working side-by-side with your team in Slack.",
-    whyItHelps: "Replaces fragmented terminal bots and raw private keys with one audited workspace.",
-    voiceTranscript:
-      "Your team and 6 autonomous NEAR agents in one Slack workspace, running 99K intents.",
+      "Glide across live agent channels, lifted protocol tiles, and drop straight into one workspace.",
   },
   {
     id: "cutline-flow",
-    chapterNum: "04",
-    testId: "ams-chapter-04",
-    name: "Step-by-Step 1Click Swaps",
-    tag: "0:38-0:50 · 116 BPM Timeline",
-    timeRangeLabel: "0:38-0:50",
-    startSec: 37,
-    endSec: 49,
+    chapterNum: "03",
+    testId: "ams-chapter-03",
+    name: "Cutline 4-Node Pipeline",
+    tag: "0:24-0:36 · 120 BPM Flow",
+    timeRangeLabel: "0:24-0:36",
+    startSec: 24,
+    endSec: 36,
     durationSec: 12,
-    defaultBpm: 116,
-    defaultHeadline: "1,250 USDC -> 358.1357 wNEAR (+16 bps)",
+    defaultBpm: 120,
+    defaultHeadline: "Prompt -> 1Click -> OutLayer TDX -> FIPS 204",
     directorNote:
-      "@ada demonstrates live 1Click cross-chain solver auctions beating Wintermute by +16 bps.",
-    accentColor: "#F2B01E",
+      "Cutline sequential 4-node flow: @mention trigger, 1Click Multi-Solver quote, OutLayer TDX $25 cap, and FIPS 204 receipt.",
+    accentColor: "#C2185B",
     voiceActor: "@ada · 1CLICK QUANT",
     voiceColor: "#38BDF8",
     steps: [
-      { num: "STEP 01", title: "Prompt @ada 1,250 USDC", metric: "#intents-arena" },
-      { num: "STEP 02", title: "1Click Solver Auction", metric: "358.1357 wNEAR" },
-      { num: "STEP 03", title: "22s Settlement + NEP-297", metric: "+16 bps Edge" },
+      { num: "STEP 01", title: "@mention -> 1Click", metric: "367.731 wNEAR" },
+      { num: "STEP 02", title: "OutLayer $25 Enclave", metric: "$45 Blocked" },
+      { num: "STEP 03", title: "FIPS 204 ML-DSA-65", metric: "Hash Chained" },
     ],
-    whatItIs: "Live NEAR Intents 1Click multi-solver auction routing directly from Slack.",
-    whyItHelps: "Delivers best execution across competing market makers with NEP-297 receipts.",
+    whatItIs: "Four-node Cutline execution diagram tracing intents from chat prompt to post-quantum proof.",
+    whyItHelps: "Clarifies how policy limits sit in silicon outside model weights or prompt memory.",
     voiceTranscript:
-      "@ada routes 1,250 USDC into 358.1357 wNEAR in 22 seconds, beating competing quotes by 16 bps.",
+      "Every @mention routes through 1Click quotes, OutLayer TDX caps, and FIPS 204 receipts.",
+  },
+  {
+    id: "yapp-99k",
+    chapterNum: "04",
+    testId: "ams-chapter-04",
+    name: "1Click Solver Workspace",
+    tag: "0:36-0:50 · 120 BPM Auction",
+    timeRangeLabel: "0:36-0:50",
+    startSec: 36,
+    endSec: 50,
+    durationSec: 14,
+    defaultBpm: 120,
+    defaultHeadline: "1,250 USDC -> 354.18 wNEAR (+16 bps)",
+    directorNote:
+      "Mention @kronos or @ada in #near-intents-arena to race live market makers in 22s finality.",
+    accentColor: "#067A4B",
+    voiceActor: "@ada · 1CLICK QUANT",
+    voiceColor: "#38BDF8",
+    steps: [
+      { num: "STEP 01", title: "1,250 USDC Dry Quote", metric: "367.731 wNEAR" },
+      { num: "STEP 02", title: "wintermute.near Fill", metric: "4 bps Spread" },
+      { num: "STEP 03", title: "Block 277,602,026", metric: "+16 bps Edge" },
+    ],
+    whatItIs: "Live NEAR Intents 1Click multi-solver auction racing market makers inside Slack.",
+    whyItHelps: "Replaces opaque bot scripts with transparent live solver spreads and NEP-297 receipts.",
+    voiceTranscript:
+      "Mention @kronos in Slack to route 1,250 USDC across live solvers in 22 seconds.",
   },
   {
     id: "molote-parche",
     chapterNum: "05",
     testId: "ams-chapter-05",
-    name: "Step-by-Step OutLayer TDX",
-    tag: "0:50-1:05 · 120 BPM Zine",
-    timeRangeLabel: "0:50-1:05",
-    startSec: 49,
-    endSec: 64,
-    durationSec: 15,
+    name: "OutLayer TDX $25 Guard",
+    tag: "0:50-1:06 · 120 BPM Silicon",
+    timeRangeLabel: "0:50-1:06",
+    startSec: 50,
+    endSec: 66,
+    durationSec: 16,
     defaultBpm: 120,
     defaultHeadline: "OUTLAYER TDX · $25.00/TX CAP · S A F E",
     directorNote:
-      "@kronos proves the $25.00/tx WASI policy: $12 approved in 4ms, $45 rogue drain blocked.",
+      "WASI hardware policy proves $12 safe intent approval in 42 ms while blocking $45 rogue drains.",
     accentColor: "#F05A28",
     voiceActor: "@kronos · OUTLAYER TDX",
     voiceColor: "#F59E0B",
     steps: [
-      { num: "STEP 01", title: "$25.00/tx WASI Guard", metric: "wasm32-wasip2" },
-      { num: "STEP 02", title: "$12.00 NEP-413 Approve", metric: "4ms Enclave OK" },
-      { num: "STEP 03", title: "$45.00 Drain Blocked", metric: "ML-DSA-65 Proof" },
+      { num: "STEP 01", title: "$12.00 Safe Intent", metric: "42 ms PASS" },
+      { num: "STEP 02", title: "$45.00 Rogue Drain", metric: "BLOCKED_CAP" },
+      { num: "STEP 03", title: "4,110 WASI Fuel", metric: "NEP-413 Signed" },
     ],
-    whatItIs: "Hardware-enforced $25.00 per-transaction ceiling inside Intel TDX enclaves.",
-    whyItHelps: "Even a prompt-injected agent can never drain treasury funds above your slider cap.",
+    whatItIs: "Hardware-enforced $25.00 per-transaction ceiling inside OutLayer Intel TDX enclaves.",
+    whyItHelps: "Even a compromised prompt can never spend past the live hardware slider cap.",
     voiceTranscript:
-      "OutLayer Intel TDX approves the $12 intent in 4ms and deterministically blocks the $45 rogue drain.",
+      "OutLayer Intel TDX signs safe $12 intents in 42 ms and deterministically blocks $45 drains.",
   },
   {
     id: "ai-tool-graph",
     chapterNum: "06",
     testId: "ams-chapter-06",
-    name: "Winner Mechanics",
-    tag: "1:05-1:14 · 118 BPM Hub",
-    timeRangeLabel: "1:05-1:14",
-    startSec: 64,
-    endSec: 73,
-    durationSec: 9,
-    defaultBpm: 118,
-    defaultHeadline: "Corpus x402 ($1.84/hr) + Terrace BACK 76¢ + Kanmani",
+    name: "x402 & Terrace Economy",
+    tag: "1:06-1:18 · 120 BPM Markets",
+    timeRangeLabel: "1:06-1:18",
+    startSec: 66,
+    endSec: 78,
+    durationSec: 12,
+    defaultBpm: 120,
+    defaultHeadline: "Corpus x402 ($1.84/hr) + 85% BACK Markets",
     directorNote:
-      "@ada walks through Corpus x402 H100 compute, Terrace conviction markets, and Kanmani escrow.",
+      "Corpus x402 streams $1.84/hr H100 TEE inference while Terrace 85% BACK markets burn $AGENTES on misses.",
     accentColor: "#4C82FF",
     voiceActor: "@ada · 1CLICK QUANT",
     voiceColor: "#38BDF8",
     steps: [
-      { num: "STEP 01", title: "Corpus $250K Endowment", metric: "$1.84/hr H100" },
-      { num: "STEP 02", title: "Terrace BACK YES 76¢", metric: "38,420 Burned" },
-      { num: "STEP 03", title: "Kanmani + Tab + NEP-171", metric: "Level 7 NFT" },
+      { num: "STEP 01", title: "Corpus x402 Compute", metric: "$1.84/hr H100" },
+      { num: "STEP 02", title: "Terrace Conviction", metric: "85% BACK Pool" },
+      { num: "STEP 03", title: "Retainer + FIPS 204", metric: "$240 Audited" },
     ],
-    whatItIs: "Four Monad Metropolis winner clusters adapted natively to NEAR protocol rails.",
-    whyItHelps: "Self-funds H100 TEE inference via x402 while rewarding accurate agent theses.",
+    whatItIs: "Autonomous x402 H100 compute pools paired with live in-chat Terrace conviction markets.",
+    whyItHelps: "Lets agent teams pay for verified TEE inference while pricing prediction accuracy on-chain.",
     voiceTranscript:
-      "Corpus streams $1.84/hr H100 TEE compute, Terrace burns 38,420 $AGENTES on misses, and Kanmani levels up NEP-171 NFTs.",
+      "Agents fund $1.84 per hour H100 compute via x402 and price accuracy live in Terrace pools.",
   },
   {
     id: "one-design-sting",
     chapterNum: "07",
     testId: "ams-chapter-07",
-    name: "Quickstart & ONE Lockup",
-    tag: "1:14-1:30 · 108 BPM Finale",
-    timeRangeLabel: "1:14-1:30",
-    startSec: 73,
+    name: "KPI Proof & Studio Lockup",
+    tag: "1:18-1:30 · 120 BPM Finale",
+    timeRangeLabel: "1:18-1:30",
+    startSec: 78,
     endSec: 90,
-    durationSec: 17,
-    defaultBpm: 108,
-    defaultHeadline: "ONE workspace · AGENTES NEAR 2026",
+    durationSec: 12,
+    defaultBpm: 120,
+    defaultHeadline: "Ship agent teams / you can [trust.]",
     directorNote:
-      "Alex closes with the 3-command local quickstart (`check:near` 8/8) and ONE Workspace finale.",
+      "Closing KPI lockup: 8/8 NEAR checks, 13/13 integration tests, 4 bps spread, 100% FIPS 204 verification.",
     accentColor: "#5B3FD6",
     voiceActor: "ALEX · FOUNDER",
     voiceColor: "#00EC97",
     steps: [
-      { num: "STEP 01", title: "git clone agentes-near", metric: "MIT Open Source" },
-      { num: "STEP 02", title: "bun run check:near", metric: "8/8 Probes PASS" },
-      { num: "STEP 03", title: "ONE Workspace Finale", metric: "13/13 Tracks" },
+      { num: "STEP 01", title: "bun run check:near", metric: "8/8 PASS" },
+      { num: "STEP 02", title: "Integration Suite", metric: "13/13 PASS" },
+      { num: "STEP 03", title: "Ship Trusted Swarms", metric: "100% FIPS 204" },
     ],
-    whatItIs: "Complete self-hosted Bun + PGlite + NEAR Intents + OutLayer TDX monorepo.",
-    whyItHelps: "Clone, verify all 8 live NEAR probes, and launch your team swarm in one minute.",
+    whatItIs: "Verified production KPI summary and Warm Studio Bone finale lockup for Agentes NEAR.",
+    whyItHelps: "Gives judges every reproducible CLI check and live Railway endpoint in one clear frame.",
     voiceTranscript:
-      "Run bun run check:near for 8 of 8 live checks. Agentes NEAR: one Slack workspace for humans and autonomous swarms.",
+      "Eight of eight NEAR checks passing, thirteen of thirteen tests green. Ship agent teams you can trust.",
   },
 ];
 
@@ -253,45 +253,45 @@ const AUTO_DIRECT_PROMPTS: Array<{
   {
     label: "Play 7-Chapter Canvas Master (90s 60fps)",
     presetId: "things-moving",
-    bpm: 97,
+    bpm: 120,
     palette: "preset",
-    headline: "AGENTES NEAR / SLACK FOR TEAMS / & AI SWARMS.",
+    headline: "What will your / NEAR agents / make?",
     masterMode: true,
   },
   {
-    label: "Ch 02: One Slack + 6 Agents",
+    label: "Ch 02: 3D Studio Fly-Over",
     presetId: "fitting-lookbook",
-    bpm: 110,
+    bpm: 120,
     palette: "cobalt-paper",
     headline: "One Slack. / Every agent.",
   },
   {
-    label: "Ch 03: 1Click 358.13 wNEAR",
+    label: "Ch 03: Cutline 4-Node Flow",
     presetId: "cutline-flow",
-    bpm: 116,
+    bpm: 120,
     palette: "preset",
-    headline: "1,250 USDC -> 358.1357 wNEAR (+16 bps)",
+    headline: "Prompt -> 1Click -> OutLayer TDX -> FIPS 204",
   },
   {
-    label: "Ch 04: OutLayer $25 TDX Guard",
+    label: "Ch 05: OutLayer $25 TDX Guard",
     presetId: "molote-parche",
     bpm: 120,
     palette: "zine-vermilion",
     headline: "OUTLAYER TDX · $25.00/TX CAP · S A F E",
   },
   {
-    label: "Ch 05: Winner Mechanics x402",
+    label: "Ch 06: x402 & Terrace Arena",
     presetId: "ai-tool-graph",
-    bpm: 118,
+    bpm: 120,
     palette: "preset",
-    headline: "Corpus x402 ($1.84/hr) + Terrace BACK 76¢ + Kanmani",
+    headline: "Corpus x402 ($1.84/hr) + 85% BACK Markets",
   },
   {
-    label: "Ch 07: ONE Workspace Finale",
+    label: "Ch 07: KPI Proof & Lockup",
     presetId: "one-design-sting",
-    bpm: 108,
+    bpm: 120,
     palette: "violet-tomato",
-    headline: "ONE workspace · AGENTES NEAR 2026",
+    headline: "Ship agent teams / you can [trust.]",
   },
 ];
 
@@ -328,13 +328,6 @@ const PALETTE_THEMES: Record<
     card: "#FFFFFF",
   },
 };
-
-const THINGS_MOVING_PALETTES = [
-  { bg: "#D8F8E8", fg: "#00A86B", accent: "#FF2E93" },
-  { bg: "#13294B", fg: "#74B3FF", accent: "#FF85B3" },
-  { bg: "#FDF6E9", fg: "#F05A28", accent: "#0F766E" },
-  { bg: "#1B4332", fg: "#A8F5C8", accent: "#FF6B9D" },
-];
 
 function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v;
@@ -654,97 +647,190 @@ function renderMotionFrame(
 
   switch (chapter.id) {
     /* ------------------------------------------------------------------ */
-    /* Ch 01. Problem & 99K Hook (0:00-0:34, 97 BPM Kinetic Wave + Rings) */
+    /* Ch 01. Tactile Warm Studio Pill + Kinetic Wave Hook (0:00-0:10)    */
     /* ------------------------------------------------------------------ */
     case "things-moving": {
-      const pair =
-        THINGS_MOVING_PALETTES[beatIndex % THINGS_MOVING_PALETTES.length] ??
-        THINGS_MOVING_PALETTES[0]!;
-      const bg = override ? override.bg : pair.bg;
-      const fg = override ? override.fg : pair.fg;
-      const accent = override ? override.accent : pair.accent;
+      const studioBg = override ? override.bg : "#F6F3EC";
+      const studioInk = override ? override.fg : "#12151C";
+      const studioEmerald = override ? override.accent : "#067A4B";
+      const studioTerra = override ? override.secondary : "#BE3A1A";
 
-      ctx.fillStyle = bg;
+      ctx.fillStyle = studioBg;
       ctx.fillRect(0, 0, w, h);
 
-      const wavePhrases = [
-        "THINGS ARE MOVING · AGENTES NEAR",
-        "YOUR TEAM + AI AGENTS · ONE SLACK",
-        "OUTLAYER INTEL TDX · $25 SPEND CAP",
-        "1CLICK MULTI-SOLVER · ZERO KEY LEAKS",
-      ];
+      // Soft peripheral geometric studio props (Warm Studio Bone depth of field)
+      ctx.save();
+      const floatA = Math.sin(safeTime * 1.4) * 5;
+      const floatB = Math.cos(safeTime * 1.2) * 6;
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = "rgba(242, 200, 75, 0.72)";
+      ctx.beginPath();
+      ctx.arc(76, 86 + floatA, 34, 0, Math.PI * 2);
+      ctx.stroke();
 
-      if (progress < 0.44) {
-        const rows = 7;
-        const rowH = h / rows;
-        ctx.font = `700 ${Math.round(rowH * 0.68)}px ${displayFont}`;
+      ctx.fillStyle = "rgba(242, 200, 75, 0.92)";
+      ctx.beginPath();
+      ctx.arc(w - 58, 92 - floatA, 74, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(242, 165, 160, 0.86)";
+      drawRoundedRect(ctx, -18, h - 138 + floatB, 190, 128, 22);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(29, 78, 216, 0.92)";
+      drawRoundedRect(ctx, w - 130, h - 142 - floatB, 146, 132, 24);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(190, 58, 26, 0.82)";
+      ctx.beginPath();
+      ctx.arc(w * 0.62, h - 78 + floatA * 0.8, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      if (progress < 0.52) {
+        const leftX = 76;
+        const blockIn = easeOutCubic(clamp01(progress / 0.14));
+        const yOff = (1 - blockIn) * 18;
+
+        ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        const phrase =
-          wavePhrases[beatIndex % wavePhrases.length] ??
-          (safeHeadline.split("/")[0]?.trim() || "THINGS ARE MOVING · AGENTES NEAR");
+        ctx.fillStyle = studioEmerald;
+        ctx.font = `700 13px ${monoFont}`;
+        ctx.fillText(
+          "AGENTES NEAR · 6 AUTONOMOUS AGENTS · OUTLAYER TDX",
+          leftX,
+          122 + yOff,
+        );
 
-        for (let r = 0; r < rows; r++) {
-          const isAccent = r === 3;
-          ctx.fillStyle = isAccent ? accent : fg;
-          const dir = isAccent ? -1 : 1;
-          const shift = ((safeTime * 165 * dir + r * 95) % 520) - 260;
-          const yBase = (r + 0.5) * rowH;
-
-          for (let c = -2; c <= 4; c++) {
-            const x = c * 520 + shift;
-            const waveY = Math.sin(x * 0.008 + safeTime * 4.2 + r * 0.6) * (12 + pulse * 10);
-            ctx.fillText(phrase.toUpperCase(), x, yBase + waveY);
-          }
-        }
-      } else if (progress < 0.74) {
-        const cx = w / 2;
-        const cy = h / 2;
-        const ringText = "AGENTES · NEAR · SLACK · FOR · TEAMS · ";
-        const radii = [100, 175, 250];
-
-        ctx.font = `700 40px ${displayFont}`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-
-        radii.forEach((rad, ri) => {
-          const spin = safeTime * (ri % 2 === 0 ? 0.85 : -0.72) + pulse * 0.08;
-          const count = 20 + ri * 6;
-          ctx.fillStyle = ri === 1 ? accent : fg;
-          for (let i = 0; i < count; i++) {
-            const a = (i / count) * Math.PI * 2 + spin;
-            const ch = ringText[i % ringText.length] ?? "A";
-            ctx.save();
-            ctx.translate(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad);
-            ctx.rotate(a + Math.PI / 2);
-            ctx.fillText(ch, 0, 0);
-            ctx.restore();
-          }
-        });
-      } else {
-        const rawParts = safeHeadline
+        const customParts = safeHeadline
           .split("/")
           .map((s) => s.trim())
           .filter(Boolean);
-        const lines = [
-          rawParts[0] ?? "AGENTES NEAR",
-          rawParts[1] ?? "SLACK FOR TEAMS",
-          rawParts[2] ?? "& AI SWARMS.",
+        const topLine = customParts[0] ?? "What will your";
+        const midLine = customParts[1] ?? "NEAR agents";
+
+        ctx.fillStyle = studioInk;
+        ctx.font = `800 66px ${sansFont}`;
+        ctx.fillText(topLine, leftX, 184 + yOff);
+        ctx.fillText(midLine, leftX, 258 + yOff);
+
+        const prefixW = ctx.measureText(midLine).width;
+        const cycleWords = [
+          { word: customParts[2] ?? "make?", color: studioTerra },
+          { word: "swap?", color: studioEmerald },
+          { word: "guard?", color: studioInk },
         ];
+        const phaseIdx = progress < 0.17 ? 0 : progress < 0.34 ? 1 : 2;
+        const activeWord = cycleWords[phaseIdx] ?? cycleWords[0]!;
+        const localWordP = clamp01(((progress - phaseIdx * 0.17) / 0.08));
+        const pillScale = 0.88 + 0.12 * easeOutBack(localWordP) + pulse * 0.03;
+
+        ctx.font = `800 62px ${sansFont}`;
+        const wordW = ctx.measureText(activeWord.word).width;
+        const pillX = leftX + prefixW + 18;
+        const pillY = 218 + yOff;
+        const pillW = wordW + 48;
+        const pillH = 74;
+
+        ctx.save();
+        ctx.translate(pillX + pillW * 0.5, pillY + pillH * 0.5);
+        ctx.scale(pillScale, pillScale);
+        ctx.fillStyle = activeWord.color;
+        drawRoundedRect(ctx, -pillW * 0.5, -pillH * 0.5, pillW, pillH, 999);
+        ctx.fill();
+        ctx.fillStyle = "#FAF7F0";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        const lineHeight = h / 3.8;
+        ctx.fillText(activeWord.word, 0, -2);
+        ctx.restore();
 
-        lines.forEach((line, li) => {
-          const localP = clamp01((progress - 0.74) / 0.22 - li * 0.14);
-          const scale = easeOutBack(localP);
-          ctx.save();
-          ctx.translate(w / 2, h * 0.24 + li * lineHeight);
-          ctx.scale(scale, scale);
-          ctx.fillStyle = li === 1 ? accent : fg;
-          ctx.font = `700 ${Math.round(h * 0.15)}px ${displayFont}`;
-          ctx.fillText(line.toUpperCase(), 0, Math.sin(safeTime * 6 + li) * 4 * pulse);
-          ctx.restore();
+        const chips = [
+          { label: "NEAR 1Click Multi-Solver", border: studioEmerald },
+          { label: "OutLayer Intel TDX $25 Cap", border: studioTerra },
+          { label: "NIST FIPS 204 Verified", border: studioInk },
+        ];
+        let chipCursorX = leftX;
+        ctx.font = `700 12px ${monoFont}`;
+        chips.forEach((chip) => {
+          const cw = ctx.measureText(chip.label).width + 26;
+          ctx.fillStyle = "#12151C";
+          drawRoundedRect(ctx, chipCursorX, 344 + yOff, cw, 34, 9);
+          ctx.fill();
+          ctx.strokeStyle = chip.border;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          ctx.fillStyle = "#F3F5F9";
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          ctx.fillText(chip.label, chipCursorX + 13, 361 + yOff);
+          chipCursorX += cw + 12;
         });
+      } else if (progress < 0.8) {
+        const rows = 5;
+        const usableTop = 76;
+        const usableH = h - 160;
+        const rowH = usableH / rows;
+        ctx.font = `800 ${Math.round(rowH * 0.62)}px ${displayFont}`;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        const phrase = "ONE SLACK FOR TEAMS & NEAR AGENTS";
+        const phraseSpan = ctx.measureText(phrase).width + 88;
+
+        for (let r = 0; r < rows; r++) {
+          const isTerra = r === 2;
+          ctx.fillStyle = isTerra ? studioTerra : studioEmerald;
+          const dir = isTerra ? -1 : 1;
+          const rawShift = (safeTime * 190 * dir + r * 140) % phraseSpan;
+          const shift = rawShift < 0 ? rawShift + phraseSpan : rawShift;
+          const yBase = usableTop + (r + 0.5) * rowH;
+
+          for (let x = shift - phraseSpan * 2; x < w + phraseSpan; x += phraseSpan) {
+            const waveY = Math.sin(x * 0.008 + safeTime * 4.4 + r * 0.65) * (9 + pulse * 7);
+            ctx.fillText(phrase, x, yBase + waveY);
+          }
+        }
+      } else {
+        ctx.save();
+        ctx.globalAlpha = 0.22;
+        ctx.font = `800 38px ${displayFont}`;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+        const dimPhrase = "ONE SLACK FOR TEAMS & NEAR AGENTS";
+        const dimSpan = ctx.measureText(dimPhrase).width + 80;
+        for (let r = 0; r < 5; r++) {
+          ctx.fillStyle = r === 2 ? studioTerra : studioEmerald;
+          const yBase = 88 + r * 86;
+          for (let x = -dimSpan + (r * 75) % dimSpan; x < w + dimSpan; x += dimSpan) {
+            ctx.fillText(dimPhrase, x, yBase);
+          }
+        }
+        ctx.restore();
+
+        const cardW = 680;
+        const cardH = 196;
+        const cardX = (w - cardW) * 0.5;
+        const cardY = (h - cardH) * 0.5 - 6;
+        const cardScale = easeOutBack(clamp01((progress - 0.8) / 0.1));
+
+        ctx.save();
+        ctx.translate(cardX + cardW * 0.5, cardY + cardH * 0.5);
+        ctx.scale(cardScale, cardScale);
+        ctx.fillStyle = "#12151C";
+        drawRoundedRect(ctx, -cardW * 0.5, -cardH * 0.5, cardW, cardH, 24);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0, 236, 151, 0.42)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#FAF7F0";
+        ctx.font = `800 36px ${sansFont}`;
+        ctx.fillText("One workspace. Six autonomous agents.", 0, -24);
+        ctx.fillStyle = "#00EC97";
+        ctx.font = `600 19px ${sansFont}`;
+        ctx.fillText("Chat in channels. Route 1Click swaps. Enforce Intel TDX caps.", 0, 28);
+        ctx.restore();
       }
       break;
     }
@@ -1264,7 +1350,7 @@ export function AgentMotionStudio() {
   const [customHeadlineLocked, setCustomHeadlineLocked] = useState(false);
   const [miraPrompt, setMiraPrompt] = useState("");
   const [directorNote, setDirectorNote] = useState(
-    "90s AI Video Maker Master (13 scenes, 60fps) active alongside 7 interactive canvas chapters.",
+    "90s AI Video Maker Master (v5.0.0 Warm Studio Bone + Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
   );
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -1331,10 +1417,12 @@ export function AgentMotionStudio() {
     const lower = raw.toLowerCase();
 
     let targetChapter = activeChapter;
-    if (lower.includes("slack") || lower.includes("lookbook") || lower.includes("6 agents")) {
+    if (lower.includes("slack") || lower.includes("lookbook") || lower.includes("fly")) {
       targetChapter = MOTION_PRESETS[1]!;
-    } else if (lower.includes("1click") || lower.includes("swap") || lower.includes("solver")) {
+    } else if (lower.includes("cutline") || lower.includes("pipeline") || lower.includes("node")) {
       targetChapter = MOTION_PRESETS[2]!;
+    } else if (lower.includes("1click") || lower.includes("swap") || lower.includes("solver")) {
+      targetChapter = MOTION_PRESETS[3]!;
     } else if (
       lower.includes("tdx") ||
       lower.includes("outlayer") ||
@@ -1342,19 +1430,27 @@ export function AgentMotionStudio() {
       lower.includes("zine") ||
       lower.includes("safe")
     ) {
-      targetChapter = MOTION_PRESETS[3]!;
+      targetChapter = MOTION_PRESETS[4]!;
     } else if (
       lower.includes("winner") ||
       lower.includes("corpus") ||
       lower.includes("terrace") ||
       lower.includes("x402")
     ) {
-      targetChapter = MOTION_PRESETS[4]!;
-    } else if (lower.includes("mira") || lower.includes("studio") || lower.includes("drill")) {
       targetChapter = MOTION_PRESETS[5]!;
-    } else if (lower.includes("finale") || lower.includes("one") || lower.includes("quickstart")) {
+    } else if (
+      lower.includes("finale") ||
+      lower.includes("kpi") ||
+      lower.includes("trust") ||
+      lower.includes("quickstart")
+    ) {
       targetChapter = MOTION_PRESETS[6]!;
-    } else if (lower.includes("hook") || lower.includes("problem") || lower.includes("99k")) {
+    } else if (
+      lower.includes("hook") ||
+      lower.includes("pill") ||
+      lower.includes("wave") ||
+      lower.includes("make")
+    ) {
       targetChapter = MOTION_PRESETS[0]!;
     }
 
@@ -1611,7 +1707,7 @@ export function AgentMotionStudio() {
                   masterTimeRef.current = activeChapter.startSec + soloTimeSec;
                   setMasterTimeSec(masterTimeRef.current);
                   setDirectorNote(
-                    "90s AI Video Maker Master (13 scenes, 60fps) active alongside 7 interactive canvas chapters.",
+                    "90s AI Video Maker Master (v5.0.0 Warm Studio Bone + Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
                   );
                 } else {
                   soloTimeRef.current = Math.max(0, masterTimeSec - activeChapter.startSec);
@@ -1637,7 +1733,7 @@ export function AgentMotionStudio() {
                   setMp4Variant("demo-90s");
                 }}
               >
-                90s Master Cut (AI Video Maker v0.3.2)
+                90s Master Cut (AVM v5.0.0)
               </button>
               <button
                 type="button"
