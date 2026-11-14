@@ -1,16 +1,16 @@
 import type { Builder } from "../../../../../libs/film-kit/film/engine.ts";
 import {
-  buildFinaleLockupScene,
-  buildOutlayerGuardScene,
-  buildSolverWorkspaceScene,
-  buildStudioFlyoverScene,
-  buildTactileHookScene,
-} from "../../shared/studio-scenes.ts";
+  buildTourCliAndLockupScene,
+  buildTourEconomyCutScene,
+  buildTourEntryScene,
+  buildTourKronosChatScene,
+  buildTourOutlayerCutScene,
+} from "../../shared/product-tour-scenes.ts";
 
 export const CUSTOM: Record<string, Builder> = {
-  t01: buildTactileHookScene("teaser"),
-  t02: buildStudioFlyoverScene("teaser"),
-  t03: buildSolverWorkspaceScene("teaser"),
-  t04: buildOutlayerGuardScene("teaser"),
-  t05: buildFinaleLockupScene("teaser"),
+  t01: buildTourEntryScene("cut"),
+  t02: buildTourKronosChatScene(1.25),
+  t03: buildTourOutlayerCutScene(),
+  t04: buildTourEconomyCutScene(),
+  t05: buildTourCliAndLockupScene("cut"),
 };

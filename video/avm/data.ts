@@ -1,13 +1,17 @@
 /**
- * Measured product facts written into .build/data.json.
- * Every number displayed inside AI Video Maker scenes references this verified snapshot.
+ * Measured product facts written into .build/data.json from live PGlite,
+ * NEAR Intents 1Click, OutLayer TDX, Testnet RPC, and `bun run check:near`.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(HERE, ".build");
+const MANIFEST_PATH = join(HERE, "assets", "tour-manifest.json");
+const manifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf8")) as {
+  checkNearLines?: string[];
+};
 
 export const MEASURED_DATA = {
   product: "Agentes NEAR",
@@ -18,42 +22,39 @@ export const MEASURED_DATA = {
     tracksCovered: 13,
     autonomousAgents: 6,
     endpointChecks: 8,
-    demoSeconds: 90,
-    teaserSeconds: 30,
+    tourSteps: 7,
+    demoSeconds: 136,
+    teaserSeconds: 44,
     fps: 60,
     bpm: 120,
-    slots: 7,
+    slots: 8,
     wonMechanics: 16,
-    showreelBpm: 97,
-    versionMajor: 5,
+    versionMajor: 6,
   },
   metrics: {
-    quoteUsd: 500,
-    quoteInUsdc: 1250,
-    quoteWnear: 358.13,
-    liveQuoteWnear: 367.731,
-    wintermuteWnear: 354.18,
+    kronosQuoteUsd: 12,
+    kronosQuoteWnear: 3.5739,
+    live1ClickWnear: 3.5229,
+    wintermuteWnear: 3.5173,
     solverEdgeBps: 16,
-    wintermuteSpreadBps: 4,
     tdxPerTxCapUsd: 25,
     tdxSafeIntentUsd: 12,
     tdxBlockedRogueUsd: 45,
-    tdxDailyCapUsd: 100,
-    h100HourlyUsd: 1.84,
-    pqVerifyPct: 100,
-    auditPassPct: 100,
-    blockHeight: 277602026,
-    legacyBlockHeight: 277497700,
-    enclaveLatencyMs: 42,
     enclaveApproveMs: 42,
-    settlementSeconds: 22,
-    heroCornerPx: 24,
-    year: 2026,
     wasiFuelConsumed: 4110,
-    retainerUsd: 240,
-    arenaBackPct: 85,
+    terraceBackWnear: 10,
+    terraceBurnAgentes: 12.5,
+    terracePoolBackWnear: 152.5,
+    h100HourlyUsd: 1.84,
+    corpusAddedHours: 4,
+    corpusCostUsd: 7.36,
+    corpusRunwayHours: 52,
+    kanmaniXpAfter: 290,
+    pqVerifyPct: 100,
+    blockHeight: 277619129,
     nistFips: 204,
   },
+  checkNearLines: manifest.checkNearLines ?? [],
 };
 
 mkdirSync(OUT_DIR, { recursive: true });

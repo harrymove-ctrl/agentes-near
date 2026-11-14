@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-11-14T06:17:55.942Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "retinaScale": 2,
+  "clips": {
+    "step01": {
+      "clip": "assets/tour-01-ocelli-login.mp4",
+      "clicks": [
+        {
+          "name": "ocelliHeroEnter",
+          "at": 2.477,
+          "box": [
+            0.4038,
+            0.5626
+          ]
+        },
+        {
+          "name": "arenaChannel",
+          "at": 3.96,
+          "box": [
+            0.1028,
+            0.7822
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-01-ocelli-hero.png",
+        "assets/ret-01-ocelli-enter.png"
+      ],
+      "duration": 7.233
+    },
+    "step02": {
+      "clip": "assets/tour-02-slack-kronos.mp4",
+      "clicks": [
+        {
+          "name": "composer",
+          "at": 1.095,
+          "box": [
+            0.5139,
+            0.9422
+          ]
+        },
+        {
+          "name": "sendBtn",
+          "at": 3.545,
+          "box": [
+            0.7778,
+            0.9422
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "kronosReplied",
+          "at": 6.091
+        }
+      ],
+      "plates": [
+        "assets/ret-02-kronos-reply.png"
+      ],
+      "duration": 9.1
+    },
+    "step03": {
+      "clip": "assets/tour-03-1click-quotes.mp4",
+      "clicks": [
+        {
+          "name": "openModal",
+          "at": 1.031,
+          "box": [
+            0.0944,
+            0.2156
+          ]
+        },
+        {
+          "name": "fetchQuote",
+          "at": 2.013,
+          "box": [
+            0.7111,
+            0.8017
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-03-1click-table.png"
+      ],
+      "duration": 6.167
+    },
+    "step04": {
+      "clip": "assets/tour-04-outlayer-guard.mp4",
+      "clicks": [
+        {
+          "name": "approveSafe12",
+          "at": 1.016,
+          "box": [
+            0.3044,
+            0.6878
+          ]
+        },
+        {
+          "name": "blockRogue45",
+          "at": 3.999,
+          "box": [
+            0.4447,
+            0.6878
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-04a-safe-pass.png",
+        "assets/ret-04b-rogue-block.png"
+      ],
+      "duration": 7.633
+    },
+    "step05": {
+      "clip": "assets/tour-05-terrace-markets.mp4",
+      "clicks": [
+        {
+          "name": "stake10Wnear",
+          "at": 1.024,
+          "box": [
+            0.4229,
+            0.3984
+          ]
+        },
+        {
+          "name": "backRouteMarket",
+          "at": 1.921,
+          "box": [
+            0.6591,
+            0.5312
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-05-terrace-bet.png"
+      ],
+      "duration": 5.3
+    },
+    "step06": {
+      "clip": "assets/tour-06-corpus-kanmani.mp4",
+      "clicks": [
+        {
+          "name": "fund4hTee",
+          "at": 1.011,
+          "box": [
+            0.3912,
+            0.4898
+          ]
+        },
+        {
+          "name": "escrowHire",
+          "at": 4.012,
+          "box": [
+            0.542,
+            0.6531
+          ]
+        },
+        {
+          "name": "escrowReleaseNft",
+          "at": 5.261,
+          "box": [
+            0.6427,
+            0.6531
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-06a-corpus-endow.png",
+        "assets/ret-06b-escrow-nft.png"
+      ],
+      "duration": 8.566
+    },
+    "step07": {
+      "clip": "assets/tour-07-motion-studio.mp4",
+      "clicks": [
+        {
+          "name": "canvasMode",
+          "at": 0.961,
+          "box": [
+            0.2156,
+            0.0493
+          ]
+        },
+        {
+          "name": "miraDirect",
+          "at": 1.811,
+          "box": [
+            0.8238,
+            0.1837
+          ]
+        },
+        {
+          "name": "chapter03",
+          "at": 3.211,
+          "box": [
+            0.3984,
+            0.3676
+          ]
+        }
+      ],
+      "events": [],
+      "plates": [
+        "assets/ret-07-motion-studio.png"
+      ],
+      "duration": 6.967
+    }
+  },
+  "plates": [
+    "assets/ret-01-ocelli-hero.png",
+    "assets/ret-01-ocelli-enter.png",
+    "assets/ret-02-kronos-reply.png",
+    "assets/ret-03-1click-table.png",
+    "assets/ret-04a-safe-pass.png",
+    "assets/ret-04b-rogue-block.png",
+    "assets/ret-05-terrace-bet.png",
+    "assets/ret-06a-corpus-endow.png",
+    "assets/ret-06b-escrow-nft.png",
+    "assets/ret-07-motion-studio.png"
+  ],
+  "checkNearLines": [
+    "[PASS] #1 NEAR Intents 1Click Multi-Solver Quote :: LIVE · 12 USDC -> 3.5205 wNEAR (1click.chaindefuser.com)",
+    "[PASS] #2 OutLayer Intel TDX Guard ($12 Pass + $45 Block + NEP-413) :: OutLayer=LIVE · $12=APPROVED · $45=BLOCKED_PER_TX_CAP · NEP-413=0x8000019d",
+    "[PASS] #3 NEAR AI Cloud Confidential TEE ITA Attestation :: LIVE · PS384 · models=DeepSeek-V4.1, Qwen3.6, GLM-5.3",
+    "[PASS] #4 NEAR Testnet RPC View Probe (pips-quay-contract-i5gp.testnet) :: LIVE · block=277619129 · strikes=3607 · verifier=v1.verifier.near",
+    "[PASS] #5 Terrace Social + Hunch Conviction Market ($AGENTES Burn-on-Miss) :: BACK 10 wNEAR · pool=152.5 wNEAR · burnSink=+12.5 $AGENTES",
+    "[PASS] #6 Corpus x402 H100 TEE Endowment ($1.84/hr) + Tab BNPL :: +4h ($7.36) · runway=52h · tabAvailable=$205.84",
+    "[PASS] #7 Kanmani Escrow + NEP-171 Dynamic Agent Credential NFT :: cred-ada.agentes.near Lv.3 (Gold, 290 XP)",
+    "[PASS] #8 ML-DSA-65 Post-Quantum Receipt Chain + Public /api/near/* Router :: ML-DSA-65 (NIST FIPS 204) · receipts=12/12 (100%) · HTTP 200",
+    "NEAR CHECK: PASS (8/8)"
+  ]
+}

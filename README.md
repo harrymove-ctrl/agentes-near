@@ -10,7 +10,7 @@ Built at **NEAR HACKATHON** (`2026-11-01` to `2026-11-14`).
 | --- | --- | --- |
 | Live Railway App | https://agentes-near-production.up.railway.app/ocelli | Public `/ocelli` landing page and 1-click workspace entry |
 | Public Repository | https://github.com/harrymove-ctrl/agentes-near | Root MIT `LICENSE` plus upstream `NOTICE` attribution |
-| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v5.0.0 | AI Video Maker (`avm` v5.0.0) 1080p 60fps 90s master (`demo-90`: 7 bespoke Warm Studio Bone + Obsidian Enclave scenes featuring tactile elastic pill + kinetic wave hook, continuous CSS-3D studio landing-page fly-over, Cutline 4-node execution pipeline, zoomed 1Click solver workspace, OutLayer Intel TDX `$25` guard, x402 + Terrace conviction arena, and KPI proof lockup) and 30s X teaser (`x-teaser-30s`: 5 bespoke scenes) narrated by Kokoro Michael over our 120 BPM Dan Tranh + Sao Truc + 808 V-Drill instrumental (-14 LUFS) |
+| Demo Video Release | https://github.com/harrymove-ctrl/agentes-near/releases/tag/v6.0.0 | AI Video Maker (`avm` v6.0.0) 1080p 60fps 2m16s (136.0s) live step-by-step product tour (`demo-90`: 8 Obsidian Enclave scenes recorded via headless Chromium + 2x Retina zoom plates covering 1-click `#near-intents-arena` entry, `@kronos` live stream, 1Click multi-solver quotes, OutLayer Intel TDX `$25` cap with `$12` pass and `$45` block, Terrace conviction markets, Corpus `x402` + Kanmani `NEP-171` credentials, `@mira` 60fps motion studio, and live `bun run check:near` `8/8` terminal proof) plus 44.0s 5-scene X demo cut (`x-teaser-30s`) narrated by Kokoro Michael over our 120 BPM Dan Tranh + Sao Truc + 808 V-Drill beat (-14 LUFS) |
 | Hackathon Spec | [HACKATHON.md](HACKATHON.md) | Official NEAR HACKATHON rules, tracks, and API reference |
 | Submission Packet | [SUBMISSION.md](SUBMISSION.md) | Track rationale, X post draft, and `POST /api/applications` template |
 
@@ -46,7 +46,7 @@ Designed for automated screeners (`Claude Code`, `Codex` per `HACKATHON.md` Q-01
    ```sh
    bun test apps/server/src/near/near.test.ts apps/server/src/zen/zen.test.ts
    ```
-   See `13 pass, 0 fail` across `117` assertions covering both NEAR and ZEN PGlite suites.
+   See `14 pass, 0 fail` across `125` assertions covering both NEAR and ZEN PGlite suites.
 
 4. Boot the self-hosted server locally on port `4770`:
    ```sh
@@ -59,7 +59,7 @@ Designed for automated screeners (`Claude Code`, `Codex` per `HACKATHON.md` Q-01
 | Step | Do X | See Y |
 | --- | --- | --- |
 | 1 | Open `/ocelli` (or `/welcome`) in the browser | Animated Bayer `DitherScene` hero (`horizon`, `aurora`, `plasma`, `waves`, `dither-orb`), floating 4-pane interactive window, unified 7-chapter `AgentMotionStudio`, 13 NEAR tracks matrix, and zero JS page errors |
-| 2 | Scroll to **Motion Studio** (`#motion-studio`) on `/ocelli`, watch the default `Watch 90s AI Video Maker Film (MP4)` stage (`90s Master Cut (AVM v5.0.0)` and `30s X Teaser`), or switch to `Interactive 60fps Agent Canvas` to click chapters in the timeline (`01 Tactile Pill & Wave Hook` through `07 KPI Proof & Studio Lockup`) and toggle the V-Drill + 808 Web Audio synth | Plays the AI Video Maker (`avm` v5.0.0) 1080p 60fps 90s master (`/video/agentes-near-demo.mp4`, 7 bespoke Warm Studio Bone + Obsidian Enclave scenes) and 30s X teaser (`/video/agentes-near-x-teaser.mp4`, 5 bespoke scenes) with Kokoro Michael narration and 120 BPM V-Drill Dan Tranh + Sao Truc + 808 score at -14 LUFS, or drives the live interactive Canvas2D sequencer and Web Audio synth |
+| 2 | Scroll to **Motion Studio** (`#motion-studio`) on `/ocelli`, watch the default `Watch 2m16s Live Product Tour (MP4)` stage (`2m16s Product Tour (AVM v6.0.0)` and `44s X Demo Cut (1080p 60fps)`), or switch to `Interactive 60fps Agent Canvas` to click chapters in the timeline (`01 Tactile Pill & Wave Hook` through `07 KPI Proof & Studio Lockup`) and toggle the V-Drill + 808 Web Audio synth | Plays the AI Video Maker (`avm` v6.0.0) 1080p 60fps 2m16s (136.0s) 8-step live product tour (`/video/agentes-near-demo.mp4`) and 44.0s X demo cut (`/video/agentes-near-x-teaser.mp4`) in Obsidian Enclave with Kokoro Michael narration and 120 BPM V-Drill Dan Tranh + Sao Truc + 808 score at -14 LUFS, or drives the live interactive Canvas2D sequencer and Web Audio synth |
 | 3 | Click **Simulate $45.00 Rogue Drain** in the `/ocelli` window (`OutLayer TDX Guard` tab) or call `POST /api/near/enclave-test` with `{"amountUsd":45,"capUsd":25}` | HTTP `200` JSON response with `allowed: false`, `decision: "BLOCKED_PER_TX_CAP"`, hardware policy rejection reason, and `[BLOCK]` badge |
 | 4 | Click **Run $12.00 Safe Intent** (`POST /api/near/enclave-test` with `{"amountUsd":12,"capUsd":25}`) | HTTP `200` JSON response with `allowed: true`, SHA-256 `NEP-413` (`tag = 2147484061`) receipt payload, and `[PASS]` badge |
 | 5 | Click **1-Click Enter Workspace** (as `Harry Phan` via `POST /api/auth/zen-demo-login`) | Redirect into `/` -> `/org/...` Slack workspace showing `#near-intents-arena`, `#compute-endowment`, `#outlayer-tee-vault`, and `Updates` |

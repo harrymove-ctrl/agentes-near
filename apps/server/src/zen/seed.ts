@@ -969,7 +969,7 @@ export async function seedZenWorkspace(
   }
 
   // 7. Create Channels (E8 + E9 + F2.8)
-  const [releaseChan] = await db
+  const releaseChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -980,9 +980,9 @@ export async function seedZenWorkspace(
       createdByUserId: harryId,
       position: 0,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [opsChan] = await db
+  const opsChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -993,9 +993,9 @@ export async function seedZenWorkspace(
       createdByUserId: tyrId,
       position: 2,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [archChan] = await db
+  const archChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1006,9 +1006,9 @@ export async function seedZenWorkspace(
       createdByUserId: henryId,
       position: 3,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [nearIntentsChan] = await db
+  const nearIntentsChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1019,9 +1019,9 @@ export async function seedZenWorkspace(
       createdByUserId: harryId,
       position: 4,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [computeEndowmentChan] = await db
+  const computeEndowmentChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1032,9 +1032,9 @@ export async function seedZenWorkspace(
       createdByUserId: harryId,
       position: 5,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [outlayerVaultChan] = await db
+  const outlayerVaultChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1045,9 +1045,9 @@ export async function seedZenWorkspace(
       createdByUserId: henryId,
       position: 6,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [execSecChan] = await db
+  const execSecChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1058,9 +1058,9 @@ export async function seedZenWorkspace(
       createdByUserId: harryId,
       position: 7,
     })
-    .returning();
+    .returning())[0]!;
 
-  const [clientSharedChan] = await db
+  const clientSharedChan = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1071,11 +1071,11 @@ export async function seedZenWorkspace(
       createdByUserId: tyrId,
       position: 8,
     })
-    .returning();
+    .returning())[0]!;
 
   // Private DM between Harry Phan and @astra (E9 private session memory isolation)
   const dmKey = `a:${astra.id}|u:${harryId}`;
-  const [harryAstraDm] = await db
+  const harryAstraDm = (await db
     .insert(schema.channels)
     .values({
       orgId: org.id,
@@ -1086,7 +1086,7 @@ export async function seedZenWorkspace(
       dmKey,
       createdByUserId: harryId,
     })
-    .returning();
+    .returning())[0]!;
 
   // Channel memberships: all 11 CommandOSS staff join public channels
   const commandOssUsers = COMMANDOSS_TEAM_ROSTER.filter((m) => m.id !== guestId).map((m) => m.id);
@@ -1162,7 +1162,7 @@ export async function seedZenWorkspace(
     .values({ orgId: org.id, last: 17 })
     .onConflictDoUpdate({ target: schema.issueCounters.orgId, set: { last: 17 } });
 
-  const [task14] = await db
+  const task14 = (await db
     .insert(schema.issues)
     .values({
       orgId: org.id,
@@ -1186,7 +1186,7 @@ export async function seedZenWorkspace(
       createdByType: "agent",
       createdById: theo.id,
     })
-    .returning();
+    .returning())[0]!;
 
   const extraTasks = [
     {
@@ -1233,7 +1233,7 @@ export async function seedZenWorkspace(
   }
 
   // Routines (E10 in Asia/Ho_Chi_Minh)
-  const [digestRoutine] = await db
+  const digestRoutine = (await db
     .insert(schema.routines)
     .values({
       orgId: org.id,
@@ -1253,7 +1253,7 @@ export async function seedZenWorkspace(
       nextRunAt: new Date(now.getTime() + 20 * 3600_000),
       createdByUserId: harryId,
     })
-    .returning();
+    .returning())[0]!;
 
   await db.insert(schema.routines).values([
     {

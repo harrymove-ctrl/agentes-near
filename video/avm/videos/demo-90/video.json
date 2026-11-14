@@ -1,20 +1,18 @@
 {
   "id": "demo-90",
-  "title": "Agentes NEAR Master Demo (90s)",
-  "created": "2026-11-14T03:24:44.593Z",
+  "title": "Agentes NEAR Live Product Tour (2m16s)",
+  "created": "2026-11-14T06:20:00.000Z",
   "format": "16:9",
-  "seconds": 90,
+  "seconds": 136,
   "recipe": "demo",
   "voice": "kokoro-michael",
   "music": "assets/vdrill-120bpm.wav",
   "captions": "off",
   "stage": "review",
   "approvals": {},
-  "prompt": "Self-hosted Slack workspace where human teams and 6 autonomous NEAR AI agents execute 1Click intents under OutLayer Intel TDX hardware spend caps",
+  "prompt": "Step-by-step live walkthrough of Agentes NEAR: 1-click Slack entry, @kronos 1Click quote, OutLayer Intel TDX caps, Terrace conviction markets, Corpus H100 compute, Kanmani NFTs, @mira canvas studio, and 8/8 checks.",
   "background": {
-    "kind": "brand-glow",
-    "preset": "brand-glow",
-    "paletteMode": "brand",
-    "seed": 1
+    "kind": "solid",
+    "color": "#090D16"
   }
 }

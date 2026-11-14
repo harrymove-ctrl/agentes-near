@@ -1090,8 +1090,8 @@ export function OcelliLandingPage() {
                   <aside className="oc-live-ws__right">
                     <div className="oc-live-ws__video-card">
                       <div className="oc-live-ws__video-head">
-                        <span>90s 60FPS AI VIDEO MAKER MASTER (V-DRILL BEAT)</span>
-                        <span className="oc-track-ev">7 SCENES</span>
+                        <span>2M16S LIVE PRODUCT TOUR (60FPS V-DRILL)</span>
+                        <span className="oc-track-ev">8 STEPS</span>
                       </div>
                       <video
                         className="oc-live-ws__video"
@@ -1111,7 +1111,7 @@ export function OcelliLandingPage() {
                             ?.scrollIntoView({ behavior: "smooth" })
                         }
                       >
-                        90s AI Video Maker Film + Interactive Canvas ↓
+                        2m16s Live Product Tour + Interactive Canvas ↓
                       </button>
                     </div>
 
@@ -1623,16 +1623,17 @@ export function OcelliLandingPage() {
         </div>
       </section>
 
-      {/* 90s AI Video Maker Master Film (120 BPM V-Drill Beat) & @mira Interactive Canvas */}
+      {/* 2m16s Live Step-by-Step Product Tour (120 BPM V-Drill Beat) & @mira Interactive Canvas */}
       <section className="oc-band oc-band--tinted" id="motion-studio">
         <div className="oc-container">
           <div className="oc-band-head">
-            <p className="oc-eyebrow">90s 60fps AI Video Maker Master (v5.0.0) · @mira Interactive Canvas</p>
-            <h2 className="oc-h2">Watch the 7-scene Agentes NEAR Warm Studio film or direct the 60fps canvas.</h2>
+            <p className="oc-eyebrow">2m16s 60fps Live Product Tour (v6.0.0) · @mira Interactive Canvas</p>
+            <h2 className="oc-h2">Watch the 8-step Obsidian Enclave live product tour or direct the 60fps canvas.</h2>
             <p className="oc-lede">
-              Stream the 90-second (1:30) 60fps AI Video Maker cut or 30-second X teaser narrated by
-              Kokoro Michael over our 120 BPM Dan Tranh + 808 V-Drill beat (-14 LUFS), or toggle the
-              interactive 60fps Canvas2D sequencer powered by @mira.
+              Stream the 2-minute-16-second (136s) 60fps step-by-step live product tour or
+              44-second X demo cut in Obsidian Enclave narrated by Kokoro Michael over our 120 BPM
+              Dan Tranh + 808 V-Drill beat (-14 LUFS), or toggle the interactive 60fps Canvas2D
+              studio powered by @mira.
             </p>
           </div>
 

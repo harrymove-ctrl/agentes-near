@@ -7,6 +7,7 @@ No speech or foley clicks are baked into this track because AI Video Maker
 mixes voiceover + scene SFX and sidechain-ducks this music bed cleanly to -14 LUFS.
 """
 
+import argparse
 import math
 import os
 import random
@@ -15,7 +16,7 @@ import wave
 from pathlib import Path
 
 SAMPLE_RATE = 48000
-DURATION_SEC = 96.0
+DURATION_SEC = 144.0
 BPM = 120.0
 
 
@@ -154,10 +155,13 @@ def synthesize_vdrill_wav(out_path: Path, duration_sec: float = DURATION_SEC, bp
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Synthesize 120 BPM V-Drill instrumental WAV bed")
+    parser.add_argument("--duration", type=float, default=DURATION_SEC, help="Duration in seconds (default: 144.0)")
+    args = parser.parse_args()
     project_dir = Path(os.environ.get("AVM_PROJECT_DIR", str(Path(__file__).resolve().parents[1] / "avm")))
     out_wav = project_dir / "assets" / "vdrill-120bpm.wav"
-    synthesize_vdrill_wav(out_wav)
-    print(f"wrote {out_wav} ({out_wav.stat().st_size} bytes)")
+    synthesize_vdrill_wav(out_wav, duration_sec=args.duration)
+    print(f"wrote {out_wav} ({out_wav.stat().st_size} bytes, {args.duration}s)")
 
 
 if __name__ == "__main__":

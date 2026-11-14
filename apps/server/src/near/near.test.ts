@@ -5,7 +5,9 @@ import { join } from "node:path";
 import { eq, schema } from "@agenteschat/db";
 import { createTestDatabase } from "@agenteschat/db/testing";
 import { createLocalKeyWrapper, listChannels } from "@agenteschat/engine";
+import type { ModelProvider } from "@agenteschat/providers";
 import { createApp } from "../app";
+import { wrapWithZenDemoProviders, ZEN_DEMO_KEY_PREFIX } from "../zen/demo-provider";
 import { verifyZenLedger } from "../zen/ledger";
 import { ALL_SEEDED_EMAILS, seedZenWorkspace } from "../zen/seed";
 import { nearPublicRoutes } from "./routes";
@@ -269,5 +271,46 @@ describe("NEAR Hackathon backend integration (PGlite + Live/Fallback Probes + Ho
     const finalStatus = await getNearStatus(handle.db, { orgId: seededOrgId });
     expect(finalStatus.zenLedger?.ok).toBe(true);
     expect(finalStatus.nep297Logs.some((l) => l.startsWith("EVENT_JSON:"))).toBe(true);
+  });
+
+  test("9. wrapWithZenDemoProviders streams @kronos NEAR 1Click + OutLayer TDX reply with ML-DSA-65 receipt", async () => {
+    const dummyBase: ModelProvider = {
+      id: "anthropic",
+      async stream() {
+        throw new Error("Should not call base provider in ZEN_DEMO mode");
+      },
+    };
+    const providers = wrapWithZenDemoProviders(handle.db, { anthropic: dummyBase });
+    const deltas: string[] = [];
+
+    const result = await providers.anthropic!.stream(
+      {
+        model: "claude-sonnet-4-6",
+        maxTokens: 512,
+        system: "You are @kronos (Name: Kronos, 1Click Intents & OutLayer TEE Desk) inside #near-intents-arena.",
+        messages: [
+          {
+            role: "user",
+            content: "Quote $12 USDC -> wNEAR and verify the OutLayer TDX policy receipt",
+          },
+        ],
+      },
+      {
+        apiKey: `${ZEN_DEMO_KEY_PREFIX}test-key`,
+        onDelta: (d) => deltas.push(d),
+      },
+    );
+
+    const joined = deltas.join("");
+    expect(joined).toBe(result.text);
+    expect(joined).toContain("3.5739 wNEAR");
+    expect(joined).toContain("1click.chaindefuser.com");
+    expect(joined).toContain("wintermute-intent.near");
+    expect(joined).toContain("NEP-413");
+    expect(joined).toContain("ML-DSA-65");
+    expect(joined).not.toContain("Ergo `ZEN` workspace coordinator online");
+
+    const ledger = await verifyZenLedger(handle.db, seededOrgId);
+    expect(ledger.ok).toBe(true);
   });
 });

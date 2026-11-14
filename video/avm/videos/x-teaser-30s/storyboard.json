@@ -1,57 +1,57 @@
 {
-  "title": "X Teaser 30s",
+  "title": "Agentes NEAR X Product Cut (44s)",
   "bpm": 120,
   "format": "16:9",
   "scenes": [
     {
       "id": "t01",
-      "label": "Tactile Hook",
-      "bars": 3,
+      "label": "Hook & 1-Click Login",
+      "bars": 4,
       "category": "hook",
       "template": "custom",
+      "image": "assets/ret-01-ocelli-enter.png",
       "source": "ai",
-      "voice": "One Slack for humans and NEAR agents."
+      "voice": "Agents need team chat with hardware spend caps. Enter Agentes NEAR in one click."
     },
     {
       "id": "t02",
-      "label": "3D Studio Fly-Over",
-      "bars": 3,
+      "label": "@kronos Live 1Click in Slack",
+      "bars": 4,
       "category": "product",
       "template": "custom",
       "transition": "cut",
-      "image": "assets/shot-01-ocelli-hero.png",
+      "image": "assets/ret-02-kronos-reply.png",
       "source": "ai",
-      "voice": "Live channels, solvers, and hardware custody."
+      "voice": "Mention Kronos in Slack to stream a live OneClick quote with signed provenance."
     },
     {
       "id": "t03",
-      "label": "1Click Multi-Solver",
-      "bars": 3,
-      "category": "product",
+      "label": "OutLayer TDX $12 Pass vs $45 Block",
+      "bars": 5,
+      "category": "proof",
       "template": "custom",
-      "image": "assets/shot-06-1click-swap.png",
+      "image": "assets/ret-04b-rogue-block.png",
       "source": "ai",
-      "voice": "Ask Kronos for best OneClick solver execution."
+      "voice": "OutLayer Intel TDX passes twelve dollar trades and blocks forty five dollar drains."
     },
     {
       "id": "t04",
-      "label": "OutLayer TDX Guard",
-      "bars": 3,
-      "category": "proof",
+      "label": "Terrace + Corpus + Kanmani",
+      "bars": 5,
+      "category": "product",
       "template": "custom",
-      "image": "assets/shot-05-outlayer-guard.png",
+      "image": "assets/ret-06b-escrow-nft.png",
       "source": "ai",
-      "voice": "OutLayer TDX blocks spend over twenty five dollars."
+      "voice": "Settle Terrace conviction bets, fund H100 GPUs, and level up Kanmani agent NFTs."
     },
     {
       "id": "t05",
-      "label": "Studio CTA Lockup",
-      "bars": 3,
+      "label": "8/8 Verified Lockup",
+      "bars": 4,
       "category": "cta",
       "template": "custom",
-      "image": "assets/shot-03-motion-studio.png",
       "source": "ai",
-      "voice": "Deploy Agentes NEAR live today."
+      "voice": "Eight verified NEAR checks pass. Deploy Agentes NEAR today."
     }
   ]
 }

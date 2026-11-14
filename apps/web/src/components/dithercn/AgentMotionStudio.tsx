@@ -1239,7 +1239,7 @@ function renderMotionFrame(
       ctx.fillText("@mira · AI Video Director · #motion-studio", cardX + 86, cardY + 38);
       ctx.fillStyle = "#5A6065";
       ctx.font = `500 14px ${monoFont}`;
-      ctx.fillText("90s AI Video Maker Master · Kokoro Michael + 120 BPM V-Drill Beat", cardX + 86, cardY + 62);
+      ctx.fillText("2m16s AI Video Maker Product Tour · Kokoro Michael + 120 BPM V-Drill Beat", cardX + 86, cardY + 62);
 
       ctx.fillStyle = fg;
       ctx.font = `600 23px ${sansFont}`;
@@ -1350,7 +1350,7 @@ export function AgentMotionStudio() {
   const [customHeadlineLocked, setCustomHeadlineLocked] = useState(false);
   const [miraPrompt, setMiraPrompt] = useState("");
   const [directorNote, setDirectorNote] = useState(
-    "90s AI Video Maker Master (v5.0.0 Warm Studio Bone + Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
+    "2m16s Live Step-by-Step Product Tour (AVM v6.0.0 Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
   );
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -1381,7 +1381,7 @@ export function AgentMotionStudio() {
         videoRef.current.currentTime =
           mp4Variant === "demo-90s"
             ? preset.startSec
-            : Math.min(29, (preset.startSec / TOTAL_MASTER_DURATION_SEC) * 30);
+            : Math.min(43, (preset.startSec / TOTAL_MASTER_DURATION_SEC) * 44);
         void videoRef.current.play();
       } catch {
         // Ignore seek error before metadata loads
@@ -1676,7 +1676,7 @@ export function AgentMotionStudio() {
               setStageMode("mp4");
             }}
           >
-            Watch 90s AI Video Maker Film (MP4)
+            Watch 2m16s Live Product Tour (MP4)
           </button>
         </div>
 
@@ -1707,7 +1707,7 @@ export function AgentMotionStudio() {
                   masterTimeRef.current = activeChapter.startSec + soloTimeSec;
                   setMasterTimeSec(masterTimeRef.current);
                   setDirectorNote(
-                    "90s AI Video Maker Master (v5.0.0 Warm Studio Bone + Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
+                    "2m16s Live Step-by-Step Product Tour (AVM v6.0.0 Obsidian Enclave, 60fps) active alongside 7 interactive canvas chapters.",
                   );
                 } else {
                   soloTimeRef.current = Math.max(0, masterTimeSec - activeChapter.startSec);
@@ -1733,7 +1733,7 @@ export function AgentMotionStudio() {
                   setMp4Variant("demo-90s");
                 }}
               >
-                90s Master Cut (AVM v5.0.0)
+                2m16s Product Tour (AVM v6.0.0)
               </button>
               <button
                 type="button"
@@ -1744,7 +1744,7 @@ export function AgentMotionStudio() {
                   setMp4Variant("teaser-30s");
                 }}
               >
-                30s X Teaser (1080p 60fps)
+                44s X Demo Cut (1080p 60fps)
               </button>
             </div>
           )}

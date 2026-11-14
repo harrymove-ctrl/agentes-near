@@ -1,76 +1,87 @@
 {
-  "title": "Agentes NEAR Master Demo (90s)",
+  "title": "Agentes NEAR Live Product Tour (2m16s)",
   "bpm": 120,
   "format": "16:9",
   "scenes": [
     {
       "id": "s01",
-      "label": "Tactile Studio Hook",
-      "bars": 5,
+      "label": "Hook and 1-Click Workspace Entry",
+      "bars": 8,
       "category": "hook",
       "template": "custom",
+      "image": "assets/ret-01-ocelli-enter.png",
       "source": "ai",
-      "voice": "Your team and six NEAR agents, sharing one Slack workspace."
+      "voice": "Agents share chat or hold keys, rarely safely both. Enter Agentes NEAR in one click."
     },
     {
       "id": "s02",
-      "label": "3D Studio Page Fly-Over",
-      "bars": 7,
+      "label": "Mention @kronos in #near-intents-arena",
+      "bars": 9,
       "category": "product",
       "template": "custom",
       "transition": "cut",
-      "image": "assets/shot-01-ocelli-hero.png",
+      "image": "assets/ret-02-kronos-reply.png",
       "source": "ai",
-      "voice": "Every channel, solver auction, and enclave guard lives inside one live console."
+      "voice": "Mention Kronos inside Slack to stream a OneClick quote with an ML DSA sixty five receipt."
     },
     {
       "id": "s03",
-      "label": "Execution Pipeline Diagram",
-      "bars": 6,
+      "label": "Live 1Click Multi-Solver Auction",
+      "bars": 8,
       "category": "product",
       "template": "custom",
+      "image": "assets/ret-03-1click-table.png",
       "source": "ai",
-      "voice": "Mention an agent to route swaps behind deterministic hardware policy caps."
+      "voice": "Open NEAR Intents and TEE to benchmark competing OneClick solvers in real time before signing."
     },
     {
       "id": "s04",
-      "label": "Live 1Click Solver Auction",
-      "bars": 7,
-      "category": "product",
+      "label": "OutLayer Intel TDX Guard ($12 Pass vs $45 Block)",
+      "bars": 11,
+      "category": "proof",
       "template": "custom",
-      "image": "assets/shot-06-1click-swap.png",
+      "image": "assets/ret-04b-rogue-block.png",
       "source": "ai",
-      "voice": "Agents race live OneClick solvers for best execution inside your channel."
+      "voice": "OutLayer Intel TDX approves twelve dollar intents under your cap, then blocks a forty five dollar drain."
     },
     {
       "id": "s05",
-      "label": "OutLayer Intel TDX Guard",
+      "label": "Terrace Conviction Markets ($AGENTES Burn)",
       "bars": 8,
-      "category": "proof",
+      "category": "product",
       "template": "custom",
-      "image": "assets/shot-05-outlayer-guard.png",
+      "image": "assets/ret-05-terrace-bet.png",
       "source": "ai",
-      "voice": "OutLayer Intel TDX approves twelve dollar trades and blocks forty five dollar drains."
+      "voice": "Switch to Terrace Markets, stake ten wrapped NEAR, and route misses into Agentes token burns."
     },
     {
       "id": "s06",
-      "label": "Compute & Conviction Arena",
-      "bars": 6,
+      "label": "Corpus x402 H100 Pool & Kanmani NFT",
+      "bars": 9,
       "category": "product",
       "template": "custom",
-      "image": "assets/shot-02-ocelli-arcade.png",
+      "image": "assets/ret-06b-escrow-nft.png",
       "source": "ai",
-      "voice": "Corpus compute streams H100 nodes while Terrace markets price agent accuracy."
+      "voice": "Fund four hours of H100 compute via Corpus, then release Kanmani escrow to level up agent NFTs."
     },
     {
       "id": "s07",
-      "label": "Proof & Studio Lockup",
-      "bars": 6,
+      "label": "@mira 60fps Canvas Motion Studio",
+      "bars": 7,
+      "category": "product",
+      "template": "custom",
+      "image": "assets/ret-07-motion-studio.png",
+      "source": "ai",
+      "voice": "Direct interactive product chapters with Mira on sixty FPS Canvas directly from the landing page."
+    },
+    {
+      "id": "s08",
+      "label": "8/8 Live CLI Checks & CTA Lockup",
+      "bars": 8,
       "category": "cta",
       "template": "custom",
-      "image": "assets/shot-03-motion-studio.png",
       "source": "ai",
-      "voice": "Deploy Agentes NEAR live, verified with post quantum receipts."
+      "voice": "Eight verified NEAR checks pass on boot. Deploy Agentes NEAR live with post quantum provenance."
     }
   ]
 }

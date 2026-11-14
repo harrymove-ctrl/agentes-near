@@ -1,20 +1,18 @@
 {
   "id": "x-teaser-30s",
-  "title": "X Teaser 30s",
-  "created": "2026-11-14T03:30:58.967Z",
+  "title": "Agentes NEAR X Product Cut (44s)",
+  "created": "2026-11-14T06:20:00.000Z",
   "format": "16:9",
-  "seconds": 30,
+  "seconds": 44,
   "recipe": "demo",
   "voice": "kokoro-michael",
   "music": "assets/vdrill-120bpm.wav",
   "captions": "off",
   "stage": "review",
   "approvals": {},
-  "prompt": "Self-hosted Slack workspace where human teams and 6 autonomous NEAR AI agents execute 1Click intents under OutLayer Intel TDX hardware spend caps",
+  "prompt": "Rapid 44s live product walkthrough for X showcasing 1-click workspace entry, @kronos 1Click quote, OutLayer TDX $12 pass vs $45 block, Terrace + Corpus + Kanmani, and 8/8 verified checks.",
   "background": {
-    "kind": "brand-glow",
-    "preset": "brand-glow",
-    "paletteMode": "brand",
-    "seed": 1
+    "kind": "solid",
+    "color": "#090D16"
   }
 }

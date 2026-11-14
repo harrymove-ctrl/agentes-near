@@ -520,16 +520,17 @@ export async function simulateZenTamperCheck(
   }
   const targetIdx = Math.min(2, rows.length - 1);
   const cloned = rows.map((r) => ({ ...r }));
-  const originalPayloadHash = cloned[targetIdx].payload_hash;
+  const targetRow = cloned[targetIdx]!;
+  const originalPayloadHash = targetRow.payload_hash;
   const flippedNibble = originalPayloadHash[0] === "a" ? "b" : "a";
   const tamperedPayloadHash = `${flippedNibble}${originalPayloadHash.slice(1)}`;
-  cloned[targetIdx].payload_hash = tamperedPayloadHash;
+  targetRow.payload_hash = tamperedPayloadHash;
 
   const afterTamper = verifyRows(cloned);
   const liveCheck = verifyRows(rows);
   return {
     tamperDetected: !afterTamper.ok,
-    mutatedSeq: Number(cloned[targetIdx].seq),
+    mutatedSeq: Number(targetRow.seq),
     originalPayloadHash,
     tamperedPayloadHash,
     verificationAfterTamper: afterTamper,

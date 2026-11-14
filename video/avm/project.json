@@ -2,7 +2,7 @@
   "name": "agentes-near",
   "title": "Agentes NEAR",
   "created": "2026-11-14T03:24:44.592Z",
-  "prompt": "Self-hosted Slack workspace where human teams and 6 autonomous NEAR AI agents execute 1Click intents under OutLayer Intel TDX hardware spend caps",
+  "prompt": "Self-hosted Slack workspace where your team and 6 NEAR AI agents quote 1Click intents, gate spend with OutLayer Intel TDX hardware caps, and stream verifiable ML-DSA-65 receipts",
   "inputs": {
     "context": [
       {
@@ -25,43 +25,98 @@
       {
         "file": "assets/vdrill-120bpm.wav",
         "role": "music",
-        "added": "2026-11-14T03:32:00.000Z"
+        "added": "2026-11-14T06:00:00.000Z"
       },
       {
-        "file": "assets/shot-01-ocelli-hero.png",
-        "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "file": "assets/tour-01-ocelli-login.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
       },
       {
-        "file": "assets/shot-02-ocelli-arcade.png",
-        "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "file": "assets/tour-02-slack-kronos.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
       },
       {
-        "file": "assets/shot-03-motion-studio.png",
-        "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "file": "assets/tour-03-1click-quotes.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
       },
       {
-        "file": "assets/shot-04-slack-channel.png",
-        "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "file": "assets/tour-04-outlayer-guard.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
       },
       {
-        "file": "assets/shot-05-outlayer-guard.png",
-        "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "file": "assets/tour-05-terrace-markets.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
       },
       {
-        "file": "assets/shot-06-1click-swap.png",
+        "file": "assets/tour-06-corpus-kanmani.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/tour-07-motion-studio.mp4",
+        "role": "clip",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-01-ocelli-hero.png",
         "role": "screen",
-        "added": "2026-11-14T03:32:00.000Z"
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-01-ocelli-enter.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-02-kronos-reply.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-03-1click-table.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-04a-safe-pass.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-04b-rogue-block.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-05-terrace-bet.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-06a-corpus-endow.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-06b-escrow-nft.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
+      },
+      {
+        "file": "assets/ret-07-motion-studio.png",
+        "role": "screen",
+        "added": "2026-11-14T06:20:00.000Z"
       }
     ]
   },
   "options": {
     "format": "16:9",
-    "seconds": 90,
+    "seconds": 136,
     "voice": "kokoro-michael",
     "language": "en",
     "captions": "off",
@@ -70,14 +125,14 @@
   "stage": "storyboard",
   "approvals": {},
   "brand": {
-    "bg": "#F6F3EC",
-    "fg": "#12151C",
-    "muted": "#465061",
-    "accent": "#067A4B",
-    "accent2": "#BE3A1A",
+    "bg": "#090D16",
+    "fg": "#F8FAFC",
+    "muted": "#94A3B8",
+    "accent": "#00EC97",
+    "accent2": "#38BDF8",
     "name": "Agentes NEAR",
-    "style": "Warm Tactile Studio + Obsidian NEAR Enclave",
-    "glow": 0,
-    "radius": 1.15
+    "style": "Obsidian Enclave Live Product Tour",
+    "glow": 0.16,
+    "radius": 1
   }
 }

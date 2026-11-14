@@ -136,6 +136,7 @@ describe("Ergo ZEN PoC backend integration (PGlite)", () => {
     const routerRes = await anthropic.stream(
       {
         model: "claude-haiku-5-5",
+        maxTokens: 256,
         system: "Route the channel message",
         messages: [{ role: "user", content: "@ada check BYOC status?" }],
         outputSchema: {
@@ -162,6 +163,7 @@ describe("Ergo ZEN PoC backend integration (PGlite)", () => {
     const chatRes = await anthropic.stream(
       {
         model: "claude-sonnet-5-5",
+        maxTokens: 512,
         system: "You are @ada, Staff Full-Stack Engineer.",
         messages: [{ role: "user", content: "Summarize BYOC tunnel posture" }],
       },

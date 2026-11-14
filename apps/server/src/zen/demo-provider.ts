@@ -18,6 +18,9 @@ function pickAgentFromSystem(sys: string): {
   epicRef: string;
 } {
   const lower = sys.toLowerCase();
+  if (lower.includes("@kronos") || lower.includes("name: kronos")) {
+    return { handle: "kronos", name: "Kronos", epicRef: "NEAR + 1Click + OutLayer" };
+  }
   if (lower.includes("@ada") || lower.includes("name: ada")) {
     return { handle: "ada", name: "Ada", epicRef: "E6 + E10 + E16" };
   }
@@ -94,7 +97,7 @@ function buildSchemaValue(
 }
 
 function composePersonaReply(
-  persona: { handle: string; name: string },
+  persona: { handle: string; name: string; epicRef: string },
   userText: string,
   model: string,
   receiptId: string,
@@ -142,6 +145,16 @@ function composePersonaReply(
       `1. **Session & Guest Isolation (\`E8\` / \`E9\` / \`D2\`)**: Memories stay strictly scoped to their \`channel_ids\` ACL, so private DM notes and \`#exec-security\` rules never bleed into \`#client-shared\` or Slack threads.`,
       `2. **Signed Channel Handles (\`D1\`)**: External Slack and Telegram triggers require an \`ML-DSA-65\` linked \`E1\` identity before any connector write executes.`,
       `3. **Verification (\`E13\` / \`M5\`)**: Signed operations receipt \`${receiptId}\` (\`ML-DSA-65\`) on \`${model}\`.`,
+    ].join("\n");
+  }
+
+  if (persona.handle === "kronos") {
+    return [
+      `NEAR 1Click & OutLayer TDX quote executed (${persona.epicRef}).`,
+      ``,
+      `1. **NEAR Intents 1Click (\`1click.chaindefuser.com\`)**: \`$12.00 USDC -> 3.5739 wNEAR\` filled via \`wintermute-intent.near\` (\`+16 bps\` over baseline).`,
+      `2. **OutLayer Intel TDX (\`NEP-413\` \`0x8000019d\`)**: Approved \`$12.00\` within \`$25.00\` hardware spend cap (\`42ms\` attestation).`,
+      `3. **Cryptographic Receipt (\`ML-DSA-65\`)**: Signed provenance \`${receiptId}\` on \`${model}\`; open **NEAR Intents & TEE** for live solver depth or \`$45\` block proof.`,
     ].join("\n");
   }
 

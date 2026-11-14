@@ -479,7 +479,7 @@ export function NearControlModal({
                 label: "Corpus Endowment",
                 count: endowment ? Math.round(endowment.runwayHours) : undefined,
               },
-              { value: "film", label: "90s AI Video Maker Master (120 BPM V-Drill)" },
+              { value: "film", label: "2m16s Live Product Tour (120 BPM V-Drill)" },
             ]}
           >
             <TabPanel value="enclave">
@@ -1020,8 +1020,8 @@ export function NearControlModal({
             <TabPanel value="film">
               <div className="near-modal__panel" data-testid="near-film-panel">
                 <MdxcnFrame
-                  title="AGENTES NEAR · 90s 60FPS AI VIDEO MAKER MASTER (120 BPM V-DRILL)"
-                  badge="13 SCENES · KOKORO MICHAEL + DAN TRANH 808"
+                  title="AGENTES NEAR · 2M16S 60FPS LIVE PRODUCT TOUR (120 BPM V-DRILL)"
+                  badge="8 LIVE STEPS · KOKORO MICHAEL + DAN TRANH 808"
                   tone="purple"
                 >
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -1035,10 +1035,11 @@ export function NearControlModal({
                       }}
                     >
                       <p className="near-modal__lead" style={{ margin: 0 }}>
-                        Watch the 90s 60fps master demo film authored in AI Video Maker (avm v0.3.2, 13 scenes,
-                        Obsidian NEAR Enclave theme) narrated by Kokoro Michael over an original 120 BPM Dan Tranh + 808
-                        V-Drill beat (-14 LUFS), covering NEAR Intents 1Click, OutLayer Intel TDX hardware spend caps,
-                        Terrace conviction markets, and Corpus x402 compute.
+                        Watch the 2m16s (136.0s) 60fps step-by-step live product tour authored in AI Video Maker (avm
+                        v6.0.0, 8 scenes, Obsidian Enclave theme) narrated by Kokoro Michael over an original 120 BPM
+                        Dan Tranh + 808 V-Drill beat (-14 LUFS), walking step by step through 1-click sign-in,
+                        @kronos live chat streaming, 1Click multi-solver quotes, OutLayer Intel TDX hardware spend caps,
+                        Terrace conviction markets, Corpus x402 compute, Kanmani credentials, and 8/8 CLI verification.
                       </p>
                       <a
                         href="/ocelli#motion-studio"
@@ -1072,7 +1073,7 @@ export function NearControlModal({
                     </div>
 
                     <div className="near-result-box__meta">
-                      <span>Duration: 1:30 (90.0s master + 30.0s X teaser · 1920x1080 · 60fps)</span>
+                      <span>Duration: 2:16 (136.0s master + 44.0s X cut · 1920x1080 · 60fps)</span>
                       <span>Audio: Kokoro Michael + 120 BPM Dan Tranh V-Drill Beat (-14 LUFS)</span>
                       <a
                         href="/video/agentes-near-x-teaser.mp4"
@@ -1080,7 +1081,7 @@ export function NearControlModal({
                         rel="noopener noreferrer"
                         style={{ color: "var(--ac-ink)", textDecoration: "underline" }}
                       >
-                        30s X Teaser Cut (MP4 60fps)
+                        44s X Demo Cut (MP4 60fps)
                       </a>
                     </div>
                   </div>

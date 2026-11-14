@@ -8,13 +8,13 @@ Prepared for **Agentes NEAR** (`https://github.com/harrymove-ctrl/agentes-near`)
 | --- | --- | --- |
 | Public GitHub Repo | `https://github.com/harrymove-ctrl/agentes-near` with root `LICENSE` | Live & pushed (`harrymove-ctrl`) |
 | Hosted Live URL | `https://agentes-near-production.up.railway.app/ocelli` | Live on Railway (HTTP 200) |
-| Demo Video | AI Video Maker (`avm` v5.0.0) 1080p 60fps MP4 (`demo-90` 90.0s 7-scene Warm Studio Bone + Obsidian Enclave master: tactile elastic pill + kinetic wave hook, continuous CSS-3D landing-page fly-over, Cutline 4-node pipeline, zoomed 1Click solver workspace, OutLayer Intel TDX `$25` guard, x402 + Terrace conviction arena, and KPI proof lockup, plus `x-teaser-30s` 30.0s 5-scene X teaser, Kokoro Michael voice + 120 BPM Dan Tranh, Sao Truc, and 808 V-Drill beat at -14 LUFS) | Rendered and QA verified (`v5.0.0` release assets + `/video/*.mp4`) |
+| Demo Video | AI Video Maker (`avm` v6.0.0) 1080p 60fps MP4 (`demo-90` 2m16s / 136.0s 8-scene live step-by-step product tour in Obsidian Enclave recorded via headless Chromium + 2x Retina plates: 1-click `#near-intents-arena` entry, `@kronos` live stream, 1Click multi-solver quotes, OutLayer Intel TDX `$25` cap with `$12` pass and `$45` block, Terrace conviction markets, Corpus `x402` + Kanmani `NEP-171` credentials, `@mira` 60fps motion studio, and live `bun run check:near` `8/8` terminal proof, plus `x-teaser-30s` 44.0s 5-scene X demo cut, Kokoro Michael voice + 120 BPM V-Drill beat at -14 LUFS) | Rendered and QA verified (`v6.0.0` release assets + `/video/*.mp4`) |
 | X Demo Post | Published manually by human lead with video attached | Ready to paste below |
 | API Submission | `POST https://nearhackathon.com/api/applications` confirmed explicitly by human | Never auto-submitted |
 
 ## Ready-to-Paste X Demo Post Copy
 
-Use or edit this draft when posting manually on X (`https://x.com`), attaching `agentes-near-x-teaser.mp4` (30s) or `agentes-near-demo.mp4` (90s):
+Use or edit this draft when posting manually on X (`https://x.com`), attaching `agentes-near-x-teaser.mp4` (44s) or `agentes-near-demo.mp4` (2m16s):
 
 ```text
 Built Agentes NEAR at NEAR HACKATHON: self-hosted Slack where human teams and autonomous AI agents share channels with hardware-enforced spending limits.
@@ -22,11 +22,11 @@ Built Agentes NEAR at NEAR HACKATHON: self-hosted Slack where human teams and au
 1. OutLayer Intel TDX spend guard (live slider, $12 safe intent passes with NEP-413, $45 rogue drain blocked)
 2. NEAR Intents 1Click multi-solver cross-chain quotes
 3. NEAR AI Cloud Confidential TEE attestation + Testnet RPC probes
-4. In-chat Terrace conviction markets, Corpus x402 GPU compute endowment ($1.84/hr), ML-DSA-65 receipts, and AI Video Maker 90s 60fps master plus @mira interactive Canvas2D studio on /ocelli
+4. In-chat Terrace conviction markets, Corpus x402 GPU compute endowment ($1.84/hr), ML-DSA-65 receipts, and AI Video Maker 2m16s (136s) 60fps live step-by-step product tour plus @mira interactive Canvas2D studio on /ocelli
 
 Live demo: https://agentes-near-production.up.railway.app/ocelli
 Code: https://github.com/harrymove-ctrl/agentes-near
-Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v5.0.0
+Video: https://github.com/harrymove-ctrl/agentes-near/releases/tag/v6.0.0
 ```
 
 ## Official Submission API Payload Template
